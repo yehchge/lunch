@@ -17,4 +17,4 @@ CREATE TABLE MY_UNEED_LUNCH_STORE ( # 訂便當的商家
    Note text not null, # 訂購說明
    Status int(11) not null default 0, # 狀態, 1:正常, 2:停用, 9:刪除
    Index(RecordID)
-) type=InnoDB;
+) ENGINE=InnoDB;

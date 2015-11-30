@@ -832,7 +832,7 @@
         $randval = rand();
         $SessionID = md5($key.$this->SecretWord);
 		$LiftTime = time();
-		setcookie("CmpWhoIs",$SessionID,0,"/","",0);
+		setcookie("LunchWhoIs",$SessionID,0,"/","",0);
         //setcookie("LunchWhoIs",$SessionID,0,"/",".plusgroup.com.tw",0); // 因應網址要有變化
 		return $SessionID;
      }
@@ -841,7 +841,6 @@
      *   NAME
      *      GetOnline
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      利用 Whois 取得 Online 資料
      *   INPUT
@@ -881,7 +880,7 @@
      ****
      */
      public function UpdateOnlineActiveByOnlineID($OnlineID=0) {
-		if(!$OnLineID) return 0;
+		if(!$OnlineID) return 0;
         $values= "ActiveDate=".time();
         $condition = "OnlineID=$OnlineID order by CreateDate desc";
         $tmp = $this->LnhDBH->SqlUpdate($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_ONLINE, $values ,$condition);

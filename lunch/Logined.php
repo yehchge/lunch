@@ -18,11 +18,9 @@
 
 	//$info = $Ums->GetUserInfoByAccount("root");
 	if ($Lnh->LnhLogin($UserName,$Password)) {
-		echo 2;exit;
 		header("location:./index.php");
 		return;
 	} else {
-		echo 3;exit;
 		header("location:./LoginFail.php");
 		return;
 	}

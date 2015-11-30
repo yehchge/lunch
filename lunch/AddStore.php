@@ -1,7 +1,8 @@
 <?php
 
-	include_once "/usr/local/apache2/htdocs/gphplib/class.FastTemplate.php";
-	include_once "/usr/local/apache2/htdocs.lunch/lunch/lib/LnhLnhCfactory.php";
+	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
+	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
 
 	header("Cache-Control: no-cache");
 	header("Pragma: no-cache");
@@ -17,16 +18,16 @@
   	}
 
 	//產生本程式功能內容
-	$tpl = new FastTemplate("/usr/local/apache2/htdocs.lunch/lunch/tpl");
-	$tpl->define(array(apg6=>"AddStore.tpl")); 
-	$tpl->parse(BODY,"apg6");
-	$str = $tpl->fetch(BODY);
-	$MainTpl = new FastTemplate("/usr/local/apache2/htdocs.lunch/lunch/tpl");
-	$MainTpl->define(array(apg=>"LunchMain.tpl")); 
+	$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+	$tpl->define(array('apg6'=>"AddStore.tpl")); 
+	$tpl->parse('BODY',"apg6");
+	$str = $tpl->fetch('BODY');
+	$MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+	$MainTpl->define(array('apg'=>"LunchMain.tpl")); 
 	$MainTpl->assign("FUNCTION",$str); 
 	$MainTpl->assign("LOCATION","新增店家"); 
-	$MainTpl->parse(MAIN,"apg");
-	$MainTpl->FastPrint(MAIN);
+	$MainTpl->parse('MAIN',"apg");
+	$MainTpl->FastPrint('MAIN');
   
 ?>
 

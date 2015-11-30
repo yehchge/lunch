@@ -18,14 +18,12 @@
 		header("Location:./Login.php");
   		return;
   	}
-	
+
 	//產生本程式功能內容
-	$tpl = new FastTemplate("/usr/local/apache2/htdocs.lunch/lunch/tpl");
-	$tpl->define(array(apg6=>"LunchMain.tpl")); 
+	$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+	$tpl->define(array('apg6'=>"LunchMain.tpl")); 
 	$tpl->assign("FUNCTION","");
 	$tpl->assign("LOCATION","訂便當首頁");
-	$tpl->parse(MAIN,"apg6");
-	$tpl->FastPrint(MAIN);
-
-	
+	$tpl->parse('MAIN',"apg6");
+	$tpl->FastPrint('MAIN');
 ?>

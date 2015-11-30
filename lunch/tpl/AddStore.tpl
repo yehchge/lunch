@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>優利得-新增便當店家</title>
+  <title>新增便當店家</title>
 </head>
 <style type="text/css">
 <!--
@@ -89,7 +89,7 @@ TD
     //-->
     </script>
 <center>
-<form name="frm" method="post" onsubmit="return check_form(frm);" action="/lunch/AddStoreed.php">
+<form name="frm" method="post" onsubmit="return check_form(frm);" action="./AddStoreed.php">
 <br>
 <table Width="80%" Class="Forums_General">
   <tr Class="Forums_Header">

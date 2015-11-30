@@ -8,4 +8,4 @@ CREATE TABLE MY_UNEED_LUNCH_ONLINE ( # 訂便當線上紀錄
    CreateDate int(11) not null, # 建立時間
    RemoteIP char(16) not null, # 廠商IP位置
    Index(SessionID)
-) type=InnoDB;
+) ENGINE=InnoDB;

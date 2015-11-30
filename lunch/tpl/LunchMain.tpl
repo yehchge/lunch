@@ -37,14 +37,14 @@
     </div> 
   </div> 
   <div id="navBar">
-    <div id="sectionLinks"><li><a href='/lunch/AddStore.php'>新增店家</a></li></div>
-    <div id="sectionLinks"><li><a href='/lunch/ListStore.php'>店家維護</a></li></div>
-	<div id="sectionLinks"><li><a href='/lunch/AssignStore.php'>指定店家</a></li></div>
-	<div id="sectionLinks"><li><a href='/lunch/ListAssignStore.php'>指定店家管理/截止/取消</a></li></div>
-	<div id="sectionLinks"><li><a href='/lunch/OrderStore.php'>訂便當(今日)</a></li></div>
-	<div id="sectionLinks"><li><a href='/lunch/ListOrder.php'>訂便當明細</a></li></div>
-	<div id="sectionLinks"><li><a href='/lunch/index.php'>回首頁</a></li></div>
-	<div id="sectionLinks"><li><a href='/lunch/LnhLnhLogout.php'>登出</a></li></div>
+    <div id="sectionLinks"><li><a href='./AddStore.php'>新增店家</a></li></div>
+    <div id="sectionLinks"><li><a href='./ListStore.php'>店家維護</a></li></div>
+	<div id="sectionLinks"><li><a href='./AssignStore.php'>指定店家</a></li></div>
+	<div id="sectionLinks"><li><a href='./ListAssignStore.php'>指定店家管理/截止/取消</a></li></div>
+	<div id="sectionLinks"><li><a href='./OrderStore.php'>訂便當(今日)</a></li></div>
+	<div id="sectionLinks"><li><a href='./ListOrder.php'>訂便當明細</a></li></div>
+	<div id="sectionLinks"><li><a href='./index.php'>回首頁</a></li></div>
+	<div id="sectionLinks"><li><a href='./LnhLnhLogout.php'>登出</a></li></div>
 	<div id="sectionLinks">&nbsp;</div>
 	<div id="sectionLinks">&nbsp;</div>
 	<div id="sectionLinks">&nbsp;</div>

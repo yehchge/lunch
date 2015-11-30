@@ -1,7 +1,8 @@
 <?php
 
-	include_once "/usr/local/apache2/htdocs/gphplib/class.FastTemplate.php";
-	include_once "/usr/local/apache2/htdocs.lunch/lunch/lib/LnhLnhCfactory.php";
+	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
+	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
 
 	header("Cache-Control: no-cache");
 	header("Pragma: no-cache");
@@ -9,10 +10,10 @@
   
 	$Lnh = new LnhLnhCfactory();
 
-  	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
+  	// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
-		header("Location:/lunch/Login.php");
+		header("Location:./Login.php");
   		return;
   	}
 	//echo "<pre>";echo print_r($Online);echo "</pre>";exit();
@@ -24,18 +25,18 @@
 	$Tel = trim($_POST["tel"]);
 	$Note = trim($_POST["note"]);
 
-	//²£¥Í¥»µ{¦¡¥\¯à¤º®e
-	if ($Lnh->CreateStore('','',$StoreName,$StoreIntro,$StoreClass,$MainMan,$Tel,$Address,$Online[Account],$Note)) {
+	//ç”¢ç”Ÿæœ¬ç¨‹å¼åŠŸèƒ½å…§å®¹
+	if ($Lnh->CreateStore('','',$StoreName,$StoreIntro,$StoreClass,$MainMan,$Tel,$Address,$Online['Account'],$Note)) {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('·s¼W¦¨¥\! ');\r\n";
+		echo "alert('æ–°å¢žæˆåŠŸ! ');\r\n";
 		echo "history.back();\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	} else {
 	  	echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('·s¼W¥¢±Ñ! ');\r\n";
+		echo "alert('æ–°å¢žå¤±æ•—! ');\r\n";
 		echo "history.back();\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
