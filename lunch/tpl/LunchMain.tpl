@@ -21,7 +21,6 @@
       <td valign="center">
 	    <table border=0>
 	      <tr>
-	        <td><img src="tpl/images/title1.GIF"></td>
 		    <td><font size=4 face="標楷體" color="#FFFFFF"><b>&nbsp;&nbsp;&nbsp;訂便當系統</b></font></td>
 	      </tr>
 	    </table>  
@@ -50,7 +49,7 @@
 	<div id="sectionLinks">&nbsp;</div>
   </div>
   <div id="siteInfo">
-    <div align="center"><span class="style10">版權所有 &copy; 2006 台灣優力流通事業股份有限公司</span></div>
+    <div align="center"><span class="style10">版權所有 &copy; 訂便當股份有限公司</span></div>
   </div> 
 </body>
 </html>

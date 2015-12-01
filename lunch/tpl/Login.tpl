@@ -18,14 +18,13 @@
 				<p>
 				  <table border=0>
 				    <tr>
-					  <td><img src="tpl/images/title1.GIF"></td>
 					  <td><font color="#FFFFFF"><b>訂便當登入畫面</b></font></td>
 					</tr>
 				  </table>
 				  <font color="#FFFFFF">輸入帳號：</font><input type="text" name="username" size="20">
 				</p>
 				<p style="margin-bottom: 10"><font color="#FFFFFF">輸入密碼：</font><input type="password" name="password" size="20"></p>
-			    <p align=center style="margin-top: 5"><font color="#FFFFFF" size="2">( 請輸入UMS帳號與密碼，帳號密碼錯誤者，請與資訊部聯絡 )</font></p>
+			    <p align=center style="margin-top: 5"><font color="#FFFFFF" size="2">( 請輸入帳號與密碼，帳號密碼錯誤者，請與資訊部聯絡 )</font></p>
 			  </td>
 			</tr>
 		  </table>

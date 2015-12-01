@@ -66,18 +66,18 @@
 				$i=0;
 			}
 			$tpl->assign('classname',$class);
-  			//$tpl->assign(editstoreid,"<a href='/lunch/EditStore.php?id=$row[RecordID]'>修改</a>");
+  			//$tpl->assign(editstoreid,"<a href='./EditStore.php?id=$row[RecordID]'>修改</a>");
   			$tpl->assign('storeid',$row['RecordID']);
   			if ($row['Status']==1) {
   				$tpl->assign('status',"正常");
-				$tpl->assign('editdetails',"<a href='/lunch/PdsDetails.php?id=$row[RecordID]'>新增維護</a>");
+				$tpl->assign('editdetails',"<a href='./PdsDetails.php?id=$row[RecordID]'>新增維護</a>");
   			} else {
   				$tpl->assign('status',"停用");
 				$tpl->assign('editdetails',"新增維護");
   			}
   			
-            //$tpl->assign(storename,"<a target='_blank' href='/lunch/StoreDetail.php?id=$row[RecordID]'>$row[StoreName]</a>");
-            //$tpl->assign(storename,"<a target='_blank' href='javascript:window.open(\"/lunch/StoreDetail.php?id=$row[RecordID]\",\"sdetail\",\"height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430\");'>$row[StoreName]</a>");
+            //$tpl->assign(storename,"<a target='_blank' href='./StoreDetail.php?id=$row[RecordID]'>$row[StoreName]</a>");
+            //$tpl->assign(storename,"<a target='_blank' href='javascript:window.open(\"./StoreDetail.php?id=$row[RecordID]\",\"sdetail\",\"height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430\");'>$row[StoreName]</a>");
 	        $tpl->assign('storename',"<a href='javascript:ShowDetail($row[RecordID]);'>$row[StoreName]</a>");
 			//window.open("News2.htm","NEW2","height=260,width=400,left=0,scrollbars=no,location=0,status=0,menubar=0,top=430");
 			$tpl->assign('tel',$row['Tel']);

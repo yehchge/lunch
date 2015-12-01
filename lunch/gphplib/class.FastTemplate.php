@@ -482,7 +482,7 @@ class FastTemplate {
 
 		$ParentTag = $this->DYNAMIC["$Macro"];
 
-		if( (!$this->$ParentTag) or (empty($this->$ParentTag)) )
+		if(!isset($this->$ParentTag) OR (!$this->$ParentTag))
 		{
 			$fileName = $this->FILELIST[$ParentTag];
 			$this->$ParentTag = $this->get_template($fileName);
@@ -492,7 +492,7 @@ class FastTemplate {
 		if($this->$ParentTag)
 		{
 			$template = $this->$ParentTag;
-			$DataArray = split("\n",$template);
+			$DataArray = preg_split("/\n/",$template);
 			$newParent = "";
 			$outside = true;
 			$start = false;

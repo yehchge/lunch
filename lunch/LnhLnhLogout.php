@@ -1,6 +1,7 @@
 <?php
 
-	include_once "/usr/local/apache2/htdocs.lunch/lunch/lib/LnhLnhCfactory.php";
+	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
+	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
 
 	header("Cache-Control: no-cache");
 	header("Pragma: no-cache");
@@ -11,11 +12,12 @@
 	//ÀË´ú¬O§_¦³Åv­­? ****************
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
-		header("Location:/lunch/Login.php");
+		header("Location:./Login.php");
 		return;
 	}
 	// *******************************
 
-	setcookie("LunchWhoIs","",0,"/",".plusgroup.com.tw");
-	header("Location:/lunch/Login.php");
+	//setcookie("LunchWhoIs","",0,"/",".taipei.gov.tw");
+	setcookie("LunchWhoIs","",0,"/","");
+	header("Location:./Login.php");
 ?>

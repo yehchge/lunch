@@ -4,7 +4,7 @@
 <SCRIPT language="JavaScript" type="text/JavaScript">
 <!--
 function ShowDetail(sid) {
-  window.open('/lunch/StoreDetail.php?id='+sid+'','sdetail','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+  window.open('./StoreDetail.php?id='+sid+'','sdetail','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 //-->
 </SCRIPT>
@@ -98,7 +98,7 @@ TD
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr Class="Forums_General">
-			  <td Class="{classname}" align="center"><a href='/lunch/EditStore.php?id={storeid}'><img border=0 src="tpl/images/Edit.gif"></a></td>
+			  <td Class="{classname}" align="center"><a href='./EditStore.php?id={storeid}'><img border=0 src="tpl/images/Edit.gif"></a></td>
 			  <td Class="{classname}" align="center">{editdetails}</td>
 			  <td Class="{classname}">{storeid}</td>
 			  <td Class="{classname}">{storename}</td>
