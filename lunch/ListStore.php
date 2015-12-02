@@ -1,5 +1,8 @@
 <?php
 
+	error_reporting(E_ALL);
+	ini_set('display_errors', true);
+
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
@@ -21,7 +24,7 @@
 	//產生本程式功能內容
 	// Page Start ************************************************ 
 	include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
-	$page= isset($_REQUEST['page'])?$_REQUEST['page']:0; 
+	$page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
 	$Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
 	$Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
 	$PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
@@ -42,6 +45,7 @@
 	$pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
 	$pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
 	$pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+
 	// Page Ended ************************************************ 
 	$rows = $Lnh->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
   	$row = mysql_fetch_assoc($rows);
@@ -55,7 +59,6 @@
         $tpl->assign('status',"");
         $tpl->parse('ROWS',"row");        
   	} else {
-		//echo "<pre>";echo print_r($row);echo "</pre>";exit();
 		$i=0;
   		while ($row != NULL) {
 			if ($i==0) {
@@ -66,11 +69,11 @@
 				$i=0;
 			}
 			$tpl->assign('classname',$class);
-  			//$tpl->assign(editstoreid,"<a href='./EditStore.php?id=$row[RecordID]'>修改</a>");
+  			//$tpl->assign('editstoreid',"<a href='./EditStore.php?id=$row[RecordID]'>修改</a>");
   			$tpl->assign('storeid',$row['RecordID']);
   			if ($row['Status']==1) {
   				$tpl->assign('status',"正常");
-				$tpl->assign('editdetails',"<a href='./PdsDetails.php?id=$row[RecordID]'>新增維護</a>");
+				$tpl->assign('editdetails',"<a href='./PdsDetails.php?id=".$row['RecordID']."'>新增維護</a>");
   			} else {
   				$tpl->assign('status',"停用");
 				$tpl->assign('editdetails',"新增維護");
@@ -94,6 +97,7 @@
 	
 	$tpl->parse('BODY',"TplBody");
 	$str = $tpl->fetch('BODY');
+
 	$MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$MainTpl->define(array('apg'=>"LunchMain.tpl")); 
 	$MainTpl->assign("FUNCTION",$str);

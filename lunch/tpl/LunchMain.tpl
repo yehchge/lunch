@@ -6,7 +6,7 @@
 	.style10 {font-size: x-small;color: #666666;}
 	#siteInfo{clear: both;border: 1px solid #cccccc;font-size: 75%;color: #cccccc;padding: 10px 10px 10px 10px;margin-top: -1px;}
 	#content{float:right;width: 80%;margin: 0;padding: 0 3% 0 0;}
-	#navBar{margin: 0 80% 0 0;padding: 0px;background-color: #eeeeee;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;}
+	#navBar{margin: 0 85% 0 0;padding: 0px;background-color: #eeeeee;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;}
 	#sectionLinks{margin: 0px;padding: 10px;border-bottom: 1px solid #cccccc;font-size: 85%;}
 	ul{list-style-type: square;}
 	a:link, a:visited, a:hover {color: #006699;text-decoration: none;}

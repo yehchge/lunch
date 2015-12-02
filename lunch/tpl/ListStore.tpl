@@ -10,7 +10,6 @@ function ShowDetail(sid) {
 </SCRIPT>
 
 <style type="text/css">
-<!--
 .Forums_Header {
 	font: bold Arial;
 	color: white;
@@ -73,7 +72,6 @@ TD
 	color: darkblue;
 	background-color: lightyellow;
 }
--->
 </style>
 
 <body>
