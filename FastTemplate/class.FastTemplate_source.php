@@ -27,7 +27,7 @@ class FastTemplate {
 
 	var	$ROOT		=	"";			//	Holds path-to-templates
 
-	var $WIN32		=	true;		//	Set to true if this is a WIN32 server
+	var $WIN32		=	false;		//	Set to true if this is a WIN32 server
 
 	var $ERROR		=	"";			//	Holds the last error message
 
@@ -37,17 +37,18 @@ class FastTemplate {
 	var $STRICT		=	true;		//	Strict template checking.
 									//	Unresolved vars in templates will
 									//	generate a warning when found.
-									
-	private $php_errormsg = '';
 
 //	************************************************************
 
 	function FastTemplate ($pathToTemplates = "")
 	{
-		if(isset($pathToTemplates))
+		global $php_errormsg;
+
+		if(!empty($pathToTemplates))
 		{
 			$this->set_root($pathToTemplates);
 		}
+
 	}	// end (new) FastTemplate ()
 
 
@@ -55,7 +56,7 @@ class FastTemplate {
 //	All templates will be loaded from this "root" directory
 //	Can be changed in mid-process by re-calling with a new
 //	value.
-//  設定 TPL 路徑, 後面加入 \ or /
+
 	function set_root ($root)
 	{
 		$trailer = substr($root,-1);
@@ -156,7 +157,7 @@ class FastTemplate {
 		$contents = implode("",(@file($filename)));
 		if( (!$contents) or (empty($contents)) )
 		{
-			$this->error("get_template() failure: [$filename] ".$this->php_errormsg, 1);
+			$this->error("get_template() failure: [$filename] $php_errormsg",1);
 		}
 
 		return $contents;
@@ -170,10 +171,10 @@ class FastTemplate {
 	function show_unknowns ($Line)
 	{
 		$unknown = array();
-		if (preg_match("/({[A-Z0-9_]+})/",$Line,$unknown))
+		if (ereg("({[A-Z0-9_]+})",$Line,$unknown))
 		{
 			$UnkVar = $unknown[1];
-			if(isset($UnkVar))
+			if(!(empty($UnkVar)))
 			{
 				@error_log("[FastTemplate] Warning: no value found for variable: $UnkVar ",0);
 			}
@@ -195,7 +196,7 @@ class FastTemplate {
 					settype($val,"string");
 				}
 
-				$template = preg_replace("/\{$key\}/","$val","$template");
+				$template = ereg_replace("{$key}","$val","$template");
 				//$template = str_replace("{$key}","$val","$template");
 			}
 		}
@@ -204,14 +205,14 @@ class FastTemplate {
 		{
 			// Silently remove anything not already found
 
-			$template = preg_replace("/{([A-Z0-9_]+)}/","",$template);
+			$template = ereg_replace("{([A-Z0-9_]+)}","",$template);
 		}
 		else
 		{
 			// Warn about unresolved template variables
-			if (preg_match("/({[A-Z0-9_]+})/",$template))
+			if (ereg("({[A-Z0-9_]+})",$template))
 			{
-				$unknown = explode("\n",$template);
+				$unknown = split("\n",$template);
 				while (list ($Element,$Line) = each($unknown) )
 				{
 					$UnkVar = $Line;
@@ -369,7 +370,7 @@ class FastTemplate {
 		// The file must already be in memory.
 
 		$ParentTag = $this->DYNAMIC["$Macro"];
-		if((!isset($this->$ParentTag)) or (!$this->$ParentTag) )
+		if( (!$this->$ParentTag) or (empty($this->$ParentTag)) )
 		{
 			$fileName = $this->FILELIST[$ParentTag];
 			$this->$ParentTag = $this->get_template($fileName);
@@ -378,7 +379,7 @@ class FastTemplate {
 		if($this->$ParentTag)
 		{
 			$template = $this->$ParentTag;
-			$DataArray = explode("\n",$template);
+			$DataArray = split("\n",$template);
 			$newMacro = "";
 			$newParent = "";
 			$outside = true;
@@ -450,7 +451,7 @@ class FastTemplate {
 		if($this->$ParentTag)
 		{
 			$template = $this->$ParentTag;
-			$DataArray = explode("\n",$template);
+			$DataArray = split("\n",$template);
 			$newParent = "";
 			$outside = true;
 			$start = false;
@@ -493,14 +494,13 @@ class FastTemplate {
 
 
 //	************************************************************
-	// 將 TPL 檔案帶入一字串變數
+
 	function define ($fileList)
 	{
 		while ( list ($FileTag,$FileName) = each ($fileList) )
 		{
 			$this->FILELIST["$FileTag"] = $FileName;
 		}
-
 		return true;
 	}
 
@@ -633,10 +633,10 @@ class FastTemplate {
 
 //	************************************************************
 //	Aliased function - used for compatibility with CGI::FastTemplate
-	/*function clear_parse ()
+	function clear_parse ()
 	{
 		$this->clear_assign();
-	}*/
+	}
 
 //	************************************************************
 //	Clears all variables set by assign()
@@ -682,14 +682,14 @@ class FastTemplate {
 	}
 
 //	************************************************************
-	// 將 $tpl_array replace 成 $trailer
+
 	function assign ($tpl_array, $trailer="")
 	{
 		if(gettype($tpl_array) == "array")
 		{
 			while ( list ($key,$val) = each ($tpl_array) )
 			{
-				if (isset($key))
+				if (!(empty($key)))
 				{
 					//	Empty values are allowed
 					//	Empty Keys are NOT
@@ -701,12 +701,11 @@ class FastTemplate {
 		else
 		{
 			// Empty values are allowed in non-array context now.
-			if (isset($tpl_array))
+			if (!empty($tpl_array))
 			{
 				$this->PARSEVARS["$tpl_array"] = $trailer;
 			}
 		}
-		//echo "<pre>";print_r($this->PARSEVARS);echo "</pre>";
 	}
 
 //	************************************************************
