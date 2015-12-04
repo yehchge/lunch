@@ -1,4 +1,20 @@
 <?php
+  
+/*
+FastTemplate is no longer develop software. (?)
+Since there are lots of FastTemplate fans, I'll keep it maintened.
+		http://www.jollen.org/fasttemplate/
+
+Revision: Jollen <jollen@o3.net>
+
+* 2000/12/28
+	- FastPrint() to file!
+	- Add ":rows" which stands for preappending (in conjuction with ".rows")
+	- Some bugs fixed!
+* 2003/10/03
+	- Some bugs fixed when running with PHP 5 beta.
+	- Using is_* functions is better then gettype().
+*/
 
 /*
 	CVS Revision. 1.1.0
@@ -37,13 +53,13 @@ class FastTemplate {
 	var $STRICT		=	true;		//	Strict template checking.
 									//	Unresolved vars in templates will
 									//	generate a warning when found.
-									
-	private $php_errormsg = '';
 
 //	************************************************************
 
-	function FastTemplate($pathToTemplates = "") {
-		if(isset($pathToTemplates)) {
+	function FastTemplate ($pathToTemplates = "") {
+		global $php_errormsg;
+
+		if(!empty($pathToTemplates)) {
 			$this->set_root($pathToTemplates);
 		}
 	}	// end (new) FastTemplate ()
@@ -53,8 +69,8 @@ class FastTemplate {
 //	All templates will be loaded from this "root" directory
 //	Can be changed in mid-process by re-calling with a new
 //	value.
-//  設定 TPL 路徑, 後面加入 \ or /
-	function set_root($root) {
+
+	function set_root ($root) {
 		$trailer = substr($root,-1);
 
 		if(!$this->WIN32) {
@@ -75,6 +91,7 @@ class FastTemplate {
 			}
 			$this->ROOT = $root;
 		}
+
 	}	// End set_root()
 
 
@@ -84,7 +101,8 @@ class FastTemplate {
 //	It's not used by anything in this class and can be removed
 //	if you don't need it.
 
-	function utime() {
+
+	function utime () {
 		$time = explode( " ", microtime());
 		$usec = (double)$time[0];
 		$sec = (double)$time[1];
@@ -96,7 +114,7 @@ class FastTemplate {
 //	parsing a template with undefined variable references
 //	Used for tracking down bugs-n-such. Use no_strict() to disable.
 
-	function strict() {
+	function strict () {
 		$this->STRICT = true;
 	}
 
@@ -104,7 +122,7 @@ class FastTemplate {
 //	Silently discards (removes) undefined variable references
 //	found in templates
 
-	function no_strict() {
+	function no_strict () {
 		$this->STRICT = false;
 	}
 
@@ -113,7 +131,7 @@ class FastTemplate {
 //	This is -not- a reliable check, mostly due to inconsistencies
 //	in the way PHP determines if a file is readable.
 
-	function is_safe($filename) {
+	function is_safe ($filename) {
 		if(!file_exists($filename)) {
 			$this->error("[$filename] does not exist",0);
 			return false;
@@ -125,20 +143,17 @@ class FastTemplate {
 //	Grabs a template from the root dir and 
 //	reads it into a (potentially REALLY) big string
 
-	function get_template($template) {
+	function get_template ($template) {
 		if(empty($this->ROOT)) {
 			$this->error("Cannot open template. Root not valid.",1);
 			return false;
 		}
 		$filename	=	"$this->ROOT"."$template";
-        if (!file_exists($filename) OR !is_file($filename)){
-            $this->error("get_template() failure, File not exist: [$filename] ".$this->php_errormsg, 1);
-        }
-		$contents = implode("",(@file($filename)));
-		if(!isset($contents) OR !$contents) {
-			$this->error("get_template() failure: [$filename] ".$this->php_errormsg, 1);
-		}
 
+		$contents = implode("",(@file($filename)));
+		if( (!$contents) or (empty($contents)) ) {
+			$this->error("get_template() failure: [$filename] $php_errormsg",1);
+		}
 		return $contents;
 	} // end get_template
 
@@ -146,11 +161,12 @@ class FastTemplate {
 //	Prints the warnings for unresolved variable references
 //	in template files. Used if STRICT is true
 
-	function show_unknowns($Line) {
+	function show_unknowns ($Line) {
 		$unknown = array();
+		//if (ereg("({[A-Z0-9_]+})",$Line,$unknown))
 		if (preg_match("/({[A-Z0-9_]+})/",$Line,$unknown)) {
 			$UnkVar = $unknown[1];
-			if(isset($UnkVar)) {
+			if(!(empty($UnkVar))) {
 				@error_log("[FastTemplate] Warning: no value found for variable: $UnkVar ",0);
 			}
 		}
@@ -160,25 +176,25 @@ class FastTemplate {
 //	This routine get's called by parse() and does the actual
 //	{VAR} to VALUE conversion within the template.
 
-	function parse_template($template, $tpl_array) {
+	function parse_template ($template, $tpl_array) {
+		
 		while ( list ($key,$val) = each ($tpl_array) ) {
 			if (!(empty($key))) {
-				//if(gettype($val) != "string") {
-                if(is_string($val) != TRUE) {
+				if(is_string($val) != TRUE) {
 					settype($val,"string");
 				}
-				$template = preg_replace("/{$key}/","$val","$template");
+				//$template = ereg_replace("\{$key}", $val, $template);
+				$template = preg_replace("/\{".$key."\}/", $val, $template);
 			}
 		}
-        
-$template = preg_replace("/\{([A-Z0-9_]+)\}/","",$template);
-
 		if(!$this->STRICT) {
 			// Silently remove anything not already found
-			$template = preg_replace("/([A-Z0-9_]+)/","",$template);
+			//$template = ereg_replace("{([A-Z0-9_]+)}","",$template);
+			$template = preg_replace("/{([A-Z0-9_]+)}/","",$template);
 		} else {
 			// Warn about unresolved template variables
-			if (preg_match("/([A-Z0-9_]+)/",$template)) {
+			if (preg_match("/({[A-Z0-9_]+})/",$template)) {
+				//$unknown = split("\n",$template);
 				$unknown = explode("\n",$template);
 				while (list ($Element,$Line) = each($unknown) ) {
 					$UnkVar = $Line;
@@ -188,42 +204,41 @@ $template = preg_replace("/\{([A-Z0-9_]+)\}/","",$template);
 				}
 			}
 		}
-echo $template;exit;       
 		return $template;
+
 	}	// end parse_template();
 
 //	************************************************************
 //	The meat of the whole class. The magic happens here.
 
-	function parse( $ReturnVar, $FileTags ) {
-
+	function parse ( $ReturnVar, $FileTags ) {
 		$append = false;
+		$preappend = false;
+		$prepend = false;
 		$this->LAST = $ReturnVar;
-		$this->HANDLE[$ReturnVar] = 1;
+		$this->HANDLE["$ReturnVar"] = 1;
 
-		if (gettype($FileTags) == "array") {
-             
+		if (is_array($FileTags) == TRUE) {
 			unset($this->$ReturnVar);	// Clear any previous data
 
 			while ( list ( $key , $val ) = each ( $FileTags ) ) {
-
-				if (!isset($this->$val) || (!$this->$val)) {
+				if ( (!isset($val)) || (empty($val)) ) {
 					$this->LOADED["$val"] = 1;
 					if(isset($this->DYNAMIC["$val"])) {
 						$this->parse_dynamic($val,$ReturnVar);
 					} else {
 						$fileName = $this->FILELIST["$val"];
-						$this->$val = $this->get_template($fileName);
+						$val = $this->get_template($fileName);
 					}
 				}
-                
+
 				//	Array context implies overwrite
-				$this->$ReturnVar = $this->parse_template($this->$val,$this->PARSEVARS);
+				$this->$ReturnVar = $this->parse_template($val,$this->PARSEVARS);
 
 				//	For recursive calls.
 				$this->assign( array( $ReturnVar => $this->$ReturnVar ) );
 			}
-            // end if FileTags is array()
+			// end if FileTags is array()
 		} else {
 			// FileTags is not an array
 			$val = $FileTags;
@@ -232,39 +247,39 @@ echo $template;exit;
 				// Append this template to a previous ReturnVar
 				$append = true;
 				$val = substr($val,1);
+			} elseif( (substr($val,0,1)) == ':' ) {
+                $prepend = true;
+                $val = substr($val,1);
 			}
 
-
-  
-			if (!isset($this->$val) || !($this->$val)) {
-              
-                $this->LOADED["$val"] = 1;
-                if(isset($this->DYNAMIC["$val"])) {
-                    $this->parse_dynamic($val,$ReturnVar);
-                } else {
-                    //$fileName = isset($this->FILELIST["$val"])?$this->FILELIST["$val"]:'';
-                    $fileName = $this->FILELIST["$val"];
-                    $this->$val = $this->get_template($fileName);
-                }
+			if ( (!isset($this->$val)) || (empty($this->$val)) ) {
+				$this->LOADED["$val"] = 1;
+				if(isset($this->DYNAMIC["$val"])) {
+					$this->parse_dynamic($val,$ReturnVar);
+				} else {
+					$fileName = $this->FILELIST["$val"];
+					$this->$val = $this->get_template($fileName);
+				}
 			}
 
 			if($append) {
 				$this->$ReturnVar .= $this->parse_template($this->$val,$this->PARSEVARS);
+			} elseif ($prepend) {
+				$this->$ReturnVar = $this->parse_template($this->$val,$this->PARSEVARS). $this->$ReturnVar;
 			} else {
 				$this->$ReturnVar = $this->parse_template($this->$val,$this->PARSEVARS);
 			}
 
 			//	For recursive calls.
- 			$this->assign(array( $ReturnVar => $this->$ReturnVar) );
+			$this->assign(array( $ReturnVar => $this->$ReturnVar) );
 		}
-
 		return;
 	}	//	End parse()
 
-
 //	************************************************************
-
-	function FastPrint( $template = "" ) {
+//	It can print template to a file now.
+//	Jollen jollen@o3.net
+	function FastPrint ( $template = NULL , $filename = FALSE) {
 		if(empty($template)) {
 			$template = $this->LAST;
 		}
@@ -273,18 +288,28 @@ echo $template;exit;
 			$this->error("Nothing parsed, nothing printed",0);
 			return;
 		} else {
-			print $this->$template;
+ 			if ($filename != FALSE) {
+				$fp = fopen($filename, "w");
+				if ($fp) {
+					fputs($fp, $this->$template);
+				} else {
+					echo $this->$template;
+				}
+				fclose($fp);
+			} else {
+				echo $this->$template;
+			}
 		}
 		return;
 	}
 
 //	************************************************************
 
-	function fetch( $template = "" ) {
+	function fetch ( $template = "" ) {
 		if(empty($template)) {
 			$template = $this->LAST;
 		}
-		if( (!(isset($this->$template))) || (empty($this->$template)) )	{
+		if( (!(isset($this->$template))) || (empty($this->$template)) ) {
 			$this->error("Nothing parsed, nothing printed",0);
 			return "";
 		}
@@ -294,28 +319,30 @@ echo $template;exit;
 
 //	************************************************************
 
-	function define_dynamic($Macro, $ParentName) {
+	function define_dynamic ($Macro, $ParentName) {
 		//	A dynamic block lives inside another template file.
 		//	It will be stripped from the template when parsed
 		//	and replaced with the {$Tag}.
+
 		$this->DYNAMIC["$Macro"] = $ParentName;
 		return true;
 	}
 
 //	************************************************************
 
-	function parse_dynamic($Macro,$MacroName) {
+	function parse_dynamic ($Macro,$MacroName) {
 		// The file must already be in memory.
+
 		$ParentTag = $this->DYNAMIC["$Macro"];
-     
-		if((!isset($this->$ParentTag)) or (!$this->$ParentTag) ) {
+		//if( (!$this->$ParentTag) or (empty($this->$ParentTag)) )
+		if (!isset($this->$ParentTag)) {
 			$fileName = $this->FILELIST[$ParentTag];
 			$this->$ParentTag = $this->get_template($fileName);
 			$this->LOADED[$ParentTag] = 1;
 		}
-
 		if($this->$ParentTag) {
 			$template = $this->$ParentTag;
+			//$DataArray = split("\n",$template);
 			$DataArray = explode("\n",$template);
 			$newMacro = "";
 			$newParent = "";
@@ -341,7 +368,8 @@ echo $template;exit;
 					$newParent .= "$lineData\n"; // Restore linebreaks
 				}
 				if($end) {
-					$newParent .= "{$MacroName}\n";
+					//$newParent .= "\{$MacroName}\n";
+					$newParent .= "{$MacroName}";
 				}
 				// Next line please
 				if($end) { $end = false; }
@@ -351,8 +379,10 @@ echo $template;exit;
 			$this->$Macro = $newMacro;
 			$this->$ParentTag = $newParent;
 			return true;
-            // $ParentTag NOT loaded - MAJOR oopsie
-		} else {
+
+		}	// $ParentTag NOT loaded - MAJOR oopsie
+		else
+		{
 			@error_log("ParentTag: [$ParentTag] not loaded!",0);
 			$this->error("ParentTag: [$ParentTag] not loaded!",0);
 		}
@@ -362,14 +392,14 @@ echo $template;exit;
 //	************************************************************
 //	Strips a DYNAMIC BLOCK from a template.
 
-	function clear_dynamic($Macro="") {
+	function clear_dynamic ($Macro="") {
 		if(empty($Macro)) { return false; }
 
 		// The file must already be in memory.
 
 		$ParentTag = $this->DYNAMIC["$Macro"];
 
-		if( (!$this->$ParentTag) or (empty($this->$ParentTag)) ) {
+		if(!isset($this->$ParentTag) OR (!$this->$ParentTag)) {
 			$fileName = $this->FILELIST[$ParentTag];
 			$this->$ParentTag = $this->get_template($fileName);
 			$this->LOADED[$ParentTag] = 1;
@@ -377,7 +407,7 @@ echo $template;exit;
 
 		if($this->$ParentTag) {
 			$template = $this->$ParentTag;
-			$DataArray = explode("\n",$template);
+			$DataArray = preg_split("/\n/",$template);
 			$newParent = "";
 			$outside = true;
 			$start = false;
@@ -416,9 +446,10 @@ echo $template;exit;
 
 
 //	************************************************************
-	// 將 TPL 檔案帶入一字串變數
-	function define($fileList) {
-		while ( list ($FileTag,$FileName) = each ($fileList) ) {
+
+	function define ($fileList) {
+		while ( list ($FileTag,$FileName) = each ($fileList) )
+		{
 			$this->FILELIST["$FileTag"] = $FileName;
 		}
 		return true;
@@ -432,10 +463,11 @@ echo $template;exit;
 
 //	************************************************************
 
-	function clear( $ReturnVar = "" ) {
+	function clear ( $ReturnVar = "" ) {
 		// Clears out hash created by call to parse()
+
 		if(!empty($ReturnVar)) {
-			if( (gettype($ReturnVar)) != "array") {
+			if( (is_type($ReturnVar)) != TRUE) {
 				unset($this->$ReturnVar);
 				return;
 			} else {
@@ -447,11 +479,13 @@ echo $template;exit;
 		}
 
 		// Empty - clear all of them
+
 		while ( list ( $key,$val) = each ($this->HANDLE) ) {
 			$KEY = $key;
 			unset($this->$KEY);
 		}
 		return;
+
 	}	//	end clear()
 
 //	************************************************************
@@ -466,20 +500,23 @@ echo $template;exit;
 
 //	************************************************************
 
-	function clear_tpl($fileHandle = "") {
+	function clear_tpl ($fileHandle = "") {
 		if(empty($this->LOADED)) {
 			// Nothing loaded, nothing to clear
+
 			return true;
 		}
 		if(empty($fileHandle)) {
 			// Clear ALL fileHandles
+
 			while ( list ($key, $val) = each ($this->LOADED) ) {
 				unset($this->$key);
 			}
 			unset($this->LOADED);
+
 			return true;
 		} else {
-			if( (gettype($fileHandle)) != "array") {
+			if( (is_array($fileHandle)) != TRUE) {
 				if( (isset($this->$fileHandle)) || (!empty($this->$fileHandle)) ) {
 					unset($this->LOADED[$fileHandle]);
 					unset($this->$fileHandle);
@@ -493,18 +530,20 @@ echo $template;exit;
 				return true;
 			}
 		}
+
 		return false;
+
 	}	// end clear_tpl
 
 //	************************************************************
 
-	function clear_define( $FileTag = "" ) {
+	function clear_define ( $FileTag = "" ) {
 		if(empty($FileTag)) {
 			unset($this->FILELIST);
 			return;
 		}
 
-		if( (gettype($Files)) != "array") {
+		if( (is_array($Files)) != TRUE) {
 			unset($this->FILELIST[$FileTag]);
 			return;
 		} else {
@@ -514,13 +553,6 @@ echo $template;exit;
 			return;
 		}
 	}
-
-//	************************************************************
-//	Aliased function - used for compatibility with CGI::FastTemplate
-	/*function clear_parse ()
-	{
-		$this->clear_assign();
-	}*/
 
 //	************************************************************
 //	Clears all variables set by assign()
@@ -535,9 +567,9 @@ echo $template;exit;
 
 //	************************************************************
 
-	function clear_href($href) {
+	function clear_href ($href) {
 		if(!empty($href)) {
-			if( (gettype($href)) != "array") {
+			if( is_array($href) != TRUE) {
 				unset($this->PARSEVARS[$href]);
 				return;
 			} else {
@@ -554,11 +586,11 @@ echo $template;exit;
 	}
 
 //	************************************************************
-	// 將 $tpl_array replace 成 $trailer
-	function assign($tpl_array, $trailer="") {
-		if(gettype($tpl_array) == "array") {
+
+	function assign ($tpl_array, $trailer="") {
+		if(is_array($tpl_array) == TRUE) {
 			while ( list ($key,$val) = each ($tpl_array) ) {
-				if (isset($key)) {
+				if (!(empty($key))) {
 					//	Empty values are allowed
 					//	Empty Keys are NOT
 					$this->PARSEVARS["$key"] = $val;
@@ -566,11 +598,10 @@ echo $template;exit;
 			}
 		} else {
 			// Empty values are allowed in non-array context now.
-			if (isset($tpl_array)) {
+			if (!empty($tpl_array)) {
 				$this->PARSEVARS["$tpl_array"] = $trailer;
 			}
 		}
-		//echo "<pre>";print_r($this->PARSEVARS);echo "</pre>";
 	}
 
 //	************************************************************
@@ -585,12 +616,11 @@ echo $template;exit;
 			return false;
         }
 	}
-
 //	************************************************************
 
-	function error($errorMsg, $die = 0) {
+	function error ($errorMsg, $die = 0) {
 		$this->ERROR = $errorMsg;
-		echo "ERROR: $this->ERROR <BR> \n";
+		echo "ERROR: ".$this->ERROR." <BR> \n";
 		if ($die == 1) {
 			exit;
 		}
@@ -600,7 +630,8 @@ echo $template;exit;
 
 //	************************************************************
 
-} // End class.FastTemplate.php3
+//	************************************************************
 
+} // End class.FastTemplate.php
 
 ?>
