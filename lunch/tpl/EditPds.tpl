@@ -107,7 +107,7 @@ function seldroplisttext(form,str)
 
 	
 <center>
-<form name="frm" method="post" onsubmit="return check_form(frm);" action="/lunch/EditPdsed.php">
+<form name="frm" method="post" onsubmit="return check_form(frm);" action="./EditPdsed.php">
 <input type=hidden name="pdsid" value="{pdsid}">
 <input type=hidden name="sid" value="{sid}">
 <br>
@@ -140,7 +140,7 @@ function seldroplisttext(form,str)
 	<td Class="TextBox"><input type=checkbox name="status" {status}>停用</td>
   </tr>
   <tr>
-    <td colspan="2" align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="/lunch/PdsDetails.php?id={sid}"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
+    <td colspan="2" align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="./PdsDetails.php?id={sid}"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
   </tr>
 </table>
 </form>

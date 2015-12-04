@@ -571,7 +571,7 @@
      ****
      */
      public function CreateOrder($ManagerID=0,$OrderMan='',$PdsID=0,$PdsName='',$Price=0,$Count=0,$Note='',$CreateMan='') {
-        if (!$ManagerID or !$OrderMan or !$PdsID or !$PdsName or !$Price or !$Count or !Note or !$CreateMan) return 0;
+        if (!$ManagerID or !$OrderMan or !$PdsID or !$PdsName or !$Price or !$Count or !$Note or !$CreateMan) return 0;
 		$tt = time();
 		$fileds = "ManagerID,OrderMan,PdsID,PdsName,Price,Count,Note,CreateMan,CreateDate,EditDate,EditMan,Status";
 		$values = "$ManagerID,'$OrderMan ',$PdsID,'$PdsName ',$Price,$Count,'$Note ','$CreateMan ',$tt,$tt,'',1";
@@ -696,7 +696,7 @@
      *      
      ****
      */
-     public function GetOrderDetailsPageCountByManagerID($ManagerID=0,$Status=0,$PayType=0) {
+     public function GetOrderDetailsPageCountByManagerID($ManagerID=0,$Status=0,$PayType=0,$startRow=0,$maxRows=10) {
      	 if (!$ManagerID) return 0;
 		 $values = "count(*)";
          $condition = "1=1 and Status!=9 and ManagerID=$ManagerID";

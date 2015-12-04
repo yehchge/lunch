@@ -4,10 +4,10 @@
 <SCRIPT language="JavaScript" type="text/JavaScript">
 <!--
 function ShowDetail(sid) {
-  window.open('/lunch/StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+  window.open('./StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 function ShowPdsInfo(sid) {
-  window.open('/lunch/UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+  window.open('./UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 //-->
 </SCRIPT>
@@ -106,7 +106,7 @@ TD
 			  <td Class="{classname}" align="center">{storename}</td>
 			  <td Class="{classname}" align="center"><a href="javascript:ShowPdsInfo({storeid});"><img src="tpl/images/text_file_icon.gif" border="0"></a></td>
 			  <td Class="{classname}" align="center">{status}</td>
-			  <td Class="{classname}" align="center"><a href='/lunch/OrderLunch.php?id={storeid}&mid={managerid}'><img src="tpl/images/top_bt_srch_new.gif" border="0"></a></td>
+			  <td Class="{classname}" align="center"><a href='./OrderLunch.php?id={storeid}&mid={managerid}'><img src="tpl/images/top_bt_srch_new.gif" border="0"></a></td>
 			  
 			</tr>
 			<!-- END DYNAMIC BLOCK: row -->

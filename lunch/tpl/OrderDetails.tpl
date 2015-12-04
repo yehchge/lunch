@@ -5,10 +5,10 @@
 <SCRIPT language="JavaScript" type="text/JavaScript">
 <!--
 function ShowDetail(sid) {
-  window.open('/lunch/StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+  window.open('./StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 function ShowPdsInfo(sid) {
-  window.open('/lunch/UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+  window.open('./UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 //-->
 </SCRIPT>
@@ -119,7 +119,7 @@ TD
 			  <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{pageselect}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td colspan="9" align="right"> [ <a href="/lunch/ListOrder.php">回上一頁</a> ] </td>
+			  <td colspan="9" align="right"> [ <a href="./ListOrder.php">回上一頁</a> ] </td>
 			</tr>
 		  </table>
 		</td>

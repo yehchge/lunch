@@ -4,10 +4,10 @@
 <SCRIPT language="JavaScript" type="text/JavaScript">
 <!--
 function ShowDetail(sid) {
-  window.open('/lunch/StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+  window.open('./StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 function ShowPdsInfo(sid) {
-  window.open('/lunch/UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+  window.open('./UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 //-->
 </SCRIPT>
@@ -107,7 +107,7 @@ TD
 			  <td Class="{classname}" align="center">{storeid}</td>
 			  <td Class="{classname}">{storename}</td>
 			  <td Class="{classname}" align="center">{status}</td>
-			  <td Class="{classname}" align="center"><a href='/lunch/EditManager.php?id={managerid}'><img border="0" src="tpl/images/edit_s.gif"></a></td>
+			  <td Class="{classname}" align="center"><a href='./EditManager.php?id={managerid}'><img border="0" src="tpl/images/edit_s.gif"></a></td>
 			</tr>
 			<!-- END DYNAMIC BLOCK: row -->
 			<tr>

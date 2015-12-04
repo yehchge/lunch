@@ -1,7 +1,8 @@
 <?php
 
-	include_once "/usr/local/apache2/htdocs/gphplib/class.FastTemplate.php";
-	include_once "/usr/local/apache2/htdocs.lunch/lunch/lib/LnhLnhCfactory.php";
+	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
+	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
 
 	header("Cache-Control: no-cache");
 	header("Pragma: no-cache");
@@ -12,7 +13,7 @@
   	// 檢查使用者有沒有登入
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
-		header("Location:/lunch/Login.php");
+		header("Location:./Login.php");
   		return;
   	}
 
@@ -22,11 +23,11 @@
 	//echo $Status;exit();
   
 	//產生本程式功能內容
-	if ($Lnh->UpdateOrderStatusByRecordID($RecordID,$Status,$Online[Account])) {
+	if ($Lnh->UpdateOrderStatusByRecordID($RecordID,$Status,$Online['Account'])) {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
 		echo "alert('更新狀態成功!');\r\n";
-		echo "location='/lunch/OrderDetails.php?mid=$ManagerID';\r\n";
+		echo "location='./OrderDetails.php?mid=$ManagerID';\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	} else {
@@ -37,6 +38,6 @@
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	}	
-	//echo "<a href='/lunch/OrderDetails.php?mid=$ManagerID'>回指定店家管理列表</a>";
+	//echo "<a href='./OrderDetails.php?mid=$ManagerID'>回指定店家管理列表</a>";
   
 ?>

@@ -4,10 +4,10 @@
 <SCRIPT language="JavaScript" type="text/JavaScript">
 <!--
 function ShowDetail(sid) {
-  window.open('/lunch/StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+  window.open('./StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 function ShowPdsInfo(sid) {
-  window.open('/lunch/UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+  window.open('./UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 //-->
 </SCRIPT>
@@ -118,7 +118,7 @@ TD
 		</td>
 	  </tr>
 	</table>
-	<!-- <input type=button onClick="location='/lunch/index.php';" value="回上一步"> -->
+	<!-- <input type=button onClick="location='./index.php';" value="回上一步"> -->
 	</form>
 	</center>
 </body>

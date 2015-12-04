@@ -1,7 +1,8 @@
 <?php
 
-	include_once "/usr/local/apache2/htdocs/gphplib/class.FastTemplate.php";
-	include_once "/usr/local/apache2/htdocs.lunch/lunch/lib/LnhLnhCfactory.php";
+	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
+	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
 
 	header("Cache-Control: no-cache");
 	header("Pragma: no-cache");
@@ -12,7 +13,7 @@
 	// 檢查使用者有沒有登入
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
-		header("Location:/lunch/Login.php");
+		header("Location:./Login.php");
   		return;
   	}
 
@@ -21,18 +22,18 @@
 	$PdsName = trim($_POST["pdsname"]);
 	$PdsType = trim($_POST["pdstype"]);
 	$Price = trim($_POST["price"]);
-	$Tel = trim($_POST["tel"]);
+	$Tel = isset($_POST["tel"])?trim($_POST["tel"]):'';
 	$Note = trim($_POST["note"]);
-	$status = trim($_POST["status"]);
+	$status = isset($_POST["status"])?trim($_POST["status"]):0;
   
 	if ($status=="on") {$cancel=2;} else {$cancel=1;}
 	
 	//產生本程式功能內容
-	if ($Lnh->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online[Account],$Note,$cancel)) {
+	if ($Lnh->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online['Account'],$Note,$cancel)) {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
 		echo "alert('更新便當明細成功!');\r\n";
-		echo "location='/lunch/PdsDetails.php?id=$StoreID';\r\n";
+		echo "location='./PdsDetails.php?id=$StoreID';\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	} else {

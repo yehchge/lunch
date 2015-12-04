@@ -114,7 +114,7 @@ function seldroplisttext(form,str)
 
 	
 <center>
-<form name="frm" method="post" onsubmit="return check_form(frm);" action="/lunch/EditStoreed.php">
+<form name="frm" method="post" onsubmit="return check_form(frm);" action="./EditStoreed.php">
 <input type=hidden name="storeid" value="{storeid}">
 <br>
 <table Class="Forums_General" Width="80%">

@@ -101,7 +101,7 @@
 		echo "<!--\r\n";
 		echo "yy=confirm('今日確定要訂購此間店的便當嗎?');\r\n";
 		echo "if (yy==0) {history.back();}\r\n";
-		echo " else {location='/lunch/AssignStoreed.php?id=$id&Url=".$_SERVER["REQUEST_URI"]."';}\r\n";
+		echo " else {location='./AssignStoreed.php?id=$id&Url=".$_SERVER["REQUEST_URI"]."';}\r\n";
 		echo "//-->\r\n";
 		echo "</Script>\r\n";
 		return;

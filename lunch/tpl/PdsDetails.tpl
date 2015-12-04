@@ -89,7 +89,7 @@ TD
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr Class="Forums_General">
-			  <td Class="{classname}" align="center"><a href='/lunch/EditPds.php?id={pdsid}&sid={storeid}'><img border=0 src="tpl/images/Edit.gif"></a></td>
+			  <td Class="{classname}" align="center"><a href='./EditPds.php?id={pdsid}&sid={storeid}'><img border=0 src="tpl/images/Edit.gif"></a></td>
 			  <td Class="{classname}" align="center">{pdsid}</td>
 			  <td Class="{classname}" bgcolor="#ffffff">{pdsname}</td>
 			  <td Class="{classname}" bgcolor="#ffffff">{pdstype}</td>
@@ -102,7 +102,7 @@ TD
 			  <td colspan="9" align="center" bgcolor="#eeeeee" noswarp>{pageselect}</td>
 			</tr>
 			<tr>
-			  <td colspan="9" align="right"><a href="/lunch/ListStore.php">[ <img border="0" src="tpl/images/Cancel.gif"> 取消 ]</a></td>
+			  <td colspan="9" align="right"><a href="./ListStore.php">[ <img border="0" src="tpl/images/Cancel.gif"> 取消 ]</a></td>
 			</tr>
 		  </table>
 		</td>
@@ -110,7 +110,7 @@ TD
 	</table>
 	</form>
 	
-	<form name="addfrm" method="post" action="AddPdsDetailsed.php">
+	<form name="addfrm" method="post" action="./AddPdsDetailsed.php">
 	<input type=hidden name="pdsid" value="{id}">
 	<table border="0" cellspacing="2" cellpadding="2" width="80%" Class="Forums_General">
 	  <tr Class="Forums_General">

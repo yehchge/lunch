@@ -77,7 +77,7 @@ history.forward();
 </script>
 <body>
 	<center>
-    <form name="frm" method="post" action="/lunch/OrderLunched.php">
+    <form name="frm" method="post" action="./OrderLunched.php">
 	<input type=hidden name="id" value="{id}">
 	<input type=hidden name="mid" value="{mid}">
     <table border="0" cellspacing="0" cellpadding="0" width="80%">
@@ -115,7 +115,7 @@ history.forward();
 			  <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{pageselect}</td>
 			</tr>
 			<tr>
-			  <td colspan="9" align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb"> 確定訂購 ]&nbsp;[ <a href="/lunch/OrderStore.php"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
+			  <td colspan="9" align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb"> 確定訂購 ]&nbsp;[ <a href="./OrderStore.php"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
 			</tr>
 		  </table>
 		</td>
