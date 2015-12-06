@@ -10,7 +10,7 @@
   
 	$Lnh = new LnhLnhCfactory();
  
-	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
+	// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
@@ -24,26 +24,26 @@
 	$Price = trim($_POST["price"]);
 	$Tel = isset($_POST["tel"])?trim($_POST["tel"]):'';
 	$Note = trim($_POST["note"]);
-	$status = isset($_POST["status"])?trim($_POST["status"]):0;
+	$status = isset($_POST["status"])?trim($_POST["status"]):1;
   
 	if ($status=="on") {$cancel=2;} else {$cancel=1;}
 	
-	//²£¥Í¥»µ{¦¡¥\¯à¤º®e
+	//ç”¢ç”Ÿæœ¬ç¨‹å¼åŠŸèƒ½å…§å®¹
 	if ($Lnh->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online['Account'],$Note,$cancel)) {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('§ó·s«K·í©ú²Ó¦¨¥\!');\r\n";
+		echo "alert('æ›´æ–°ä¾¿ç•¶æ˜Žç´°æˆåŠŸ!');\r\n";
 		echo "location='./PdsDetails.php?id=$StoreID';\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	} else {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('§ó·s«K·í©ú²Ó¥¢±Ñ!');\r\n";
+		echo "alert('æ›´æ–°ä¾¿ç•¶æ˜Žç´°å¤±æ•—!');\r\n";
 		echo "history.back();\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	}
-	//echo "<a href='/lunch/PdsDetails.php?id=$StoreID'>¦^«K·í©ú²ÓºûÅ@</a>";
+	//echo "<a href='/lunch/PdsDetails.php?id=$StoreID'>å›žä¾¿ç•¶æ˜Žç´°ç¶­è­·</a>";
   
 ?>

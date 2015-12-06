@@ -203,6 +203,7 @@ class FastTemplate {
 
 	function parse_template ($template, $tpl_array)
 	{
+		
 		while ( list ($key,$val) = each ($tpl_array) )
 		{
 			if (!(empty($key)))
@@ -482,7 +483,7 @@ class FastTemplate {
 
 		$ParentTag = $this->DYNAMIC["$Macro"];
 
-		if( (!$this->$ParentTag) or (empty($this->$ParentTag)) )
+		if( (!isset($this->$ParentTag)) OR (!$this->$ParentTag) )
 		{
 			$fileName = $this->FILELIST[$ParentTag];
 			$this->$ParentTag = $this->get_template($fileName);
@@ -492,7 +493,8 @@ class FastTemplate {
 		if($this->$ParentTag)
 		{
 			$template = $this->$ParentTag;
-			$DataArray = split("\n",$template);
+			//$DataArray = split("\n",$template);
+			$DataArray = explode("\n",$template);
 			$newParent = "";
 			$outside = true;
 			$start = false;

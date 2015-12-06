@@ -10,7 +10,7 @@
   
 	$Lnh = new LnhLnhCfactory();
 
-  	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
+  	// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
@@ -20,22 +20,22 @@
 	$RecordID = trim($_POST["managerid"]);
 	$Status = trim($_POST["status"]);
   
-	//²£¥Í¥»µ{¦¡¥\¯à¤º®e
+	//ç”¢ç”Ÿæœ¬ç¨‹å¼åŠŸèƒ½å…§å®¹
 	if ($Lnh->UpdateManagerStatusByRecordID($RecordID,$Status)) {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('§ó·sª¬ºA¦¨¥\!');\r\n";
+		echo "alert('æ›´æ–°ç‹€æ…‹æˆåŠŸ!');\r\n";
 		echo "location='./ListAssignStore.php';\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	} else {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('§ó·sª¬ºA¥¢±Ñ!');\r\n";
+		echo "alert('æ›´æ–°ç‹€æ…‹å¤±æ•—!');\r\n";
 		echo "history.back();\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	}
-	//echo "<a href='./ListAssignStore.php'>¦^«ü©w©±®aºŞ²z¦Cªí</a>";
+	//echo "<a href='./ListAssignStore.php'>å›æŒ‡å®šåº—å®¶ç®¡ç†åˆ—è¡¨</a>";
   
 ?>

@@ -10,7 +10,7 @@
   
 	$Lnh = new LnhLnhCfactory();
 
-	// ¿À¨d®œ•Œ™Ã¶≥®S¶≥µn§J
+	// Ê™¢Êü•‰ΩøÁî®ËÄÖÊúâÊ≤íÊúâÁôªÂÖ•
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
@@ -23,22 +23,22 @@
 	$Note = trim($_POST["pdsnote"]);
 	$StoreID = trim($_POST["pdsid"]);
   
-	//≤£•Õ•ªµ{¶°•\Ø‡§∫Æe
+	//Áî¢ÁîüÊú¨Á®ãÂºèÂäüËÉΩÂÖßÂÆπ
 	if ($Lnh->CreateProduct($StoreID,$PdsName,$PdsType,$Price,$Online['Account'],$Note)) {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('∑sºW´K∑Ì¶®•\!');\r\n";
+		echo "alert('Êñ∞Â¢û‰æøÁï∂ÊàêÂäü!');\r\n";
 		echo "location='./PdsDetails.php?id=$StoreID';\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	} else {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('∑sºW´K∑Ì•¢±—!');\r\n";
+		echo "alert('Êñ∞Â¢û‰æøÁï∂Â§±Êïó!');\r\n";
 		echo "history.back();\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	}
-	//echo "<a href='/lunch/PdsDetails.php?id=$StoreID'>¶^§W§@≠∂</a>";
+	//echo "<a href='/lunch/PdsDetails.php?id=$StoreID'>Âõû‰∏ä‰∏ÄÈ†Å</a>";
   
 ?>
