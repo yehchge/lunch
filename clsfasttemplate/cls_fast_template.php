@@ -1486,7 +1486,7 @@ if (! class_exists ( 'FastTemplate' )) {
 			$ParentTag = $this->DYNAMIC ["$Macro"]; // The file must already be in memory.
 
 
-			if ((!isset($this->$ParentTag)) or (!$this->$ParentTag )) {
+			if ((! $this->$ParentTag) or (empty ( $this->$ParentTag ))) {
 				$fileName = $this->FILELIST [$ParentTag];
 				$this->$ParentTag = $this->get_template ( $fileName );
 				$this->LOADED [$ParentTag] = 1;
@@ -1494,7 +1494,7 @@ if (! class_exists ( 'FastTemplate' )) {
 
 			if ($this->$ParentTag) {
 				$template = $this->$ParentTag;
-				$DataArray = explode ( "\n", $template );
+				$DataArray = split ( "\n", $template );
 				$newParent = "";
 				$outside = TRUE;
 				$start = FALSE;
