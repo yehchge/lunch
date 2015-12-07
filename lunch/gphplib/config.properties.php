@@ -22,6 +22,6 @@ $config["db_database"] = "plog";
 #
 $config["db_prefix"] = "lt_";
 $config["host_name"] = "localhost";
-$config["www_url"] = "www.self24.com.tw";
+$config["www_url"] = "www.lunch.com.tw";
 
 ?>

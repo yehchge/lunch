@@ -8,7 +8,6 @@
    *    SEE ALSO
    *       N/A
    *    AUTHOR
-   *       jackson@uneed.com
    *    MODIFY
    *       12/23/2003   create
    ****

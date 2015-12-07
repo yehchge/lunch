@@ -22,7 +22,7 @@
 	
 	//$UserInfo = $Ums->GetUserInfoByAccount($Online['Account']);
 	$UserInfo['name'] = 'John';
-	$chkid = $_POST["chk"];
+	$chkid = isset($_POST["chk"])?$_POST["chk"]:0;
 	$ManagerID = $_POST["mid"];
 	
 	//CheckBox 抓值
@@ -31,7 +31,7 @@
 	$str .= "========================<br>";
 	if (!$chkid) {
 		$tpl->clear_dynamic("row");
-		$tpl->parse(ROWS,".row"); 	
+		$tpl->parse('ROWS',".row"); 	
 	} else {
 		foreach ($chkid as $key => $value) {
 			if ($i==0) {
@@ -82,6 +82,5 @@
 	$MainTpl->assign("LOCATION","訂便當/訂購GO/訂購便當結果"); 
 	$MainTpl->parse('MAIN',"apg");
 	$MainTpl->FastPrint('MAIN');
-	
 
 ?>

@@ -33,15 +33,6 @@
 	</table>
 	<p align=center><input type="submit" name="sb" value="     ¥ß§Yµn¤J     "></p>
 	</form>
-  </center>
-  
+  </center>  
 </body>
 </html>
-
-
-
-
-
-
- 
-

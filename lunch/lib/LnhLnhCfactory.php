@@ -5,9 +5,7 @@
  *   NAME
  *      LnhLnhCfactory.php  --
  *   COPYRIGHT
- *      UNEED
  *   AUTHOR
- *      Bill Yeh
  *   MODIFICATION HISTORY
  *      11/21/2006      1.0     Creater
  ****
@@ -29,7 +27,6 @@
      *   NAME
      *      LnhLnhCfactory
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      construct
      ****
@@ -53,7 +50,6 @@
      *   NAME
      *      CreateStore
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      新增商家
      *   INPUT
@@ -79,7 +75,6 @@
      *   NAME
      *      UpdateStore
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      更新商家
      *   INPUT
@@ -115,7 +110,6 @@
      *   NAME
      *      GetAllStore
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取商家全部資料
      *   INPUT
@@ -137,7 +131,6 @@
      *   NAME
      *      GetStoreDetailsByRecordID
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取一筆商家詳細資料
      *   INPUT
@@ -161,7 +154,6 @@
      *   NAME
      *      GetAllStorePage
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取商家分頁全部資料
      *   INPUT
@@ -189,7 +181,6 @@
      *   NAME
      *      GetAllStoreCount
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取所有商家全部總數
      *   INPUT
@@ -212,7 +203,6 @@
      *   NAME
      *      CreateProduct
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      新增便當商品
      *   INPUT
@@ -237,7 +227,6 @@
      *   NAME
      *      UpdateProduct
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      更新便當商品
      *   INPUT
@@ -262,7 +251,6 @@
      *   NAME
      *      GetPdsDetailsByRecordID
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取一筆便當明細資料
      *   INPUT
@@ -287,7 +275,6 @@
      *   NAME
      *      GetAllProductByStore
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取商家便當商品全部資料
      *   INPUT
@@ -310,7 +297,6 @@
      *   NAME
      *      GetAllPdsPageByStore
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取商家便當明細分頁全部資料
      *   INPUT
@@ -339,7 +325,6 @@
      *   NAME
      *      GetAllPdsCountByStore
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取單一商家商品全部總數
      *   INPUT
@@ -363,7 +348,6 @@
      *   NAME
      *      CreateManager
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      新增當日訂單管理
      *   INPUT
@@ -388,7 +372,6 @@
      *   NAME
      *      UpdateManager
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      更新當日訂單管理
      *   INPUT
@@ -413,7 +396,6 @@
      *   NAME
      *      UpdateManagerStatusByRecordID
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      更新當日訂單管理
      *   INPUT
@@ -437,7 +419,6 @@
      *   NAME
      *      GetManagerDetailsByRecordID
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取一筆指定店家明細資料
      *   INPUT
@@ -462,7 +443,6 @@
      *   NAME
      *      GetAllManagerPage
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取指定商家明細分頁全部資料
      *   INPUT
@@ -491,7 +471,6 @@
      *   NAME
      *      GetActiveManagerPage
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取有效指定商家明細分頁全部資料
      *   INPUT
@@ -516,7 +495,6 @@
      *   NAME
      *      GetActiveManagerPageCount
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取有效指定商家明細全部總數
      *   INPUT
@@ -538,7 +516,6 @@
      *   NAME
      *      GetAllManagerCount
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取指定商家明細全部總數
      *   INPUT
@@ -561,7 +538,6 @@
      *   NAME
      *      CreateOrder
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      新增訂單
      *   INPUT
@@ -586,7 +562,6 @@
      *   NAME
      *      UpdateOrder
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      更新訂單
      *   INPUT
@@ -610,7 +585,6 @@
      *   NAME
      *      GetOrderDetailsByRecordID
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取一筆訂單明細資料
      *   INPUT
@@ -635,7 +609,6 @@
      *   NAME
      *      UpdateOrderStatusByRecordID
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      更新使用者訂單狀態
      *   INPUT
@@ -659,7 +632,6 @@
      *   NAME
      *      GetOrderDetailsPageByManagerID
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取指定商家明細分頁全部資料
      *   INPUT
@@ -687,7 +659,6 @@
      *   NAME
      *      GetOrderDetailsPageCountByManagerID
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      擷取指定商家明細分頁全部資料
      *   INPUT
@@ -713,7 +684,6 @@
      *   NAME
      *      LnhLogin
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      訂便當程式登入確認
      *   INPUT
@@ -739,7 +709,6 @@
      *   NAME
      *      GetRemoteIP
      *   AUTOOR
-     *      Bill Yeh
      *   FUNCTION
      *      抓取遠端使用者的IP位置
      *   INPUT
@@ -757,7 +726,6 @@
      *   NAME
      *      AddOnine
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      新增Online資料
      *   INPUT
@@ -784,7 +752,6 @@
      *   NAME
      *      SetOnline
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      新增Online資料
      *   INPUT
@@ -816,7 +783,6 @@
      *   NAME
      *      setWhois
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      新增Whois資料
      *   INPUT
@@ -870,7 +836,6 @@
      *   NAME
      *      UpdateOnlineActiveByOnlineID
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      利用 Whois取得Online資料
      *   INPUT
@@ -892,7 +857,6 @@
      *   NAME
      *      PopMsg
      *   AUTHOR
-     *      Bill Yeh
      *   FUNCTION
      *      顯示視窗訊息,並導引至下個網頁
      *   INPUT

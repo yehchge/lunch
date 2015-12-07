@@ -1,13 +1,12 @@
-<?
+<?php
+
 /****c LIB/LnhRdbCglobal
  *   NAME
  *      LnhRdbCglobal
  *   COPYRIGHT
- *      Uneed
  *   FUNCTION
  *      訂便當管理程式
  *   AUTHOR
- *      Bill Yeh 
  *   SEE ALSO
  *      n/a
  *   MODIFICATION HISTORY
@@ -41,7 +40,6 @@
  *  OUTPUT
  *	    n/a
  *  AUTHOR
- *   	Bill Yeh	
  ****
  */   
       function LnhRdbCglobal(){
@@ -52,13 +50,13 @@
          $this->MY_SQL_UID="robot";
          $this->MY_SQL_PWD="robot";
          $this->MY_SQL_HOST="localhost";
-         $this->MY_SQL_DB_LUNCH="MY_UNEED_LUNCH";
-         $this->MY_SQL_TABLE_LUNCH_STORE="MY_UNEED_LUNCH_STORE";
-		 $this->MY_SQL_TABLE_LUNCH_PRODUCT="MY_UNEED_LUNCH_PRODUCT";
-         $this->MY_SQL_TABLE_LUNCH_MANAGER="MY_UNEED_LUNCH_MANAGER";
-		 $this->MY_SQL_TABLE_LUNCH_ORDER="MY_UNEED_LUNCH_ORDER";
-		 $this->MY_SQL_TABLE_LUNCH_ONLINE="MY_UNEED_LUNCH_ONLINE";
-		 $this->MY_UNEED_TITLE="UNeeD優利得";
+         $this->MY_SQL_DB_LUNCH="LUNCH";
+         $this->MY_SQL_TABLE_LUNCH_STORE="LUNCH_STORE";
+		 $this->MY_SQL_TABLE_LUNCH_PRODUCT="LUNCH_PRODUCT";
+         $this->MY_SQL_TABLE_LUNCH_MANAGER="LUNCH_MANAGER";
+		 $this->MY_SQL_TABLE_LUNCH_ORDER="LUNCH_ORDER";
+		 $this->MY_SQL_TABLE_LUNCH_ONLINE="LUNCH_ONLINE";
+		 $this->MY_TITLE="訂便當系統";
       } 
    }
 ?>

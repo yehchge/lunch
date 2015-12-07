@@ -14,4 +14,3 @@
 	$tpl->FastPrint('MAIN');
   
 ?>
-

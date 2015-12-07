@@ -13,7 +13,7 @@
 	// 檢查使用者有沒有登入
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
-		header("Location:/lunch/Login.php");
+		header("Location:./Login.php");
   		return;
   	}
 
@@ -30,4 +30,3 @@
 	$MainTpl->FastPrint('MAIN');
   
 ?>
-

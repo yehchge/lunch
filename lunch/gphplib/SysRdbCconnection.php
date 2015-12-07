@@ -10,7 +10,6 @@
 *   FUNCTION
 *      連接資料庫之父類別
 *   AUTHOR
-*      jackson(tommy@shesay.com)
 *   HISTORY
 *      12/23/2003		1.0	creater
 ****
@@ -51,7 +50,6 @@ class SysRdbCconnection {
 	*      $arg6: Host(主機名稱,database server)
 	*      $arg7: Db Type(使用哪種database server)
 	*   AUTHOR
-	*      jackson 
 	****
 	*/
 	function SysRdbCconnection($arg1=NULL,$arg2=NULL,$arg3=NULL,$arg4=NULL,$arg5=NULL,$arg6=NULL,$arg7=NULL){
@@ -81,7 +79,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      int	0: not connect   1: connected
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function isConnected(){
@@ -100,7 +97,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      int	0: Fail	1: Success
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function setConnStr($argConnStr){
@@ -120,7 +116,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      連結字串
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function getConnStr(){
@@ -140,7 +135,6 @@ class SysRdbCconnection {
 	*      0: Fail        
 	*       1: Success
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function setConnDb($argConnDb){
@@ -160,7 +154,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      連結之資料庫名稱 
 	*   AUTHOR
-	*      jackson 
 	****
 	*/
 	function getConnDb(){
@@ -180,7 +173,6 @@ class SysRdbCconnection {
 	*      0: Fail        
 	*      1: Success
 	*   AUTHOR
-	*      jackson 
 	****
 	*/
 	function setConnUid($argConnUid){
@@ -200,7 +192,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      使用者代號
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function getConnUid(){
@@ -220,7 +211,6 @@ class SysRdbCconnection {
 	*      0: Fail        
 	*      1: Success
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function setConnPwd($argConnPwd){
@@ -240,7 +230,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      設定連結之密碼
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function getConnPwd(){
@@ -260,7 +249,6 @@ class SysRdbCconnection {
 	*      0: Fail       
 	*      1: Success
 	*   AUTHOR
-	*      jackson
 	**** 
 	*/
 	function setConnPort($argConnPort){
@@ -281,7 +269,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      設定連結Port Num
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function getConnPort(){
@@ -300,7 +287,6 @@ class SysRdbCconnection {
 	*      0: Fail       
 	*      1: Success
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function setConnHost($argConnHost){
@@ -320,7 +306,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      連結之主機/資料庫名稱
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function getConnHost(){
@@ -340,7 +325,6 @@ class SysRdbCconnection {
 	*      0: Fail        
 	*      1: Success
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function setDbType($argDbType){
@@ -360,7 +344,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      設定資料庫種類
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function getDbType(){
@@ -378,7 +361,6 @@ class SysRdbCconnection {
 	*      0:fail 
 	*      1:success
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function activate(){
@@ -428,7 +410,6 @@ class SysRdbCconnection {
 	*      Ret[$i]['DATA']: Result set,$i=total data fetched
 	*      Ret['ROWS']: 共抓了多少筆
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function SqlPageSelect($argDb,$argTable,$argField,$argCondition,$argRowsBegin=NULL,$argRows=NULL) {
@@ -566,7 +547,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      ResultSet
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function SqlSelect($argDb,$argTable,$argField,$argCondition){
@@ -637,7 +617,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*     ResultSet
 	*   AUTHOR
-	*      Bill Yeh
 	****
 	*/
 	function SqlDataPageSelect($argDb,$argTable,$argField,$argCondition,$argRowsBegin=NULL,$argRows=NULL){
@@ -691,7 +670,6 @@ class SysRdbCconnection {
 	*       0:fail 
 	*       1:success
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function SqlInsert($argDb,$argTable,$argField,$argValues){
@@ -750,7 +728,6 @@ class SysRdbCconnection {
 	*      0:fail 
 	*      1:success
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function SqlUpdate($argDb,$argTable,$argSetValue,$argCondition){
@@ -807,7 +784,6 @@ class SysRdbCconnection {
 	*      0:fail 
 	*      1:success
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function SqlDelete($argDb,$argTable,$argCondition){
@@ -858,7 +834,6 @@ class SysRdbCconnection {
 	*   OUTPUT
 	*      Row Array
 	*   AUTHOR
-	*      jackson
 	****
 	*/
 	function fetch_array($argResult){
