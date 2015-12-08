@@ -1,5 +1,6 @@
 <?php
 
+    header('Content-Type: text/html; charset=Big5');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
 

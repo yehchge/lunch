@@ -1,5 +1,6 @@
 <?php
 
+    header('Content-Type: text/html; charset=Big5');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	//echo PATH_ROOT;exit;
 

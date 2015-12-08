@@ -1,5 +1,6 @@
 <?php
 
+    header('Content-Type: text/html; charset=Big5');
 	error_reporting(E_ALL);
 	ini_set('display_errors', true);
 

@@ -1,5 +1,6 @@
 <?php
 
+    header('Content-Type: text/html; charset=Big5');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
@@ -10,7 +11,7 @@
   
 	$Lnh = new LnhLnhCfactory();
 
-	// Ê™¢Êü•‰ΩøÁî®ËÄÖÊúâÊ≤íÊúâÁôªÂÖ•
+	// ¿À¨d®œ•Œ™Ã¶≥®S¶≥µn§J
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
@@ -23,22 +24,22 @@
 	$Note = trim($_POST["pdsnote"]);
 	$StoreID = trim($_POST["pdsid"]);
   
-	//Áî¢ÁîüÊú¨Á®ãÂºèÂäüËÉΩÂÖßÂÆπ
+	//≤£•Õ•ªµ{¶°•\Ø‡§∫Æe
 	if ($Lnh->CreateProduct($StoreID,$PdsName,$PdsType,$Price,$Online['Account'],$Note)) {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('Êñ∞Â¢û‰æøÁï∂ÊàêÂäü!');\r\n";
+		echo "alert('∑sºW´K∑Ì¶®•\!');\r\n";
 		echo "location='./PdsDetails.php?id=$StoreID';\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	} else {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('Êñ∞Â¢û‰æøÁï∂Â§±Êïó!');\r\n";
+		echo "alert('∑sºW´K∑Ì•¢±—!');\r\n";
 		echo "history.back();\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	}
-	//echo "<a href='/lunch/PdsDetails.php?id=$StoreID'>Âõû‰∏ä‰∏ÄÈ†Å</a>";
+	//echo "<a href='/lunch/PdsDetails.php?id=$StoreID'>¶^§W§@≠∂</a>";
   
 ?>

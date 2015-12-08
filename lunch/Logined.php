@@ -1,5 +1,6 @@
 <?php
 
+    header('Content-Type: text/html; charset=Big5');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
 
@@ -12,7 +13,7 @@
 	$UserName = trim($_POST["username"]);
 	$Password = trim($_POST["password"]);
 	
-	//TODO:æš«æ™‚
+	//TODO:¼È®É
 	$UserName = 'admin';
 	$Password = 'admin';
 
@@ -24,5 +25,4 @@
 		header("location:./LoginFail.php");
 		return;
 	}
-	//echo "<pre>";echo print_r($info);echo "</pre>";
 ?>

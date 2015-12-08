@@ -1,5 +1,6 @@
 <?php
 
+    header('Content-Type: text/html; charset=Big5');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
@@ -46,15 +47,14 @@
  	$rows = $Lnh->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
   	$row = mysql_fetch_assoc($rows);
   	if ($row == NULL) {
-  		$tpl->assign(editstoreid,"");
-  		$tpl->assign(storename,"");
-        $tpl->assign(tel,"");
-        $tpl->assign(man,"");
-        $tpl->assign(editdate,"");
-        $tpl->assign(status,"");
-        $tpl->parse(ROWS,"row");        
+  		$tpl->assign('editstoreid',"");
+  		$tpl->assign('storename',"");
+        $tpl->assign('tel',"");
+        $tpl->assign('man',"");
+        $tpl->assign('editdate',"");
+        $tpl->assign('status',"");
+        $tpl->parse('ROWS',"row");        
   	} else {
-		//echo "<pre>";echo print_r($row);echo "</pre>";exit();
 		$i=0;
   		while ($row != NULL) {
 			if ($i==0) {
@@ -98,11 +98,9 @@
 	
 	if ($id) {
 		echo "<Script>\r\n";
-		echo "<!--\r\n";
 		echo "yy=confirm('今日確定要訂購此間店的便當嗎?');\r\n";
 		echo "if (yy==0) {history.back();}\r\n";
 		echo " else {location='./AssignStoreed.php?id=$id&Url=".$_SERVER["REQUEST_URI"]."';}\r\n";
-		echo "//-->\r\n";
 		echo "</Script>\r\n";
 		return;
 	}  

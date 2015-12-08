@@ -1,5 +1,6 @@
 <?php
 
+    header('Content-Type: text/html; charset=Big5');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
@@ -45,9 +46,10 @@
 	$pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
 	$pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
 	$pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
-	// Page Ended ************************************************ 
+	// Page Ended ************************************************
+    $row = NULL;
  	$rows = $Lnh->GetAllPdsPageByStore($StoreID,$Status,'',$startRow,$maxRows); //* Page *//
-  	$row = mysql_fetch_assoc($rows);
+  	if ($rows) $row = mysql_fetch_assoc($rows);
   	if ($row == NULL) {
   		$tpl->assign('editpdsid',"");
 		$tpl->assign('pdsid',"");
