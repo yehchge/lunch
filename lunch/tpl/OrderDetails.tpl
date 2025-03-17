@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>╜qай╓H╘З╡с</title>
+  <title>Х╗┌ХЁ╪Д╨╨Ф≤▌Г╢╟</title>
   
 <SCRIPT language="JavaScript" type="text/JavaScript">
 <!--
@@ -18,7 +18,7 @@ function ShowPdsInfo(sid) {
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -92,15 +92,15 @@ TD
 			  <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td class="Forums_Header" align="center">╖г╦╧</td>
-			  <td class="Forums_Header" align="center">╟с╚~╕W╨ы</td>
-			  <td class="Forums_Header" align="center">╪ф╤q</td>
-			  <td class="Forums_Header" align="center">ЁФ╩Ы</td>
-			  <td class="Forums_Header" align="center">╜qай╓H</td>
-			  <td class="Forums_Header" align="center">Ёф╣Ы</td>
-			  <td class="Forums_Header" align="center">╜qай╝и╤║</td>
-			  <td  class="Forums_Header" align="center">╙╛╨A</td>
-			  <td  class="Forums_Header" align="center">╜в╖О</td>
+			  <td class="Forums_Header" align="center">Е╨▐Х≥÷</td>
+			  <td class="Forums_Header" align="center">Е∙├Е⌠│Е░█Г╗╠</td>
+			  <td class="Forums_Header" align="center">Ф∙╦И┤▐</td>
+			  <td class="Forums_Header" align="center">Е√╝Е┐╧</td>
+			  <td class="Forums_Header" align="center">Х╗┌ХЁ╪Д╨╨</td>
+			  <td class="Forums_Header" align="center">Е┌≥Х╗╩</td>
+			  <td class="Forums_Header" align="center">Х╗┌ХЁ╪Ф≥┌И√⌠</td>
+			  <td  class="Forums_Header" align="center">Г▀─Ф┘▀</td>
+			  <td  class="Forums_Header" align="center">Д©╝Ф■╧</td>
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr Class="Forums_General">
@@ -119,7 +119,7 @@ TD
 			  <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{pageselect}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td colspan="9" align="right"> [ <a href="./ListOrder.php">╕^╓W╓@╜╤</a> ] </td>
+			  <td colspan="9" align="right"> [ <a href="./ListOrder.php">Е⌡·Д╦┼Д╦─И═│</a> ] </td>
 			</tr>
 		  </table>
 		</td>

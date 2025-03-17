@@ -1,17 +1,12 @@
 <?php
 
-// ºô¯¸¤½¥Î°Ñ¼Æ³]©w	
+// ç¶²ç«™å…¬ç”¨åƒæ•¸è¨­å®š	
 #
 # database settings
 #
-//$config["db_host"] = "db.db.com";
-//$config["db_username"] = "root";
-//$config["db_password"] = "mamamiya";
-//$config["db_database"] = "plog";
-
 $config["db_host"] = "localhost";
-$config["db_username"] = "bill";
-$config["db_password"] = "bill098";
+$config["db_username"] = "root";
+$config["db_password"] = "123456";
 $config["db_database"] = "plog";
 #
 # the database prefix will be appended to the name of each database tables in case you want
@@ -23,5 +18,3 @@ $config["db_database"] = "plog";
 $config["db_prefix"] = "lt_";
 $config["host_name"] = "localhost";
 $config["www_url"] = "www.lunch.com.tw";
-
-?>

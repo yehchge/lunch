@@ -71,7 +71,7 @@ class SysSysHtmlParser{
      * Constructs an HtmlParser instance with
      * the HTML text given.
      */
-    function SysSysHtmlParser($aHtmlText) {
+    function __construct($aHtmlText) {
         $this->iHtmlText = $aHtmlText;
         $this->iHtmlTextLength = strlen($aHtmlText);
         $this->iNodeAttributes = array();
@@ -361,5 +361,3 @@ function HtmlParser_ForURL ($url) {
     fclose ($fp);
     return new HtmlParser ($content);
 }
-
-?>

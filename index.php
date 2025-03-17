@@ -1,3 +1,2 @@
 <?php
-	header("location:./lunch/index.php");
-?>
+header("Location:./lunch/index.php");

@@ -12,7 +12,7 @@ class xml_doc {
       var $document;            // Document tag (type: xml_tag)
       var $stack;            // Current object depth (array of index numbers)
 
-      function xml_doc($xml='') {
+      function __construct($xml='') {
           // XML Document constructor
 
           $this->xml = $xml;
@@ -317,5 +317,3 @@ class xml_tag {
        return ($document->xml_reference - 1);
           }
   }
-
-?>

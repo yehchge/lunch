@@ -31,7 +31,7 @@ class html_mime_mail{
 ** if supplied.
 ***************************************/
 
-        function html_mime_mail($headers = ''){
+        function __construct($headers = ''){
 
                 $this->html_images = array();
                 $this->headers     = array();
@@ -350,4 +350,3 @@ class html_mime_mail{
 
 
 } // End of class.
-?>

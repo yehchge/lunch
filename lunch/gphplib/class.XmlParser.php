@@ -8,7 +8,7 @@
 	
 			$xmlreaderror = false;
 
-			$parser = xml_parser_create ('UTF-8'); // ISO-8859-1 §ï UTF-8 edit by Bill 2006/8/24
+			$parser = xml_parser_create ('UTF-8'); // ISO-8859-1 æ”¹ UTF-8 edit by Bill 2006/8/24
 			xml_parser_set_option ($parser, XML_OPTION_SKIP_WHITE, 1);
 			xml_parser_set_option ($parser, XML_OPTION_CASE_FOLDING, 0);
 			if (!xml_parse_into_struct ($parser, $xmldata, $vals, $index)) {
@@ -102,10 +102,8 @@
 		}
 	}
 	
-	//Sample Ex:¨Ï¥Î»¡©ú:
+	//Sample Ex:ä½¿ç”¨èªªæ˜Ž:
 		//$url = "http://192.168.3.241/vip/xxx.xml"; //URL of the XML FEED
 		//$contents = file_get_contents($url);
 		//$data = GetXMLTree ($contents);
 		//echo "<pre>";echo print_r($data);echo "</pre>";
-
-?>

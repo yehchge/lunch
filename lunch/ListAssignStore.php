@@ -1,6 +1,6 @@
 <?php
 
-    header('Content-Type: text/html; charset=Big5');
+    header('Content-Type: text/html; charset=utf-8');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
@@ -9,19 +9,19 @@
 	$Lnh = new LnhLnhCfactory();
 	$LnhG = new LnhLnhCglobal();
 	
-	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
+	// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
   		return;
   	}
 	
-	// ¤º­¶¥\¯à (FORM)
+	// å…§é åŠŸèƒ½ (FORM)
 	$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$tpl->define(array('TplBody'=>"ListAssignStore.tpl"));
 	$tpl->define_dynamic("row","TplBody");
   
-	//²£¥Í¥»µ{¦¡¥\¯à¤º®e
+	//ç”¢ç”Ÿæœ¬ç¨‹å¼åŠŸèƒ½å…§å®¹
 	// Page Start ************************************************ 
 	include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
 	$page= isset($_REQUEST['page'])?$_REQUEST['page']:0; 
@@ -47,7 +47,7 @@
 	$pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
 	// Page Ended ************************************************ 
  	$rows = $Lnh->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
-  	$row = mysql_fetch_assoc($rows);
+  	$row = $Lnh->fetch_assoc($rows);
   	if ($row == NULL) {
   		$tpl->assign('managerid',"");
   		$tpl->assign('createdate',"");
@@ -77,11 +77,11 @@
 			$tpl->assign('storename',$info['StoreName']);
   			$tpl->assign('status',$LnhG->ManagerStatus[$row['Status']]);
             $tpl->parse('ROWS',".row");         
-			$row = mysql_fetch_assoc($rows);
+			$row = $Lnh->fetch_assoc($rows);
   		}
   	}
 
-	$tpl->assign('totalrows',"¦@ ".$Lnh->GetAllManagerCount()." µ§ "); //* Page *// 
+	$tpl->assign('totalrows',"å…± ".$Lnh->GetAllManagerCount()." ç­† "); //* Page *// 
 	$tpl->assign('pageselect',$pagestr); //* Page *// 
 
 	$tpl->parse('BODY',"TplBody");
@@ -89,8 +89,6 @@
 	$MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$MainTpl->define(array('apg'=>"LunchMain.tpl")); 
 	$MainTpl->assign("FUNCTION",$str); 
-	$MainTpl->assign("LOCATION","«ü©w©±®aºÞ²z¡BºI¤î¡B¨ú®ø"); 
+	$MainTpl->assign("LOCATION","æŒ‡å®šåº—å®¶ç®¡ç†ã€æˆªæ­¢ã€å–æ¶ˆ"); 
 	$MainTpl->parse('MAIN',"apg");
 	$MainTpl->FastPrint('MAIN');
-
-?>

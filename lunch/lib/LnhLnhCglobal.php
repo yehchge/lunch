@@ -4,14 +4,12 @@ class LnhLnhCglobal {
      
 	public $ManagerStatus;
 
-    public function LnhLnhCglobal() {
-		// ³]©w«ü©w©±®aºÞ²zª¬ºA
-        $this->ManagerStatus[0] = "½Ð¿ï¾Ü";
-        $this->ManagerStatus[1] = "­qÁÊ¤¤";
-        $this->ManagerStatus[2] = "ºI¤î­qÁÊ";
-        $this->ManagerStatus[3] = "¨ú®ø";
-        $this->ManagerStatus[9] = "§R°£";
+    public function __construct() {
+		// è¨­å®šæŒ‡å®šåº—å®¶ç®¡ç†ç‹€æ…‹
+        $this->ManagerStatus[0] = "è«‹é¸æ“‡";
+        $this->ManagerStatus[1] = "è¨‚è³¼ä¸­";
+        $this->ManagerStatus[2] = "æˆªæ­¢è¨‚è³¼";
+        $this->ManagerStatus[3] = "å–æ¶ˆ";
+        $this->ManagerStatus[9] = "åˆªé™¤";
     }
 }
-
-?>

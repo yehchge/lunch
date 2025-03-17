@@ -1,18 +1,6 @@
 <?php
 
-  /****c SysPagCfactory
-   *    NAME
-   *       SysPagCfactory
-   *    FUNCTION
-   *       §¿≠∂√˛ßO
-   *    SEE ALSO
-   *       N/A
-   *    AUTHOR
-   *    MODIFY
-   *       12/23/2003   create
-   ****
-   */
-   class SysPagCfactory {
+class SysPagCfactory {
 
        var $url;
        var $page;
@@ -26,20 +14,7 @@
        var $page_total;
        var $mini_total;
 
-       /****m SysPagCfactory->SysPagCfactory()
-        *    NAME
-        *       SysPagCfactory
-        *    FUNCTION
-        *       ´ÿ∫c§l
-        *    SEE ALSO
-        *       N/A
-        *    INPUTS
-        *       N/A
-        *    OUTPUT
-        *       N/A
-        ****
-        */
-        function SysPagCfactory()
+        function __construct()
         {
            $this->url = "";
            $this->page = "";
@@ -48,20 +23,6 @@
            $this->max_pages = "";
          }
 
-        /****m SysPagCfactory->SysPagGetTotalPages
-         *    NAME
-         *       SysPagGetTotalPages
-         *    FUNCTION
-         *       ≈„•‹≥sµ≤≠∂™∫º∆¶r
-         *    SEE ALSO
-         *       N/A
-         *    INPUTS
-         *       $max_rows: ®C≠∂µßº∆
-         *       $msg_total: ©“¶≥µßº∆
-         *    OUTPUT
-         *       true: ©“¶≥µßº∆ false: fail
-         ****
-         */
          function SysPagGetTotalPages( $msg_total, $max_rows=10)
          {
                $page_total = ceil(($msg_total)/$max_rows);
@@ -70,19 +31,6 @@
                return $page_total;
           }
 
-         /****m SysPagCfactory->SysPagGetMiniTotal
-          *    NAME
-          *       SysPagGetMiniTotal
-          *    FUNCTION
-          *       ®˙±o¶@¶≥¥X≠” MAX_ROW ≠∂
-          *    SEE ALSO
-          *       N/A
-          *    INPUTS
-          *       $MAX_PAGES: ®C MAX_ROW ≠∂µßº∆
-          *    OUTPUT
-          *       true: ≠∂º∆ false: fail
-          ****
-          */
           function SysPagGetMiniTotal( $page_total, $max_pages)
           {
                $mini_total = ceil($page_total/$max_pages);
@@ -91,19 +39,6 @@
                return $mini_total;
            }
 
-          /****m SysPagCfactory->SysPagGetMiniPage
-           *    NAME
-           *       SysPagGetMiniPage
-           *    FUNCTION
-           *       ®˙±o¶b≤ƒ¥X≠” MAX_ROW ≠∂
-           *    SEE ALSO
-           *       N/A
-           *    INPUTS
-           *       $page: ≤ƒ¥X≠∂
-           *    OUTPUT
-           *       true: ≠∂º∆ false: fail
-           ****
-           */
            function SysPagGetMiniPage( $page)
            {
                  $mini_page = ceil( $page/$this->max_pages);
@@ -122,21 +57,6 @@
                  }
             }
 
-           /****m SysPagCfactory->SysPagGetFirstAndEndPage
-            *    NAME
-            *       SysPagGetFirstAndEndPage
-            *    FUNCTION
-            *       ®˙±o∂}©l≠∂ªPµ≤ßÙ≠∂
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $MAX_ROWS: ®C≠∂µßº∆
-            *       $MAX_PAGES: ®C MAX_ROWS ≠∂µßº∆
-            *       $MSG_TOTAL: ©“¶≥µßº∆
-            *    OUTPUT
-            *       true: ≠∂º∆ false: fail
-            ****
-            */
             function SysPagGetFirstAndEndPage($page_total, $mini_page) {
                  $mini_total = ceil( $page_total/$this->max_pages);
                  // $mini_page = $this->SysPagGetMiniPage( $this->page);
@@ -159,19 +79,6 @@
                  return array( $first_page, $end_page);
             }
 
-           /****m SysPagCfactory->SysPagShowPageNumber
-            *    NAME
-            *       SysPagShowPageNumber
-            *    FUNCTION
-            *       ≈„•‹≥sµ≤≠∂™∫º∆¶r
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $PAGE: •ÿ´e©“¶b≠∂º∆
-            *    OUTPUT
-            *       true: ≈„•‹•i≥sµ≤º∆¶r false: fail
-            ****
-            */
             function SysPagShowPageNumber($page, $type="select", $fontstyle="size=\"4\"", $fontstyle1="size=\"2\" color=\"#FF0000\"", $fontstyle2="size=\"2\"") {
                if ( $page <= 0 ) { $page = 1;}
                $url = $this->url;
@@ -201,7 +108,7 @@
                    return $body;
                }
                else if ( $type == "select") {
-                   $body = "<font $fontstyle> ≤ƒ <select name=\"#\" size=\"1\" onChange=\"JavaScript:location.href=this.options[selectedIndex].value\">";
+                   $body = "<font $fontstyle> Á¨¨ <select name=\"#\" size=\"1\" onChange=\"JavaScript:location.href=this.options[selectedIndex].value\">";
                    for( $i = $first_page; $i <= $end_page; $i++) {
                      $prepage = $i;
                      $forward_url = $url. "&page=$prepage";
@@ -216,24 +123,12 @@
                         $body .= " </option>";
                      }
                   }
-                  $body .= "</select>≠∂</font>";
+                  $body .= "</select>È†Å</font>";
                   return $body;
                }
             }
 			
-           /****m SysPagCfactory->SysPagShowPageNumberImg
-            *    NAME
-            *       SysPagShowPageNumberImg
-            *    FUNCTION
-            *       ≈„•‹≥sµ≤≠∂™∫º∆¶r
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $PAGE: •ÿ´e©“¶b≠∂º∆
-            *    OUTPUT
-            *       true: ≈„•‹•i≥sµ≤º∆¶r false: fail
-            ****
-            */
+
             function SysPagShowPageNumberImg( $page, $type="select", $fontstyle="size=\"4\"", $fontstyle1="size=\"2\" color=\"#FF0000\"", $fontstyle2="size=\"2\"")
             {
                if ( $page <= 0 ) { $page = 1;}
@@ -266,7 +161,7 @@
                    return $body;
                }
                else if ( $type == "select") {
-                   $body = "<font $fontstyle> ≤ƒ <select name=\"#\" size=\"1\" onChange=\"JavaScript:location.href=this.options[selectedIndex].value\">";
+                   $body = "<font $fontstyle> Á¨¨ <select name=\"#\" size=\"1\" onChange=\"JavaScript:location.href=this.options[selectedIndex].value\">";
                    for( $i = $first_page; $i <= $end_page; $i++) {
                      $prepage = $i;
                      $forward_url = $url. "&page=$prepage";
@@ -281,24 +176,11 @@
                         $body .= " </option>";
                      }
                   }
-                  $body .= "</select>≠∂</font>";
+                  $body .= "</select>È†Å</font>";
                   return $body;
                }
             }
 			
-           /****m SysPagCfactory->SysPagShowPageNumber1
-            *    NAME
-            *       SysPagShowPageNumber1
-            *    FUNCTION
-            *       ≈„•‹≥sµ≤≠∂™∫º∆¶r
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $PAGE: •ÿ´e©“¶b≠∂º∆
-            *    OUTPUT
-            *       true: ≈„•‹•i≥sµ≤º∆¶r false: fail
-            ****
-            */
             function SysPagShowPageNumber1( $page, $type="select", $fontstyle="size=\"2\"", $fontstyle1="size=\"4\"")
             {
                if ( $page <= 0 ) { $page = 1;}
@@ -329,7 +211,7 @@
                    return $body;
                }
                else if ( $type == "select") {
-                   $body = "<font $fontstyle> ≤ƒ <select name=\"#\" size=\"1\" onChange=\"JavaScript:location.href=this.options[selectedIndex].value\">";
+                   $body = "<font $fontstyle> Á¨¨ <select name=\"#\" size=\"1\" onChange=\"JavaScript:location.href=this.options[selectedIndex].value\">";
                    for( $i = $first_page; $i <= $end_page; $i++) {
                      $prepage = $i;
                      $forward_url = $url. "&page=$prepage";
@@ -344,24 +226,11 @@
                         $body .= " </option>";
                      }
                   }
-                  $body .= "</select>≠∂</font>";
+                  $body .= "</select>È†Å</font>";
                   return $body;
                }
             }
 
-           /****m SysPagCfactory->SysPagShowMiniLink
-            *    NAME
-            *       SysPagShowminiLink
-            *    FUNCTION
-            *       ≈„•‹≥sµ≤§W(§U) MAX_PAGE ≠∂
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $PAGE: •ÿ´e©“¶b≠∂º∆
-            *    OUTPUT
-            *       true: ≈„•‹•i≥sµ≤ false: fail
-            ****
-            */
             function SysPagShowMiniLink( $page, $type, $fontstyle="size=\"2\"")
             {
                $next_page = $page + $this->max_pages;
@@ -376,43 +245,30 @@
 
                if ( $type == "last" ) {
                  if ( $mini_page <= 1) { $bCondition = 1;} else { $bCondition = 0;}
-                 $strID = "§W";
+                 $strID = "‰∏ä";
                  $url = $this->url. "&page=$last_page";
                }
                else if ( $type == "next") {
                   if ( $mini_page >= $mini_total) { $bCondition = 1;} else { $bCondition = 0;}
-                  $strID = "§U";
+                  $strID = "‰∏ã";
                   $url = $this->url. "&page=$next_page";
                }
 
                $body = "";
                if ( $bCondition) {
-                  $body .= "<font $fontstyle>".$strID."<b>".$this->max_pages."</b>≠∂</font>";
+                  $body .= "<font $fontstyle>".$strID."<b>".$this->max_pages."</b>È†Å</font>";
                }
                else {
                   if($fontstyle) $body .= "<SPAN>";
                   $body .= "<a href=\"$url\">";
-                  $body .= "<font $fontstyle>".$strID."<b>".$this->max_pages."</b>≠∂</font>";
+                  $body .= "<font $fontstyle>".$strID."<b>".$this->max_pages."</b>È†Å</font>";
                   $body .= "</a>";
                   if($fontstyle) $body .= "</SPAN>";
                }
                return $body;
              }
 			 
-			 
-           /****m SysPagCfactory->SysPagShowMiniLinkImg
-            *    NAME
-            *       SysPagShowMiniLinkImg
-            *    FUNCTION
-            *       ≈„•‹≥sµ≤§W(§U) MAX_PAGE ≠∂
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $PAGE: •ÿ´e©“¶b≠∂º∆
-            *    OUTPUT
-            *       true: ≈„•‹•i≥sµ≤ false: fail
-            ****
-            */
+
             function SysPagShowMiniLinkImg( $page, $type, $fontstyle="size=\"2\"")
             {
                $next_page = $page + $this->max_pages;
@@ -427,48 +283,35 @@
 
                if ( $type == "last" ) {
                  if ( $mini_page <= 1) { $bCondition = 1;} else { $bCondition = 0;}
-                 $strID = "§W";
+                 $strID = "‰∏ä";
                  $url = $this->url. "&page=$last_page";
                }
                else if ( $type == "next") {
                   if ( $mini_page >= $mini_total) { $bCondition = 1;} else { $bCondition = 0;}
-                  $strID = "§U";
+                  $strID = "‰∏ã";
                   $url = $this->url. "&page=$next_page";
                }
 
                $body = "";
                if ( $bCondition) {
-				  if ($strID=="§W") {
+				  if ($strID=="‰∏ä") {
 					$body .= "<img src='/images/last10.gif'>";
-				  } else if ($strID=="§U")  {
+				  } else if ($strID=="‰∏ã")  {
 					$body .= "<img src='/images/next10.gif'>";
 				  } else {
-					$body .= "<font $fontstyle>".$strID."<b>".$this->max_pages."</b>≠∂</font>";
+					$body .= "<font $fontstyle>".$strID."<b>".$this->max_pages."</b>È†Å</font>";
 				  }
                }
                else {
                   if($fontstyle) $body .= "<SPAN>";
                   $body .= "<a href=\"$url\">";
-                  $body .= "<font $fontstyle>".$strID."<b>".$this->max_pages."</b>≠∂</font>";
+                  $body .= "<font $fontstyle>".$strID."<b>".$this->max_pages."</b>È†Å</font>";
                   $body .= "</a>";
                   if($fontstyle) $body .= "</SPAN>";
                }
                return $body;
              }
 
-           /****m SysPagCfactory->SysPagShowMiniLink1
-            *    NAME
-            *       SysPagShowminiLink1
-            *    FUNCTION
-            *       ≈„•‹≥sµ≤§W(§U) MAX_PAGE ≠∂
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $PAGE: •ÿ´e©“¶b≠∂º∆
-            *    OUTPUT
-            *       true: ≈„•‹•i≥sµ≤ false: fail
-            ****
-            */
             function SysPagShowMiniLink1( $page, $type, $fontstyle="size=\"2\"")
             {
                $next_page = $page + $this->max_pages;
@@ -506,20 +349,7 @@
                return $body;
              }
 
-           /****m SysPagCfactory->SysPagShowPageLink
-            *    NAME
-            *       SysPagShowPageLink
-            *    FUNCTION
-            *       ≈„•‹≥sµ≤§W(§U)§@≠∂
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $page: •ÿ´e©“¶b≠∂º∆
-            *       $type: next->§U§@≠∂ ; last: §W§@≠∂
-            *    OUTPUT
-            *       true: ≈„•‹•i≥sµ≤ false: fail
-            ****
-            */
+
             function SysPagShowPageLink( $page, $type="next", $fontstyle="size=\"2\"")
             {
               $page_total = $this->SysPagGetTotalPages( $this->msg_total, $this->max_rows);
@@ -535,42 +365,27 @@
                 if( $page >=2 ){
                   if($fontstyle) $body .= "<SPAN>";
                   $body .= "<a href=\"$url\">";
-                  $body .= "<font $fontstyle> §W§@≠∂ </font>";
+                  $body .= "<font $fontstyle> ‰∏ä‰∏ÄÈ†Å </font>";
                   $body .= "</a>";
                   if($fontstyle) $body .= "</SPAN>";
                 } else {
-                  $body .= "<font $fontstyle> §W§@≠∂ </font>";
+                  $body .= "<font $fontstyle> ‰∏ä‰∏ÄÈ†Å </font>";
                 }
               } else if ( $type == "next" ) {
                 $url .= "&page=$next_page";
                 if( $page_total > $page){
                   if($fontstyle) $body .= "<SPAN>";
                   $body .= "<a href=\"$url\">";
-                  $body .= "<font $fontstyle> §U§@≠∂ </font>";
+                  $body .= "<font $fontstyle> ‰∏ã‰∏ÄÈ†Å </font>";
                   $body .= "</a>";
                   if($fontstyle) $body .= "</SPAN>";
                 } else {
-                  $body .= "<font $fontstyle> §U§@≠∂ </font>";
+                  $body .= "<font $fontstyle> ‰∏ã‰∏ÄÈ†Å </font>";
                 }
               }
               return $body;
             }
 			
-
-           /****m SysPagCfactory->SysPagShowPageLinkByItem
-            *    NAME
-            *       SysPagShowPageLinkByItem
-            *    FUNCTION
-            *       ≈„•‹≥sµ≤§W(§U)§@≠∂
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $page: •ÿ´e©“¶b≠∂º∆
-            *       $type: next->§U§@≠∂ ; last: §W§@≠∂
-            *    OUTPUT
-            *       true: ≈„•‹•i≥sµ≤ false: fail
-            ****
-            */
             function SysPagShowPageLinkByItem( $page, $type="next", $fontstyle="size=\"2\"")
             {
               $page_total = $this->SysPagGetTotalPages( $this->msg_total, $this->max_rows);
@@ -586,42 +401,27 @@
                 if( $page >=2 ){
                   if($fontstyle) $body .= "<SPAN>";
                   $body .= "<a href=\"$url\">";
-                  $body .= "<font $fontstyle> §W§@≠∂ </font>";
+                  $body .= "<font $fontstyle> ‰∏ä‰∏ÄÈ†Å </font>";
                   $body .= "</a>";
                   if($fontstyle) $body .= "</SPAN>";
                 } else {
-                  $body .= "<font $fontstyle> §W§@≠∂ </font>";
+                  $body .= "<font $fontstyle> ‰∏ä‰∏ÄÈ†Å </font>";
                 }
               } else if ( $type == "next" ) {
                 $url .= "&page=$next_page";
                 if( $page_total > $page){
                   if($fontstyle) $body .= "<SPAN>";
                   $body .= "<a href=\"$url\">";
-                  $body .= "<font $fontstyle> §U§@≠∂ </font>";
+                  $body .= "<font $fontstyle> ‰∏ã‰∏ÄÈ†Å </font>";
                   $body .= "</a>";
                   if($fontstyle) $body .= "</SPAN>";
                 } else {
-                  $body .= "<font $fontstyle> §U§@≠∂ </font>";
+                  $body .= "<font $fontstyle> ‰∏ã‰∏ÄÈ†Å </font>";
                 }
               }
               return $body;
             }
 
-			
-           /****m SysPagCfactory->SysPagShowPageLinkImg
-            *    NAME
-            *       SysPagShowPageLinkImg
-            *    FUNCTION
-            *       ≈„•‹≥sµ≤§W(§U)§@≠∂
-            *    SEE ALSO
-            *       N/A
-            *    INPUTS
-            *       $page: •ÿ´e©“¶b≠∂º∆
-            *       $type: next->§U§@≠∂ ; last: §W§@≠∂
-            *    OUTPUT
-            *       true: ≈„•‹•i≥sµ≤ false: fail
-            ****
-            */
             function SysPagShowPageLinkImg( $page, $type="next", $fontstyle="size=\"2\"")
             {
               $page_total = $this->SysPagGetTotalPages( $this->msg_total, $this->max_rows);
@@ -637,12 +437,12 @@
                 if( $page >=2 ){
                   if($fontstyle) $body .= "<SPAN>";
                   $body .= "<a href=\"$url\">";
-                  //$body .= "<font $fontstyle> §W§@≠∂ </font>";
+                  //$body .= "<font $fontstyle> ‰∏ä‰∏ÄÈ†Å </font>";
 				  $body .= "<img src='/images/last.gif'>";
                   $body .= "</a>";
                   if($fontstyle) $body .= "</SPAN>";
                 } else {
-                  //$body .= "<font $fontstyle> §W§@≠∂ </font>";
+                  //$body .= "<font $fontstyle> ‰∏ä‰∏ÄÈ†Å </font>";
 				  $body .= "<img src='/images/last.gif'>";
                 }
               } else if ( $type == "next" ) {
@@ -650,17 +450,16 @@
                 if( $page_total > $page){
                   if($fontstyle) $body .= "<SPAN>";
                   $body .= "<a href=\"$url\">";
-                  //$body .= "<font $fontstyle> §U§@≠∂ </font>";
+                  //$body .= "<font $fontstyle> ‰∏ã‰∏ÄÈ†Å </font>";
 				  $body .= "<img src='/images/next.gif'>";
                   $body .= "</a>";
                   if($fontstyle) $body .= "</SPAN>";
                 } else {
-                  //$body .= "<font $fontstyle> §U§@≠∂ </font>";
+                  //$body .= "<font $fontstyle> ‰∏ã‰∏ÄÈ†Å </font>";
 				  $body .= "<img src='/images/next.gif'>";
                 }
               }
               return $body;
             }
 			
-   } //end of the SysPagCfactory
-?>
+}

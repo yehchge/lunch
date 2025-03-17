@@ -1,13 +1,13 @@
 <html>
 <head>
-  <title>╜qай╚K╥М╣╡╙G</title>
+  <title>Х╗┌ХЁ╪Д╬©Г∙╤Г╣░Ф·°</title>
 </head>
 <style type="text/css">
 <!--
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -72,13 +72,13 @@ TD
 <center>
 <table Width="70%" Class="Forums_General">
   <tr Class="Forums_Header">
-    <td colspan=4><font color="#FFFFFF">&nbsp;╜qай╚K╥М╣╡╙G</font></td>
+    <td colspan=4><font color="#FFFFFF">&nbsp;Х╗┌ХЁ╪Д╬©Г∙╤Г╣░Ф·°</font></td>
   </tr>
   <tr Class="Forums_General">
-    <td Class="Forums_AlternatingItem">╚K╥М╕W╨ы</td>
-	<td Class="Forums_AlternatingItem">ЁФ╩Ы</td>
-	<td Class="Forums_AlternatingItem">╪ф╤q</td>
-	<td Class="Forums_AlternatingItem">Ёф╣Ы</td>
+    <td Class="Forums_AlternatingItem">Д╬©Г∙╤Е░█Г╗╠</td>
+	<td Class="Forums_AlternatingItem">Е√╝Е┐╧</td>
+	<td Class="Forums_AlternatingItem">Ф∙╦И┤▐</td>
+	<td Class="Forums_AlternatingItem">Е┌≥Х╗╩</td>
   </tr>
   
   <!-- BEGIN DYNAMIC BLOCK: row -->  
@@ -91,10 +91,10 @@ TD
   <!-- END DYNAMIC BLOCK: row -->
   
   <tr Class="Forums_General">
-    <td Class="{classname1}" colspan=4 align="right"> [ <a href="./index.php"><img src="tpl/images/OK.gif" border=0></a> ╕^╔D©ОЁФ ] </td>
+    <td Class="{classname1}" colspan=4 align="right"> [ <a href="./index.php"><img src="tpl/images/OK.gif" border=0></a> Е⌡·Д╦╩И│╦Е√╝ ] </td>
   </tr>
   <tr Class="Forums_Header">
-    <td colspan=4  align="center"> [ <font color="#FFFFFF">╥Pаб╠z╙╨╜qай║A╔Щ╞╛╠z╔ню\╢r╖ж║I</font> ] </td>
+    <td colspan=4  align="center"> [ <font color="#FFFFFF">Ф└÷Х╛²Ф┌╗Г └Х╗┌ХЁ╪О╪▄Е┘┬Г╔²Ф┌╗Г■╗И╓░Ф└┴Е©╚О╪│</font> ] </td>
   </tr>
 </table>
 </center>

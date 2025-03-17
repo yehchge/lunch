@@ -1,11 +1,11 @@
 <html>
-<head><title>«K·í©ú²ÓºûÅ@</title></head>
+<head><title>DinBenDonæ˜Žç´°ç¶­è­·</title></head>
 <style type="text/css">
 <!--
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -79,13 +79,13 @@ TD
 			  <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td class="Forums_Header" align="center">­×§ï</td>
-			  <td class="Forums_Header" align="center">§Ç¸¹</td>
-			  <td class="Forums_Header">°Ó«~¦WºÙ</td>
-			  <td class="Forums_Header" nowrap>«¬§O</td>
-			  <td class="Forums_Header">ª÷ÃB</td>
-			  <td class="Forums_Header" nowrap>»¡©ú</td>
-			  <td class="Forums_Header">ª¬ºA</td>
+			  <td class="Forums_Header" align="center">ä¿®æ”¹</td>
+			  <td class="Forums_Header" align="center">åºè™Ÿ</td>
+			  <td class="Forums_Header">å•†å“åç¨±</td>
+			  <td class="Forums_Header" nowrap>åž‹åˆ¥</td>
+			  <td class="Forums_Header">é‡‘é¡</td>
+			  <td class="Forums_Header" nowrap>èªªæ˜Ž</td>
+			  <td class="Forums_Header">ç‹€æ…‹</td>
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr Class="Forums_General">
@@ -102,7 +102,7 @@ TD
 			  <td colspan="9" align="center" bgcolor="#eeeeee" noswarp>{pageselect}</td>
 			</tr>
 			<tr>
-			  <td colspan="9" align="right"><a href="./ListStore.php">[ <img border="0" src="tpl/images/Cancel.gif"> ¨ú®ø ]</a></td>
+			  <td colspan="9" align="right"><a href="./ListStore.php">[ <img border="0" src="tpl/images/Cancel.gif"> å–æ¶ˆ ]</a></td>
 			</tr>
 		  </table>
 		</td>
@@ -114,10 +114,10 @@ TD
 	<input type=hidden name="pdsid" value="{id}">
 	<table border="0" cellspacing="2" cellpadding="2" width="80%" Class="Forums_General">
 	  <tr Class="Forums_General">
-	    <td class="Forums_Header" align="center">°Ó«~¦WºÙ</td>
-		<td class="Forums_Header" align="center">«¬§O</td>
-		<td class="Forums_Header" align="center">³æ»ù(¤¸)</td>
-		<td class="Forums_Header" align="center">»¡©ú</td>
+	    <td class="Forums_Header" align="center">å•†å“åç¨±</td>
+		<td class="Forums_Header" align="center">åž‹åˆ¥</td>
+		<td class="Forums_Header" align="center">å–®åƒ¹(å…ƒ)</td>
+		<td class="Forums_Header" align="center">èªªæ˜Ž</td>
 		<td class="Forums_Header">&nbsp;</td>
 	  </tr>
 	  <tr>
@@ -125,7 +125,7 @@ TD
 		<td bgcolor="#F5F5F5" align="center"><input type="text" name="pdstype" size="5"></td>
 		<td bgcolor="#F5F5F5" align="center"><input type="text" name="pdsprice" size="5" maxlength="4"></td>
 		<td bgcolor="#F5F5F5" align="center"><input type="text" name="pdsnote" size="28"></td>
-		<td bgcolor="#F5F5F5" align="center">[ <input type="image" src="tpl/images/OK.gif" name="sb"> ·s¼W«K·í°Ó«~ ]</td>
+		<td bgcolor="#F5F5F5" align="center">[ <input type="image" src="tpl/images/OK.gif" name="sb"> æ–°å¢žä¾¿ç•¶å•†å“ ]</td>
 	  </tr>
 	</table>
 	</form>

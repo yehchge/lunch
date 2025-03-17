@@ -1,12 +1,12 @@
 <html>
 <head>
-  <title>­q«K·í</title>
+  <title>DinBenDon</title>
 <style type="text/css">
 <!--
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -71,7 +71,7 @@ TD
 
 <script language='JavaScript'>
 <!--
-// ¨¾¤î¦^¦¹­¶
+// é˜²æ­¢å›žæ­¤é 
 history.forward();
 //-->
 </script>
@@ -88,15 +88,15 @@ history.forward();
 			  <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td class="Forums_Header" align="center">¤Ä¿ï</td>
-			  <td class="Forums_Header" align="center">¼Æ¶q</td>
-			  <td class="Forums_Header" align="center">³Æµù</td>
-			  <td class="Forums_Header" align="center">§Ç¸¹</td>
-			  <td class="Forums_Header" align="center">°Ó«~¦WºÙ</td>
-			  <td class="Forums_Header" align="center">«¬§O</td>
-			  <td class="Forums_Header" align="center">ª÷ÃB</td>
-			  <td class="Forums_Header" align="center">»¡©ú</td>
-			  <td class="Forums_Header" align="center">ª¬ºA</td>
+			  <td class="Forums_Header" align="center">å‹¾é¸</td>
+			  <td class="Forums_Header" align="center">æ•¸é‡</td>
+			  <td class="Forums_Header" align="center">å‚™è¨»</td>
+			  <td class="Forums_Header" align="center">åºè™Ÿ</td>
+			  <td class="Forums_Header" align="center">å•†å“åç¨±</td>
+			  <td class="Forums_Header" align="center">åž‹åˆ¥</td>
+			  <td class="Forums_Header" align="center">é‡‘é¡</td>
+			  <td class="Forums_Header" align="center">èªªæ˜Ž</td>
+			  <td class="Forums_Header" align="center">ç‹€æ…‹</td>
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr Class="Forums_General">
@@ -115,7 +115,7 @@ history.forward();
 			  <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{pageselect}</td>
 			</tr>
 			<tr>
-			  <td colspan="9" align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb"> ½T©w­qÁÊ ]&nbsp;[ <a href="./OrderStore.php"><img src="tpl/images/Cancel.gif" border=0></a> ¨ú®ø ] </td>
+			  <td colspan="9" align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb"> ç¢ºå®šè¨‚è³¼ ]&nbsp;[ <a href="./OrderStore.php"><img src="tpl/images/Cancel.gif" border=0></a> å–æ¶ˆ ] </td>
 			</tr>
 		  </table>
 		</td>

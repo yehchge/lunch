@@ -1,6 +1,6 @@
 <?php
 
-    header('Content-Type: text/html; charset=Big5');
+    header('Content-Type: text/html; charset=utf-8');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
@@ -11,7 +11,7 @@
   
 	$Lnh = new LnhLnhCfactory(); 
 
-   	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
+   	// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
@@ -20,7 +20,7 @@
 
 	$id = trim($_REQUEST['id']);
  
-	//²£¥Í¥»µ{¦¡¥\¯à¤º®e
+	//ç”¢ç”Ÿæœ¬ç¨‹å¼åŠŸèƒ½å…§å®¹
 	$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$tpl->define(array('apg6'=>"EditStore.tpl")); 
 	
@@ -47,11 +47,9 @@
 	$MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$MainTpl->define(array('apg'=>"LunchMain.tpl")); 
 	$MainTpl->assign("FUNCTION",$str);
-	$MainTpl->assign("LOCATION","©±®aºûÅ@/§ó·s©±®a");
+	$MainTpl->assign("LOCATION","åº—å®¶ç¶­è­·/æ›´æ–°åº—å®¶");
 	$MainTpl->parse('MAIN',"apg");
 	$MainTpl->FastPrint('MAIN');
   
-	// ¿ï¾ÜDropDownList³]©wª¬ºA«O¯d
+	// é¸æ“‡DropDownListè¨­å®šç‹€æ…‹ä¿ç•™
 	if (!empty($info['StoreClass'])) {echo "<script>seldroplisttext(this.frm.sclass,'".$info['StoreClass']."');</script>";}
-  
-?>

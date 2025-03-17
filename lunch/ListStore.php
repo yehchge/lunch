@@ -1,55 +1,57 @@
 <?php
 
-    header('Content-Type: text/html; charset=Big5');
-	error_reporting(E_ALL);
-	ini_set('display_errors', true);
+header('Content-Type: text/html; charset=utf-8');
+error_reporting(E_ALL);
+ini_set('display_errors', true);
 
-	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
-	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
-	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
+include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
 
-	$Lnh = new LnhLnhCfactory(); 
-  
-   	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
-	$Online = $Lnh->GetOnline();
-	if(!$Online[0]) {
-		header("Location:./Login.php");
-  		return;
-  	}
+$Lnh = new LnhLnhCfactory(); 
 
-	// ¤º­¶¥\¯à (FORM)
-	$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-	$tpl->define(array('TplBody'=>"ListStore.tpl"));
-	$tpl->define_dynamic("row","TplBody");
-  
-	//²£¥Í¥»µ{¦¡¥\¯à¤º®e
-	// Page Start ************************************************ 
-	include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
-	$page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
-	$Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
-	$Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-	$PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
-	$SysID = 1;
-  
-	if(!$page) $page=1; 
-	$maxRows = 10; 
-	$startRow = ($page-1)*$maxRows; 
-	$SysPag = new SysPagCfactory(); 
-	$SysPag->url=$_SERVER['PHP_SELF']."?1=1&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
-	$SysPag->page=$page; 
-	$SysPag->msg_total = $Lnh->GetAllStoreCount();
-	$SysPag->max_rows = $maxRows; 
-	$SysPag->max_pages= 10;
+// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
+$Online = $Lnh->GetOnline();
+if(!$Online[0]) {
+	header("Location:./Login.php");
+	return;
+}
 
-	$pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-	$pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-	$pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-	$pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-	$pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+// å…§é åŠŸèƒ½ (FORM)
+$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+$tpl->define(array('TplBody'=>"ListStore.tpl"));
+$tpl->define_dynamic("row","TplBody");
 
-	// Page Ended ************************************************ 
-	$rows = $Lnh->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
-  	$row = mysql_fetch_assoc($rows);
+//ç”¢ç”Ÿæœ¬ç¨‹å¼åŠŸèƒ½å…§å®¹
+// Page Start ************************************************ 
+include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
+$page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
+$Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
+$Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
+$PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
+$SysID = 1;
+
+if(!$page) $page=1; 
+$maxRows = 10; 
+$startRow = ($page-1)*$maxRows; 
+$SysPag = new SysPagCfactory(); 
+$SysPag->url=$_SERVER['PHP_SELF']."?1=1&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
+$SysPag->page=$page; 
+$SysPag->msg_total = $Lnh->GetAllStoreCount();
+$SysPag->max_rows = $maxRows; 
+$SysPag->max_pages= 10;
+
+$pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
+$pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
+$pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
+$pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
+$pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+
+// Page Ended ************************************************ 
+$rows = $Lnh->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
+
+$row = $Lnh->fetch_assoc($rows);
+// echo "<pre>";print_r($row);echo "</pre>";exit;
   	if ($row == NULL) {
   		$tpl->assign('editstoreid',"");
 		$tpl->assign('editdetails',"");
@@ -70,14 +72,14 @@
 				$i=0;
 			}
 			$tpl->assign('classname',$class);
-  			//$tpl->assign('editstoreid',"<a href='./EditStore.php?id=$row[RecordID]'>­×§ï</a>");
+  			//$tpl->assign('editstoreid',"<a href='./EditStore.php?id=$row[RecordID]'>ä¿®æ”¹</a>");
   			$tpl->assign('storeid',$row['RecordID']);
   			if ($row['Status']==1) {
-  				$tpl->assign('status',"¥¿±`");
-				$tpl->assign('editdetails',"<a href='./PdsDetails.php?id=".$row['RecordID']."'>·s¼WºûÅ@</a>");
+  				$tpl->assign('status',"æ­£å¸¸");
+				$tpl->assign('editdetails',"<a href='./PdsDetails.php?id=".$row['RecordID']."'>æ–°å¢žç¶­è­·</a>");
   			} else {
-  				$tpl->assign('status',"°±¥Î");
-				$tpl->assign('editdetails',"·s¼WºûÅ@");
+  				$tpl->assign('status',"åœç”¨");
+				$tpl->assign('editdetails',"æ–°å¢žç¶­è­·");
   			}
   			
             //$tpl->assign(storename,"<a target='_blank' href='./StoreDetail.php?id=$row[RecordID]'>$row[StoreName]</a>");
@@ -89,11 +91,11 @@
             $tpl->assign('editdate',date("Y-m-d",$row['EditDate']));
 			
             $tpl->parse('ROWS',".row");         
-			$row = mysql_fetch_assoc($rows);
+			$row = $Lnh->fetch_assoc($rows);
   		}
   	}
 
-	$tpl->assign('totalrows',"¦@ ".$Lnh->GetAllStoreCount()." µ§ "); //* Page *// 
+	$tpl->assign('totalrows',"å…± ".$Lnh->GetAllStoreCount()." ç­† "); //* Page *// 
 	$tpl->assign('pageselect',$pagestr); //* Page *// 
 	
 	$tpl->parse('BODY',"TplBody");
@@ -102,8 +104,6 @@
 	$MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$MainTpl->define(array('apg'=>"LunchMain.tpl")); 
 	$MainTpl->assign("FUNCTION",$str);
-	$MainTpl->assign("LOCATION","©±®aºûÅ@");
+	$MainTpl->assign("LOCATION","åº—å®¶ç¶­è­·");
 	$MainTpl->parse('MAIN',"apg");
 	$MainTpl->FastPrint('MAIN');
-
-?>

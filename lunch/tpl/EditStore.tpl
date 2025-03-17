@@ -1,13 +1,13 @@
 <html>
 <head>
-  <title>§ó·s«K·í©±®a</title>
+  <title>æ›´æ–°ä¾¿ç•¶åº—å®¶</title>
   
 <style type="text/css">
 <!--
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -73,14 +73,14 @@ TD
     <!--
              function check_form(obj) {
                 var err = '';
-                if(obj.name.value=="") {err +=" [©±¦W]";}
-                if(obj.intro.value=="") {err +=" [Â²¤¶]";}
-				if(obj.sclass.selectedIndex==0) {err +=" [©±®aÃþ§O]";}
-				if(obj.man.value=="") {err +=" [­t³d¤H]";}
-                if(obj.addr.value=="") {err +=" [¦a§}]";}
-                if(obj.tel.value=="") {err +=" [¹q¸Ü]";} 
-				if(obj.note.value=="") {err +=" [­qÁÊ»¡©ú]";} 
-                if(err) {alert("½Ð¥¿½T¿é¤J "+err+"");return false;} 
+                if(obj.name.value=="") {err +=" [åº—å]";}
+                if(obj.intro.value=="") {err +=" [ç°¡ä»‹]";}
+				if(obj.sclass.selectedIndex==0) {err +=" [åº—å®¶é¡žåˆ¥]";}
+				if(obj.man.value=="") {err +=" [è² è²¬äºº]";}
+                if(obj.addr.value=="") {err +=" [åœ°å€]";}
+                if(obj.tel.value=="") {err +=" [é›»è©±]";} 
+				if(obj.note.value=="") {err +=" [è¨‚è³¼èªªæ˜Ž]";} 
+                if(err) {alert("è«‹æ­£ç¢ºè¼¸å…¥ "+err+"");return false;} 
                 return ture;
              }
 			 
@@ -119,48 +119,48 @@ function seldroplisttext(form,str)
 <br>
 <table Class="Forums_General" Width="80%">
   <tr Class="Forums_Header">
-    <td colspan=2><font color="#FFFFFF">&nbsp;§ó·s©±®a</font></td>
+    <td colspan=2><font color="#FFFFFF">&nbsp;æ›´æ–°åº—å®¶</font></td>
   </tr>
   <tr>
-    <td>©±¦W¡G</td>
+    <td>åº—åï¼š</td>
 	<td Class="TextBox"><input type=text name="sname" value="{sname}" maxLength=90 size=30></td>
   </tr> 
   <tr> 
-    <td>Â²¤¶¡G</td>
+    <td>ç°¡ä»‹ï¼š</td>
 	<td Class="TextBox"><input type=text name="intro" value="{intro}" maxLength=30 size=30></td>
   </tr> 
   <tr>
-    <td>©±®aÃþ§O¡G</td>
+    <td>åº—å®¶é¡žåˆ¥ï¼š</td>
 	<td Class="TextBox"><select name="sclass">
-					<option value="0">½Ð¿ï¾Ü
-					<option value="«K·í">«K·í
-					<option value="³t­¹">³t­¹
-					<option value="¶¼®Æ">¶¼®Æ
+					<option value="0">è«‹é¸æ“‡
+					<option value="ä¾¿ç•¶">ä¾¿ç•¶
+					<option value="é€Ÿé£Ÿ">é€Ÿé£Ÿ
+					<option value="é£²æ–™">é£²æ–™
 				   </select>
 	</td>
   </tr>
   <tr>
-    <td>­t³d¤H¡G</td>
-	<td Class="TextBox"><input name="man" value="{man}" type="text" size="30" maxlength="10"><font color=red>(Ex:¦ÑÁó)</font></td>
+    <td>è² è²¬äººï¼š</td>
+	<td Class="TextBox"><input name="man" value="{man}" type="text" size="30" maxlength="10"><font color=red>(Ex:è€é—†)</font></td>
   </tr>
   <tr> 
-    <td>¦a§}¡G</td>
+    <td>åœ°å€ï¼š</td>
 	<td Class="TextBox"><input name="addr" value="{addr}" type="text" size="50" maxlength="50"></td>
   </tr>
   <tr> 
-    <td>¹q¸Ü¡G</td>
+    <td>é›»è©±ï¼š</td>
 	<td Class="TextBox"><input type=text name="tel" value="{tel}" maxLength=30 size=30></td>
   </tr> 
   <tr> 
-    <td>­qÁÊ»¡©ú¡G</td>
+    <td>è¨‚è³¼èªªæ˜Žï¼š</td>
 	<td Class="TextBox"><input type=text name="note" value="{note}" maxLength=10 size=30></td>
   </tr>
   <tr>
-    <td>ª¬ºA¡G</td>
-	<td Class="TextBox"><input type=checkbox name="status" {status}>°±¥Î</td>
+    <td>ç‹€æ…‹ï¼š</td>
+	<td Class="TextBox"><input type=checkbox name="status" {status}>åœç”¨</td>
   </tr>
   <tr>
-    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> ½T©w ]&nbsp;[ <a href="/lunch/ListStore.php"><img src="tpl/images/Cancel.gif" border=0></a> ¨ú®ø ] </td>
+    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> ç¢ºå®š ]&nbsp;[ <a href="/lunch/ListStore.php"><img src="tpl/images/Cancel.gif" border=0></a> å–æ¶ˆ ] </td>
   </tr>
 </table>
 </form>

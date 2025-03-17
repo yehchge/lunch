@@ -1,6 +1,6 @@
 <?php
 
-    header('Content-Type: text/html; charset=Big5');
+    header('Content-Type: text/html; charset=utf-8');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
 	
@@ -10,7 +10,7 @@
   
 	$Lnh = new LnhLnhCfactory();
 
-  	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
+  	// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
@@ -20,17 +20,15 @@
 	$StoreID = trim($_REQUEST["id"]);
 	$Url = trim($_REQUEST["Url"]);
 
-	if ($Lnh->CreateManager($StoreID,$Online['Account'],'»¡©ú:¨t²Î«ü©w')) {
+	if ($Lnh->CreateManager($StoreID,$Online['Account'],'èªªæ˜:ç³»çµ±æŒ‡å®š')) {
 		echo "<script>\r\n";
-		echo "alert('«ü©w«K·í°Ó®a¦¨¥\!');\r\n";
+		echo "alert('æŒ‡å®šä¾¿ç•¶å•†å®¶æˆåŠŸ!');\r\n";
 		echo "location='$Url';\r\n";
 		echo "</script>\r\n";
 	} else {
 		echo "<script>\r\n";
-		echo "alert('«ü©w«K·í°Ó®a¥¢±Ñ!');\r\n";
+		echo "alert('æŒ‡å®šä¾¿ç•¶å•†å®¶å¤±æ•—!');\r\n";
 		echo "history.back();\r\n";
 		echo "</script>\r\n";
 	}
-	//echo "<a href='$Url'>¦^«K·í©ú²ÓºûÅ@</a>";
-
-?>
+	//echo "<a href='$Url'>å›ä¾¿ç•¶æ˜ç´°ç¶­è­·</a>";

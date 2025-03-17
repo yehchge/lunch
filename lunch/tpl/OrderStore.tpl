@@ -1,5 +1,5 @@
 <html>
-<head><title>╜q╚K╥М(╚Э╘w╘╠╝a)</title></head>
+<head><title>DinBenDon(Ф▄┤Е╝ Е╨≈Е╝╤)</title></head>
 
 <SCRIPT language="JavaScript" type="text/JavaScript">
 <!--
@@ -17,7 +17,7 @@ function ShowPdsInfo(sid) {
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -90,13 +90,13 @@ TD
 			  <td colspan="7" align="center" bgcolor=#eeeeee>{totalrows}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td class="Forums_Header" align="center">╖г╦╧</td>
-			  <td class="Forums_Header" align="center">╚Э╘w╓И╢а</td>
-			  <td class="Forums_Header" align="center">╜tЁd╓H</td>
-			  <td class="Forums_Header" align="center">╘╠╝a</td>
-			  <td class="Forums_Header" align="center">╘З╡с</td>
-			  <td class="Forums_Header" align="center">╙╛╨A</td>
-			  <td class="Forums_Header" align="center">╜qайGO</td>
+			  <td class="Forums_Header" align="center">Е╨▐Х≥÷</td>
+			  <td class="Forums_Header" align="center">Ф▄┤Е╝ Ф≈╔Ф°÷</td>
+			  <td class="Forums_Header" align="center">Х╡═Х╡╛Д╨╨</td>
+			  <td class="Forums_Header" align="center">Е╨≈Е╝╤</td>
+			  <td class="Forums_Header" align="center">Ф≤▌Г╢╟</td>
+			  <td class="Forums_Header" align="center">Г▀─Ф┘▀</td>
+			  <td class="Forums_Header" align="center">Х╗┌ХЁ╪GO</td>
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr>

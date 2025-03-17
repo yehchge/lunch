@@ -1,6 +1,6 @@
 <?php
 
-    header('Content-Type: text/html; charset=Big5');
+    header('Content-Type: text/html; charset=utf-8');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
@@ -11,7 +11,7 @@
   
 	$Lnh = new LnhLnhCfactory();
 
-  	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
+  	// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
@@ -23,22 +23,20 @@
 	$ManagerID = trim($_POST["managerid"]);
 	//echo $Status;exit();
   
-	//²£¥Í¥»µ{¦¡¥\¯à¤º®e
+	//ç”¢ç”Ÿæœ¬ç¨‹å¼åŠŸèƒ½å…§å®¹
 	if ($Lnh->UpdateOrderStatusByRecordID($RecordID,$Status,$Online['Account'])) {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('§ó·sª¬ºA¦¨¥\!');\r\n";
+		echo "alert('æ›´æ–°ç‹€æ…‹æˆåŠŸ!');\r\n";
 		echo "location='./OrderDetails.php?mid=$ManagerID';\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	} else {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('§ó·sª¬ºA¥¢±Ñ!');\r\n";
+		echo "alert('æ›´æ–°ç‹€æ…‹å¤±æ•—!');\r\n";
 		echo "history.back();\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
 	}	
-	//echo "<a href='./OrderDetails.php?mid=$ManagerID'>¦^«ü©w©±®aºŞ²z¦Cªí</a>";
-  
-?>
+	//echo "<a href='./OrderDetails.php?mid=$ManagerID'>å›æŒ‡å®šåº—å®¶ç®¡ç†åˆ—è¡¨</a>";

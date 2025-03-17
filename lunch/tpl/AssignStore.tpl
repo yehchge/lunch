@@ -1,5 +1,5 @@
 <html>
-<head><title>«ü©w©±®a</title></head>
+<head><title>æŒ‡å®šåº—å®¶</title></head>
 
 <SCRIPT language="JavaScript" type="text/JavaScript">
 <!--
@@ -17,7 +17,7 @@ function ShowPdsInfo(sid) {
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -90,14 +90,14 @@ TD
 			  <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td class="Forums_Header" align="center">«ü©w©±®a</td>
-			  <td class="Forums_Header" align="center">«K·í</td>
-			  <td class="Forums_Header" align="center">§Ç¸¹</td>
-			  <td class="Forums_Header" align="center">©±¦W</td>
-			  <td class="Forums_Header" align="center">¹q¸Ü</td>
-			  <td class="Forums_Header" align="center">­t³d¤H</td>
-			  <td class="Forums_Header" align="center">³Ì«á­×§ï¤é</td>
-			  <td class="Forums_Header" align="center">ª¬ºA</td>
+			  <td class="Forums_Header" align="center">æŒ‡å®šåº—å®¶</td>
+			  <td class="Forums_Header" align="center">ä¾¿ç•¶</td>
+			  <td class="Forums_Header" align="center">åºè™Ÿ</td>
+			  <td class="Forums_Header" align="center">åº—å</td>
+			  <td class="Forums_Header" align="center">é›»è©±</td>
+			  <td class="Forums_Header" align="center">è² è²¬äºº</td>
+			  <td class="Forums_Header" align="center">æœ€å¾Œä¿®æ”¹æ—¥</td>
+			  <td class="Forums_Header" align="center">ç‹€æ…‹</td>
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr>
@@ -118,7 +118,7 @@ TD
 		</td>
 	  </tr>
 	</table>
-	<!-- <input type=button onClick="location='./index.php';" value="¦^¤W¤@¨B"> -->
+	<!-- <input type=button onClick="location='./index.php';" value="å›žä¸Šä¸€æ­¥"> -->
 	</form>
 	</center>
 </body>

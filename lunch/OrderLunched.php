@@ -1,87 +1,87 @@
 <?php
-	
-    header('Content-Type: text/html; charset=Big5');
-	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
-	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
-	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
-	//include_once PATH_ROOT."/ums/lib/UmsUmsCfactory.php";
-	
-	$Lnh = new LnhLnhCfactory();
-	//$Ums = new UmsUmsCfactory();
-	
-   	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
-	$Online = $Lnh->GetOnline();
-	if(!$Online[0]) {
-		header("Location:./Login.php");
-  		return;
-  	}
-	
-	// ¤º­¶¥\¯à (FORM)
-	$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-	$tpl->define(array('TplBody'=>"OrderLunched.tpl"));
-	$tpl->define_dynamic("row","TplBody");
-	
-	//$UserInfo = $Ums->GetUserInfoByAccount($Online['Account']);
-	$UserInfo['name'] = 'John';
-	$chkid = isset($_POST["chk"])?$_POST["chk"]:0;
-	$ManagerID = $_POST["mid"];
-	
-	//CheckBox §ì­È
-	$i=0;
-	$str = "±z©Ò­qÁÊªº«K·í©ú²Ó¦p¤U¡G<br>";
-	$str .= "========================<br>";
-	if (!$chkid) {
-		$tpl->clear_dynamic("row");
-		$tpl->parse('ROWS',".row"); 	
-	} else {
-		foreach ($chkid as $key => $value) {
-			if ($i==0) {
-				$class = "Forums_Item";
-				$i=1;
-			} else {
-				$class = "Forums_AlternatingItem";
-				$i=0;
-			}
-			$tpl->assign('classname',$class);
-			$PdsID = $value;
-			$Count = trim($_POST["cnt".$value]);
-			$Note = trim($_POST["note".$value]);
-			$info = $Lnh->GetPdsDetailsByRecordID($PdsID);
-			$PdsName = $info['PdsName'];
-			$Price = $info['Price'];
-			// ¼g¤J­q³æ¤¤
-			$ret = $Lnh->CreateOrder($ManagerID,$UserInfo['name'],$PdsID,$PdsName,$Price,$Count,$Note,$Online['Account']);
-			if ($ret) {
-				$strret = "­qÁÊ¦¨¥\!";
-			} else {
-				$strret = "¥¢±Ñ!";
-			}
-			//$str .= "«K·í:$PdsName, ³æ»ù:$Price, ¼Æ¶q:$Count,³Æµù:$Note, $strret<br>";
-			$tpl->assign('pdsname',$PdsName);
-			$tpl->assign('price',$Price);
-			$tpl->assign('count',$Count);
-			$tpl->assign('note',$Note);
-			
-			$tpl->parse('ROWS',".row"); 		
-		}
-	}
-	
-	if ($i==0) {
-		$class = "Forums_Item";
-		$i=1;
-	} else {
-		$class = "Forums_AlternatingItem";
-		$i=0;
-	}
-	$tpl->assign('classname1',$class);
-	
-	$tpl->parse('BODY',"TplBody");
-	$str = $tpl->fetch('BODY');
-	$MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-	$MainTpl->define(array('apg'=>"LunchMain.tpl")); 
-	$MainTpl->assign("FUNCTION",$str); 
-	$MainTpl->assign("LOCATION","­q«K·í/­qÁÊGO/­qÁÊ«K·íµ²ªG"); 
-	$MainTpl->parse('MAIN',"apg");
-	$MainTpl->FastPrint('MAIN');
 
-?>
+header('Content-Type: text/html; charset=utf-8');
+defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
+include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+//include_once PATH_ROOT."/ums/lib/UmsUmsCfactory.php";
+
+$Lnh = new LnhLnhCfactory();
+//$Ums = new UmsUmsCfactory();
+
+    // æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
+$Online = $Lnh->GetOnline();
+if(!$Online[0]) {
+    header("Location:./Login.php");
+    return;
+}
+
+// å…§é åŠŸèƒ½ (FORM)
+$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+$tpl->define(array('TplBody'=>"OrderLunched.tpl"));
+$tpl->define_dynamic("row","TplBody");
+
+//$UserInfo = $Ums->GetUserInfoByAccount($Online['Account']);
+$UserInfo['name'] = 'John';
+$chkid = isset($_POST["chk"])?$_POST["chk"]:0;
+$ManagerID = $_POST["mid"];
+
+//CheckBox æŠ“å€¼
+$i=0;
+$str = "æ‚¨æ‰€è¨‚è³¼çš„ä¾¿ç•¶æ˜ç´°å¦‚ä¸‹ï¼š<br>";
+$str .= "========================<br>";
+if (!$chkid) {
+    $str .= "æ‚¨æœªå‹¾é¸!!<br>";
+    $tpl->clear_dynamic("row");
+    $tpl->parse('ROWS',".row");     
+} else {
+    foreach ($chkid as $key => $value) {
+        if ($i==0) {
+            $class = "Forums_Item";
+            $i=1;
+        } else {
+            $class = "Forums_AlternatingItem";
+            $i=0;
+        }
+        $tpl->assign('classname',$class);
+        $PdsID = $value;
+        $Count = trim($_POST["cnt".$value]);
+        $Note = trim($_POST["note".$value]);
+        $info = $Lnh->GetPdsDetailsByRecordID($PdsID);
+        $PdsName = $info['PdsName'];
+        $Price = $info['Price'];
+        // å¯«å…¥è¨‚å–®ä¸­
+        $ret = $Lnh->CreateOrder($ManagerID,$UserInfo['name'],$PdsID,$PdsName,$Price,$Count,$Note,$Online['Account']);
+        if ($ret) {
+            $strret = "è¨‚è³¼æˆåŠŸ!";
+        } else {
+            $strret = "å¤±æ•—!";
+        }
+        $str .= "ä¾¿ç•¶:$PdsName, å–®åƒ¹:$Price, æ•¸é‡:$Count,å‚™è¨»:$Note, $strret<br>";
+        $tpl->assign('pdsname',$PdsName);
+        $tpl->assign('price',$Price);
+        $tpl->assign('count',$Count);
+        $tpl->assign('note',$Note);
+        
+        $tpl->parse('ROWS',".row");         
+    }
+}
+
+echo "str =  $str<br>";
+if ($i==0) {
+    $class = "Forums_Item";
+    $i=1;
+} else {
+    $class = "Forums_AlternatingItem";
+    $i=0;
+}
+$tpl->assign('classname1',$class);
+
+$tpl->parse('BODY',"TplBody");
+$str = $tpl->fetch('BODY');
+$MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+$MainTpl->define(array('apg'=>"LunchMain.tpl")); 
+$MainTpl->assign("FUNCTION",$str); 
+$MainTpl->assign("LOCATION","DinBenDon/è¨‚è³¼GO/è¨‚è³¼ä¾¿ç•¶çµæœ"); 
+$MainTpl->parse('MAIN',"apg");
+$MainTpl->FastPrint('MAIN');

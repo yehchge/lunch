@@ -1,1000 +1,687 @@
 <?php
 
-//echo "¨t²Î§ó·sºûÅ@,½Ðµy«á!!";
-//exit();
-/****c gphplib/SysRdbCconnection 
-*   NAME
-*      SysRdbCconnection
-*   COPYRIGHT
-*      @Com. Internet Marketing Co., Ltd.
-*   FUNCTION
-*      ³s±µ¸ê®Æ®w¤§¤÷Ãþ§O
-*   AUTHOR
-*   HISTORY
-*      12/23/2003		1.0	creater
-****
-*/
+// echo "ç³»çµ±æ›´æ–°ç¶­è­·,è«‹ç¨å¾Œ!!"; exit();
+
 class SysRdbCconnection {
 
-	var $ConnStr;
-	var $ConnDb;
-	var $ConnUid;
-	var $ConnPwd;
-	var $ConnPort;
-	var $ConnHost;
-	var $ConnID;
-	var $DbType;
-	var $Status;
-	var $conn;
-	var $ErrorCode;
-	var $MY_SQL_SERVER=1;
-	var $OR_SQL_SERVER=2;
-	var $ORA_SQL_SERVER=3;
-	var $MS_SQL_SERVER=4;
-	var $ErrorString;      
-	var $Rows;
+    var $ConnStr;
+    var $ConnDb;
+    var $ConnUid;
+    var $ConnPwd;
+    var $ConnPort;
+    var $ConnHost;
+    var $ConnID;
+    var $DbType;
+    var $Status;
+    var $conn;
+    var $ErrorCode;
+    var $MY_SQL_SERVER=1;
+    var $OR_SQL_SERVER=2;
+    var $ORA_SQL_SERVER=3;
+    var $MS_SQL_SERVER=4;
+    var $ErrorString;      
+    var $Rows;
+    var $SqlStm;
 
-	/****m gphplib/SysRdbCconnection->SysRdbCconnection
-	*   NAME
-	*      SysRdbCconnection
-	*   SYNOPSIS
-	*      null SysRdbCconnection ($arg1,$arg2,$arg3,$arg4,$arg5,$arg6,$arg7)
-	*   FUNCTION
-	*      «Øºc¤l
-	*   INPUTS
-	*      $arg1: Connect String(for xDBC)
-	*      $arg2: Database(¨Ï¥Î­þ­Ó¸ê®Æ®w)
-	*      $arg3: Uid(¨Ï¥ÎªÌ)
-	*      $arg4: Pwd(±K½X)
-	*      $arg5: Port(tcp/ip port)
-	*      $arg6: Host(¥D¾÷¦WºÙ,database server)
-	*      $arg7: Db Type(¨Ï¥Î­þºØdatabase server)
-	*   AUTHOR
-	****
-	*/
-	function SysRdbCconnection($arg1=NULL,$arg2=NULL,$arg3=NULL,$arg4=NULL,$arg5=NULL,$arg6=NULL,$arg7=NULL){
-		$this->ConnStr=$arg1;
-		$this->ConnDb=$arg2;
-		$this->ConnUid=$arg3;
-		$this->ConnPwd=$arg4;
-		$this->ConnPort=$arg5;
-		$this->ConnHost=$arg6;
-		if($arg7==NULL)
-			$this->DbType=$this->MY_SQL_SERVER;
-		else
-			$this->DbType=$arg7;
-		$this->Status=0;
-		$this->ErrorCode=1;
-		$this->ErrorString="§Úªº¤Ñ°Ú!!";
-		$this->Rows=20;
-	}
-
-	/****m gphplib/SysRdbCconnection->isConnected
-	*   NAME
-	*      isConnected
-	*   SYNOPSIS
-	*      int isConnected ()
-	*   FUNCTION
-	*	¬O§_¤w³sµ²¸ê®Æ®w
-	*   OUTPUT
-	*      int	0: not connect   1: connected
-	*   AUTHOR
-	****
-	*/
-	function isConnected(){
-		return $this->Status;
-	}
-
-	/****m gphplib/SysRdbCconnection->setConnStr
-	*   NAME
-	*      setConnStr
-	*   SYNOPSIS
-	*      int setConnStr ($argConnStr)
-	*   FUNCTION
-	*      ³]©w³sµ²¦r¦ê(xDBC)
-	*   INPUTS
-	*      $argConnStr: ³sµ²¦r¦ê
-	*   OUTPUT
-	*      int	0: Fail	1: Success
-	*   AUTHOR
-	****
-	*/
-	function setConnStr($argConnStr){
-		if($this->Status==0){
-			$this->ConnStr=$argConnStr;
-			return 1;
-		} else return 0;             
-	}
-
-	/****m gphplib/SysRdbCconnection->getConnStr
-	*   NAME
-	*      getConnStr
-	*   SYNOPSIS
-	*      String getConnStr()
-	*   FUNCTION
-	*      ±o¨ì³sµ²¦r¦ê(xDBC)
-	*   OUTPUT
-	*      ³sµ²¦r¦ê
-	*   AUTHOR
-	****
-	*/
-	function getConnStr(){
-		return $this->ConnStr;
-	}
-
-	/****m gphplib/SysRdbCconnection->setConnDb
-	*   NAME
-	*      setConnDb
-	*   SYNOPSIS
-	*      int setConnDb($argConnDb)
-	*   FUNCTION
-	*      ³]©w³sµ²¤§¸ê®Æ®w¦WºÙ
-	*   INPUTS
-	*      $argConnDb: ³sµ²¤§¸ê®Æ®w¦WºÙ
-	*   OUTPUT
-	*      0: Fail        
-	*       1: Success
-	*   AUTHOR
-	****
-	*/
-	function setConnDb($argConnDb){
-		if($this->Status==0){
-			$this->ConnDb=$argConnDb;
-			return 1;
-		} else return 0;
-	}
-
-	/****m gphplib/SysRdbCconnection->getConnDb
-	*   NAME
-	*      getConnDb
-	*   SYNOPSIS
-	*      String getConnDb()
-	*   FUNCTION
-	*      ±o¨ì³sµ²¤§¸ê®Æ®w¦WºÙ
-	*   OUTPUT
-	*      ³sµ²¤§¸ê®Æ®w¦WºÙ 
-	*   AUTHOR
-	****
-	*/
-	function getConnDb(){
-		return $this->ConnDb;
-	}
-
-	/****m gphplib/SysRdbCconnection->setConnUid
-	*   NAME
-	*      setConnUid
-	*   SYNOPSIS
-	*      int setConnUid($argConnUid)
-	*   FUNCTION
-	*      ³]©wµn¤J¸ê®Æ®w¤§¨Ï¥ÎªÌ
-	*   INPUTS
-	*      $argConnUid: ³sµ²¨Ï¥ÎªÌ
-	*   OUTPUT
-	*      0: Fail        
-	*      1: Success
-	*   AUTHOR
-	****
-	*/
-	function setConnUid($argConnUid){
-		if($this->Status==0){
-			$this->ConnUid=$argConnUid;
-			return 1;
-		} else return 0;
-	}
-
-	/****m gphplib/SysRdbCconnection->getConnUid
-	*   NAME
-	*      getConnUid
-	*   SYNOPSIS
-	*      String getConnUid()
-	*   FUNCTION
-	*      ±o¨ì¨Ï¥ÎªÌ¦WºÙ
-	*   OUTPUT
-	*      ¨Ï¥ÎªÌ¥N¸¹
-	*   AUTHOR
-	****
-	*/
-	function getConnUid(){
-		return $this->ConnUid;
-	}
-
-	/****m gphplib/SysRdbCconnection->setConnPwd
-	*   NAME
-	*      setConnPwd
-	*   SYNOPSIS
-	*      int setConnPwd($argConnPwd)
-	*   FUNCTION
-	*      ³]©wµn¤J¸ê®Æ®w(³sµ²)¤§±K½X 
-	*   INPUTS
-	*      $argConnPwd: ³sµ²¤§±K½X
-	*   OUTPUT
-	*      0: Fail        
-	*      1: Success
-	*   AUTHOR
-	****
-	*/
-	function setConnPwd($argConnPwd){
-		if($this->Status==0){
-			$this->ConnPwd=$argConnPwd;
-			return 1;
-		} else return 0;
-	}
-
-	/****m gphplib/SysRdbCconnection->getConnPwd
-	*   NAME
-	*      getConnPwd
-	*   SYNOPSIS
-	*      String getConnPwd
-	*   FUNCTION
-	*      ±o¨ì³]©w³sµ²¤§±K½X
-	*   OUTPUT
-	*      ³]©w³sµ²¤§±K½X
-	*   AUTHOR
-	****
-	*/
-	function getConnPwd(){
-		return $this->ConnPwd;
-	}
-
-	/****m gphplib/SysRdbCconnection->setConnPort
-	*   SYNOPSIS
-	*      int setConnPort($argConnPort)
-	*   NAME
-	*      setConnPort
-	*   FUNCTION
-	*      ³]©w³sµ²Port #
-	*   INPUTS
-	*      $argConnPort: ³sµ²¤§Port Num
-	*   OUTPUT
-	*      0: Fail       
-	*      1: Success
-	*   AUTHOR
-	**** 
-	*/
-	function setConnPort($argConnPort){
-		if($this->Status==0){
-			$this->ConnPort=$argConnPort;
-			return 1;
-		} else return 0;
-	}
+    function __construct($arg1=NULL,$arg2=NULL,$arg3=NULL,$arg4=NULL,$arg5=NULL,$arg6=NULL,$arg7=NULL){
+        $this->ConnStr=$arg1;
+        $this->ConnDb=$arg2;
+        $this->ConnUid=$arg3;
+        $this->ConnPwd=$arg4;
+        $this->ConnPort=$arg5;
+        $this->ConnHost=$arg6;
+        if($arg7==NULL)
+            $this->DbType=$this->MY_SQL_SERVER;
+        else
+            $this->DbType=$arg7;
+        $this->Status=0;
+        $this->ErrorCode=1;
+        $this->ErrorString="æˆ‘çš„å¤©å•Š!!";
+        $this->Rows=20;
+    }
 
 
-	/****m gphplib/SysRdbCconnection->getConnPort
-	*   SYNOPSIS
-	*      String getConnPort()
-	*   NAME
-	*      getConnPort
-	*   FUNCTION
-	*      ±o¨ì³]©w³sµ²Port Num
-	*   OUTPUT
-	*      ³]©w³sµ²Port Num
-	*   AUTHOR
-	****
-	*/
-	function getConnPort(){
-		return $this->ConnPort;
-	}
+    function isConnected(){
+        return $this->Status;
+    }
 
-	/****m gphplib/SysRdbCconnection->setConnHost
-	*   SYNOPSIS
-	*      int setConnHost($argConnHost)
-	*   NAME
-	*      setConnHost
-	*   FUNCTION
-	*      ³]©w³sµ²¤§¥D¾÷/¸ê®Æ®w¦WºÙ
-	*   INPUTS
-	*      $argConnHost¡G¥D¾÷/¸ê®Æ®w¦WºÙ ? *   OUTPUT
-	*      0: Fail       
-	*      1: Success
-	*   AUTHOR
-	****
-	*/
-	function setConnHost($argConnHost){
-		if($this->Status==0){
-			$this->ConnHost=$argConnHost;
-			return 1;
-		} else return 0;
-	}
 
-	/****m gphplib/SysRdbCconnection->getConnDb
-	*   NAME
-	*      getConnDb
-	*   SYNOPSIS
-	*      String getConnHost()
-	*   FUNCTION
-	*      ±o¨ì³sµ²¤§¥D¾÷/¸ê®Æ®w¦WºÙ
-	*   OUTPUT
-	*      ³sµ²¤§¥D¾÷/¸ê®Æ®w¦WºÙ
-	*   AUTHOR
-	****
-	*/
-	function getConnHost(){
-		return $this->ConnHost;
-	}
-
-	/****m gphplib/SysRdbCconnection->setDbType
-	*   NAME
-	*      setDbType
-	*   SYNOPSIS
-	*      int setDbType($argDbType)
-	*   FUNCTION
-	*      ³]©w¸ê®Æ®wºØÃþ(mysql , oracle ...)
-	*   INPUTS
-	*      $argDbType: ³]©w¸ê®Æ®wºØÃþ
-	*   OUTPUT
-	*      0: Fail        
-	*      1: Success
-	*   AUTHOR
-	****
-	*/
-	function setDbType($argDbType){
-		if($this->Status==0){
-			$this->DbType=$argDbType;
+    function setConnStr($argConnStr){
+        if($this->Status==0){
+            $this->ConnStr=$argConnStr;
             return 1;
-		} else return 0;
-	}
+        } else return 0;             
+    }
 
-	/****m gphplib/SysRdbCconnection->getDbType
-	*   NAME
-	*      getDbType
-	*   SYNOPSIS
-	*      String getDbType()
-	*   FUNCTION
-	*      ±o¨ì³]©w¸ê®Æ®wºØÃþ
-	*   OUTPUT
-	*      ³]©w¸ê®Æ®wºØÃþ
-	*   AUTHOR
-	****
-	*/
-	function getDbType(){
-		return $this->DbType;
-	}
 
-	/****m gphplib/SysRdbCconnection->activate
-	*   NAME
-	*      activate(virtual function)
-	*   SYNPOSIS
-	*      int activate()
-	*   FUNCTION
-	*      ³sµ²¸ê®Æ®w
-	*   OUTPUT
-	*      0:fail 
-	*      1:success
-	*   AUTHOR
-	****
-	*/
-	function activate(){
-		if($this->DbType==$this->MY_SQL_SERVER){
-			$temp=mysql_pconnect($this->ConnHost,$this->ConnUid,$this->ConnPwd);
-			if($temp>0){
-				$this->Status=1;
-				$this->ConnID=$temp;
-			} else {
-				$this->Status=0;
-				header("http/1.0 404 Not Found"); 
-			}
-		}
-		if($this->DbType==$this->OR_SQL_SERVER){
-			$this->conn = OCILogon($this->ConnUid,$this->ConnPwd,$this->ConnDb);
-			$this->Status=1;
-		}
-		if($this->DbType==$this->MS_SQL_SERVER){
-			$temp=mssql_connect($this->ConnHost,$this->ConnUid,$this->ConnPwd);
-			if($temp>0){
-				$this->Status=1;
-				$this->ConnID=$temp;
-			} else {
-				$this->Status=0;
-				header("http/1.0 404 Not Found"); 
-			}
-		}
-		return $this->Status;
-	}
+    function getConnStr(){
+        return $this->ConnStr;
+    }
 
-	/****m gphplib/SysRdbCconnection->SqlPageSelect
-	*   NAME
-	*      SqlPageSelect
-	*   SYNOPSIS
-	*      ResultSet SqlPageSelect($argDb,$argTable,$argField,$argCondition,$argRowsBegin,$argRows)
-	*   FUNCTION
-	*     ¬d¸ß
-	*   INPUTS
-	*     $argDb:¸ê®Æ®w
-	*     $argTable: Table
-	*     $argField: Äæ¦ì
-	*     $argCondition: Where ¤l¥y
-	*     $argRowsBegin: ²Ä´Xµ§¶}©l
-	*     $argRows: ¦@§ì´Xµ§¥X¨Ó
-	*   OUTPUT
-	*      Ret['TOTAL_ROWS']: ¦@¦³¦h¤Öµ§ (¥u¦³$argRowsBegin==NULL¤~¦³¦¹­È)
-	*      Ret[$i]['DATA']: Result set,$i=total data fetched
-	*      Ret['ROWS']: ¦@§ì¤F¦h¤Öµ§
-	*   AUTHOR
-	****
-	*/
-	function SqlPageSelect($argDb,$argTable,$argField,$argCondition,$argRowsBegin=NULL,$argRows=NULL) {
-		if ($argRows) $this->Rows=$argRows;
-		if (!$argRowsBegin) $argRowsBegin=0;          
-		if ($argCondition!=NULL) {
-			//if(!$argRowsBegin)
-			$this->SqlStm="select count(*) from $argTable where $argCondition";            
-			//$this->SqlStm="select $argField from $argTable where $argCondition";
-		} else {
-			//  if(!$argRowsBegin)
-			$this->SqlStm="select count(*) from $argTable";
-			//$this->SqlStm="select $argField from $argTable";
-		}
 
-		// ¨Ï¥Îmysql
-		if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1) {
-			if (!mysql_select_db($argDb, $this->ConnID)) {
-				echo '1:Could not use '.$argDb.' : '.mysql_error();
-				exit;
-			}
-			$Result = mysql_query($this->SqlStm, $this->ConnID);
-			//$Result=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
-			$ResultTotal=0;
-			while ($temp[$ResultTotal]=$this->fetch_array($Result)) $ResultTotal++;
-			if($ResultTotal!=1){
-				$Ret['TOTAL_ROWS']=$ResultTotal;
-			} else {
-				$Ret['TOTAL_ROWS']=$temp[0][0];
-			}
+    function setConnDb($argConnDb){
+        if($this->Status==0){
+            $this->ConnDb=$argConnDb;
+            return 1;
+        } else return 0;
+    }
 
-			if($argCondition)
-				$this->SqlStm="select $argField from $argTable where $argCondition limit $argRowsBegin,".$this->Rows;
-			else
-				$this->SqlStm="select $argField from $argTable limit 0,".$this->Rows;
 
-			// $Ret['DATA']=mysql_db_query($argDb,$this->SqlStm);
-			if (!mysql_select_db($argDb, $this->ConnID)) {
-				echo '1:Could not use '.$argDb.' : '.mysql_error();
-				exit;
-			}
-			$temp = mysql_query($this->SqlStm, $this->ConnID);
-			//$temp=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
-			if(!$temp){
-				$this->ErrorCode=0;
-				$this->ErrorString=mysql_error();
-				return 0;
-			} else {
-				$i=0;
-				while($Row=$this->fetch_array($temp)){
-					$Ret[$i]['DATA']=$Row;
-					$i++;
-				}
-				$Ret['ROWS']=$i;
-				return $Ret;
-			}
-		}
-		
-		if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
+    function getConnDb(){
+        return $this->ConnDb;
+    }
+
+    function setConnUid($argConnUid){
+        if($this->Status==0){
+            $this->ConnUid=$argConnUid;
+            return 1;
+        } else return 0;
+    }
+
+
+    function getConnUid(){
+        return $this->ConnUid;
+    }
+
+
+    function setConnPwd($argConnPwd){
+        if($this->Status==0){
+            $this->ConnPwd=$argConnPwd;
+            return 1;
+        } else return 0;
+    }
+
+    function getConnPwd(){
+        return $this->ConnPwd;
+    }
+
+
+    function setConnPort($argConnPort){
+        if($this->Status==0){
+            $this->ConnPort=$argConnPort;
+            return 1;
+        } else return 0;
+    }
+
+
+    function getConnPort(){
+        return $this->ConnPort;
+    }
+
+    function setConnHost($argConnHost){
+        if($this->Status==0){
+            $this->ConnHost=$argConnHost;
+            return 1;
+        } else return 0;
+    }
+
+
+    function getConnHost(){
+        return $this->ConnHost;
+    }
+
+    function getStatus(){
+        return $this->Status;
+    }
+
+
+    function setDbType($argDbType){
+        if($this->Status==0){
+            $this->DbType=$argDbType;
+            return 1;
+        } else return 0;
+    }
+
+
+    function getDbType(){
+        return $this->DbType;
+    }
+
+    function activate(){
+        if($this->DbType==$this->MY_SQL_SERVER){
+
+            try{
+                $temp = new PDO("mysql:host=".$this->ConnHost.";dbname=".$this->ConnDb.";charset=utf8", $this->ConnUid, $this->ConnPwd);
+            }catch(PDOException $e){
+                echo $e->getMessage();exit;
+            }
+
+            $temp->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // if($temp>0){
+                $this->Status=1;
+                $this->ConnID=$temp;
+            // } else {
+            //     $this->Status=0;
+            //     header("http/1.0 404 Not Found"); 
+            // }
+        }
+        if($this->DbType==$this->OR_SQL_SERVER){
+            $this->conn = OCILogon($this->ConnUid,$this->ConnPwd,$this->ConnDb);
+            $this->Status=1;
+        }
+        if($this->DbType==$this->MS_SQL_SERVER){
+            $temp=mssql_connect($this->ConnHost,$this->ConnUid,$this->ConnPwd);
+            if($temp>0){
+                $this->Status=1;
+                $this->ConnID=$temp;
+            } else {
+                $this->Status=0;
+                header("http/1.0 404 Not Found"); 
+            }
+        }
+        return $this->Status;
+    }
+
+
+    function SqlPageSelect($argDb,$argTable,$argField,$argCondition,$argRowsBegin=NULL,$argRows=NULL) {
+        if ($argRows) $this->Rows=$argRows;
+        if (!$argRowsBegin) $argRowsBegin=0;          
+        if ($argCondition!=NULL) {
+            //if(!$argRowsBegin)
+            $this->SqlStm="select count(*) from $argTable where $argCondition";            
+            //$this->SqlStm="select $argField from $argTable where $argCondition";
+        } else {
+            //  if(!$argRowsBegin)
+            $this->SqlStm="select count(*) from $argTable";
+            //$this->SqlStm="select $argField from $argTable";
+        }
+
+        // ä½¿ç”¨mysql
+        if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1) {
+            $this->ConnID->query("USE ".$argDb);
+           
+            $Result = $this->ConnID->query($this->SqlStm, $this->ConnID);
+            //$Result=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
+            $ResultTotal=0;
+            while ($temp[$ResultTotal]=$this->fetch_array($Result)) $ResultTotal++;
+            if($ResultTotal!=1){
+                $Ret['TOTAL_ROWS']=$ResultTotal;
+            } else {
+                $Ret['TOTAL_ROWS']=$temp[0][0];
+            }
+
+            if($argCondition)
+                $this->SqlStm="select $argField from $argTable where $argCondition limit $argRowsBegin,".$this->Rows;
+            else
+                $this->SqlStm="select $argField from $argTable limit 0,".$this->Rows;
+
+            // $Ret['DATA']=mysql_db_query($argDb,$this->SqlStm);
+            $this->ConnID->query("USE ".$argDb);
+
+            $temp = $this->ConnID->query($this->SqlStm);
+            //$temp=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
+            if(!$temp){
+                $this->ErrorCode=0;
+                $this->ErrorString=$this->ConnID->errorInfo();
+                return 0;
+            } else {
+                $i=0;
+                while($Row=$this->fetch_array($temp)){
+                    $Ret[$i]['DATA']=$Row;
+                    $i++;
+                }
+                $Ret['ROWS']=$i;
+                return $Ret;
+            }
+        }
+        
+        if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
             $stmt = OCIParse($this->conn,$this->SqlStm);
             OCIExecute($stmt);
             $Ret['TOTAL_ROWS']=$stmt[0];
 
             if($argCondition)
-				$this->SqlStm="select $argField from $argTable where $argCondition";
+                $this->SqlStm="select $argField from $argTable where $argCondition";
             else
                $this->SqlStm="select $argField from $argTable";
             $stmt2 = OCIParse($this->conn,$this->SqlStm);
             OCIExecute($stmt2);
-			//$Ret['DATA']=$stmt2;
+            //$Ret['DATA']=$stmt2;
             $i=0;
             $j=0;
             while($Row=$this->fetch_array($stmt2)){
-				if($i>$argRowsBegin && $j<$this->Rows){
-					$Ret[$j]['DATA']=$Row;
-					$j++;
-				};
-				$i++;
-			}
+                if($i>$argRowsBegin && $j<$this->Rows){
+                    $Ret[$j]['DATA']=$Row;
+                    $j++;
+                };
+                $i++;
+            }
             $Ret['ROWS']=$j;
             return $Ret;
-		} 
+        } 
 
-		// ¨Ï¥Îmsqsl
-		if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
-			$Result=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
-			//$Result=mysql_db_query($argDb,$this->SqlStm);
-			$ResultTotal=0;
-			while($temp[$ResultTotal]=$this->fetch_array($Result)) $ResultTotal++;
-			if($ResultTotal!=1){
-				$Ret['TOTAL_ROWS']=$ResultTotal;
+        // ä½¿ç”¨msqsl
+        if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
+            $Result=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
+            //$Result=mysql_db_query($argDb,$this->SqlStm);
+            $ResultTotal=0;
+            while($temp[$ResultTotal]=$this->fetch_array($Result)) $ResultTotal++;
+            if($ResultTotal!=1){
+                $Ret['TOTAL_ROWS']=$ResultTotal;
             } else {
-				$Ret['TOTAL_ROWS']=$temp[0][0];
+                $Ret['TOTAL_ROWS']=$temp[0][0];
             }
 
-			if($argCondition)
-				$this->SqlStm="select $argField from $argTable where $argCondition limit $argRowsBegin,".$this->Rows;
+            if($argCondition)
+                $this->SqlStm="select $argField from $argTable where $argCondition limit $argRowsBegin,".$this->Rows;
             else
-				$this->SqlStm="select $argField from $argTable limit 0,".$this->Rows;
+                $this->SqlStm="select $argField from $argTable limit 0,".$this->Rows;
 
-			// $Ret['DATA']=mysql_db_query($argDb,$this->SqlStm);
-			$temp=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
-			//$temp=mysql_db_query($argDb,$this->SqlStm);
-			if(!$temp){
-				$this->ErrorCode=0;
-				$this->ErrorString=mysql_error();
-				return 0;
-			} else {
-				$i=0;
-				while($Row=$this->fetch_array($temp)){
-					$Ret[$i]['DATA']=$Row;
-					$i++;
-				}
-				$Ret['ROWS']=$i;
-				return $Ret;
-			}
-		}
-		 
-		$this->ErrorCode=0;
-		return 0;
-	}
-
-	/****m gphplib/SysRdbCconnection->SqlSelect
-	*   NAME
-	*      SqlSelect
-	*   SYNOPSIS
-	*      ResultSet SqlSelect($argDb,$argTable,$argField,$argCondition)
-	*   FUNCTION
-	*     ¬d¸ß
-	*   INPUTS
-	*     $argDb:¸ê®Æ®w
-	*     $argTable: Table
-	*     $argField: Äæ¦ì
-	*     $argCondition: Where ¤l¥y
-	*   OUTPUT
-	*      ResultSet
-	*   AUTHOR
-	****
-	*/
-	function SqlSelect($argDb,$argTable,$argField,$argCondition){
-		mysql_query('SET NAMES big5');
-		if($argCondition!=NULL)
-			$this->SqlStm="select $argField from $argTable where $argCondition";
-		else
-			$this->SqlStm="select $argField from $argTable";
-		// ¨Ï¥Îmysql
-		if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1) {
-			if (!mysql_select_db($argDb, $this->ConnID)) {
-				echo '1:Could not use '.$argDb.' : '.mysql_error();
-				exit;
-			}
-			
-			$Ret = mysql_query($this->SqlStm, $this->ConnID);
-		
-			//$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);  
-			return $Ret;
-	  
-			if($Ret<=0) {
-				$this->ErrorCode=0;
-				$this->ErrorString=mysql_error();
-				return 0;
-			} else {
-				return $Ret;
-			}
-		}
-			
-		// ¨Ï¥Îmssql
-		if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1) {
-			mssql_select_db($argDb,$this->ConnID);
-			$Ret=mssql_query($this->SqlStm,$this->ConnID);  
-			return $Ret;
-	  
-			if($Ret<=0) {
-				$this->ErrorCode=0;
-				$this->ErrorString=mssql_error();
-				return 0;
-			} else {
-				return $Ret;
-			}
-		}
-	 
-		if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1) {
-			$stmt = OCIParse($this->conn,$this->SqlStm);
-			OCIExecute($stmt);
-			return $stmt;
-		}           
-		$this->ErrorCode=0;
-		return 0;
-	}
-     
-	/****m gphplib/SysRdbCconnection->SqlDataPageSelect
-	*   NAME
-	*      SqlDataPageSelect
-	*   SYNOPSIS
-	*      ResultSet SqlDataPageSelect($argDb,$argTable,$argField,$argCondition,$argRowsBegin,$argRows)
-	*   FUNCTION
-	*     ¬d¸ß
-	*   INPUTS
-	*     $argDb:¸ê®Æ®w
-	*     $argTable: Table
-	*     $argField: Äæ¦ì
-	*     $argCondition: Where ¤l¥y
-	*     $argRowsBegin: ²Ä´Xµ§¶}©l
-	*     $argRows: ¦@§ì´Xµ§¥X¨Ó
-	*   OUTPUT
-	*     ResultSet
-	*   AUTHOR
-	****
-	*/
-	function SqlDataPageSelect($argDb,$argTable,$argField,$argCondition,$argRowsBegin=NULL,$argRows=NULL){
-		//echo $argDb."<br>".$argTable."<br>".$argField."<br>".$argCondition."<br>".$argRowsBegin."<br>".$argRows;exit();
-		if($argRows)
-			//$Rows=$argRows;
-			$this->Rows=$argRows;
-		if(!$argRowsBegin)
-			$argRowsBegin=0;          
-		if($argCondition)
-			$this->SqlStm="select $argField from $argTable where $argCondition limit $argRowsBegin,".$this->Rows;
-		else
-            $this->SqlStm="select $argField from $argTable limit 0,".$this->Rows;
-		// ¨Ï¥Îmysql
-		// echo $this->SqlStm;exit();
-		if (!mysql_select_db($argDb, $this->ConnID)) {
-			echo '1:Could not use '.$argDb.' : '.mysql_error();
-			exit;
-		}
-		$Ret = mysql_query($this->SqlStm, $this->ConnID);
-		//$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID); 
-		if(!$Ret){
-			$this->ErrorCode=0;
-			$this->ErrorString=mysql_error();
-			return 0;
-		} else {
-			return $Ret;
-		}
-		if($Ret<=0){
-			$this->ErrorCode=0;
-			$this->ErrorString=mysql_error();
-			return 0;
-		} else {
-			return $Ret;
-		}
-	}        
-
-	/****m  gphplib/SysRdbCconnection->SqlInsert
-	*   NAME
-	*      SqlInsert
-	*   SYNOPSIS
-	*      int SqlInsert($argDb,$argTable,$argField,$argValues)
-	*   FUNCTION
-	*      ·s¼W
-	*   INPUTS
-	*      $argDb:¸ê®Æ®w
-	*      $argTable: Table
-	*      $argField: Äæ¦ì
-	*      $argValues: ­È(Values)
-	*   OUTPUT
-	*       0:fail 
-	*       1:success
-	*   AUTHOR
-	****
-	*/
-	function SqlInsert($argDb,$argTable,$argField,$argValues){
-		if($argValues!=NULL){
-			//$argValues=htmlspecialchars($argValues);
-			$this->SqlStm="insert into $argTable ($argField) values ($argValues)"; 
-            //echo $this->SqlStm;exit();        
-            // ¨Ï¥Î mysql 
-            if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
-				if (!mysql_select_db($argDb, $this->ConnID)) {
-					echo '1:Could not use '.$argDb.' : '.mysql_error();
-					exit;
-				}
-				$Ret = mysql_query($this->SqlStm, $this->ConnID);
-				//$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
-				if($Ret<=0){
-					$this->ErrorCode=0;
-					$this->ErrorString=mysql_error();
-					return 0;
-				} else return $Ret;
-			}
-			
-			// ¨Ï¥Î mssql 
-            if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
-				mssql_select_db($argDb,$this->ConnID);
-				$Ret=mssql_query($this->SqlStm,$this->ConnID);
-				if($Ret<=0){
-					$this->ErrorCode=0;
-					//$this->ErrorString=mssql_error();
-					$this->ErrorString=mssql_get_last_message();
-					return 0;
-				} else return $Ret;
-			}
-			
-			if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
-				$stmt = OCIParse($this->conn,$this->SqlStm);
-				OCIExecute($stmt);
-				return $stmt;
-			}           
-		} else return 0;
-	}
-
-	/****m gphplib/SysRdbCconnection->SqlUpdate 
-	*   NAME
-	*      SqlUpdate
-	*   SYNOPSIS
-	*      int SqlUpdate($argDb,$argTable,$argSetValue,$argCondition)
-	*   FUNCTION
-	*      §ó·s
-	*   INPUTS
-	*      $argDb:¸ê®Æ®w
-	*      $argTable: Table
-	*	$argSetValue: ³]©w­È
-	*      $argCondition: Where ¤l¥y
-	*   OUTPUT
-	*      0:fail 
-	*      1:success
-	*   AUTHOR
-	****
-	*/
-	function SqlUpdate($argDb,$argTable,$argSetValue,$argCondition){
-		if($argCondition!=NULL){
-			$this->SqlStm="update $argTable set $argSetValue where $argCondition";
-			// ¨Ï¥Î mysql
-			if($this->DbType==$this->MY_SQL_SERVER and $this->Status=1){ 
-				if (!mysql_select_db($argDb, $this->ConnID)) {
-					echo '1:Could not use '.$argDb.' : '.mysql_error();
-					exit;
-				}
-				$Ret = mysql_query($this->SqlStm, $this->ConnID);
-				//$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
-				if($Ret<=0){
-					$this->ErrorCode=0;
-					$this->ErrorString=mysql_error();
-					return 0;
-				} else return $Ret;
-			}
-		   
-			// ¨Ï¥Î mssql
-			if($this->DbType==$this->MS_SQL_SERVER and $this->Status=1){ 
-				mssql_select_db($argDb,$this->ConnID);
-				$Ret=mssql_query($this->SqlStm,$this->ConnID);
-				if($Ret<=0) {
-					$this->ErrorCode=0;
-					//$this->ErrorString=mssql_error();
-					$this->ErrorString=mssql_get_last_message();
-					return 0;
-				} else return $Ret;
-			}
-		   
-			// ¨Ï¥Î oracle sql
-			if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
-				$stmt = OCIParse($this->conn,$this->SqlStm);
-				OCIExecute($stmt);
-				return $stmt;
-			}           
-		} else return 0;
-	}
-
-	/****m gphplib/SysRdbCconnection->SqlDelete
-	*   NAME
-	*      SqlDelete
-	*   SYNOPSIS
-	*      int SqlDelete($argDb,$argTable,$argCondition)
-	*   FUNCTION
-	*      §R°£
-	*   INPUTS
-	* 	$argDb:¸ê®Æ®w
-	*	$argTable: Table
-	*	$argCondition: Where ¤l¥y
-	*   OUTPUT
-	*      0:fail 
-	*      1:success
-	*   AUTHOR
-	****
-	*/
-	function SqlDelete($argDb,$argTable,$argCondition){
-		if($argCondition!=NULL){     
-			$this->SqlStm="delete from $argTable where $argCondition";
-			// ¨Ï¥Îmysql
-			if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
-				if (!mysql_select_db($argDb, $this->ConnID)) {
-					echo '1:Could not use '.$argDb.' : '.mysql_error();
-					exit;
-				}
-				$Ret = mysql_query($this->SqlStm, $this->ConnID);
-				//$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
-				if($Ret<=0){
-					$this->ErrorCode=0;
-					$this->ErrorString=mysql_error();
-					return 0;
-				} else return $Ret;
-			}
-		   
-			// ¨Ï¥Îmssql
-			if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
-				$Ret=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
-				if($Ret<=0){
-					$this->ErrorCode=0;
-					$this->ErrorString=mssql_error();
-					return 0;
-				} else return $Ret;
-			}
-
-			if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
-				$stmt = OCIParse($this->conn,$this->SqlStm);
-				OCIExecute($stmt);
-				return $stmt;
-			}           
-		} else return 0;
-	}
-
-	/****m gphplib/SysRdbCconnection->fetch_array
-	*   NAME
-	*      fetch_array
-	*   SYNOPSIS
-	*      char[] fetch_array($argResult)
-	*   FUNCTION
-	*      ±NResultSet¤@µ§¤@µ§§ì¥X¨Ó
-	*   INPUTS
-	*      $argResult: ResultSet
-	*   OUTPUT
-	*      Row Array
-	*   AUTHOR
-	****
-	*/
-	function fetch_array($argResult){
-		if($argResult!=NULL) {
-			// ¨Ï¥Î mysql
-			if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
-				$rows = mysql_fetch_array($argResult,MYSQL_BOTH);
-				// mysql_free_result($argResult);
-				return $rows;
-			}
-			
-			// ¨Ï¥Î mssql
-			if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
-				$rows = mssql_fetch_array($argResult,MSSQL_BOTH);
-				// mssql_free_result($argResult);
-				return $rows;
+            // $Ret['DATA']=mysql_db_query($argDb,$this->SqlStm);
+            $temp=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
+            //$temp=mysql_db_query($argDb,$this->SqlStm);
+            if(!$temp){
+                $this->ErrorCode=0;
+                $this->ErrorString=$this->ConnID->errorInfo();
+                return 0;
+            } else {
+                $i=0;
+                while($Row=$this->fetch_array($temp)){
+                    $Ret[$i]['DATA']=$Row;
+                    $i++;
+                }
+                $Ret['ROWS']=$i;
+                return $Ret;
             }
-			
-            if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
-				// OCIFetchInto($argResult, &$res); 
-				return $res;
-			}
+        }
+         
+        $this->ErrorCode=0;
+        return 0;
+    }
+
+
+    function SqlSelect($argDb,$argTable,$argField,$argCondition){
+        if($argCondition!=NULL)
+            $this->SqlStm="select $argField from $argTable where $argCondition";
+        else
+            $this->SqlStm="select $argField from $argTable";
+        // ä½¿ç”¨mysql
+        if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1) {
+            $this->ConnID->query("USE ".$argDb);
+            
+            $Ret = $this->ConnID->query($this->SqlStm);
+        
+            //$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);  
+            return $Ret;
+      
+            if($Ret<=0) {
+                $this->ErrorCode=0;
+                $this->ErrorString=$this->ConnID->errorInfo();
+                return 0;
+            } else {
+                return $Ret;
+            }
+        }
+            
+        // ä½¿ç”¨mssql
+        if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1) {
+            mssql_select_db($argDb,$this->ConnID);
+            $Ret=mssql_query($this->SqlStm,$this->ConnID);  
+            return $Ret;
+      
+            if($Ret<=0) {
+                $this->ErrorCode=0;
+                $this->ErrorString=mssql_error();
+                return 0;
+            } else {
+                return $Ret;
+            }
+        }
+     
+        if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1) {
+            $stmt = OCIParse($this->conn,$this->SqlStm);
+            OCIExecute($stmt);
+            return $stmt;
+        }           
+        $this->ErrorCode=0;
+        return 0;
+    }
+     
+
+    function SqlDataPageSelect($argDb,$argTable,$argField,$argCondition,$argRowsBegin=NULL,$argRows=NULL){
+        if($argRows)
+            //$Rows=$argRows;
+            $this->Rows=$argRows;
+        if(!$argRowsBegin)
+            $argRowsBegin=0;          
+        if($argCondition)
+            $this->SqlStm="select $argField from $argTable where $argCondition limit $argRowsBegin,".$this->Rows;
+        else
+            $this->SqlStm="select $argField from $argTable limit 0,".$this->Rows;
+        // ä½¿ç”¨mysql
+        // echo $this->SqlStm;exit();
+        $this->ConnID->query("USE ".$argDb);
+
+
+        $Ret = $this->ConnID->query($this->SqlStm);
+        //$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID); 
+        if(!$Ret){
+            $this->ErrorCode=0;
+            $this->ErrorString=$this->ConnID->errorInfo();
             return 0;
-		} else return 0;
-	}
-	
-	function lockTable($argDb,$TableCondition){
-		if($TableCondition!=NULL){
-			$this->SqlStm="LOCK TABLES $TableCondition";
-			// ¨Ï¥Îmysql
-			if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
-				if (!mysql_select_db($argDb, $this->ConnID)) {
-					echo '1:Could not use '.$argDb.' : '.mysql_error();
-					exit;
-				}
-				$Ret = mysql_query($this->SqlStm, $this->ConnID);
-				//$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
-				if($Ret<=0){
-					$this->ErrorCode=0;
-					$this->ErrorString=mysql_error();
-					return 0;
-				} else {
-					$this->TableLock=1;
-					return $Ret;
-				}
-			}
-		   
-			// ¨Ï¥Îmssql
-			if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
-				$Ret=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
-				if($Ret<=0){
-					$this->ErrorCode=0;
-					$this->ErrorString=mssql_error();
-					return 0;
-				} else {
-					$this->TableLock=1;
-					return $Ret;
-				}
-			}
-		}           
-	}
-	
-	function unlockTable($argDb,$TableCondition){
-		if($TableCondition!=NULL){
-			$this->SqlStm="UNLOCK TABLES";
-			// ¨Ï¥Îmysql
-			if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1 and $this->TableLock){
-				if (!mysql_select_db($argDb, $this->ConnID)) {
-					echo '1:Could not use '.$argDb.' : '.mysql_error();
-					exit;
-				}
-				$Ret = mysql_query($this->SqlStm, $this->ConnID);
-				//$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
-				if($Ret<=0){
-					$this->ErrorCode=0;
-					$this->ErrorString=mysql_error();
-					return 0;
-				} else {  
-					$this->TableLock=0;
-					return $Ret;
-				}
-			}
-		   
-			// ¨Ï¥Îmssql
-			if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1 and $this->TableLock){
-				$Ret=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
-				if($Ret<=0){
-					$this->ErrorCode=0;
-					$this->ErrorString=mssql_error();
-					return 0;
-				} else {  
-					$this->TableLock=0;
-					return $Ret;
-				}
-			}
-		}           
-	}
-	
-	function TransactionStart($argDb){
-		$this->SqlStm="START TRANSACTION";
-		if (!mysql_select_db($argDb, $this->ConnID)) {
-			echo '1:Could not use '.$argDb.' : '.mysql_error();
-			exit;
-		}
-		$Ret = mysql_query($this->SqlStm, $this->ConnID);
-		//$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
-		$this->ErrorString=mysql_error();
-		// ¨Ï¥Îmysql
-		if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
-			if($Ret<=0){
-				$this->ErrorCode=0;
-				$this->ErrorString=mysql_error();
-				return 0;
-			} else {
-				return $Ret;
-			}
-		}
-		 
-		// ¨Ï¥Îmssql
-		if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
-			if($Ret<=0){
-				$this->ErrorCode=0;
-				$this->ErrorString=mssql_error();
-				return 0;
-			} else {
-				return $Ret;
-			}
-		}
-	}
-	
-	function TransactionEnd($argDb){
-		$this->SqlStm="COMMIT";
-		if (!mysql_select_db($argDb, $this->ConnID)) {
-			echo '1:Could not use '.$argDb.' : '.mysql_error();
-			exit;
-		}
-		$Ret = mysql_query($this->SqlStm, $this->ConnID);
-		//$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
-		// ¨Ï¥Îmysql
-		if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
-			if($Ret<=0){
-				$this->ErrorCode=0;
-				$this->ErrorString=mysql_error();
-				return 0;
-			} else {
-				return $Ret;
-			}
-		}
-		 
-		// ¨Ï¥Îmssql
-		if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
-			if($Ret<=0){
-				$this->ErrorCode=0;
-				$this->ErrorString=mssql_error();
-				return 0;
-			} else {
-				return $Ret;
-			}
-		}
-	}
+        } else {
+
+          
+            return $Ret;
+        }
+       
+        if($Ret<=0){
+            $this->ErrorCode=0;
+            $this->ErrorString=$this->ConnID->errorInfo();
+            return 0;
+        } else {
+            return $Ret;
+        }
+    }        
+
+
+    function SqlInsert($argDb,$argTable,$argField,$argValues){
+        if($argValues!=NULL){
+            try{
+
+                $this->SqlStm = "insert into $argTable ($argField) values ($argValues)"; 
+
+
+                // ä½¿ç”¨ mysql 
+                if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
+
+                    $this->ConnID->query("USE ".$argDb);
+
+                    $Ret = $this->ConnID->query($this->SqlStm);
+                    //$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
+                    if($Ret<=0){
+                        $this->ErrorCode=0;
+                        $this->ErrorString=$this->ConnID->errorInfo();
+                        return 0;
+                    } else return $Ret;
+                }
+
+
+            }catch(PDOException $e){
+                echo $e->getMessage();exit;
+            }
+
+
+
+            
+            // ä½¿ç”¨ mssql 
+            if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
+                mssql_select_db($argDb,$this->ConnID);
+                $Ret=mssql_query($this->SqlStm,$this->ConnID);
+                if($Ret<=0){
+                    $this->ErrorCode=0;
+                    //$this->ErrorString=mssql_error();
+                    $this->ErrorString=mssql_get_last_message();
+                    return 0;
+                } else return $Ret;
+            }
+            
+            if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
+                $stmt = OCIParse($this->conn,$this->SqlStm);
+                OCIExecute($stmt);
+                return $stmt;
+            }           
+        } else return 0;
+    }
+
+
+    function SqlUpdate($argDb,$argTable,$argSetValue,$argCondition){
+        if($argCondition!=NULL){
+            $this->SqlStm="update $argTable set $argSetValue where $argCondition";
+            // ä½¿ç”¨ mysql
+            if($this->DbType==$this->MY_SQL_SERVER and $this->Status=1){ 
+                $this->ConnID->query("USE ".$argDb);
+
+                $Ret = $this->ConnID->query($this->SqlStm);
+                //$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
+                if($Ret<=0){
+                    $this->ErrorCode=0;
+                    $this->ErrorString=$this->ConnID->errorInfo();
+                    return 0;
+                } else return $Ret;
+            }
+           
+            // ä½¿ç”¨ mssql
+            if($this->DbType==$this->MS_SQL_SERVER and $this->Status=1){ 
+                mssql_select_db($argDb,$this->ConnID);
+                $Ret=mssql_query($this->SqlStm,$this->ConnID);
+                if($Ret<=0) {
+                    $this->ErrorCode=0;
+                    //$this->ErrorString=mssql_error();
+                    $this->ErrorString=mssql_get_last_message();
+                    return 0;
+                } else return $Ret;
+            }
+           
+            // ä½¿ç”¨ oracle sql
+            if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
+                $stmt = OCIParse($this->conn,$this->SqlStm);
+                OCIExecute($stmt);
+                return $stmt;
+            }           
+        } else return 0;
+    }
+
+    function SqlDelete($argDb,$argTable,$argCondition){
+        if($argCondition!=NULL){     
+            $this->SqlStm="delete from $argTable where $argCondition";
+            // ä½¿ç”¨mysql
+            if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
+                $this->ConnID->query("USE ".$argDb);
+
+                $Ret = $this->ConnID->query($this->SqlStm);
+                //$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
+                if($Ret<=0){
+                    $this->ErrorCode=0;
+                    $this->ErrorString=$this->ConnID->errorInfo();
+                    return 0;
+                } else return $Ret;
+            }
+           
+            // ä½¿ç”¨mssql
+            if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
+                $Ret=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
+                if($Ret<=0){
+                    $this->ErrorCode=0;
+                    $this->ErrorString=mssql_error();
+                    return 0;
+                } else return $Ret;
+            }
+
+            if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
+                $stmt = OCIParse($this->conn,$this->SqlStm);
+                OCIExecute($stmt);
+                return $stmt;
+            }           
+        } else return 0;
+    }
+
+
+    function fetch_array($argResult){
+        if($argResult!=NULL) {
+            // ä½¿ç”¨ mysql
+            if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
+                return $argResult->fetch(PDO::FETCH_BOTH);
+            }
+            
+            // ä½¿ç”¨ mssql
+            if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
+                $rows = mssql_fetch_array($argResult,MSSQL_BOTH);
+                // mssql_free_result($argResult);
+                return $rows;
+            }
+            
+            if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
+                // OCIFetchInto($argResult, &$res); 
+                return $res;
+            }
+            return 0;
+        } else return 0;
+    }
+
+
+    function fetch_assoc($argResult){
+
+        if($argResult!=NULL) {
+
+
+            // ä½¿ç”¨ mysql
+            // if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
+            // if($this->DbType==$this->MY_SQL_SERVER ){
+
+                 $argResult->setFetchMode(PDO::FETCH_ASSOC);
+                 return $argResult->fetch();
+            // }
+        
+            // ä½¿ç”¨ mssql
+            if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
+
+                $rows = mssql_fetch_array($argResult,MSSQL_BOTH);
+                // mssql_free_result($argResult);
+                return $rows;
+            }
+        
+            if($this->DbType==$this->OR_SQL_SERVER and $this->Status==1){
+
+                // OCIFetchInto($argResult, &$res); 
+                return $res;
+            }
+
+
+            return 0;
+        } else {
+            echo "Error :......<br>";
+            return 0;
+        }
+    }
+
+    
+    function lockTable($argDb,$TableCondition){
+        if($TableCondition!=NULL){
+            $this->SqlStm="LOCK TABLES $TableCondition";
+            // ä½¿ç”¨mysql
+            if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
+                $this->ConnID->query("USE ".$argDb);
+
+                $Ret = $this->ConnID->query($this->SqlStm);
+                //$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
+                if($Ret<=0){
+                    $this->ErrorCode=0;
+                    $this->ErrorString=$this->ConnID->errorInfo();
+                    return 0;
+                } else {
+                    $this->TableLock=1;
+                    return $Ret;
+                }
+            }
+           
+            // ä½¿ç”¨mssql
+            if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
+                $Ret=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
+                if($Ret<=0){
+                    $this->ErrorCode=0;
+                    $this->ErrorString=mssql_error();
+                    return 0;
+                } else {
+                    $this->TableLock=1;
+                    return $Ret;
+                }
+            }
+        }           
+    }
+    
+    function unlockTable($argDb,$TableCondition){
+        if($TableCondition!=NULL){
+            $this->SqlStm="UNLOCK TABLES";
+            // ä½¿ç”¨mysql
+            if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1 and $this->TableLock){
+                $this->ConnID->query("USE ".$argDb);
+
+                $Ret = $this->ConnID->query($this->SqlStm);
+                //$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
+                if($Ret<=0){
+                    $this->ErrorCode=0;
+                    $this->ErrorString=$this->ConnID->errorInfo();
+                    return 0;
+                } else {  
+                    $this->TableLock=0;
+                    return $Ret;
+                }
+            }
+           
+            // ä½¿ç”¨mssql
+            if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1 and $this->TableLock){
+                $Ret=mssql_db_query($argDb,$this->SqlStm,$this->ConnID);
+                if($Ret<=0){
+                    $this->ErrorCode=0;
+                    $this->ErrorString=mssql_error();
+                    return 0;
+                } else {  
+                    $this->TableLock=0;
+                    return $Ret;
+                }
+            }
+        }           
+    }
+    
+    function TransactionStart($argDb){
+        $this->SqlStm="START TRANSACTION";
+        $this->ConnID->query("USE ".$argDb);
+
+        $Ret = $this->ConnID->query($this->SqlStm);
+        //$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
+        $this->ErrorString=$this->ConnID->errorInfo();
+        // ä½¿ç”¨mysql
+        if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
+            if($Ret<=0){
+                $this->ErrorCode=0;
+                $this->ErrorString=$this->ConnID->errorInfo();
+                return 0;
+            } else {
+                return $Ret;
+            }
+        }
+         
+        // ä½¿ç”¨mssql
+        if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
+            if($Ret<=0){
+                $this->ErrorCode=0;
+                $this->ErrorString=mssql_error();
+                return 0;
+            } else {
+                return $Ret;
+            }
+        }
+    }
+    
+    function TransactionEnd($argDb){
+        $this->SqlStm="COMMIT";
+        $this->ConnID->query("USE ".$argDb);
+
+        $Ret = $this->ConnID->query($this->SqlStm);
+        //$Ret=mysql_db_query($argDb,$this->SqlStm,$this->ConnID);
+        // ä½¿ç”¨mysql
+        if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){
+            if($Ret<=0){
+                $this->ErrorCode=0;
+                $this->ErrorString=$this->ConnID->errorInfo();
+                return 0;
+            } else {
+                return $Ret;
+            }
+        }
+         
+        // ä½¿ç”¨mssql
+        if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
+            if($Ret<=0){
+                $this->ErrorCode=0;
+                $this->ErrorString=mssql_error();
+                return 0;
+            } else {
+                return $Ret;
+            }
+        }
+    }
 
 }
-
-?>

@@ -1,6 +1,6 @@
 <?php
 
-	// «á¥xºÞ²zµ{¦¡¥D®Ø­¶
+	// å¾Œå°ç®¡ç†ç¨‹å¼ä¸»æ¡†é 
 	include_once "/adm/lib/AdmAdmCfactory.php";
 	include_once "/adm/lib/AdmAdmCCreater.php";
 	include_once "/gphplib/class.FastTemplate.php";  
@@ -9,7 +9,7 @@
 		var $Online;
 		var $Info;
 		function __construct($RW='W') {
-			// «áºÝºÞ²z¨t²ÎÅv­­ºÞ²z start
+			// å¾Œç«¯ç®¡ç†ç³»çµ±æ¬Šé™ç®¡ç† start
 			$SysID= $_REQUEST['SysID'];
 			$AdmAdm =  new AdmAdmCfactory();
 			$this->Online = $AdmAdm->GetOnline();
@@ -24,11 +24,11 @@
 			}	
 			$promi = $AdmAdm->CheckLimtByUidAndCataLog($this->Online["EmployeeID"],$RW);
 			if(!$promi) {
-				header("Location: /adm/AdmAdmError.php?String=§A¨S¦³Åv­­!");
+				header("Location: /adm/AdmAdmError.php?String=ä½ æ²’æœ‰æ¬Šé™!");
 				return;
 			}
 			return $this->Online[0];
-			// «áºÝºÞ²z¨t²ÎÅv­­ºÞ²z end
+			// å¾Œç«¯ç®¡ç†ç³»çµ±æ¬Šé™ç®¡ç† end
 		}
   	
 		public function GetUserInfo() {
@@ -39,7 +39,7 @@
 		}
   	
 		function display($title='',$str='') {
-			//²£¥Í¥\¯à¿ï¶µ
+			//ç”¢ç”ŸåŠŸèƒ½é¸é …
 			$AdmAdm =  new AdmAdmCfactory();
 			$Cc = new AdmAdmCCreater();
 			$Application = $Cc->getAllSystemHtml($this->Online["EmployeeID"]);
@@ -65,11 +65,10 @@
 			if ($clang=="en") {
 				$tpl->assign("lang","English");
 			} else {
-				$tpl->assign("lang","ÁcÅé¤¤¤å");
+				$tpl->assign("lang","ç¹é«”ä¸­æ–‡");
 			}
 
 			$tpl->parse(MAIN,  "apg6");
 			$tpl->FastPrint(MAIN);
 		}
 	}
-?>

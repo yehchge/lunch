@@ -1,13 +1,13 @@
 <html>
 <head>
-  <title>ºŞ²z«ü©w©±®aª¬ºA</title>
+  <title>ç®¡ç†æŒ‡å®šåº—å®¶ç‹€æ…‹</title>
   
   <style type="text/css">
 <!--
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -74,14 +74,14 @@ TD
     <!--
              function check_form(obj) {
                 var err = '';
-                if(obj.name.value=="") {err +=" [©±¦W]";}
-                if(obj.intro.value=="") {err +=" [Â²¤¶]";}
-				if(obj.sclass.selectedIndex==0) {err +=" [©±®aÃş§O]";}
-				if(obj.man.value=="") {err +=" [­t³d¤H]";}
-                if(obj.addr.value=="") {err +=" [¦a§}]";}
-                if(obj.tel.value=="") {err +=" [¹q¸Ü]";} 
-				if(obj.note.value=="") {err +=" [­qÁÊ»¡©ú]";} 
-                if(err) {alert("½Ğ¥¿½T¿é¤J "+err+"");return false;} 
+                if(obj.name.value=="") {err +=" [åº—å]";}
+                if(obj.intro.value=="") {err +=" [ç°¡ä»‹]";}
+				if(obj.sclass.selectedIndex==0) {err +=" [åº—å®¶é¡åˆ¥]";}
+				if(obj.man.value=="") {err +=" [è² è²¬äºº]";}
+                if(obj.addr.value=="") {err +=" [åœ°å€]";}
+                if(obj.tel.value=="") {err +=" [é›»è©±]";} 
+				if(obj.note.value=="") {err +=" [è¨‚è³¼èªªæ˜]";} 
+                if(err) {alert("è«‹æ­£ç¢ºè¼¸å…¥ "+err+"");return false;} 
                 return ture;
              }
 			 
@@ -116,41 +116,41 @@ function seldroplisttext(form,str)
 <input type=hidden name="managerid" value="{managerid}">
 <table Class="Forums_General" Width="70%">
   <tr Class="Forums_Header">
-    <td colspan=2><font color="#FFFFFF">&nbsp;ºŞ²z«ü©w©±®aª¬ºA</font></td>
+    <td colspan=2><font color="#FFFFFF">&nbsp;ç®¡ç†æŒ‡å®šåº—å®¶ç‹€æ…‹</font></td>
   </tr>
   <tr>
-    <td>ºŞ²z§Ç¸¹¡G</td>
+    <td>ç®¡ç†åºè™Ÿï¼š</td>
 	<td Class="TextBox">{managerid}</td>
   </tr>
   <tr>
-    <td>°Ó©±§Ç¸¹¡G</td>
+    <td>å•†åº—åºè™Ÿï¼š</td>
 	<td Class="TextBox">{storeid}</td>
   </tr>
   <tr>
-    <td>©±¦W¡G</td>
+    <td>åº—åï¼š</td>
 	<td Class="TextBox">{storename}</td>
   </tr>
   <tr>
-    <td>­t³d¤H¡G</td>
+    <td>è² è²¬äººï¼š</td>
 	<td Class="TextBox">{man}</td>
   </tr>
   <tr>
-    <td>»¡©ú¡G</td>
+    <td>èªªæ˜ï¼š</td>
 	<td Class="TextBox">{note}</td>
   </tr>
   <tr>
-    <td>«Ø¥ß¤é´Á¡G</td>
+    <td>å»ºç«‹æ—¥æœŸï¼š</td>
 	<td Class="TextBox">{createdate}</td>
   </tr>
   <tr>
-    <td>ª¬ºA¡G</td>
+    <td>ç‹€æ…‹ï¼š</td>
 	<td Class="TextBox"><select name="status">
 			{strStatus}
 		</select>
 	</td>
   </tr>
   <tr>
-    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> ½T©w ]&nbsp;[ <a href="./ListAssignStore.php"><img src="tpl/images/Cancel.gif" border=0></a> ¨ú®ø ] </td>
+    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> ç¢ºå®š ]&nbsp;[ <a href="./ListAssignStore.php"><img src="tpl/images/Cancel.gif" border=0></a> å–æ¶ˆ ] </td>
   </tr>
 </table>
 </form>

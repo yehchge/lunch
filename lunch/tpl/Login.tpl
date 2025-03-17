@@ -1,37 +1,37 @@
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=big5">
-  <title>­q«K·íµn¤Jµe­±</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Login Page - WebSite</title>
 </head>
-<body bgcolor="#FFFFFF">
+<body bgcolor="#EAEBEF">
   <center>
     <p align="center">&nbsp; </p>
-	<p align="center">¡@</p>
-	<p align="center" style="margin-bottom: 10">¡@</p>
+	<p align="center">ã€€</p>
+	<p align="center" style="margin-bottom: 10">ã€€</p>
 	<form name="frm" method="post" action="./Logined.php">
-	<table border="1" bordercolor="#FFFFFF" width="494" cellpadding="2" bgcolor="#E70014" height="148" style="border-collapse: collapse" cellspacing="0">
+	<table border="1" bordercolor="#FFFFFF" width="494" cellpadding="2" bgcolor="#FFFFFF" height="148" style="border-collapse: collapse" cellspacing="0">
 	  <tr>
 	    <td width="488" bordercolor="#FFFFFF" height="153">
-		  <table border="1" bordercolor="#FFFFFF" width="494" cellpadding="2" bgcolor="#E70014" height="148" style="border-collapse: collapse" cellspacing="0">
+		  <table border="1" bordercolor="#FFFFFF" width="494" cellpadding="2" bgcolor="#FFFFFF" height="148" style="border-collapse: collapse" cellspacing="0">
 			<tr>
 			  <td colspan=2 align=center>
 				<p>
 				  <table border=0>
 				    <tr>
-					  <td><font color="#FFFFFF"><b>­q«K·íµn¤Jµe­±</b></font></td>
+					  <td><font color="#000000"><b>Please Enter Your Information</b></font></td>
 					</tr>
 				  </table>
-				  <font color="#FFFFFF">¿é¤J±b¸¹¡G</font><input type="text" name="username" size="20">
+				  <font color="#FFFFFF"></font><input type="text" name="username" size="20" placeholder="username">
 				</p>
-				<p style="margin-bottom: 10"><font color="#FFFFFF">¿é¤J±K½X¡G</font><input type="password" name="password" size="20"></p>
-			    <p align=center style="margin-top: 5"><font color="#FFFFFF" size="2">( ½Ð¿é¤J±b¸¹»P±K½X¡A±b¸¹±K½X¿ù»~ªÌ¡A½Ð»P¸ê°T³¡Ápµ¸ )</font></p>
+				<p style="margin-bottom: 10"><font color="#FFFFFF"></font><input type="password" name="password" size="20" placeholder="password"></p>
+			    <p align=center style="margin-top: 5"><font color="#FFFFFF" size="2"></font></p>
 			  </td>
 			</tr>
 		  </table>
     	</td>
 	  </tr>
 	</table>
-	<p align=center><input type="submit" name="sb" value="     ¥ß§Yµn¤J     "></p>
+	<p align=center><input type="submit" name="sb" value="Login"></p>
 	</form>
   </center>  
 </body>

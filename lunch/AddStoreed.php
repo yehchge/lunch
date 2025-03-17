@@ -1,6 +1,6 @@
 <?php
 
-    header('Content-Type: text/html; charset=Big5');
+    header('Content-Type: text/html; charset=utf-8');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
@@ -11,7 +11,7 @@
   
 	$Lnh = new LnhLnhCfactory();
 
-  	// ¿À¨d®œ•Œ™Ã¶≥®S¶≥µn§J
+  	// Ê™¢Êü•‰ΩøÁî®ËÄÖÊúâÊ≤íÊúâÁôªÂÖ•
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
@@ -25,17 +25,15 @@
 	$Tel = trim($_POST["tel"]);
 	$Note = trim($_POST["note"]);
 
-	//≤£•Õ•ªµ{¶°•\Ø‡§∫Æe
+	//Áî¢ÁîüÊú¨Á®ãÂºèÂäüËÉΩÂÖßÂÆπ
 	if ($Lnh->CreateStore('','',$StoreName,$StoreIntro,$StoreClass,$MainMan,$Tel,$Address,$Online['Account'],$Note)) {
 		echo "<script>\r\n";
-		echo "alert('∑sºW¶®•\!');\r\n";
+		echo "alert('Êñ∞Â¢ûÊàêÂäü!');\r\n";
 		echo "history.back();\r\n";
 		echo "</script>\r\n";
 	} else {
 	  	echo "<script>\r\n";
-		echo "alert('∑sºW•¢±—!');\r\n";
+		echo "alert('Êñ∞Â¢ûÂ§±Êïó!');\r\n";
 		echo "history.back();\r\n";
 		echo "</script>\r\n";
 	}
-  
-?>

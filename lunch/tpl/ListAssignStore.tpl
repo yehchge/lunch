@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>«ü©w©±®aºÞ²z/ºI¤î/¨ú®ø</title>
+  <title>æŒ‡å®šåº—å®¶ç®¡ç†/æˆªæ­¢/å–æ¶ˆ</title>
 <SCRIPT language="JavaScript" type="text/JavaScript">
 <!--
 function ShowDetail(sid) {
@@ -17,7 +17,7 @@ function ShowPdsInfo(sid) {
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -91,13 +91,13 @@ TD
 			  <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td class="Forums_Header" align="center">§Ç¸¹</td>
-			  <td class="Forums_Header" align="center">¤é´Á</td>
-			  <td class="Forums_Header" align="center">­t³d¤H</td>
-			  <td class="Forums_Header" align="center">©±®a§Ç¸¹</td>
-			  <td class="Forums_Header" align="center">©±®a</td>
-			  <td class="Forums_Header" align="center">ª¬ºA</td>
-			  <td class="Forums_Header" align="center">ºÞ²z</td>
+			  <td class="Forums_Header" align="center">åºè™Ÿ</td>
+			  <td class="Forums_Header" align="center">æ—¥æœŸ</td>
+			  <td class="Forums_Header" align="center">è² è²¬äºº</td>
+			  <td class="Forums_Header" align="center">åº—å®¶åºè™Ÿ</td>
+			  <td class="Forums_Header" align="center">åº—å®¶</td>
+			  <td class="Forums_Header" align="center">ç‹€æ…‹</td>
+			  <td class="Forums_Header" align="center">ç®¡ç†</td>
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr>

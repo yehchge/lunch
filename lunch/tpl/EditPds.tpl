@@ -1,12 +1,12 @@
 <html>
 <head>
-  <title>§ó·s«K·í©ú²Ó</title>
+  <title>æ›´æ–°ä¾¿ç•¶æ˜Žç´°</title>
   <style type="text/css">
 <!--
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -73,9 +73,9 @@ TD
     <!--
              function check_form(obj) {
                 var err = '';
-                if(obj.pdsname.value=="") {err +=" [°Ó«~¦WºÙ]";}
-				if(obj.price.value=="") {err +=" [³æ»ù]";}
-                if(err) {alert("½Ð¥¿½T¿é¤J "+err+"");return false;} 
+                if(obj.pdsname.value=="") {err +=" [å•†å“åç¨±]";}
+				if(obj.price.value=="") {err +=" [å–®åƒ¹]";}
+                if(err) {alert("è«‹æ­£ç¢ºè¼¸å…¥ "+err+"");return false;} 
                 return ture;
              }
 			 
@@ -113,34 +113,34 @@ function seldroplisttext(form,str)
 <br>
 <table Class="Forums_General" Width="80%">
   <tr Class="Forums_Header">
-    <td colspan=2><font color="#FFFFFF">&nbsp;§ó·s«K·í©ú²Ó</font></td>
+    <td colspan=2><font color="#FFFFFF">&nbsp;æ›´æ–°ä¾¿ç•¶æ˜Žç´°</font></td>
   </tr>
   <tr>
-    <td><b>§Ç¸¹¡G</b></td>
+    <td><b>åºè™Ÿï¼š</b></td>
 	<td Class="TextBox">{pdsid}</td>
   </tr>
   <tr>
-    <td><b>°Ó«~¦WºÙ¡G</b></td>
+    <td><b>å•†å“åç¨±ï¼š</b></td>
 	<td Class="TextBox"><input type=text name="pdsname" value="{pdsname}" maxLength=90 size=30></td>
   </tr> 
   <tr> 
-    <td><b>«¬§O¡G</b></td>
+    <td><b>åž‹åˆ¥ï¼š</b></td>
 	<td Class="TextBox"><input type=text name="pdstype" value="{pdstype}" maxLength=30 size=30></td>
   </tr> 
   <tr>
-    <td><b>³æ»ù¡G</b></td>
+    <td><b>å–®åƒ¹ï¼š</b></td>
 	<td Class="TextBox"><input type=text name="price" value="{price}" maxLength=90 size=30></td>
   </tr>
   <tr>
-    <td><b>»¡©ú¡G</b></td>
+    <td><b>èªªæ˜Žï¼š</b></td>
 	<td Class="TextBox"><input name="note" value="{note}" type="text" size="30" maxlength="10"></td>
   </tr>
   <tr>
-    <td><b>ª¬ºA¡G</b></td>
-	<td Class="TextBox"><input type=checkbox name="status" {status}>°±¥Î</td>
+    <td><b>ç‹€æ…‹ï¼š</b></td>
+	<td Class="TextBox"><input type=checkbox name="status" {status}>åœç”¨</td>
   </tr>
   <tr>
-    <td colspan="2" align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> ½T©w ]&nbsp;[ <a href="./PdsDetails.php?id={sid}"><img src="tpl/images/Cancel.gif" border=0></a> ¨ú®ø ] </td>
+    <td colspan="2" align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> ç¢ºå®š ]&nbsp;[ <a href="./PdsDetails.php?id={sid}"><img src="tpl/images/Cancel.gif" border=0></a> å–æ¶ˆ ] </td>
   </tr>
 </table>
 </form>

@@ -1,5 +1,5 @@
 <html>
-<head><title>«K·í©ú²ÓÅã¥Ü</title></head>
+<head><title>DinBenDonæ˜ç´°é¡¯ç¤º</title></head>
 
 
 <style type="text/css">
@@ -12,7 +12,7 @@ a:hover {text-decoration: underline;}
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -81,7 +81,7 @@ TD
 	<input type=hidden name="id" value="{id}">
     <table Class="Forums_General">
 	  <tr Class="Forums_Header">
-		<td colspan=2><font color="#FFFFFF">&nbsp;«K·í©ú²ÓÅã¥Ü</font></td>
+		<td colspan=2><font color="#FFFFFF">&nbsp;ä¾¿ç•¶æ˜ç´°é¡¯ç¤º</font></td>
 	  </tr>
       <tr>
 		<td>
@@ -90,12 +90,12 @@ TD
 			  <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td class="Forums_Header">§Ç¸¹</td>
-			  <td class="Forums_Header">°Ó«~¦WºÙ</td>
-			  <td class="Forums_Header">«¬§O</td>
-			  <td class="Forums_Header">ª÷ÃB</td>
-			  <td class="Forums_Header">»¡©ú</td>
-			  <td class="Forums_Header">ª¬ºA</td>
+			  <td class="Forums_Header">åºè™Ÿ</td>
+			  <td class="Forums_Header">å•†å“åç¨±</td>
+			  <td class="Forums_Header">å‹åˆ¥</td>
+			  <td class="Forums_Header">é‡‘é¡</td>
+			  <td class="Forums_Header">èªªæ˜</td>
+			  <td class="Forums_Header">ç‹€æ…‹</td>
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr Class="Forums_General">
@@ -111,7 +111,7 @@ TD
 			  <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{pageselect}</td>
 			</tr>
 			<tr width=80%>   
-			  <td align="right" colspan="9">[ <a href="javascript:self.close();"><img src="tpl/images/Cancel.gif" border=0> Ãö³¬</a> ]</td>
+			  <td align="right" colspan="9">[ <a href="javascript:self.close();"><img src="tpl/images/Cancel.gif" border=0> é—œé–‰</a> ]</td>
 			</tr> 
 		  </table>
 		</td>

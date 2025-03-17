@@ -1,6 +1,6 @@
 <?php
 
-    header('Content-Type: text/html; charset=Big5');
+    header('Content-Type: text/html; charset=utf-8');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
@@ -9,23 +9,23 @@
 	$Lnh = new LnhLnhCfactory();
 	$LnhG = new LnhLnhCglobal();
 
-   	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
+   	// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
   		return;
   	}
 
-	// ¤º­¶¥\¯à (FORM)
+	// å…§é åŠŸèƒ½ (FORM)
 	$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$tpl->define(array('TplBody'=>"OrderStore.tpl"));
 	$tpl->define_dynamic("row","TplBody");
   
-	//²£¥Í¥»µ{¦¡¥\¯à¤º®e
+	//ç”¢ç”Ÿæœ¬ç¨‹å¼åŠŸèƒ½å…§å®¹
 	// Page Start ************************************************ 
 	include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
 	$page= isset($_REQUEST['page'])?$_REQUEST['page']:0; 
-	$Status = 1; // ¥uÅã¥Ü­qÁÊ¤¤
+	$Status = 1; // åªé¡¯ç¤ºè¨‚è³¼ä¸­
 	$Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
 	$PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
  	$SysID = 1;
@@ -47,7 +47,7 @@
 	$pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
 	// Page Ended ************************************************ 
  	$rows = $Lnh->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
-  	if ($rows) $row = mysql_fetch_assoc($rows);
+  	if ($rows) $row = $Lnh->fetch_assoc($rows);
   	if ($row == NULL) {
   		$tpl->clear_dynamic("row");
         $tpl->parse('ROWS',"row");        
@@ -73,11 +73,11 @@
 			//$tpl->assign('order',"<a href='./OrderLunch.php?id=$row[StoreID]&mid=$row[RecordID]'>".$LnhG->ManagerStatus[$row[Status]]."</a>");
 			$tpl->assign('status',$LnhG->ManagerStatus[$row['Status']]);
             $tpl->parse('ROWS',".row");         
-			$row = mysql_fetch_assoc($rows);
+			$row = $Lnh->fetch_assoc($rows);
   		}
   	}
 
-	$tpl->assign('totalrows',"¦@ ".$Lnh->GetAllManagerCount($Status)." µ§ "); //* Page *// 
+	$tpl->assign('totalrows',"å…± ".$Lnh->GetAllManagerCount($Status)." ç­† "); //* Page *// 
 	$tpl->assign('pageselect',$pagestr); //* Page *// 
 
 	$tpl->parse('BODY',"TplBody");
@@ -85,8 +85,6 @@
 	$MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$MainTpl->define(array('apg'=>"LunchMain.tpl")); 
 	$MainTpl->assign("FUNCTION",$str); 
-	$MainTpl->assign("LOCATION","­q«K·í"); 
+	$MainTpl->assign("LOCATION","DinBenDon"); 
 	$MainTpl->parse('MAIN',"apg");
 	$MainTpl->FastPrint('MAIN');
-
-?>

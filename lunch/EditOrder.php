@@ -1,6 +1,6 @@
 <?php
 
-    header('Content-Type: text/html; charset=Big5');
+    header('Content-Type: text/html; charset=utf-8');
 	defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
 	include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
 	include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
@@ -16,7 +16,7 @@
 	$id = trim($_REQUEST['id']);
 	$ManagerID = trim($_REQUEST['mid']);
  
-  	// ÀË¬d¨Ï¥ÎªÌ¦³¨S¦³µn¤J
+  	// æª¢æŸ¥ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥
 	$Online = $Lnh->GetOnline();
 	if(!$Online[0]) {
 		header("Location:./Login.php");
@@ -26,19 +26,19 @@
 	$info = $Lnh->GetOrderDetailsByRecordID($id);
 	//echo "<pre>";echo print_r($info);echo "</pre>";exit();
 	
-	// ­­¨î¥u¦³­qÁÊ¤H¥i­×§ïª¬ºA
+	// é™åˆ¶åªæœ‰è¨‚è³¼äººå¯ä¿®æ”¹ç‹€æ…‹
 	if (strcmp($Online['Account'],$info['CreateMan'])<>0) {
 		echo "<script>\r\n";
 		echo "<!--\r\n";
-		echo "alert('£°! ¥u¦³­qÁÊ¤H¥i­×§ï!§O°½§ï³á!');\r\n";
+		echo "alert('ã„Ÿ! åªæœ‰è¨‚è³¼äººå¯ä¿®æ”¹!åˆ¥å·æ”¹å–”!');\r\n";
 		echo "history.back();\r\n";
 		echo "//-->\r\n";
 		echo "</script>\r\n";
-		//echo "<br><a href='./ListAssignStore.php'>¦^¤W¤@¨B</a>";
+		//echo "<br><a href='./ListAssignStore.php'>å›ä¸Šä¸€æ­¥</a>";
 		return;
 	}	
 	
-	//²£¥Í¥»µ{¦¡¥\¯à¤º®e
+	//ç”¢ç”Ÿæœ¬ç¨‹å¼åŠŸèƒ½å…§å®¹
 	$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$tpl->define(array('apg6'=>"EditOrder.tpl")); 
   
@@ -64,11 +64,9 @@
 	$MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
 	$MainTpl->define(array('apg'=>"LunchMain.tpl")); 
 	$MainTpl->assign("FUNCTION",$str); 
-	$MainTpl->assign("LOCATION","­q«K·í©ú²Ó/­qÁÊ¤H©ú²Ó/ºŞ²z­qÁÊ¤H©ú²Óª¬ºA"); 
+	$MainTpl->assign("LOCATION","DinBenDonæ˜ç´°/è¨‚è³¼äººæ˜ç´°/ç®¡ç†è¨‚è³¼äººæ˜ç´°ç‹€æ…‹"); 
 	$MainTpl->parse('MAIN',"apg");
 	$MainTpl->FastPrint('MAIN');
   
-	// ¿ï¾ÜDropDownList³]©wª¬ºA«O¯d
+	// é¸æ“‡DropDownListè¨­å®šç‹€æ…‹ä¿ç•™
 	if (!empty($info['Status'])) {echo "<script>seldroplist(this.frm.status,'".$info['Status']."');</script>";}
-  
-?>

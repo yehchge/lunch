@@ -1,13 +1,13 @@
 <html>
 <head>
-  <title>·s¼W«K·í©±®a</title>
+  <title>æ–°å¢žä¾¿ç•¶åº—å®¶</title>
 </head>
 <style type="text/css">
 <!--
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -75,14 +75,14 @@ TD
     <!--
              function check_form(obj) {
                 var err = '';
-                if(obj.name.value=="") {err +=" [©±¦W]";}
-                if(obj.intro.value=="") {err +=" [Â²¤¶]";}
-				if(obj.sclass.selectedIndex==0) {err +=" [©±®aÃþ§O]";}
-				if(obj.man.value=="") {err +=" [­t³d¤H]";}
-                if(obj.addr.value=="") {err +=" [¦a§}]";}
-                if(obj.tel.value=="") {err +=" [¹q¸Ü]";} 
-				if(obj.note.value=="") {err +=" [­qÁÊ»¡©ú]";} 
-                if(err) {alert("½Ð¥¿½T¿é¤J "+err+"");return false;} 
+                if(obj.name.value=="") {err +=" [åº—å]";}
+                if(obj.intro.value=="") {err +=" [ç°¡ä»‹]";}
+				if(obj.sclass.selectedIndex==0) {err +=" [åº—å®¶é¡žåˆ¥]";}
+				if(obj.man.value=="") {err +=" [è² è²¬äºº]";}
+                if(obj.addr.value=="") {err +=" [åœ°å€]";}
+                if(obj.tel.value=="") {err +=" [é›»è©±]";} 
+				if(obj.note.value=="") {err +=" [è¨‚è³¼èªªæ˜Ž]";} 
+                if(err) {alert("è«‹æ­£ç¢ºè¼¸å…¥ "+err+"");return false;} 
                 return ture;
              }
              
@@ -93,45 +93,45 @@ TD
 <br>
 <table Width="80%" Class="Forums_General">
   <tr Class="Forums_Header">
-    <td colspan=2><font color="#FFFFFF">&nbsp;·s¼W©±®a</font></td>
+    <td colspan=2><font color="#FFFFFF">&nbsp;æ–°å¢žåº—å®¶</font></td>
   </tr>
   <tr>
-    <td><b>°Ó®a¦WºÙ¡G</b></td>
+    <td><b>å•†å®¶åç¨±ï¼š</b></td>
 	<td Class="TextBox"><input type=text name="name" maxLength=90 size=30></td>
   </tr> 
   <tr> 
-    <td><b>°Ó®aÂ²¤¶¡G</b></td>
+    <td><b>å•†å®¶ç°¡ä»‹ï¼š</b></td>
 	<td Class="TextBox"><input type=text name="intro" maxLength=30 size=30></td>
   </tr> 
   <tr>
-    <td><b>°Ó®aÃþ§O¡G</b></td>
+    <td><b>å•†å®¶é¡žåˆ¥ï¼š</b></td>
 	<td Class="TextBox">
 	  <select name="sclass">
-		<option value="0">½Ð¿ï¾Ü
-		<option value="«K·í">«K·í
-		<option value="³t­¹">³t­¹
-		<option value="¶¼®Æ">¶¼®Æ
+		<option value="0">è«‹é¸æ“‡
+		<option value="ä¾¿ç•¶">ä¾¿ç•¶
+		<option value="é€Ÿé£Ÿ">é€Ÿé£Ÿ
+		<option value="é£²æ–™">é£²æ–™
 	  </select>
 	</td>
   </tr>
   <tr>
-    <td><b>­t ³d ¤H¡G</b></td>
-	<td Class="TextBox"><input name="man" type="text" size="30" maxlength="10"><font color=red> (Ex:¦ÑÁó) </font></td>
+    <td><b>è²  è²¬ äººï¼š</b></td>
+	<td Class="TextBox"><input name="man" type="text" size="30" maxlength="10"><font color=red> (Ex: Boss) </font></td>
   </tr>
   <tr> 
-    <td><b>°Ó®a¦a§}¡G</b></td>
+    <td><b>å•†å®¶åœ°å€ï¼š</b></td>
 	<td Class="TextBox"><input name="addr" type="text" size="50" maxlength="50"></td>
   </tr>
   <tr> 
-    <td><b>°Ó®a¹q¸Ü¡G</b></td>
+    <td><b>å•†å®¶é›»è©±ï¼š</b></td>
 	<td Class="TextBox"><input type=text name="tel" maxLength=30 size=30></td>
   </tr> 
   <tr> 
-    <td><b>­qÁÊ»¡©ú¡G</b></td>
+    <td><b>è¨‚è³¼èªªæ˜Žï¼š</b></td>
 	<td Class="TextBox"><input type=text name="note" maxLength=10 size=30></td>
   </tr> 
   <tr>
-    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> ½T©w ]&nbsp;[ <a href="/lunch/index.php"><img src="tpl/images/Cancel.gif" border=0></a> ¨ú®ø ] </td>
+    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> ç¢ºå®š ]&nbsp;[ <a href="/lunch/index.php"><img src="tpl/images/Cancel.gif" border=0></a> å–æ¶ˆ ] </td>
   </tr>
 </table>
 </form>

@@ -83,7 +83,7 @@ FUNCTION rewrite_link_href_callback($matches) {
 
 if (! class_exists ( 'FastTemplate' )) {
 
-	class FastTemplate {
+	class FastTemplate extends stdClass {
 		/**
 		 * @access private
 		 * @Desc - holds time of start generation
@@ -156,31 +156,31 @@ if (! class_exists ( 'FastTemplate' )) {
 		 * @access private
 		 * @Desc - Holds the array of filehandles FILELIST[HANDLE] == "fileName"
 		 */
-		var $FILELIST = array ( );
+		var $FILELIST = array ();
 
 		/**
 		 * @access private
 		 * @Desc - Holds the array of dynamic blocks, and the fileHandles they live in.
 		 */
-		var $DYNAMIC = array ( );
+		var $DYNAMIC = array ();
 
 		/**
 		 * @access private
 		 * @Desc - Holds the array of Variable handles. PARSEVARS[HANDLE] == "value"
 		 */
-		var $PARSEVARS = array ( );
+		var $PARSEVARS = array ();
 
 		/**
 		 * @access private
 		 * @Desc - We only want to load a template once - when it's used.
 		 *         LOADED[FILEHANDLE] == 1 if loaded undefined if not loaded yet.
 		 */
-		var $LOADED = array ( );
+		var $LOADED = array ();
 		/**
 		 * @access private
 		 * @Desc - Holds the handle names assigned
 		 */
-		var $HANDLE = array ( );
+		var $HANDLE = array ();
 
 		/**
 		 * @access private
@@ -268,7 +268,7 @@ if (! class_exists ( 'FastTemplate' )) {
 		 * @Mod by   -
 		 * @Mod vers -
 		 **/
-		FUNCTION FastTemplate($pathToTemplates = "") {
+		FUNCTION __construct($pathToTemplates = "") {
 			GLOBAL $php_errormsg; //if the track_errors configuration option is turned on (it defaults to off).
 
 
@@ -603,7 +603,7 @@ if (! class_exists ( 'FastTemplate' )) {
 		 */
 		FUNCTION value_defined($value, $field = '', $params = '') {
 			$var = $this->PARSEVARS [$value];
-			if ($field {0} == '.') {
+			if ($field[0] == '.') {
 				$field = substr ( $field, 1 );
 			}
 			# echo "$value, $field, $params <BR>";
@@ -649,7 +649,8 @@ if (! class_exists ( 'FastTemplate' )) {
 			$needparsedef [$depth] ["defs"] = FALSE;
 			$needparsedef [$depth] ["parse"] = TRUE;
 
-			WHILE ( list ( $num, $line ) = each ( $lines ) ) {
+			foreach($lines as $num => $line){
+			// WHILE ( list ( $num, $line ) = each ( $lines ) ) {
 				//Added "necessary" lines to new string
 				if (((! $needparsedef [$depth] ["defs"]) || ($needparsedef [$depth] ["parse"])) && (strpos ( $line, "IFDEF:" ) === FALSE) && (strpos ( $line, "IFNDEF:" ) === FALSE) && (strpos ( $line, "ELSE" ) === FALSE) && (strpos ( $line, "ENDIF" ) === FALSE))
 					$newTemplate .= trim ( $line ) . "\n";
@@ -752,7 +753,8 @@ if (! class_exists ( 'FastTemplate' )) {
 
 			reset ( $ft_array );
 
-			WHILE ( list ( $key, $val ) = each ( $ft_array ) ) {
+			foreach($ft_array as $key => $val){
+			// WHILE ( list ( $key, $val ) = each ( $ft_array ) ) {
 				if (! (empty ( $key ))) {
 					if (gettype ( $val ) != "string") {
 						settype ( $val, "string" );
@@ -785,7 +787,8 @@ if (! class_exists ( 'FastTemplate' )) {
 				// end by Voituk Vadim
 				$template = "";
 
-				WHILE ( list ( $num, $line ) = each ( $lines ) ) {
+				foreach($lines as $num => $line){
+				// WHILE ( list ( $num, $line ) = each ( $lines ) ) {
 
 					if (substr_count ( $line, "<!-- BEGIN DYNAMIC BLOCK:" ) > 0) {
 						$inside_block = TRUE;
@@ -807,7 +810,9 @@ if (! class_exists ( 'FastTemplate' )) {
 				// Warn about unresolved template variables
 				if (ereg ( "({[A-Z0-9_]+})", $template )) {
 					$unknown = split ( "\n", $template );
-					WHILE ( list ( $Element, $Line ) = each ( $unknown ) ) {
+
+					foreach($unknown as $Element => $Line){
+					// WHILE ( list ( $Element, $Line ) = each ( $unknown ) ) {
 						$UnkVar = $Line;
 						if (! (empty ( $UnkVar ))) {
 							$this->show_unknowns ( $UnkVar );
@@ -884,7 +889,9 @@ if (! class_exists ( 'FastTemplate' )) {
 
 			if (gettype ( $FileTags ) == "array") {
 				unset ( $this->$ReturnVar ); // Clear any previous data
-				WHILE ( list ( $key, $val ) = each ( $FileTags ) ) {
+
+				foreach($FileTags as $key => $val){
+				// WHILE ( list ( $key, $val ) = each ( $FileTags ) ) {
 					if ((! isset ( $this->$val )) || (empty ( $this->$val ))) {
 						$this->LOADED ["$val"] = 1;
 						if (isset ( $this->DYNAMIC ["$val"] )) {
@@ -958,7 +965,7 @@ if (! class_exists ( 'FastTemplate' )) {
 				RETURN;
 			} else {
 
-				if (! get_magic_quotes_gpc ())
+				if ( ! ini_set("magic_quotes_runtime",0))
 					$this->$template = stripslashes ( $this->$template );
 
 				if ($this->IE_UTF_INCLUDE) {
@@ -977,6 +984,27 @@ if (! class_exists ( 'FastTemplate' )) {
 				RETURN;
 			}
 		} // end getfast()
+
+
+	 	private function my_quotes($data) {
+	        if(is_null($data)) return null;
+
+	        if(is_array($data)) {
+	            foreach($data as $key => $val) {
+	                if(is_array($val)) {
+	                    $data[$key] = $this->my_quotes($val);
+	                } else {
+	                    $data[$key] = ini_set("magic_quotes_runtime",0) ? trim($val) : addslashes(trim($val));
+	                    $data[$key] = self::removeNbsp($data[$key]);
+	                }
+	            }
+	        } else {
+	            $data = ini_set("magic_quotes_runtime",0) ? trim($data) : addslashes(trim($data));
+	            $data = self::removeNbsp($data);
+	        }
+
+	        return $data;
+	    }
 
 
 		/**
@@ -1039,11 +1067,17 @@ if (! class_exists ( 'FastTemplate' )) {
 		 */
 
 		FUNCTION FastPrint($template = "", $return = "") {
-			if(is_array($this->REWRITE_TEMPLATE_PATH))
-			$tmp=str_replace($this->REWRITE_TEMPLATE_PATH[0],$this->REWRITE_TEMPLATE_PATH[1],$this->getfast ( $template ));
-			else
-			$tmp=$this->getfast ( $template );
+		
+			if(is_array($this->REWRITE_TEMPLATE_PATH)){
+
+				$tmp=str_replace($this->REWRITE_TEMPLATE_PATH[0],$this->REWRITE_TEMPLATE_PATH[1], $this->getfast( $template ));
 			
+
+			}else{
+
+				$tmp=$this->getfast ( $template );
+			}
+		
 			if (! $return) {
 				echo $tmp;
 				RETURN "";
@@ -1406,7 +1440,9 @@ if (! class_exists ( 'FastTemplate' )) {
 				$start = FALSE;
 				$end = FALSE;
 
-				WHILE ( list ( $lineNum, $lineData ) = each ( $DataArray ) ) {
+
+				foreach($DataArray as $lineNum => $lineData){
+				// WHILE ( list ( $lineNum, $lineData ) = each ( $DataArray ) ) {
 
 					$lineTest = trim ( $lineData );
 
@@ -1500,7 +1536,8 @@ if (! class_exists ( 'FastTemplate' )) {
 				$start = FALSE;
 				$end = FALSE;
 
-				WHILE ( list ( $lineNum, $lineData ) = each ( $DataArray ) ) {
+				foreach($DataArray as $lineNum => $lineData){
+				// WHILE ( list ( $lineNum, $lineData ) = each ( $DataArray ) ) {
 					$lineTest = trim ( $lineData );
 					if ("<!-- BEGIN DYNAMIC BLOCK: $Macro -->" == "$lineTest") {
 						$start = TRUE;
@@ -1572,13 +1609,19 @@ if (! class_exists ( 'FastTemplate' )) {
 		 */
 
 		FUNCTION define($fileList, $value = null) {
+
+
+
 			if ((gettype ( $fileList ) != "array") && ! is_null ( $value ))
 				$fileList = array ($fileList => $value ); //added by Voituk Vadim
 
 
-			WHILE ( list ( $FileTag, $FileName ) = each ( $fileList ) ) {
-				$this->FILELIST ["$FileTag"] = $FileName;
+			// WHILE ( list ( $FileTag, $FileName ) = each ( $fileList ) ) {
+			foreach($fileList as $FileTag => $FileName){
+
+				$this->FILELIST["$FileTag"] = $FileName;
 			}
+
 
 			RETURN TRUE;
 		}
@@ -1637,15 +1680,19 @@ if (! class_exists ( 'FastTemplate' )) {
 
 				} else {
 
-					WHILE ( list ( $key, $val ) = each ( $ReturnVar ) ) {
+					// WHILE ( list ( $key, $val ) = each ( $ReturnVar ) ) {
+					foreach($ReturnVar as $key => $val){
 						unset ( $this->$val );
+		
 					}
 
 					RETURN;
 				}
 			}
 
-			WHILE ( list ( $key, $val ) = each ( $this->HANDLE ) ) { // Empty - clear all of them
+			// WHILE ( list ( $key, $val ) = each ( $this->HANDLE ) ) {
+			foreach($this->HANDLE as $key => $val){	
+				// Empty - clear all of them
 				$KEY = $key;
 				unset ( $this->$KEY );
 			}
@@ -1708,7 +1755,8 @@ if (! class_exists ( 'FastTemplate' )) {
 
 			if (empty ( $fileHandle )) {
 				// Clear ALL fileHandles
-				WHILE ( list ( $key, $val ) = each ( $this->LOADED ) ) {
+				foreach($this->LOADED as $key => $val){
+				// WHILE ( list ( $key, $val ) = each ( $this->LOADED ) ) {
 					unset ( $this->$key );
 				}
 
@@ -1723,7 +1771,8 @@ if (! class_exists ( 'FastTemplate' )) {
 						RETURN TRUE;
 					}
 				} else {
-					WHILE ( list ( $Key, $Val ) = each ( $fileHandle ) ) {
+					foreach($fileHandle as $Key => $Val){
+					// WHILE ( list ( $Key, $Val ) = each ( $fileHandle ) ) {
 						unset ( $this->LOADED [$Key] );
 						unset ( $this->$Key );
 					}
@@ -1770,7 +1819,8 @@ if (! class_exists ( 'FastTemplate' )) {
 				unset ( $this->FILELIST [$FileTag] );
 				RETURN;
 			} else {
-				WHILE ( list ( $Tag, $Val ) = each ( $FileTag ) ) {
+				foreach($FileTag as $Tag => $Val){
+				// WHILE ( list ( $Tag, $Val ) = each ( $FileTag ) ) {
 					unset ( $this->FILELIST [$Tag] );
 				}
 				RETURN;
@@ -1789,7 +1839,9 @@ if (! class_exists ( 'FastTemplate' )) {
 		 */
 		FUNCTION clear_assign() {
 			if (! (empty ( $this->PARSEVARS ))) {
-				WHILE ( list ( $Ref, $Val ) = each ( $this->PARSEVARS ) ) {
+
+				foreach($this->PARSEVARS as $Ref => $Val){
+				// WHILE ( list ( $Ref, $Val ) = each ( $this->PARSEVARS ) ) {
 					unset ( $this->PARSEVARS ["$Ref"] );
 				}
 			}
@@ -1880,7 +1932,8 @@ if (! class_exists ( 'FastTemplate' )) {
 		 */
 		FUNCTION assign($ft_array, $trailer = "") {
 			if (gettype ( $ft_array ) == "array") {
-				WHILE ( list ( $key, $val ) = each ( $ft_array ) ) {
+				foreach($ft_array as $key => $val){
+				// WHILE ( list ( $key, $val ) = each ( $ft_array ) ) {
 					if (! (empty ( $key ))) {
 						//  Empty values are allowed
 						//  Empty Keys are NOT
@@ -1979,7 +2032,8 @@ if (! class_exists ( 'FastTemplate' )) {
 		 */
 
 		FUNCTION multiple_assign($pattern) {
-			WHILE ( list ( $key, $value ) = each ( $GLOBALS ) ) {
+			foreach($GLOBALS as $key => $value){
+			// WHILE ( list ( $key, $value ) = each ( $GLOBALS ) ) {
 				if (substr ( $key, 0, strlen ( $pattern ) ) == $pattern) {
 					$this->assign ( strtoupper ( $key ), $value );
 				}
@@ -2104,7 +2158,8 @@ if (! class_exists ( 'FastTemplate' )) {
 
 				$flag = TRUE;
 
-				WHILE ( list ( $key, $val ) = each ( $arr ) ) {
+				foreach($arr as $key => $val){
+				// WHILE ( list ( $key, $val ) = each ( $arr ) ) {
 
 					$flag = ! $flag;
 					$val = htmlspecialchars ( mysql_escape_string ( $val ) );
@@ -2204,8 +2259,4 @@ if (! class_exists ( 'FastTemplate' )) {
 
 	//  ************************************************************
 	} // End cls_fast_template.php
-} // end of if defined
-
-
-// End cls_fast_template.php
-?>
+}

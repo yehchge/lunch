@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>­q«K·í¨t²Î</title>
+<title>DinBenDonç³»çµ±</title>
 <style type="text/css">
 <!--
 	.style10 {font-size: x-small;color: #666666;}
@@ -15,13 +15,13 @@
 -->
 </style>
 </head>
-<body topmargin="0" leftmargin="0" bgcolor="#FFFFFF">
-  <table height="51" bgcolor="#E70014" width="100%">
+<body topmargin="0" leftmargin="0" bgcolor="#EAEBEF">
+  <table height="51" bgcolor="#cccccc" width="100%">
     <tr>
       <td valign="center">
 	    <table border=0>
 	      <tr>
-		    <td><font size=4 face="¼Ð·¢Åé" color="#FFFFFF"><b>&nbsp;&nbsp;&nbsp;­q«K·í¨t²Î</b></font></td>
+		    <td><font size=4 face="æ¨™æ¥·é«”" color="#000000"><b>&nbsp;&nbsp;&nbsp;DinBenDonç³»çµ±</b></font></td>
 	      </tr>
 	    </table>  
 	  </td>
@@ -36,20 +36,20 @@
     </div> 
   </div> 
   <div id="navBar">
-    <div id="sectionLinks"><li><a href='./AddStore.php'>·s¼W©±®a</a></li></div>
-    <div id="sectionLinks"><li><a href='./ListStore.php'>©±®aºûÅ@</a></li></div>
-	<div id="sectionLinks"><li><a href='./AssignStore.php'>«ü©w©±®a</a></li></div>
-	<div id="sectionLinks"><li><a href='./ListAssignStore.php'>«ü©w©±®aºÞ²z/ºI¤î/¨ú®ø</a></li></div>
-	<div id="sectionLinks"><li><a href='./OrderStore.php'>­q«K·í(¤µ¤é)</a></li></div>
-	<div id="sectionLinks"><li><a href='./ListOrder.php'>­q«K·í©ú²Ó</a></li></div>
-	<div id="sectionLinks"><li><a href='./index.php'>¦^­º­¶</a></li></div>
-	<div id="sectionLinks"><li><a href='./LnhLnhLogout.php'>µn¥X</a></li></div>
+    <div id="sectionLinks"><li><a href='./AddStore.php'>æ–°å¢žåº—å®¶</a></li></div>
+    <div id="sectionLinks"><li><a href='./ListStore.php'>åº—å®¶ç¶­è­·</a></li></div>
+	<div id="sectionLinks"><li><a href='./AssignStore.php'>æŒ‡å®šåº—å®¶</a></li></div>
+	<div id="sectionLinks"><li><a href='./ListAssignStore.php'>æŒ‡å®šåº—å®¶ç®¡ç†/æˆªæ­¢/å–æ¶ˆ</a></li></div>
+	<div id="sectionLinks"><li><a href='./OrderStore.php'>DinBenDon(ä»Šæ—¥)</a></li></div>
+	<div id="sectionLinks"><li><a href='./ListOrder.php'>DinBenDonæ˜Žç´°</a></li></div>
+	<div id="sectionLinks"><li><a href='./index.php'>å›žé¦–é </a></li></div>
+	<div id="sectionLinks"><li><a href='./LnhLnhLogout.php'>ç™»å‡º</a></li></div>
 	<div id="sectionLinks">&nbsp;</div>
 	<div id="sectionLinks">&nbsp;</div>
 	<div id="sectionLinks">&nbsp;</div>
   </div>
   <div id="siteInfo">
-    <div align="center"><span class="style10">ª©Åv©Ò¦³ &copy; ­q«K·íªÑ¥÷¦³­­¤½¥q</span></div>
+    <div align="center"><span class="style10">ç‰ˆæ¬Šæ‰€æœ‰ &copy; DinBenDonè‚¡ä»½æœ‰é™å…¬å¸</span></div>
   </div> 
 </body>
 </html>

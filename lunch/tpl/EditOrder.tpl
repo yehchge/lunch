@@ -1,12 +1,12 @@
 <html>
 <head>
-  <title>╨ч╡z╗о╔н╙л╜q╚K╥М╙╛╨A</title>
+  <title>Г╝║Г░├Д╫©Г■╗Х─┘DinBenDonГ▀─Ф┘▀</title>
     <style type="text/css">
 <!--
 .Forums_Header {
 	font: bold Arial;
 	color: white;
-	background-color: #E16161;
+	background-color: #cccccc;
 }
 
 .Forums_Header2 {
@@ -73,14 +73,14 @@ TD
     <!--
              function check_form(obj) {
                 var err = '';
-                if(obj.name.value=="") {err +=" [╘╠╕W]";}
-                if(obj.intro.value=="") {err +=" [б╡╓╤]";}
-				if(obj.sclass.selectedIndex==0) {err +=" [╘╠╝aцЧ╖O]";}
-				if(obj.man.value=="") {err +=" [╜tЁd╓H]";}
-                if(obj.addr.value=="") {err +=" [╕a╖}]";}
-                if(obj.tel.value=="") {err +=" [╧q╦э]";} 
-				if(obj.note.value=="") {err +=" [╜qай╩║╘З]";} 
-                if(err) {alert("╫п╔©╫T©И╓J "+err+"");return false;} 
+                if(obj.name.value=="") {err +=" [Е╨≈Е░█]";}
+                if(obj.intro.value=="") {err +=" [Г╟║Д╩▀]";}
+				if(obj.sclass.selectedIndex==0) {err +=" [Е╨≈Е╝╤И║·Е┬╔]";}
+				if(obj.man.value=="") {err +=" [Х╡═Х╡╛Д╨╨]";}
+                if(obj.addr.value=="") {err +=" [Е°╟Е²─]";}
+                if(obj.tel.value=="") {err +=" [И⌡╩Х╘╠]";} 
+				if(obj.note.value=="") {err +=" [Х╗┌ХЁ╪Х╙╙Ф≤▌]";} 
+                if(err) {alert("Х╚▀Ф╜ёГ╒╨Х╪╦Е┘╔ "+err+"");return false;} 
                 return ture;
              }
 			 
@@ -116,48 +116,48 @@ function seldroplisttext(form,str)
 <input type=hidden name="managerid" value="{managerid}">
 <table Class="Forums_General" Width="70%">
   <tr Class="Forums_Header">
-    <td colspan=2><font color="#FFFFFF">&nbsp;╨ч╡z╗о╔н╙л╜q╚K╥М╙╛╨A</font></td>
+    <td colspan=2><font color="#FFFFFF">&nbsp;Г╝║Г░├Д╫©Г■╗Х─┘DinBenDonГ▀─Ф┘▀</font></td>
   </tr>
   <tr>
-    <td>╜qай╫s╦╧║G</td>
+    <td>Х╗┌ХЁ╪Г╥╗Х≥÷О╪ </td>
 	<td Class="TextBox">{orderid}</td>
   </tr>
   <tr>
-    <td>╜qай╓H║G</td>
+    <td>Х╗┌ХЁ╪Д╨╨О╪ </td>
 	<td Class="TextBox">{orderman}</td>
   </tr>
   <tr>
-    <td>╟с╚~╕W╨ы║G</td>
+    <td>Е∙├Е⌠│Е░█Г╗╠О╪ </td>
 	<td Class="TextBox">{pdsname}</td>
   </tr>
   <tr>
-    <td>╙ВцB║G</td>
+    <td>И┤▒И║█О╪ </td>
 	<td Class="TextBox">{price}</td>
   </tr>
   <tr>
-    <td>╪ф╤q║G</td>
+    <td>Ф∙╦И┤▐О╪ </td>
 	<td Class="TextBox">{count}</td>
   </tr>
   <tr>
-    <td>╜qай╩║╘З║G</td>
+    <td>Х╗┌ХЁ╪Х╙╙Ф≤▌О╪ </td>
 	<td Class="TextBox">{note}</td>
   </tr>
   <tr>
-    <td>╜qай╝и╤║║G</td>
+    <td>Х╗┌ХЁ╪Ф≥┌И√⌠О╪ </td>
 	<td Class="TextBox">{createdate}</td>
   </tr>
   <tr>
-    <td>╙╛╨A║G</td>
+    <td>Г▀─Ф┘▀О╪ </td>
 	<td Class="TextBox"><select name="status">
-			<option value=0>╫п©О╬э
-			<option value=1>╔©╠`
-			<option value=2>╗З╝Ь
-			<option value=9>╖R╟ё
+			<option value=0>Х╚▀И│╦Ф⌠┤
+			<option value=1>Ф╜ёЕ╦╦
+			<option value=2>Е▐√Ф╤┬
+			<option value=9>Е┬╙И≥╓
 		</select>
 	</td>
   </tr>
   <tr>
-    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> ╫T╘w ]&nbsp;[ <a href="./OrderDetails.php?mid={managerid}"><img src="tpl/images/Cancel.gif" border=0></a> ╗З╝Ь ] </td>
+    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> Г╒╨Е╝  ]&nbsp;[ <a href="./OrderDetails.php?mid={managerid}"><img src="tpl/images/Cancel.gif" border=0></a> Е▐√Ф╤┬ ] </td>
   </tr>
 </table>
 </form>

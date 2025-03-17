@@ -283,5 +283,3 @@ function Code39 ($Asc)
                         return "011000100"; 
         } 
 } 
-
-?>

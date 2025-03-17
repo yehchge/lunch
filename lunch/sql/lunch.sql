@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `lunch_manager` (
   `EndDate` int(11) NOT NULL DEFAULT '0' COMMENT '截止日期',
   PRIMARY KEY (`RecordID`),
   KEY `RecordID` (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='訂便當負責人主檔';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DinBenDon負責人主檔';
 
 -- 正在導出表  lunch.lunch_manager 的資料：0 rows
 DELETE FROM `lunch_manager`;
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `lunch_online` (
   `RemoteIP` char(16) NOT NULL COMMENT 'IP位置',
   PRIMARY KEY (`OnlineID`),
   KEY `SessionID` (`SessionID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='訂便當線上紀錄';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DinBenDon線上紀錄';
 
 -- 正在導出表  lunch.lunch_online 的資料：0 rows
 DELETE FROM `lunch_online`;
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `lunch_order` (
   `Status` int(11) NOT NULL DEFAULT '0' COMMENT '狀態, 1:正常, 2:取消, 9:刪除',
   PRIMARY KEY (`RecordID`),
   KEY `RecordID` (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='訂便當明細';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DinBenDon明細';
 
 -- 正在導出表  lunch.lunch_order 的資料：0 rows
 DELETE FROM `lunch_order`;
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `lunch_product` (
   `Status` int(11) NOT NULL DEFAULT '0' COMMENT '態, 1:正常, 2:停用, 9:刪除',
   PRIMARY KEY (`RecordID`),
   KEY `RecordID` (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='訂便當的明細';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DinBenDon的明細';
 
 -- 正在導出表  lunch.lunch_product 的資料：0 rows
 DELETE FROM `lunch_product`;
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `lunch_store` (
   `Status` int(11) NOT NULL DEFAULT '0' COMMENT '狀態, 1:正常, 2:停用, 9:刪除',
   PRIMARY KEY (`RecordID`),
   KEY `RecordID` (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='訂便當的商家';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DinBenDon的商家';
 
 -- 正在導出表  lunch.lunch_store 的資料：0 rows
 DELETE FROM `lunch_store`;
