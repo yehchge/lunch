@@ -1,0 +1,9 @@
+{
+    "name": "lunch/lunch",
+    "autoload": {
+        "psr-4": {
+            "Lunch\\": "app/"
+        }
+    },
+    "require": {}
+}
