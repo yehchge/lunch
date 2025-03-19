@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1); // 嚴格類型
+
 // echo "系統更新維護,請稍後!!"; exit();
 
 class SysRdbCconnection {
@@ -141,7 +143,7 @@ class SysRdbCconnection {
         if($this->DbType==$this->MY_SQL_SERVER){
 
             try{
-                $temp = new PDO("mysql:host=".$this->ConnHost.";dbname=".$this->ConnDb.";charset=utf8", $this->ConnUid, $this->ConnPwd);
+                $temp = new PDO("mysql:host=".$this->ConnHost.";dbname=".$this->ConnDb.";charset=utf8", (string)$this->ConnUid, (string)$this->ConnPwd);
             }catch(PDOException $e){
                 echo $e->getMessage();exit;
             }

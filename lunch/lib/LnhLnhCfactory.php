@@ -1,5 +1,7 @@
 <?php
 
+// declare(strict_types=1); // 嚴格類型
+
 include_once PATH_ROOT."/lunch/gphplib/SysRdbCconnection.php";
 include_once PATH_ROOT."/lunch/lib/LnhRdbCglobal.php";
 
@@ -429,7 +431,7 @@ class LnhLnhCfactory extends SysRdbCconnection {
      public function setWhois() {
         list($usec, $sec) = explode(' ', microtime());
         $key = (float) $sec + ((float) $usec * 100000);
-        srand($key);
+        srand((int)$key);
         $randval = rand();
         $SessionID = md5($key.$this->SecretWord);
         $LiftTime = time();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1); // 嚴格類型
+
 
 class LnhRdbCglobal {
    Public $MY_SQL_SERVER;
@@ -23,10 +25,10 @@ class LnhRdbCglobal {
       $this->OR_SQL_SERVER=2;
       //$this->MY_SQL_UID="root";
       //$this->MY_SQL_PWD="mamamiya";
-      $this->MY_SQL_UID="robot";
-      $this->MY_SQL_PWD="robot";
-      $this->MY_SQL_HOST="172.16.1.230";
-      $this->MY_SQL_DB_LUNCH="test_db";
+      $this->MY_SQL_UID = getenv("DATABASE_USER");
+      $this->MY_SQL_PWD = getenv("DATABASE_PASS");
+      $this->MY_SQL_HOST = getenv("DATABASE_HOST");
+      $this->MY_SQL_DB_LUNCH = getenv("DATABASE_NAME");
       $this->MY_SQL_TABLE_LUNCH_STORE="lunch_store";
 		$this->MY_SQL_TABLE_LUNCH_PRODUCT="lunch_product";
       $this->MY_SQL_TABLE_LUNCH_MANAGER="lunch_manager";

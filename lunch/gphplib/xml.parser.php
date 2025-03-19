@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1); // 嚴格類型
+
 class xml_doc {
       var $parser;            // Object Reference to parser
       var $xml;            // Raw XML code

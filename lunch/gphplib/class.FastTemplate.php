@@ -1,4 +1,7 @@
 <?php
+
+// declare(strict_types=1); // 嚴格類型
+
 /**
  *Version. 1.6.2
     $Id: cls_fast_template.php 11594 2009-03-19 15:59:18Z lvalics $

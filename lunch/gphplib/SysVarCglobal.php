@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1); // 嚴格類型
+
 class SysVarCglobal { 
 
   public $Citys; // 縣市

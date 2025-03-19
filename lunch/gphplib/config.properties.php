@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1); // 嚴格類型
+
 // 網站公用參數設定	
 #
 # database settings

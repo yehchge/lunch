@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1); // 嚴格類型
+
 /***************************************
 ** Title.........: HTML Mime Mail class
 ** Version.......: 1.34

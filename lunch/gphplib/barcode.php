@@ -1,4 +1,7 @@
 <?php 
+
+declare(strict_types=1); // 嚴格類型
+
 /*===========================================================================*/ 
 /*      PHP Barcode Image Generator v1.0 [9/28/2000] 
         Copyright (C)2000 by Charles J. Scheffold - cs@wsia.fm 

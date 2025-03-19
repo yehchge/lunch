@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1); // 嚴格類型
+
 /*
  * Copyright (c) 2003 Jose Solorzano.  All rights reserved.
  * Redistribution of source must retain this copyright notice.

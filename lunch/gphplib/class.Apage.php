@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1); // 嚴格類型
+
 	// 後台管理程式主框頁
 	include_once "/adm/lib/AdmAdmCfactory.php";
 	include_once "/adm/lib/AdmAdmCCreater.php";
