@@ -32,7 +32,11 @@ class LnhLnhCfactory extends SysRdbCconnection {
      
 
      public function CreateStore($UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$CreateMan='',$Note='') {
+    
+
         if (!$StoreName or !$StoreIntro or !$StoreClass or !$MainMan or !$Tel or !$Address or !$CreateMan or !$Note) return 0;
+        
+
         $tt = time();
         $fileds = "UserName,Password,StoreName,StoreIntro,StoreClass,MainMan,Tel,Address,CreateDate,CreateMan,EditDate,EditMan,Note,Status";
         $values = "'$UserName ','$Password ','$StoreName ','$StoreIntro ','$StoreClass ','$MainMan ','$Tel ','$Address ',$tt,'$CreateMan ',$tt,'','$Note ',1";
@@ -42,30 +46,49 @@ class LnhLnhCfactory extends SysRdbCconnection {
         //echo mysql_error()."<br>";
         //echo $this->LnhDBH->SqlStm;
         return 0;                  
-     }
+    }
     
-     public function UpdateStore($RecordID=0,$UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$EditMan='',$Note='',$Status=0) {
-         if(!$RecordID) return 0;
-         $tt = time();
-         $values  = "UserName='$UserName ',";
-         $values .= "Password='$Password ',";
-         $values .= "StoreName='$StoreName ',";
-         $values .= "StoreIntro='$StoreIntro ',";
-         $values .= "StoreClass='$StoreClass ',";
-         $values .= "MainMan='$MainMan ',";
-         $values .= "Tel='$Tel ',";
-         $values .= "Address='$Address ',";
-         $values .= "EditMan='$EditMan ',";
-         $values .= "EditDate=$tt,";
-         $values .= "Note='$Note ',";
-         $values .= "Status=$Status";
-         $condition = "RecordID=$RecordID";
-         $tmp = $this->LnhDBH->SqlUpdate($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_STORE, $values ,$condition);
-         //echo $this->LnhDBH->SqlStm;
+    public function UpdateStore($RecordID=0,$UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$EditMan='',$Note='',$Status=0) {
+        if(!$RecordID) return 0;
+
+        $data = [
+            'UserName'   => $UserName,
+            'Password'   => $Password,
+            'StoreName'  => $StoreName,
+            'StoreIntro' => $StoreIntro,
+            'StoreClass' => $StoreClass,
+            'MainMan'    => $MainMan,
+            'Tel'        => $Tel,
+            'Address'    => $Address,
+            'EditMan'    => $EditMan,
+            'EditDate'   => time(),
+            'Note'       => $Note,
+            'Status'     => $Status,
+        ];
+
+        $tmp = $this->LnhDBH->update($this->LnhVariable->MY_SQL_TABLE_LUNCH_STORE, $data, 'RecordID = ?', [$RecordID]);
+
+         // $values  = "UserName='$UserName ',";
+         // $values .= "Password='$Password ',";
+         // $values .= "StoreName='$StoreName ',";
+         // $values .= "StoreIntro='$StoreIntro ',";
+         // $values .= "StoreClass='$StoreClass ',";
+         // $values .= "MainMan='$MainMan ',";
+         // $values .= "Tel='$Tel ',";
+         // $values .= "Address='$Address ',";
+         // $values .= "EditMan='$EditMan ',";
+         // $values .= "EditDate=$tt,";
+         // $values .= "Note='$Note ',";
+         // $values .= "Status=$Status";
+         // $condition = "RecordID=$RecordID";
+         // $tmp = $this->LnhDBH->SqlUpdate($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_STORE, $values ,$condition);
+
+         
+
          if($tmp) return 1;
          
          return 0;
-     }
+    }
      
      public function GetAllStore() {
          $fileds = "*";
@@ -115,28 +138,61 @@ class LnhLnhCfactory extends SysRdbCconnection {
 
      public function CreateProduct($StoreID=0,$PdsName='',$PdsType='',$Price=0,$CreateMan='',$Note='') {
         if (!$StoreID or !$PdsName or !$Price or !$CreateMan) return 0;
+        
         $tt = time();
-        $fileds = "StoreID,PdsName,PdsType,Price,CreateMan,Note,Status,CreateDate,EditDate,EditMan";
-        $values = "$StoreID,'$PdsName ','$PdsType ',$Price,'$CreateMan ','$Note ',1,$tt,$tt,''";
-        if ($this->LnhDBH->SqlInsert($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT,$fileds,$values)) {
-            return $this->getLastInsertID($this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT);  
+
+        $data = [
+            'StoreID' => $StoreID,
+            'PdsName' => $PdsName,
+            'PdsType' => $PdsType,
+            'Price' => $Price,
+            'CreateMan' => $CreateMan,
+            'Note' => $Note,
+            'Status' => 1,
+            'CreateDate' => $tt,
+            'EditDate' => $tt,
+            'EditMan' => ''
+        ];
+
+        if ($this->LnhDBH->insert($this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT, $data)){
+            return $this->LnhDBH->lastInsertId();
         }
-        //echo $this->LnhDBH->SqlStm;
+
+        // $fileds = "StoreID,PdsName,PdsType,Price,CreateMan,Note,Status,CreateDate,EditDate,EditMan";
+        // $values = "$StoreID,'$PdsName ','$PdsType ',$Price,'$CreateMan ','$Note ',1,$tt,$tt,''";
+        // if ($this->LnhDBH->SqlInsert($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT,$fileds,$values)) {
+        //     return $this->getLastInsertID($this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT);  
+        // }
         return 0;                  
      }
 
 
-     public function UpdateProduct($RecordID=0,$StoreID=0,$PdsName='',$PdsType='',$Price=0,$EditMan='',$Note='',$Status=0) {
-         if(!$RecordID) return 0;
-         $tt = time();
-         $values  = "StoreID=$StoreID,PdsName='$PdsName ',PdsType='$PdsType ',Price=$Price,";
-         $values .= "EditMan='$EditMan ',EditDate=$tt,Note='$Note ',Status=$Status";
-         $condition = "RecordID=$RecordID";
-         $tmp = $this->LnhDBH->SqlUpdate($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT, $values ,$condition);
-         if($tmp) return 1;
-         echo $this->LnhDBH->SqlStm;
-         return 0;
-     }
+    public function UpdateProduct($RecordID=0,$StoreID=0,$PdsName='',$PdsType='',$Price=0,$EditMan='',$Note='',$Status=0) {
+        if(!$RecordID) return 0;
+        $tt = time();
+
+        $data = [
+            'StoreID' => $StoreID,
+            'PdsName' => $PdsName,
+            'PdsType' => $PdsType,
+            'Price' => $Price,
+            'EditMan' => $EditMan,
+            'EditDate' => $tt,
+            'Note' => $Note,
+            'Status' => $Status
+        ];
+
+        $tmp = $this->LnhDBH->update($this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT, $data, 'RecordID = ?', [$RecordID]);
+
+        // $values  = "StoreID=$StoreID,PdsName='$PdsName ',PdsType='$PdsType ',Price=$Price,";
+        // $values .= "EditMan='$EditMan ',EditDate=$tt,Note='$Note ',Status=$Status";
+        // $condition = "RecordID=$RecordID";
+        // $tmp = $this->LnhDBH->SqlUpdate($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT, $values ,$condition);
+         
+        if($tmp) return 1;
+        // echo $this->LnhDBH->SqlStm;
+        return 0;
+    }
 
 
      public function GetPdsDetailsByRecordID($RecordID=0) {

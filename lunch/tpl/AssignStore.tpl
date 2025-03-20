@@ -89,7 +89,7 @@ TD
 			<tr>
 			  <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
 			</tr>
-			<tr Class="Forums_General">
+			<tr class="Forums_General">
 			  <td class="Forums_Header" align="center">指定店家</td>
 			  <td class="Forums_Header" align="center">便當</td>
 			  <td class="Forums_Header" align="center">序號</td>
@@ -101,14 +101,14 @@ TD
 			</tr>
 			<!-- BEGIN DYNAMIC BLOCK: row -->
 			<tr>
-			  <td Class="{classname}" align="center" bgcolor="#ffffff">{editstoreid}</td>
-			  <td Class="{classname}" bgcolor="#ffffff" align="center"><a href="javascript:ShowPdsInfo({storeid});"><img src="tpl/images/text_file_icon.gif" border="0"></a></td>
-			  <td Class="{classname}" bgcolor="#ffffff">{storeid}</td>
-			  <td Class="{classname}" bgcolor="#ffffff">{storename}</td>
-			  <td Class="{classname}" bgcolor="#ffffff">{tel}</td>
-			  <td Class="{classname}" nowrap bgcolor="#ffffff">{man}</td>
-			  <td Class="{classname}" bgcolor="#ffffff">{editdate}</td>
-			  <td Class="{classname}" nowrap bgcolor="#ffffff">{status}</td>
+			  <td class="{classname}" align="center" bgcolor="#ffffff">{editstoreid}</td>
+			  <td class="{classname}" bgcolor="#ffffff" align="center"><a href="javascript:ShowPdsInfo({storeid});"><img src="tpl/images/text_file_icon.gif" border="0"></a></td>
+			  <td class="{classname}" bgcolor="#ffffff">{storeid}</td>
+			  <td class="{classname}" bgcolor="#ffffff">{storename}</td>
+			  <td class="{classname}" bgcolor="#ffffff">{tel}</td>
+			  <td class="{classname}" nowrap bgcolor="#ffffff">{man}</td>
+			  <td class="{classname}" bgcolor="#ffffff">{editdate}</td>
+			  <td class="{classname}" nowrap bgcolor="#ffffff">{status}</td>
 			</tr>
 			<!-- END DYNAMIC BLOCK: row -->
 			<tr>

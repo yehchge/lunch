@@ -114,7 +114,7 @@ function seldroplisttext(form,str)
 
 	
 <center>
-<form name="frm" method="post" onsubmit="return check_form(frm);" action="./EditStoreed.php">
+<form name="frm" method="post" onsubmit="return check_form(frm);" action="./index.php?func=store&action=edit"><!-- ./EditStoreed.php -->
 <input type=hidden name="storeid" value="{storeid}">
 <br>
 <table Class="Forums_General" Width="80%">
@@ -127,16 +127,17 @@ function seldroplisttext(form,str)
   </tr> 
   <tr> 
     <td>簡介：</td>
-	<td Class="TextBox"><input type=text name="intro" value="{intro}" maxLength=30 size=30></td>
+	<td Class="TextBox"><textarea name="intro" rows="4" cols="50">{intro}</textarea></td>
   </tr> 
   <tr>
     <td>店家類別：</td>
-	<td Class="TextBox"><select name="sclass">
-					<option value="0">請選擇
-					<option value="便當">便當
-					<option value="速食">速食
-					<option value="飲料">飲料
-				   </select>
+	<td Class="TextBox">
+        <select name="sclass">
+			<option value="0">請選擇
+			<option value="便當">便當
+			<option value="速食">速食
+			<option value="飲料">飲料
+		</select>
 	</td>
   </tr>
   <tr>
@@ -149,11 +150,11 @@ function seldroplisttext(form,str)
   </tr>
   <tr> 
     <td>電話：</td>
-	<td Class="TextBox"><input type=text name="tel" value="{tel}" maxLength=30 size=30></td>
+	<td Class="TextBox"><input type=text name="tel" value="{tel}" maxLength=21 size=30></td>
   </tr> 
   <tr> 
     <td>訂購說明：</td>
-	<td Class="TextBox"><input type=text name="note" value="{note}" maxLength=10 size=30></td>
+	<td Class="TextBox"><textarea name="note" rows="4" cols="50">{note}</textarea></td>
   </tr>
   <tr>
     <td>狀態：</td>
@@ -165,4 +166,5 @@ function seldroplisttext(form,str)
 </table>
 </form>
 </center>
+{javaScript}
 </html>

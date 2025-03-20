@@ -89,7 +89,7 @@ TD
     //-->
     </script>
 <center>
-<form name="frm" method="post" onsubmit="return check_form(frm);" action="./AddStoreed.php">
+<form name="frm" method="post" onsubmit="return check_form(frm);" action="./index.php?func=store&action=add"><!-- ./AddStoreed.php -->
 <br>
 <table Width="80%" Class="Forums_General">
   <tr Class="Forums_Header">
@@ -124,7 +124,7 @@ TD
   </tr>
   <tr> 
     <td><b>商家電話：</b></td>
-	<td Class="TextBox"><input type=text name="tel" maxLength=30 size=30></td>
+	<td Class="TextBox"><input type=text name="tel" maxLength=21 size=30></td>
   </tr> 
   <tr> 
     <td><b>訂購說明：</b></td>

@@ -24,8 +24,11 @@ class SysRdbCconnection {
     var $ErrorString;      
     var $Rows;
     var $SqlStm;
+    private PDO $pdo;
+    private bool $debug;
 
     function __construct($arg1=NULL,$arg2=NULL,$arg3=NULL,$arg4=NULL,$arg5=NULL,$arg6=NULL,$arg7=NULL){
+        $this->debug = true;
         $this->ConnStr=$arg1;
         $this->ConnDb=$arg2;
         $this->ConnUid=$arg3;
@@ -153,6 +156,7 @@ class SysRdbCconnection {
             // if($temp>0){
                 $this->Status=1;
                 $this->ConnID=$temp;
+                $this->pdo = $temp;
             // } else {
             //     $this->Status=0;
             //     header("http/1.0 404 Not Found"); 
@@ -403,9 +407,6 @@ class SysRdbCconnection {
             }catch(PDOException $e){
                 echo $e->getMessage();exit;
             }
-
-
-
             
             // 使用 mssql 
             if($this->DbType==$this->MS_SQL_SERVER and $this->Status==1){
@@ -425,6 +426,41 @@ class SysRdbCconnection {
                 return $stmt;
             }           
         } else return 0;
+    }
+
+
+    private function handleError(string $message): void {
+        if ($this->debug) {
+            echo "DB Error: $message" . PHP_EOL;
+        }
+    }
+
+
+    public function execute(string $sql, array $params = []): bool {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute($params);
+        } catch (PDOException $e) {
+            $this->handleError($e->getMessage());
+            return false;
+        }
+    }
+
+    public function insert(string $table, array $data): bool {
+        $columns = implode(',', array_keys($data));
+        $placeholders = implode(',', array_fill(0, count($data), '?'));
+        $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
+        return $this->execute($sql, array_values($data));
+    }
+
+    public function update(string $table, array $data, string $where, array $params): bool {
+        $set = implode(' = ?, ', array_keys($data)) . ' = ?';
+        $sql = "UPDATE $table SET $set WHERE $where";
+        return $this->execute($sql, array_merge(array_values($data), $params));
+    }
+
+    public function lastInsertId(): string {
+        return $this->pdo->lastInsertId();
     }
 
 

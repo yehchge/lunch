@@ -12,14 +12,8 @@ use Lunch\System\DotEnv;
 // $dot = new DotEnv(PATH_ROOT . '/.env');
 // $dot->load();
 
-
-// echo getenv('LUNCH_ENV');
-
-// echo "<br>";
-
-// echo getenv("DATABASE_HOST");
-// exit;
-
+// echo getenv('LUNCH_ENV');echo "<br>";
+// echo getenv("DATABASE_HOST");exit;
 
 
 include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
@@ -42,11 +36,64 @@ try{
         return;
     }
 
+    $func = $_GET['func'] ?? '';
+    $action = $_GET['action'] ?? '';
+
+    switch($func){
+        case 'store':
+            $sController = 'CStore';
+            break;
+        case 'product':
+            $sController = 'CProduct';
+            break;
+        default:
+            $sController = '';
+            break;
+    }
+
     //產生本程式功能內容
     $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-    $tpl->define(array('apg6'=>"LunchMain.tpl")); 
-    $tpl->assign("FUNCTION","");
-    $tpl->assign("LOCATION","DinBenDon首頁");
+    $tpl->define(array('apg6'=>"LunchMain.tpl"));
+
+    if($sController!==''){
+        //include, new target controller, and run tManager
+        include_once("../app/Controller/$sController.php"); //include controller.php
+        $oController = new $sController();  //new target controller
+        $tpl->assign("FUNCTION", $oController->tManager());   //call controller entry function
+    } else {
+        $tpl->assign("FUNCTION", '');
+    }
+
+    $breadCrumb = 'DinBenDon首頁';
+
+    if ($func=='store' && $action=='add') {
+        $breadCrumb = '新增店家';
+    }
+
+    if ($func=='store' && $action=='list') {
+        $breadCrumb = '店家維護';
+    }
+
+    if ($func=='store' && $action=='edit') {
+        $breadCrumb = '店家維護/更新店家';
+    }
+
+    if ($func=='product' && $action=='list') {
+        $breadCrumb = '店家維護/便當明細維護';
+    }
+
+    if ($func=='product' && $action=='edit') {
+        $breadCrumb = '店家維護/便當明細維護/更新便當明細';
+    }
+
+    if ($func=='store' && $action=='assign') {
+        $breadCrumb = '指定店家';
+    }
+
+
+    
+
+    $tpl->assign("LOCATION", $breadCrumb);
     $tpl->parse('MAIN',"apg6");
     $tpl->FastPrint('MAIN');
 }catch (\Exception $e){
