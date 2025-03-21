@@ -22,11 +22,11 @@ $Lnh = new LnhLnhCfactory();
 //檢測是否有權限? ****************
 $Online = $Lnh->GetOnline();
 if(!$Online[0]) {
-	header("Location:./Login.php");
+	header("Location:./login.php");
 	return;
 }
 // *******************************
 
 //setcookie("LunchWhoIs","",0,"/",".taipei.gov.tw");
 setcookie("LunchWhoIs","",0,"/","");
-header("Location:./Login.php");
+header("Location:./login.php");

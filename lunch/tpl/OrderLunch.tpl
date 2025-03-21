@@ -77,7 +77,7 @@ history.forward();
 </script>
 <body>
 	<center>
-    <form name="frm" method="post" action="./OrderLunched.php">
+    <form name="frm" method="post"><!-- ./OrderLunched.php -->
 	<input type=hidden name="id" value="{id}">
 	<input type=hidden name="mid" value="{mid}">
     <table border="0" cellspacing="0" cellpadding="0" width="80%">

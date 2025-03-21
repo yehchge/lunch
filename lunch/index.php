@@ -15,10 +15,8 @@ use Lunch\System\DotEnv;
 // echo getenv('LUNCH_ENV');echo "<br>";
 // echo getenv("DATABASE_HOST");exit;
 
-
 include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
 include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
-
 
 header("Cache-Control: no-cache");
 header("Pragma: no-cache");
@@ -26,13 +24,12 @@ header("Expires: Tue, Jan 12 1999 05:00:00 GMT");
 
 $Lnh = new LnhLnhCfactory();
 
-
 try{
     // 檢查使用者有沒有登入
     $Online = $Lnh->GetOnline();
 
     if(!$Online[0]) {
-        header("Location:./Login.php");
+        header("Location:./login.php");
         return;
     }
 
@@ -45,6 +42,12 @@ try{
             break;
         case 'product':
             $sController = 'CProduct';
+            break;
+        case 'manager':
+            $sController = 'CManager';
+            break;
+        case 'order':
+            $sController = 'COrder';
             break;
         default:
             $sController = '';
@@ -90,7 +93,25 @@ try{
         $breadCrumb = '指定店家';
     }
 
+    if ($func=='store' && $action=='list_assign') {
+        $breadCrumb = '指定店家管理、截止、取消';
+    }
 
+    if ($func=='store' && $action=='edit_status') {
+        $breadCrumb = '指定店家管理、截止、取消/管理指定店家狀態';
+    }
+
+    if ($func=='manager' && $action=='list') {
+        $breadCrumb = 'DinBenDon';
+    }
+
+    if ($func=='order' && $action=='add' && strtoupper($_SERVER['REQUEST_METHOD'])=='GET') {
+        $breadCrumb = 'DinBenDon/訂購GO';
+    }
+
+    if ($func=='order' && $action=='add' && strtoupper($_SERVER['REQUEST_METHOD'])=='POST') {
+        $breadCrumb = 'DinBenDon/訂購GO/訂購便當結果';
+    }
     
 
     $tpl->assign("LOCATION", $breadCrumb);

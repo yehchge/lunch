@@ -22,6 +22,12 @@ class CStore
             case 'assigned':
                 return $this->assigned();
                 break;
+            case 'list_assign':
+                return $this->listAssign();
+                break;
+            case 'edit_status':
+                return $this->editStatus();
+                break;
             case 'list':
             default:
                 return $this->index();
@@ -258,7 +264,7 @@ class CStore
         }
     }
 
-    // 顯示單筆詳細資料
+    // 顯示店家單筆詳細資料
     private function show()
     {
         include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
@@ -317,18 +323,15 @@ class CStore
         $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
         $id = isset($_REQUEST['id'])?$_REQUEST['id']:0;
 
-
-
         if ($id) {
             echo "<Script>\r\n";
             echo "yy=confirm('今日確定要訂購此間店的便當嗎?');\r\n";
             echo "if (yy==0) {history.back();}\r\n";
-            echo " else {location='./index.php?func=store&action=assigned&id=$id&Url=".$_SERVER["REQUEST_URI"]."';}\r\n";
+            echo " else {location='./index.php?func=store&action=assigned&id=$id&Url=".urlencode('./index.php?func=store&action=assign')."';}\r\n";
             // echo " else {location='./AssignStoreed.php?id=$id&Url=".$_SERVER["REQUEST_URI"]."';}\r\n";
             echo "</Script>\r\n";
             return;
         }
-
 
         $SysID = 1;
         if(!$page) $page=1; 
@@ -338,7 +341,6 @@ class CStore
         $SysPag->url=$_SERVER['PHP_SELF']."?func=store&action=assign&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
         $SysPag->page=$page; 
         
-
 
         $SysPag->msg_total = $Lnh->GetAllStoreCount($Status);
         $SysPag->max_rows = $maxRows; 
@@ -398,16 +400,6 @@ class CStore
 
         $tpl->parse('BODY',"TplBody");
         return $str = $tpl->fetch('BODY');
-
-
-
-
-        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
-        // $MainTpl->assign("FUNCTION",$str);
-        // $MainTpl->assign("LOCATION","指定店家");
-        // $MainTpl->parse('MAIN',"apg");
-        // $MainTpl->FastPrint('MAIN');
     }
 
     private function assigned()
@@ -420,7 +412,7 @@ class CStore
         $Online = $Lnh->GetOnline();
 
         $StoreID = trim($_GET["id"]);
-        $Url = trim($_GET["Url"]);
+        $Url = trim(urldecode($_GET["Url"]));
 
         if ($Lnh->CreateManager($StoreID,$Online['Account'],'說明:系統指定')) {
             echo "<script>\r\n";
@@ -434,8 +426,196 @@ class CStore
             echo "</script>\r\n";
         }
         //echo "<a href='$Url'>回便當明細維護</a>";
+    }
+
+    // 顯示指定店家
+    private function listAssign()
+    {
+        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+        include_once PATH_ROOT."/lunch/lib/LnhLnhCglobal.php"; 
+      
+        $Lnh = new LnhLnhCfactory();
+        $LnhG = new LnhLnhCglobal();
+        
+        // 內頁功能 (FORM)
+        $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+        $tpl->define(array('TplBody'=>"ListAssignStore.tpl"));
+        $tpl->define_dynamic("row","TplBody");
+      
+        //產生本程式功能內容
+        // Page Start ************************************************ 
+        include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
+        $page= isset($_REQUEST['page'])?$_REQUEST['page']:0; 
+        $Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
+        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
+        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
+        $SysID = 1;
+      
+        if(!$page) $page=1; 
+        $maxRows = 10; 
+        $startRow = ($page-1)*$maxRows; 
+        $SysPag = new SysPagCfactory(); 
+        $SysPag->url=$_SERVER['PHP_SELF']."?func=store&action=list_assign&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
+        $SysPag->page=$page; 
+        $SysPag->msg_total = $Lnh->GetAllManagerCount();
+        $SysPag->max_rows = $maxRows; 
+        $SysPag->max_pages= 10;
+
+        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
+        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
+        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
+        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
+        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+        // Page Ended ************************************************ 
+        $rows = $Lnh->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
+        $row = $Lnh->fetch_assoc($rows);
+        if ($row == NULL) {
+            $tpl->assign('managerid',"");
+            $tpl->assign('createdate',"");
+            $tpl->assign('man',"");
+            $tpl->assign('storeid',"");
+            $tpl->assign('storename',"");
+            $tpl->assign('status',"");
+            $tpl->parse('ROWS',"row");        
+        } else {
+            $i=0;
+            while ($row != NULL) {
+                if ($i==0) {
+                    $class = "Forums_Item";
+                    $i=1;
+                } else {
+                    $class = "Forums_AlternatingItem";
+                    $i=0;
+                }
+                $tpl->assign('classname',$class);
+                $tpl->assign('managerid',$row['RecordID']);
+                $tpl->assign('createdate',date("Y-m-d H:i:s",$row['CreateDate']));
+                $tpl->assign('man',$row['Manager']);
+                $tpl->assign('storeid',$row['StoreID']);
+                $info = $Lnh->GetStoreDetailsByRecordID($row['StoreID']);
+                //echo "<pre>";echo print_r($info);echo "</pre>";
+                $tpl->assign('storename',$info['StoreName']);
+                $tpl->assign('status',$LnhG->ManagerStatus[$row['Status']]);
+                $tpl->parse('ROWS',".row");         
+                $row = $Lnh->fetch_assoc($rows);
+            }
+        }
+
+        $tpl->assign('totalrows',"共 ".$Lnh->GetAllManagerCount()." 筆 "); //* Page *// 
+        $tpl->assign('pageselect',$pagestr); //* Page *// 
+
+        $tpl->parse('BODY',"TplBody");
+        return $str = $tpl->fetch('BODY');
 
 
+        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
+        // $MainTpl->assign("FUNCTION",$str); 
+        // $MainTpl->assign("LOCATION","指定店家管理、截止、取消"); 
+        // $MainTpl->parse('MAIN',"apg");
+        // $MainTpl->FastPrint('MAIN');
+
+    }
+
+    // 狀態管理
+    private function editStatus()
+    {
+        if($_POST){
+            return $this->editStatused();
+        }
+
+        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+        include_once PATH_ROOT."/lunch/lib/LnhLnhCglobal.php"; 
+      
+        $Lnh = new LnhLnhCfactory(); 
+        $LnhG = new LnhLnhCglobal();
+
+        // 檢查使用者有沒有登入
+        $Online = $Lnh->GetOnline();
+
+        $id = trim($_REQUEST['id']);
+        
+        //產生本程式功能內容
+        $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+        $tpl->define(array('apg6'=>"EditManager.tpl")); 
+      
+        $info = $Lnh->GetManagerDetailsByRecordID($id);
+        
+        // 限制只有負責人可修改狀態
+        if (strcmp($Online['Account'],$info['Manager'])<>0) {
+            echo "<script>\r\n";
+            echo "<!--\r\n";
+            echo "alert('ㄟ! 只有負責人可修改!別偷改喔!');\r\n";
+            echo "history.back();\r\n";
+            echo "//-->\r\n";
+            echo "</script>\r\n";
+            //echo "<br><a href='/lunch/ListAssignStore.php'>回上一步</a>";
+            return;
+        }
+        
+        $tpl->assign('managerid',$info['RecordID']);
+        $tpl->assign('storeid',$info['StoreID']);
+        $storeinfo = $Lnh->GetStoreDetailsByRecordID($info['StoreID']);
+        $tpl->assign('storename',$storeinfo['StoreName']);
+        $tpl->assign('man',$info['Manager']);
+        $tpl->assign('note',$info['Note']);
+        $tpl->assign('createdate',date("Y-m-d H:i:s",$info['CreateDate']));
+      
+        // 選擇DropDownList設定狀態保留
+        if (!empty($info['Status'])) {
+            $tpl->assign('javaScript', "<script>seldroplist(this.frm.status,'".$info['Status']."');</script>");
+        }
+
+        $strStatus = "";
+        foreach($LnhG->ManagerStatus as $key => $value) {
+            //echo "key=".$key." , value=".$value;
+            $strStatus .= "<option value='$key'>$value";
+        }
+        $tpl->assign('strStatus',$strStatus);
+      
+        $tpl->parse('BODY',"apg6");
+        return $str = $tpl->fetch('BODY');
+
+
+        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
+        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
+        // $MainTpl->assign("FUNCTION",$str); 
+        // $MainTpl->assign("LOCATION","指定店家管理、截止、取消/管理指定店家狀態"); 
+        // $MainTpl->parse('MAIN',"apg");
+        // $MainTpl->FastPrint('MAIN');
+    }
+
+    // 送出狀態管理表單
+    private function editStatused()
+    {
+        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+
+        $Lnh = new LnhLnhCfactory();
+
+        $RecordID = trim($_POST["managerid"]);
+        $Status = trim($_POST["status"]);
+      
+        //產生本程式功能內容
+        if ($Lnh->UpdateManagerStatusByRecordID($RecordID,$Status)) {
+            echo "<script>\r\n";
+            echo "<!--\r\n";
+            echo "alert('更新狀態成功!');\r\n";
+            // echo "location='./ListAssignStore.php';\r\n";
+            echo "location='./index.php?func=store&action=list_assign';\r\n";
+            echo "//-->\r\n";
+            echo "</script>\r\n";
+        } else {
+            echo "<script>\r\n";
+            echo "<!--\r\n";
+            echo "alert('更新狀態失敗!');\r\n";
+            echo "history.back();\r\n";
+            echo "//-->\r\n";
+            echo "</script>\r\n";
+        }
+        //echo "<a href='./ListAssignStore.php'>回指定店家管理列表</a>";
     }
 
 
