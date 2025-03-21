@@ -111,7 +111,7 @@ function seldroplisttext(form,str)
     </script>
 	
 <center>
-<form name="frm" method="post" onsubmit="return check_form(frm);" action="./EditOrdered.php">
+<form name="frm" method="post" onsubmit="return check_form(frm);"><!--  action="./EditOrdered.php" -->
 <input type=hidden name="orderid" value="{orderid}">
 <input type=hidden name="managerid" value="{managerid}">
 <table Class="Forums_General" Width="70%">
@@ -148,7 +148,8 @@ function seldroplisttext(form,str)
   </tr>
   <tr>
     <td>狀態：</td>
-	<td Class="TextBox"><select name="status">
+	<td Class="TextBox">
+        <select name="status">
 			<option value=0>請選擇
 			<option value=1>正常
 			<option value=2>取消
@@ -157,9 +158,10 @@ function seldroplisttext(form,str)
 	</td>
   </tr>
   <tr>
-    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="./OrderDetails.php?mid={managerid}"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
+    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="./index.php?func=order&action=list&mid={managerid}"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
   </tr>
 </table>
 </form>
+{javaScript}
 </center>
 </html>

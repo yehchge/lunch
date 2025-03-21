@@ -119,7 +119,7 @@ TD
 			  <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{pageselect}</td>
 			</tr>
 			<tr Class="Forums_General">
-			  <td colspan="9" align="right"> [ <a href="./ListOrder.php">回上一頁</a> ] </td>
+			  <td colspan="9" align="right"> [ <a href="./index.php?func=manager&action=list_order">回上一頁</a> ] </td>
 			</tr>
 		  </table>
 		</td>

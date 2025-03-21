@@ -1,19 +1,7 @@
 <html>
 <head>
-<title>DinBenDon系統</title>
-<style type="text/css">
-<!--
-	.style10 {font-size: x-small;color: #666666;}
-	#siteInfo{clear: both;border: 1px solid #cccccc;font-size: 75%;color: #cccccc;padding: 10px 10px 10px 10px;margin-top: -1px;}
-	#content{float:right;width: 80%;margin: 0;padding: 0 3% 0 0;}
-	#navBar{margin: 0 85% 0 0;padding: 0px;background-color: #eeeeee;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;}
-	#sectionLinks{margin: 0px;padding: 10px;border-bottom: 1px solid #cccccc;font-size: 85%;}
-	ul{list-style-type: square;}
-	a:link, a:visited, a:hover {color: #006699;text-decoration: none;}
-	a:hover {text-decoration: underline;}
-	#breadCrumb{font-size: 80%;padding: 15px 0px 5px 10px;}
--->
-</style>
+    <title>DinBenDon系統</title>
+    <link rel="stylesheet" href="../assets/css/index.css">
 </head>
 <body topmargin="0" leftmargin="0" bgcolor="#EAEBEF">
   <table height="51" bgcolor="#cccccc" width="100%">
@@ -41,7 +29,7 @@
     <div id="sectionLinks"><li><a href='./index.php?func=store&action=assign'>指定店家</a></li></div><!-- ./AssignStore.php -->
 	<div id="sectionLinks"><li><a href='./index.php?func=store&action=list_assign'>指定店家管理/截止/取消</a></li></div><!-- ./ListAssignStore.php -->
 	<div id="sectionLinks"><li><a href='./index.php?func=manager&action=list'>DinBenDon(今日)</a></li></div><!-- ./OrderStore.php -->
-	<div id="sectionLinks"><li><a href='./ListOrder.php'>DinBenDon明細</a></li></div>
+	<div id="sectionLinks"><li><a href='./index.php?func=manager&action=list_order'>DinBenDon明細</a></li></div><!-- ./ListOrder.php -->
 	<div id="sectionLinks"><li><a href='./index.php'>回首頁</a></li></div>
 	<div id="sectionLinks"><li><a href='./logout.php'>登出</a></li></div>
 	<div id="sectionLinks">&nbsp;</div>

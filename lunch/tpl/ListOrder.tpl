@@ -107,7 +107,11 @@ TD
 			  <td Class="{classname}" align="center">{storename}</td>
 			  <td Class="{classname}" align="center">{editdate}</td>
 			  <td Class="{classname}" align="center">{status}</td>
-			  <td Class="{classname}" align="center"><a href="./OrderDetails.php?mid={managerid}"><img src="tpl/images/View.gif" border="0"></a></td>
+			  <td Class="{classname}" align="center">
+			  	<a href="./index.php?func=order&action=list&mid={managerid}"><!-- ./OrderDetails.php?mid={managerid} -->
+			  		<img src="tpl/images/View.gif" border="0">
+			  	</a>
+			  </td>
 			</tr>
 			<!-- END DYNAMIC BLOCK: row -->
 			<tr>

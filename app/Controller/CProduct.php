@@ -146,7 +146,7 @@ class CProduct
             echo "<script>\r\n";
             echo "<!--\r\n";
             echo "alert('新增便當成功!');\r\n";
-            echo "location='./PdsDetails.php?id=$StoreID';\r\n";
+            // echo "location='./PdsDetails.php?id=$StoreID';\r\n";
             echo "location='./index.php?func=product&action=list&id=$StoreID';\r\n";
             echo "//-->\r\n";
             echo "</script>\r\n";
