@@ -22,8 +22,8 @@ $UserName = trim($_POST["username"]);
 $Password = trim($_POST["password"]);
 
 //TODO:暫時
-$UserName = 'admin';
-$Password = 'admin';
+// $UserName = 'admin';
+// $Password = 'admin';
 
 
 if ($Lnh->LnhLogin($UserName,$Password)) {

@@ -425,14 +425,18 @@ class LnhLnhCfactory extends SysRdbCconnection {
 
      public function LnhLogin($AccountID='', $Password='') {
         if(!$AccountID or !$Password) return 0;
-        // TODO: 設定使用者資料庫
-        //$Ums = new UmsUmsCfactory();
-        //$AccountID = $Ums->UmsLogin($AccountID,$Password);
-        //echo $AccountID;exit();
-        $AccountID = 1;
-        if ($AccountID) {
-            return $this->SetOnline($AccountID);
-        } 
+
+        if($AccountID=='admin' && $Password=='admin'){
+            // TODO: 設定使用者資料庫
+            //$Ums = new UmsUmsCfactory();
+            //$AccountID = $Ums->UmsLogin($AccountID,$Password);
+            //echo $AccountID;exit();
+            $AccountID = 1;
+            if ($AccountID) {
+                return $this->SetOnline($AccountID);
+            }            
+        }
+
         return 0;
      }
      

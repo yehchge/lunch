@@ -1,74 +1,7 @@
 <html>
 <head>
   <title>更新便當店家</title>
-  
-<style type="text/css">
-<!--
-.Forums_Header {
-	font: bold Arial;
-	color: white;
-	background-color: #cccccc;
-}
 
-.Forums_Header2 {
-	color: white;
-	font: bold x-small Verdana, Arial, sans-serif;
-	background-color: darkred;
-	border: 1px;
-	border-color: #000000;
-	border-style: solid;
-}
-
-.Forums_TopicSubject {
-	color: darkred;
-	font: bold x-small Verdana, Arial, sans-serif;
-	font-size: 16;
-}
-
-.Forums_Item {
-	background-color: beige;
-	vertical-align: top;
-	border: 0px; 
-	border-color: #c0c0c0;
-	border-style: solid;
-}
-
-.Forums_AlternatingItem {
-	font: tahoma;
-	font-size: 2:
-	color: white;
-	background-color: moccasin;
-	vertical-align: top;
-	border: 0px; 
-	border-color: #c0c0c0;
-	border-style: solid;
-}
-
-.Forums_General {
-	font: tahoma;
-	font-size: 2ex;
-	color: black;
-	background-color: beige;
-	vertical-align: top;
-	border: 1px; 
-	border-color: #c0c0c0;
-	border-style: solid;
-}
-TD 
-{
-	font: x-small Verdana, Arial, sans-serif;
-	font-size: 12;
-	line-height: 17px;
-}
-.TextBox {
-	font: x-small Verdana, Arial, sans-serif;
-	font-size: 12;
-	color: darkblue;
-	background-color: lightyellow;
-}
--->
-</style>
- 
 	<script Language="JavaScript">
     <!--
              function check_form(obj) {
@@ -161,7 +94,7 @@ function seldroplisttext(form,str)
 	<td Class="TextBox"><input type=checkbox name="status" {status}>停用</td>
   </tr>
   <tr>
-    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="/lunch/ListStore.php"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
+    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="./index.php?func=store&action=list"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
   </tr>
 </table>
 </form>

@@ -8,7 +8,7 @@
     <p align="center">&nbsp; </p>
 	<p align="center">　</p>
 	<p align="center" style="margin-bottom: 10">　</p>
-	<form name="frm" method="post" action="./Logined.php">
+	<form name="frm" method="post" action="./logined.php">
 	<table border="1" bordercolor="#FFFFFF" width="494" cellpadding="2" bgcolor="#FFFFFF" height="148" style="border-collapse: collapse" cellspacing="0">
 	  <tr>
 	    <td width="488" bordercolor="#FFFFFF" height="153">

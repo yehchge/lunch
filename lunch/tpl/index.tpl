@@ -1,8 +1,9 @@
 <html>
 <head>
     <title>DinBenDon系統</title>
-    <link rel="stylesheet" href="../assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
+
 <body topmargin="0" leftmargin="0" bgcolor="#EAEBEF">
   <table height="51" bgcolor="#cccccc" width="100%">
     <tr>
