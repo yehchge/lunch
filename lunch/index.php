@@ -56,7 +56,7 @@ try{
 
     //產生本程式功能內容
     $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-    $tpl->define(array('apg6'=>"index.tpl"));
+    $tpl->define(array('apg6'=>"index.htm"));
 
     if($sController!==''){
         //include, new target controller, and run tManager
@@ -82,7 +82,7 @@ try{
     }
 
     if ($func=='product' && $action=='list') {
-        $breadCrumb = '店家維護/便當明細維護';
+        $breadCrumb = '店家明細維護';
     }
 
     if ($func=='product' && $action=='edit') {
@@ -121,11 +121,9 @@ try{
         $breadCrumb = 'DinBenDon明細/訂購人明細/管理訂購人明細狀態';
     }
 
-
     if ($func=='manager' && $action=='list_order') {
         $breadCrumb = 'DinBenDon明細';
     }
-    
 
     $tpl->assign("LOCATION", $breadCrumb);
     $tpl->parse('MAIN',"apg6");

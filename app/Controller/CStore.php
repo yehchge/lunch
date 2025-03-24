@@ -45,7 +45,7 @@ class CStore
 
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"ListStore.tpl"));
+        $tpl->define(array('TplBody'=>"ListStore.htm"));
         $tpl->define_dynamic("row","TplBody");
 
         //產生本程式功能內容
@@ -143,7 +143,7 @@ class CStore
 
         //產生本程式功能內容
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('apg6'=>"AddStore.tpl")); 
+        $tpl->define(array('apg6'=>"AddStore.htm")); 
         $tpl->parse('BODY',"apg6");
         return $str = $tpl->fetch('BODY');
     }
@@ -196,7 +196,7 @@ class CStore
      
         //產生本程式功能內容
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('apg6'=>"EditStore.tpl")); 
+        $tpl->define(array('apg6'=>"EditStore.htm")); 
         
         $info = $Lnh->GetStoreDetailsByRecordID($id);
       
@@ -278,7 +278,7 @@ class CStore
 
         //產生本程式功能內容
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('apg6'=>"StoreDetail.tpl")); 
+        $tpl->define(array('apg6'=>"StoreDetail.htm")); 
       
         $tpl->assign('storeid',$info['RecordID']);
         $tpl->assign('store',$info['StoreName']);
@@ -311,7 +311,7 @@ class CStore
 
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"AssignStore.tpl"));
+        $tpl->define(array('TplBody'=>"AssignStore.htm"));
         $tpl->define_dynamic("row","TplBody");
 
         //產生本程式功能內容
@@ -328,7 +328,6 @@ class CStore
             echo "yy=confirm('今日確定要訂購此間店的便當嗎?');\r\n";
             echo "if (yy==0) {history.back();}\r\n";
             echo " else {location='./index.php?func=store&action=assigned&id=$id&Url=".urlencode('./index.php?func=store&action=assign')."';}\r\n";
-            // echo " else {location='./AssignStoreed.php?id=$id&Url=".$_SERVER["REQUEST_URI"]."';}\r\n";
             echo "</Script>\r\n";
             return;
         }
@@ -384,7 +383,6 @@ class CStore
                     $tpl->assign('status',"停用");
                 }
                 
-                //$tpl->assign('storename',"<a target='_blank' href='/lunch/StoreDetail.php?id=$row[RecordID]'>$row[StoreName]</a>");
                 $tpl->assign('storename',"<a href='javascript:ShowDetail($row[RecordID]);'>$row[StoreName]</a>");
                 $tpl->assign('tel',$row['Tel']);
                 $tpl->assign('man',$row['MainMan']);
@@ -440,7 +438,7 @@ class CStore
         
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"ListAssignStore.tpl"));
+        $tpl->define(array('TplBody'=>"ListAssignStore.htm"));
         $tpl->define_dynamic("row","TplBody");
       
         //產生本程式功能內容
@@ -529,7 +527,7 @@ class CStore
         
         //產生本程式功能內容
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('apg6'=>"EditManager.tpl")); 
+        $tpl->define(array('apg6'=>"EditManager.htm")); 
       
         $info = $Lnh->GetManagerDetailsByRecordID($id);
         
@@ -567,14 +565,6 @@ class CStore
       
         $tpl->parse('BODY',"apg6");
         return $str = $tpl->fetch('BODY');
-
-
-        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
-        // $MainTpl->assign("FUNCTION",$str); 
-        // $MainTpl->assign("LOCATION","指定店家管理、截止、取消/管理指定店家狀態"); 
-        // $MainTpl->parse('MAIN',"apg");
-        // $MainTpl->FastPrint('MAIN');
     }
 
     // 送出狀態管理表單

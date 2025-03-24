@@ -1,11 +1,5 @@
-<html>
-<head>
-  <title>更新便當店家</title>
-</head>
-<center>
 <form name="frm" method="post" onsubmit="return check_form_editStore(frm);" action="./index.php?func=store&action=edit">
 <input type=hidden name="storeid" value="{storeid}">
-<br>
 <table Class="Forums_General" Width="80%">
   <tr Class="Forums_Header">
     <td colspan=2><font color="#FFFFFF">&nbsp;更新店家</font></td>
@@ -54,7 +48,8 @@
   </tr>
 </table>
 </form>
-</center>
 <script src="assets/js/main.js"></script>
+<script>
+  document.title = '更新店家 - DinBenDon系統';
+</script>
 {javaScript}
-</html>

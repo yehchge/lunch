@@ -1,5 +1,5 @@
 
-// AddStore.tpl
+// AddStore.htm
 function check_form(obj)
 {
     var err = '';
@@ -14,7 +14,7 @@ function check_form(obj)
     return true;
 }
 
-// EditPds.tpl
+// EditPds.htm
 function check_form_editpds(obj)
 {
     var err = '';
@@ -24,7 +24,7 @@ function check_form_editpds(obj)
     return true;
 }
 
-// EditStore.tpl
+// EditStore.htm
 function check_form_editStore(obj)
 {
     var err = '';
@@ -39,7 +39,7 @@ function check_form_editStore(obj)
     return true;
 }
 
-// EditManager.tpl
+// EditManager.htm
 function seldroplist(form,str)
 {
     for (var i=0;i<form.length;i++) {
@@ -49,7 +49,7 @@ function seldroplist(form,str)
     }
 }
 
-// EditStore.tpl
+// EditStore.htm
 function seldroplisttext(form,str)
 {
     for (var i=0;i<form.length;i++) {
@@ -59,7 +59,7 @@ function seldroplisttext(form,str)
     }
 }
 
-// AssignStore.tpl
+// AssignStore.htm
 function myPopUp(url, width, height, top, left)
 {
     window.open(url,"Win","resizable=no, scrollbars=yes, width=" + width + ", height=" + height + ", top=" + top + ", left=" + left + ", toolbar=no, ,location=0, menubar=no, status=no, menubat=0, alwaysRaised");

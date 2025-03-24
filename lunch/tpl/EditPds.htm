@@ -1,12 +1,6 @@
-<html>
-<head>
-  <title>更新便當明細</title>
-</head>
-<center>
 <form name="frm" method="post" onsubmit="return check_form_editpds(frm);" action="./index.php?func=product&action=edit">
 <input type=hidden name="pdsid" value="{pdsid}">
 <input type=hidden name="sid" value="{sid}">
-<br>
 <table class="Forums_General" Width="80%">
   <tr class="Forums_Header">
     <td colspan=2><font color="#FFFFFF">&nbsp;更新便當明細</font></td>
@@ -40,6 +34,7 @@
   </tr>
 </table>
 </form>
-</center>
 <script src="assets/js/main.js"></script>
-</html>
+<script>
+  document.title = '更新商品明細 - DinBenDon系統';
+</script>

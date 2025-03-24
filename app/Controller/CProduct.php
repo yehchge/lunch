@@ -33,7 +33,7 @@ class CProduct
 
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"PdsDetails.tpl"));
+        $tpl->define(array('TplBody'=>"PdsDetails.htm"));
         $tpl->define_dynamic("row","TplBody");
         
         //產生本程式功能內容
@@ -112,15 +112,6 @@ class CProduct
 
         $tpl->parse('BODY',"TplBody");
         return $str = $tpl->fetch('BODY');
-
-
-
-        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
-        // $MainTpl->assign("FUNCTION",$str); 
-        // $MainTpl->assign("LOCATION","店家維護/便當明細維護"); 
-        // $MainTpl->parse('MAIN',"apg");
-        // $MainTpl->FastPrint('MAIN');
     }
 
     // 新增表單送出
@@ -146,7 +137,6 @@ class CProduct
             echo "<script>\r\n";
             echo "<!--\r\n";
             echo "alert('新增便當成功!');\r\n";
-            // echo "location='./PdsDetails.php?id=$StoreID';\r\n";
             echo "location='./index.php?func=product&action=list&id=$StoreID';\r\n";
             echo "//-->\r\n";
             echo "</script>\r\n";
@@ -158,7 +148,6 @@ class CProduct
             echo "//-->\r\n";
             echo "</script>\r\n";
         }
-        //echo "<a href='/lunch/PdsDetails.php?id=$StoreID'>回上一頁</a>";
     }
 
     // 顯示編輯表單
@@ -178,7 +167,7 @@ class CProduct
      
         //產生本程式功能內容
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('apg6'=>"EditPds.tpl")); 
+        $tpl->define(array('apg6'=>"EditPds.htm")); 
       
         $info = $Lnh->GetPdsDetailsByRecordID($id);
         $tpl->assign('pdsid',$id);
@@ -250,7 +239,7 @@ class CProduct
      
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"UsrPdsDetails.tpl"));
+        $tpl->define(array('TplBody'=>"UsrPdsDetails.htm"));
         $tpl->define_dynamic("row","TplBody");
         
         //產生本程式功能內容

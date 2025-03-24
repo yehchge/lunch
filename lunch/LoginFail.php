@@ -17,6 +17,6 @@ use Lunch\System\DotEnv;
   
 	//產生本程式功能內容
 	$tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-	$tpl->define(array('apg6'=>"LoginFail.tpl")); 
+	$tpl->define(array('apg6'=>"LoginFail.htm")); 
 	$tpl->parse('MAIN',"apg6");
 	$tpl->FastPrint('MAIN');

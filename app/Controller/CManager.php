@@ -29,7 +29,7 @@ class CManager
 
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"OrderStore.tpl"));
+        $tpl->define(array('TplBody'=>"OrderStore.htm"));
         $tpl->define_dynamic("row","TplBody");
       
         //產生本程式功能內容
@@ -106,7 +106,7 @@ class CManager
         
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"ListOrder.tpl"));
+        $tpl->define(array('TplBody'=>"ListOrder.htm"));
         $tpl->define_dynamic("row","TplBody");
       
         //產生本程式功能內容

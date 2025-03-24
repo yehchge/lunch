@@ -14,7 +14,7 @@ header("Expires: Tue, Jan 12 1999 05:00:00 GMT");
 
 try{
     $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-    $tpl->define(array('apg6'=>"Login.tpl")); 
+    $tpl->define(array('apg6'=>"Login.htm")); 
     $tpl->parse('MAIN',"apg6");
     $tpl->FastPrint('MAIN');
 }catch(Exception $e){

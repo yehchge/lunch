@@ -1082,10 +1082,10 @@ if (! class_exists ( 'FastTemplate' )) {
 			}
 		
 			if (! $return) {
-				echo $tmp;
+				echo trim($tmp);
 				RETURN "";
 			} else
-				RETURN $tmp;
+				RETURN trim($tmp);
 		} // end FastPrint()
 
 

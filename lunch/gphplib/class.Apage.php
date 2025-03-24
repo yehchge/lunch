@@ -57,7 +57,7 @@ declare(strict_types=1); // 嚴格類型
 			} else {
 				$tpl = new FastTemplate("/adm/tpl");
 			}
-			$tpl->define(array(apg6 => "AdmAdmMain.tpl"));
+			$tpl->define(array(apg6 => "AdmAdmMain.htm"));
 			$tpl->assign("APPLICATION", $Application);
 			$tpl->assign("LOCATION", $Location);
 			$tpl->assign("username",$info["Name"]);

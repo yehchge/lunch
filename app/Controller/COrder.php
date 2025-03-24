@@ -33,7 +33,7 @@ class COrder
         
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"OrderDetails.tpl"));
+        $tpl->define(array('TplBody'=>"OrderDetails.htm"));
         $tpl->define_dynamic("row","TplBody");
       
         //產生本程式功能內容
@@ -140,7 +140,7 @@ class COrder
 
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"OrderLunch.tpl"));
+        $tpl->define(array('TplBody'=>"OrderLunch.htm"));
         $tpl->define_dynamic("row","TplBody");
 
         //產生本程式功能內容
@@ -233,7 +233,7 @@ class COrder
 
         // 內頁功能 (FORM)
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"OrderLunched.tpl"));
+        $tpl->define(array('TplBody'=>"OrderLunched.htm"));
         $tpl->define_dynamic("row","TplBody");
 
         $UserInfo['name'] = 'John';
@@ -293,13 +293,6 @@ class COrder
 
         $tpl->parse('BODY',"TplBody");
         return $str = $tpl->fetch('BODY');
-
-        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
-        // $MainTpl->assign("FUNCTION",$str); 
-        // $MainTpl->assign("LOCATION","DinBenDon/訂購GO/訂購便當結果"); 
-        // $MainTpl->parse('MAIN',"apg");
-        // $MainTpl->FastPrint('MAIN');
     }
 
     // 訂單編輯
@@ -338,7 +331,7 @@ class COrder
         
         //產生本程式功能內容
         $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('apg6'=>"EditOrder.tpl")); 
+        $tpl->define(array('apg6'=>"EditOrder.htm")); 
       
         $tpl->assign('orderid',$id);
         $tpl->assign('managerid',$ManagerID);
@@ -357,13 +350,6 @@ class COrder
         
         $tpl->parse('BODY',"apg6");
         return $str = $tpl->fetch('BODY');
-
-        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
-        // $MainTpl->assign("FUNCTION",$str); 
-        // $MainTpl->assign("LOCATION","DinBenDon明細/訂購人明細/管理訂購人明細狀態"); 
-        // $MainTpl->parse('MAIN',"apg");
-        // $MainTpl->FastPrint('MAIN');
     }
 
     // 訂單編輯送出
