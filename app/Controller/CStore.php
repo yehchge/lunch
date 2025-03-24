@@ -423,7 +423,6 @@ class CStore
             echo "history.back();\r\n";
             echo "</script>\r\n";
         }
-        //echo "<a href='$Url'>回便當明細維護</a>";
     }
 
     // 顯示指定店家
