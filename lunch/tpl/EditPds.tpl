@@ -2,46 +2,8 @@
 <head>
   <title>更新便當明細</title>
 </head>
-
-	<script Language="JavaScript">
-    <!--
-             function check_form(obj) {
-                var err = '';
-                if(obj.pdsname.value=="") {err +=" [商品名稱]";}
-				if(obj.price.value=="") {err +=" [單價]";}
-                if(err) {alert("請正確輸入 "+err+"");return false;} 
-                return ture;
-             }
-			 
-function seldroplist(form,str)
-{
-    //document.write(form.options[1].text);
-    for (var i=0;i<form.length;i++) {
-       if (form.options[i].value==str) {
-          form.options.selectedIndex=i;
-       }
-	   //document.write(form.options[i].value);
-       //document.write(document.frm.sc.options[i].text);
-    }
-}
-
-function seldroplisttext(form,str)
-{
-    //document.write(form.options[1].text);
-    for (var i=0;i<form.length;i++) {
-       if (form.options[i].value.indexOf(str)!=-1) {
-          form.options.selectedIndex=i;
-       }
-	   //document.write(form.options[i].value);
-       //document.write(document.frm.sc.options[i].text);
-    }
-}
-    //-->
-    </script>
-
-	
 <center>
-<form name="frm" method="post" onsubmit="return check_form(frm);" action="./index.php?func=product&action=edit"><!-- ./EditPdsed.php -->
+<form name="frm" method="post" onsubmit="return check_form_editpds(frm);" action="./index.php?func=product&action=edit">
 <input type=hidden name="pdsid" value="{pdsid}">
 <input type=hidden name="sid" value="{sid}">
 <br>
@@ -79,4 +41,5 @@ function seldroplisttext(form,str)
 </table>
 </form>
 </center>
+<script src="assets/js/main.js"></script>
 </html>

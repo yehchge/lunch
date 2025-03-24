@@ -494,7 +494,6 @@ class CStore
                 $tpl->assign('man',$row['Manager']);
                 $tpl->assign('storeid',$row['StoreID']);
                 $info = $Lnh->GetStoreDetailsByRecordID($row['StoreID']);
-                //echo "<pre>";echo print_r($info);echo "</pre>";
                 $tpl->assign('storename',$info['StoreName']);
                 $tpl->assign('status',$LnhG->ManagerStatus[$row['Status']]);
                 $tpl->parse('ROWS',".row");         
@@ -507,15 +506,6 @@ class CStore
 
         $tpl->parse('BODY',"TplBody");
         return $str = $tpl->fetch('BODY');
-
-
-        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
-        // $MainTpl->assign("FUNCTION",$str); 
-        // $MainTpl->assign("LOCATION","指定店家管理、截止、取消"); 
-        // $MainTpl->parse('MAIN',"apg");
-        // $MainTpl->FastPrint('MAIN');
-
     }
 
     // 狀態管理
@@ -599,7 +589,7 @@ class CStore
         $Status = trim($_POST["status"]);
       
         //產生本程式功能內容
-        if ($Lnh->UpdateManagerStatusByRecordID($RecordID,$Status)) {
+        if ($Lnh->UpdateManagerStatusByRecordID($RecordID, $Status)) {
             echo "<script>\r\n";
             echo "<!--\r\n";
             echo "alert('更新狀態成功!');\r\n";

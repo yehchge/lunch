@@ -2,19 +2,6 @@
 <head>
 	<title>指定店家</title>
 </head>
-
-<SCRIPT language="JavaScript" type="text/JavaScript">
-<!--
-function ShowDetail(sid) {
-  window.open('./index.php?func=store&action=show&id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-function ShowPdsInfo(sid) {
-  // window.open('./UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-  window.open('./index.php?func=product&action=list_store&id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-//-->
-</SCRIPT>
-
 <body>
 	<center>
     <form name="frm" method="post">
@@ -54,8 +41,8 @@ function ShowPdsInfo(sid) {
 		</td>
 	  </tr>
 	</table>
-	<!-- <input type=button onClick="location='./index.php';" value="回上一步"> -->
 	</form>
 	</center>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

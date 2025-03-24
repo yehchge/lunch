@@ -1,17 +1,6 @@
 <html>
 <head>
   <title>指定店家管理/截止/取消</title>
-  
-<SCRIPT language="JavaScript" type="text/JavaScript">
-<!--
-function ShowDetail(sid) {
-  window.open('./StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-function ShowPdsInfo(sid) {
-  window.open('./UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-//-->
-</SCRIPT>
 </head>
 <body>
 	<center>
@@ -41,7 +30,7 @@ function ShowPdsInfo(sid) {
 			  <td Class="{classname}">{storename}</td>
 			  <td Class="{classname}" align="center">{status}</td>
 			  <td Class="{classname}" align="center">
-			  	<a href='./index.php?func=store&action=edit_status&id={managerid}'><!-- ./EditManager.php?id={managerid} -->
+			  	<a href='./index.php?func=store&action=edit_status&id={managerid}'>
 			  		<img border="0" src="tpl/images/edit_s.gif">
 			  	</a>
 			  </td>

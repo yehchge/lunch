@@ -1,22 +1,10 @@
 <html>
 <head>
   <title>訂購人明細</title>
-  
-<SCRIPT language="JavaScript" type="text/JavaScript">
-<!--
-function ShowDetail(sid) {
-  window.open('./StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-function ShowPdsInfo(sid) {
-  window.open('./UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-//-->
-</SCRIPT>
-
 </head>
+
 <body>
 	<center>
-    <form name="frm" method="post">
     <table border="0" cellspacing="0" cellpadding="0" width="80%">
       <tr>
 		<td>
@@ -58,7 +46,6 @@ function ShowPdsInfo(sid) {
 		</td>
 	  </tr>
 	</table>
-	</form>
 	</center>
 </body>
 </html>

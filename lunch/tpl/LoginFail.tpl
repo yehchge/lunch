@@ -34,6 +34,5 @@
     <p align=center><input type="button" onClick="location='./login.php';" name="btn" value="     回登入頁面     "></p>
     </form>
   </center>
-  
 </body>
 </html>

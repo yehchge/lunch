@@ -1,18 +1,6 @@
 <html>
 <head>
   <title>訂便當明細</title>
-  
- <SCRIPT language="JavaScript" type="text/JavaScript">
-<!--
-function ShowDetail(sid) {
-  window.open('./StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-function ShowPdsInfo(sid) {
-  window.open('./UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-//-->
-</SCRIPT>
-  
 </head>
 <body>
 	<center>
@@ -42,7 +30,7 @@ function ShowPdsInfo(sid) {
 			  <td Class="{classname}" align="center">{editdate}</td>
 			  <td Class="{classname}" align="center">{status}</td>
 			  <td Class="{classname}" align="center">
-			  	<a href="./index.php?func=order&action=list&mid={managerid}"><!-- ./OrderDetails.php?mid={managerid} -->
+			  	<a href="./index.php?func=order&action=list&mid={managerid}">
 			  		<img src="tpl/images/View.gif" border="0">
 			  	</a>
 			  </td>

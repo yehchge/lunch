@@ -80,7 +80,6 @@ class COrder
             $Minfo = $Lnh->GetManagerDetailsByRecordID($ManagerID);
             $i=0;
             while ($row != NULL) {
-                //echo "<pre>";print_r($row);echo "</pre>";exit;        
                 if ($i==0) {
                     $class = "Forums_Item";
                     $i=1;
@@ -126,13 +125,6 @@ class COrder
 
         $tpl->parse('BODY',"TplBody");
         return $str = $tpl->fetch('BODY');
-
-        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
-        // $MainTpl->assign("FUNCTION",$str); 
-        // $MainTpl->assign("LOCATION","DinBenDon明細/訂購人明細"); 
-        // $MainTpl->parse('MAIN',"apg");
-        // $MainTpl->FastPrint('MAIN');
     }
 
     private function add()
@@ -226,13 +218,6 @@ class COrder
 
         $tpl->parse('BODY',"TplBody");
         return $str = $tpl->fetch('BODY');
-
-        // $MainTpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        // $MainTpl->define(array('apg'=>"LunchMain.tpl")); 
-        // $MainTpl->assign("FUNCTION",$str);
-        // $MainTpl->assign("LOCATION","DinBenDon/訂購GO");
-        // $MainTpl->parse('MAIN',"apg");
-        // $MainTpl->FastPrint('MAIN');
     }
 
     // 新增表單送出

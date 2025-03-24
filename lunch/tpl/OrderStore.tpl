@@ -3,18 +3,6 @@
   <title>DinBenDon(指定店家)</title>
 </head>
 
-<SCRIPT language="JavaScript" type="text/JavaScript">
-<!--
-function ShowDetail(sid) {
-  window.open('./StoreDetail.php?id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-function ShowPdsInfo(sid) {
-  // window.open('./UsrPdsDetails.php?id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-  window.open('./index.php?func=product&action=list_store&id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
-}
-//-->
-</SCRIPT>
-
 <body>
     <center>
     <form name="frm" method="post">
@@ -43,7 +31,7 @@ function ShowPdsInfo(sid) {
               <td Class="{classname}" align="center"><a href="javascript:ShowPdsInfo({storeid});"><img src="tpl/images/text_file_icon.gif" border="0"></a></td>
               <td Class="{classname}" align="center">{status}</td>
               <td Class="{classname}" align="center">
-                <a href='./index.php?func=order&action=add&id={storeid}&mid={managerid}'><!-- ./OrderLunch.php?id={storeid}&mid={managerid} -->
+                <a href='./index.php?func=order&action=add&id={storeid}&mid={managerid}'>
                     <img src="tpl/images/top_bt_srch_new.gif" border="0">
                 </a>
             </td>
@@ -58,5 +46,6 @@ function ShowPdsInfo(sid) {
     </table>
     </form>
     </center>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

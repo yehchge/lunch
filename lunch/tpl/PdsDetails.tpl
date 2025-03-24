@@ -43,7 +43,7 @@
             </tr>
             <tr>
               <td colspan="9" align="right">
-                <a href="./index.php?func=store&action=list"><!-- ./ListStore.php -->
+                <a href="./index.php?func=store&action=list">
                     [ <img border="0" src="tpl/images/Cancel.gif"> 取消 ]
                 </a>
               </td>
@@ -54,7 +54,7 @@
     </table>
     </form>
     
-    <form name="addfrm" method="post" action="./index.php?func=product&action=add"><!-- ./AddPdsDetailsed.php -->
+    <form name="addfrm" method="post" action="./index.php?func=product&action=add">
     <input type=hidden name="pdsid" value="{id}">
     <table border="0" cellspacing="2" cellpadding="2" width="80%" Class="Forums_General">
       <tr Class="Forums_General">
