@@ -4,7 +4,6 @@ declare(strict_types=1); // 嚴格類型
 
 header('Content-Type: text/html; charset=utf-8');
 defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/..'));
-// echo PATH_ROOT;exit;
 
 require PATH_ROOT."/vendor/autoload.php";
 use Lunch\System\DotEnv;
