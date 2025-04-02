@@ -8,7 +8,7 @@
   <body>
     <!-- (C1) ERROR MESSAGES (IF ANY) -->
     <!-- IFDEF: error -->
-    {if $errir}
+    {if $error}
     <div id='notify'>Invalid user/password</div>
     {else}
     {/if}
@@ -16,7 +16,7 @@
     <!-- ENDIF -->
 
     <!-- (C2) LOGIN FORM -->
-    <form id="login" method="post" action="./logined.php">
+    <form id="login" method="post" action="./login.php">
       <h2>MEMBER LOGIN</h2>
       <input type="text" name="username" placeholder="Username" required>
       <input type="password" name="password" placeholder="Password" required>

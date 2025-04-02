@@ -80,6 +80,7 @@ class Template {
 
     public function display(string $template, array $vars = []): void {
         echo $this->render($template, $vars);
+        exit;
     }    
 
     protected function compile(string $content): string {
@@ -120,9 +121,20 @@ class Template {
         }
 
         // 解析 PHP 代碼
+        /*
         ob_start();
         eval('?>' . $content);
         return ob_get_clean();
+        */
+
+        // 解析 PHP 代碼
+        $vars = $this->vars; // 傳遞變數
+        return (function () use ($vars, $content) {
+            extract($vars);
+            ob_start();
+            eval('?>' . $content);
+            return ob_get_clean();
+        })();
     }
 
     protected function applyFilter(mixed $value, string $filter): string {

@@ -13,6 +13,7 @@ use Lunch\System\DotEnv;
 require PATH_ROOT.'/app/System/Database.php';
 require PATH_ROOT.'/app/Repository/UserRepository.php';
 require PATH_ROOT.'/app/Auth/Auth.php';
+require PATH_ROOT.'/app/System/JavaScript.php';
 
 $db = new Database();
 $userRepo = new UserRepository($db);
@@ -29,29 +30,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rememberMe = isset($_POST['remember_me']);
 
     if ($auth->login($username, $password, $rememberMe)) {
-        header("Location: ./index.php");
-        exit;
+
+
+        $refer = $_SESSION['refer'] ?? '';
+        if($refer){
+            $_SESSION['refer'] = '';
+            unset($_SESSION['refer']);
+            JavaScript::redirect($refer);
+        }else{
+            header("Location: ./index.php");
+        }
+
+
+
+        // header("Location: ./index.php");
+        // exit;
     } else {
         $error = "帳號或密碼錯誤";
         exit;
     }
 }
 
-$Lnh = new LnhLnhCfactory();
+// $Lnh = new LnhLnhCfactory();
 
-$UserName = trim($_POST["username"]);
-$Password = trim($_POST["password"]);
+// $UserName = trim($_POST["username"]);
+// $Password = trim($_POST["password"]);
 
-//TODO:暫時
-// $UserName = 'admin';
-// $Password = 'admin';
+// if ($Lnh->LnhLogin($UserName,$Password)) {
 
-if ($Lnh->LnhLogin($UserName,$Password)) {
+//     header("location:./index.php");
+//     return;
+// } else {
 
-    header("location:./index.php");
-    return;
-} else {
-
-    header("location:./loginFail.php");
-    return;
-}
+//     header("location:./loginFail.php");
+//     return;
+// }

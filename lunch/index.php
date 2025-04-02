@@ -45,6 +45,7 @@ try{
 
 
     if (!$auth->check()) {
+        $_SESSION['refer'] = $_SERVER['REQUEST_URI'];
         header("Location: ./login.php");
         exit;
     }

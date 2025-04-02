@@ -4,10 +4,10 @@ declare(strict_types=1); // 嚴格類型
 
 // JavaScript::redirect('success.php', '操作成功！');
 // JavaScript::displayFlashMessage();
-// CJavaScript::setFlashMessage('這是一個提示訊息！');
+// JavaScript::setFlashMessage('這是一個提示訊息！');
 // JavaScript::displayFlashMessage();
 
-class Javascript
+class JavaScript
 {
     private $output = '';
 
