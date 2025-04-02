@@ -10,9 +10,32 @@ require PATH_ROOT."/vendor/autoload.php";
 use Lunch\System\DotEnv;
 (new DotEnv(PATH_ROOT . '/.env'))->load();
 
-header("Cache-Control: no-cache");
-header("Pragma: no-cache");
-header("Expires: Tue, Jan 12 1999 05:00:00 GMT");
+require PATH_ROOT.'/app/System/Database.php';
+require PATH_ROOT.'/app/Repository/UserRepository.php';
+require PATH_ROOT.'/app/Auth/Auth.php';
+
+$db = new Database();
+$userRepo = new UserRepository($db);
+$auth = new Auth($userRepo);
+
+// 產生密碼
+// $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+// echo 'password = ' . $password . PHP_EOL;exit;
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $rememberMe = isset($_POST['remember_me']);
+
+    if ($auth->login($username, $password, $rememberMe)) {
+        header("Location: ./index.php");
+        exit;
+    } else {
+        $error = "帳號或密碼錯誤";
+        exit;
+    }
+}
 
 $Lnh = new LnhLnhCfactory();
 

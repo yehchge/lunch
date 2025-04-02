@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="assets/css/3-login.css">
+  </head>
+  <body>
+    <!-- (C1) ERROR MESSAGES (IF ANY) -->
+    <!-- IFDEF: error -->
+    {if $errir}
+    <div id='notify'>Invalid user/password</div>
+    {else}
+    {/if}
+    <!-- ELSE -->
+    <!-- ENDIF -->
+
+    <!-- (C2) LOGIN FORM -->
+    <form id="login" method="post" action="./logined.php">
+      <h2>MEMBER LOGIN</h2>
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="checkbox" name="remember_me" value="1">Remember Me
+      <input type="submit" value="Sign In">
+    </form>
+  </body>
+</html>

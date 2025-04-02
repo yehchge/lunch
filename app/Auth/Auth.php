@@ -8,8 +8,8 @@ class Auth {
         session_start();
     }
 
-    public function login($email, $password, $rememberMe = false) {
-        $user = $this->userRepo->findByEmail($email);
+    public function login($username, $password, $rememberMe = false) {
+        $user = $this->userRepo->findByEmail($username);
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
 
