@@ -1,0 +1,30 @@
+<{extends "layout.htm"}>
+
+<{block "title"}><{$title}><{/block}>
+
+<{block "content"}>
+   <p><{$message|htmlspecialchars}></p>
+    <{if $isLoggedIn}>
+        <p>歡迎回來，<{$username}>！</p>
+    <{else}>
+        <p>請登入</p>
+    <{/if}>
+
+    <ul>
+    <{foreach $items as $item}>
+        <li><{$item|strtoupper}></li>
+    <{/foreach}>
+    </ul>
+
+    <ul>
+    <{foreach $objects as $obj}>
+        <li><{$obj->title}></li>
+    <{/foreach}>
+    </ul>
+
+    <ul>
+    <{foreach $skys as $loc}>
+       <li><{$loc.title}></li>
+    <{/foreach}>
+    </ul>
+<{/block}>

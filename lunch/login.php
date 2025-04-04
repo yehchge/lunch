@@ -12,13 +12,15 @@ if( ! $_POST){
     // Ref: https://gist.github.com/code-boxx/957284646e7336ae01bb7a5e64f96022
 
     // require PATH_ROOT."/lunch/gphplib/class.FastTemplate.php"; 
-    require PATH_ROOT."/app/System/Template.php"; 
-
-    
+    require PATH_ROOT."/app/System/Template.php";
 
     $error = JavaScript::getFlashMessage();
+  
     // $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
     $tpl = new Template("tpl");
+    // $tpl->setDebug();
+    $tpl->setDelimiters('[[', ']]');
+
     $tpl->assign('error', $error);
     $tpl->display('login.htm');
     // $tpl->define(array('apg6'=>"Login_IF.htm"));

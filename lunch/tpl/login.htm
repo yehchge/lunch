@@ -7,10 +7,10 @@
   </head>
   <body>
     <!-- (C1) ERROR MESSAGES (IF ANY) -->
-    {if $error}
-    <div id='notify'>{$error}</div><!-- Invalid user/password -->
-    {else}
-    {/if}
+    [[if $error]]
+    <div id='notify'>[[$error]]</div><!-- Invalid user/password -->
+    [[else]]
+    [[/if]]
     <!-- (C2) LOGIN FORM -->
     <form id="login" method="post" action="./login.php">
       <h2>MEMBER LOGIN</h2>
