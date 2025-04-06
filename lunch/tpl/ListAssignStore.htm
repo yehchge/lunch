@@ -1,41 +1,54 @@
-<table border="0" cellspacing="0" cellpadding="0" width="80%">
-  <tr>
-    <td>
-      <table style="font-size:12px" cellspacing="2" border="0" cellpadding="2" width="100%">
+{extends "index_layout.htm"}
+
+{block "title"}{$title}{/block}
+
+{block "content"}
+   
+   <div class="grid-element main">
+    <div id="breadCrumb">
+        [ {$breadcrumb} ]
+    </div>
+
+      <table border="0" cellspacing="0" cellpadding="0" width="80%">
         <tr>
-          <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
-        </tr>
-        <tr Class="Forums_General">
-          <td class="Forums_Header" align="center">序號</td>
-          <td class="Forums_Header" align="center">日期</td>
-          <td class="Forums_Header" align="center">負責人</td>
-          <td class="Forums_Header" align="center">店家序號</td>
-          <td class="Forums_Header" align="center">店家</td>
-          <td class="Forums_Header" align="center">狀態</td>
-          <td class="Forums_Header" align="center">管理</td>
-        </tr>
-        <!-- BEGIN DYNAMIC BLOCK: row -->
-        <tr>
-          <td Class="{classname}" align="center">{managerid}</td>
-          <td Class="{classname}" align="center">{createdate}</td>
-          <td Class="{classname}" align="center">{man}</td>
-          <td Class="{classname}" align="center">{storeid}</td>
-          <td Class="{classname}">{storename}</td>
-          <td Class="{classname}" align="center">{status}</td>
-          <td Class="{classname}" align="center">
-            <a href='./index.php?func=store&action=edit_status&id={managerid}'>
-                <img border="0" src="tpl/images/edit_s.gif">
-            </a>
+          <td>
+            <table style="font-size:12px" cellspacing="2" border="0" cellpadding="2" width="100%">
+              <tr>
+                <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
+              </tr>
+              <tr Class="Forums_General">
+                <td class="Forums_Header" align="center">序號</td>
+                <td class="Forums_Header" align="center">日期</td>
+                <td class="Forums_Header" align="center">負責人</td>
+                <td class="Forums_Header" align="center">店家序號</td>
+                <td class="Forums_Header" align="center">店家</td>
+                <td class="Forums_Header" align="center">狀態</td>
+                <td class="Forums_Header" align="center">管理</td>
+              </tr>
+              <!-- BEGIN DYNAMIC BLOCK: row -->
+              {foreach $items as $item}
+              <tr>
+                <td Class="{$item.classname}" align="center">{$item.managerid}</td>
+                <td Class="{$item.classname}" align="center">{$item.createdate}</td>
+                <td Class="{$item.classname}" align="center">{$item.man}</td>
+                <td Class="{$item.classname}" align="center">{$item.storeid}</td>
+                <td Class="{$item.classname}">{$item.storename}</td>
+                <td Class="{$item.classname}" align="center">{$item.status}</td>
+                <td Class="{$item.classname}" align="center">
+                  <a href='./new_index.php?func=store&action=edit_status&id={$item.managerid}'>
+                      <img border="0" src="tpl/images/edit_s.gif">
+                  </a>
+                </td>
+              </tr>
+              {/foreach}
+              <!-- END DYNAMIC BLOCK: row -->
+              <tr>
+                <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
+              </tr>
+            </table>
           </td>
         </tr>
-        <!-- END DYNAMIC BLOCK: row -->
-        <tr>
-          <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{pageselect}</td>
-        </tr>
       </table>
-    </td>
-  </tr>
-</table>
-<script>
-  document.title = '指定商家管理/截止/取消 - DinBenDon系統';
-</script>
+
+  </div>
+{/block}

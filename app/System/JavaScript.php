@@ -28,6 +28,17 @@ class JavaScript
         (new self())->redirect($url)->render();
     }
 
+    public static function vAlertBack($msg, $go = -1)
+    {
+        (new self())->jsAlert($msg)->jsBack($go)->render();
+    }
+
+    public function jsBack($go = -1)
+    {
+        $this->output .= "history.back($go);";
+        return $this;
+    }
+
     /* 動態方法供內部與進階使用 */
 
     public function jsAlert($message)

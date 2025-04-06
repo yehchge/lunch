@@ -369,6 +369,7 @@ class COrder
       
         //產生本程式功能內容
         if ($Lnh->UpdateOrderStatusByRecordID($RecordID,$Status,$Online['Account'])) {
+            // JavaScript::vAlertRedirect('更新狀態成功!', );
             echo "<script>\r\n";
             echo "<!--\r\n";
             echo "alert('更新狀態成功!');\r\n";

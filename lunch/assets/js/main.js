@@ -66,11 +66,11 @@ function myPopUp(url, width, height, top, left)
 }
 
 function ShowDetail(sid) {
-    myPopUp('./index.php?func=store&action=show&id='+sid, 400, 300, 430, 0);
+    myPopUp('./new_index.php?func=store&action=show&id='+sid, 400, 300, 430, 0);
     // window.open('./index.php?func=store&action=show&id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 function ShowPdsInfo(sid) {
-    myPopUp('./index.php?func=product&action=list_store&id='+sid, 400, 400, 430, 0);
+    myPopUp('./new_index.php?func=product&action=list_store&id='+sid, 400, 400, 430, 0);
     // window.open('./index.php?func=product&action=list_store&id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
 }
 

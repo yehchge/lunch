@@ -1,44 +1,61 @@
-<table border="0" cellspacing="0" cellpadding="0" width="80%">
-  <tr>
-    <td>
-      <table style="font-size:12px" cellspacing="2" border="0" cellpadding="2" width="100%">
+{extends "index_layout.htm"}
+
+{block "title"}{$title}{/block}
+
+{block "content"}
+   
+   <div class="grid-element main">
+    <div id="breadCrumb">
+        [ {$breadcrumb} ]
+    </div>
+
+      <a href="./new_index.php?func=store&action=add">新增店家</a>
+      <table border="0" cellspacing="0" cellpadding="0" width="80%">
         <tr>
-          <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
-        </tr>
-        <tr Class="Forums_General">
-          <td class="Forums_Header">修改</td>
-          <td class="Forums_Header">便當明細</td>
-          <td class="Forums_Header">序號</td>
-          <td class="Forums_Header" nowrap>店名</td>
-          <td class="Forums_Header">電話</td>
-          <td class="Forums_Header" nowrap>負責人</td>
-          <td class="Forums_Header" nowrap>最後修改日</td>
-          <td class="Forums_Header">狀態</td>
-        </tr>
-        <!-- BEGIN DYNAMIC BLOCK: row -->
-        <tr Class="Forums_General">
-          <td Class="{classname}" align="center">
-            <a href='./index.php?func=store&action=edit&id={storeid}'>
-                <img border=0 src="tpl/images/Edit.gif">
-            </a>
+          <td>
+            <table cellspacing="2" border="0" cellpadding="2" width="100%">
+              <tr>
+                <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
+              </tr>
+              <tr Class="Forums_General">
+                <td class="Forums_Header">修改</td>
+                <td class="Forums_Header">便當明細</td>
+                <td class="Forums_Header">序號</td>
+                <td class="Forums_Header" nowrap>店名</td>
+                <td class="Forums_Header">電話</td>
+                <td class="Forums_Header" nowrap>負責人</td>
+                <td class="Forums_Header" nowrap>最後修改日</td>
+                <td class="Forums_Header">狀態</td>
+              </tr>
+              <!-- BEGIN DYNAMIC BLOCK: row -->
+              {foreach $items as $item}
+              <tr Class="Forums_General">
+                <td Class="{$item.classname}" align="center">
+                  <a href='./new_index.php?func=store&action=edit&id={$item.storeid}'>
+                      <img border=0 src="tpl/images/Edit.gif">
+                  </a>
+                </td>
+                <td Class="{$item.classname}" align="center">{$item.editdetails|raw}</td>
+                <td Class="{$item.classname}">{$item.storeid}</td>
+                <td Class="{$item.classname}">{$item.storename|raw}</td>
+                <td Class="{$item.classname}">{$item.tel}</td>
+                <td Class="{$item.classname}" nowrap>{$item.man}</td>
+                <td Class="{$item.classname}">{$item.editdate}</td>
+                <td Class="{$item.classname}" nowrap>{$item.status}</td>
+              </tr>
+              {/foreach}
+              <!-- END DYNAMIC BLOCK: row -->
+              <tr>
+                <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
+              </tr>
+            </table>
           </td>
-          <td Class="{classname}" align="center">{editdetails}</td>
-          <td Class="{classname}">{storeid}</td>
-          <td Class="{classname}">{storename}</td>
-          <td Class="{classname}">{tel}</td>
-          <td Class="{classname}" nowrap>{man}</td>
-          <td Class="{classname}">{editdate}</td>
-          <td Class="{classname}" nowrap>{status}</td>
-        </tr>
-        <!-- END DYNAMIC BLOCK: row -->
-        <tr>
-          <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{pageselect}</td>
         </tr>
       </table>
-    </td>
-  </tr>
-</table>
-<script src="assets/js/main.js"></script>
-<script>
-  document.title = '店家維護 - DinBenDon系統';
-</script>
+      <script src="assets/js/main.js"></script>
+      <script>
+        // document.title = '店家維護 - DinBenDon系統';
+      </script>
+
+  </div>
+{/block}

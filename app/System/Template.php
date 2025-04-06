@@ -78,6 +78,9 @@
 
 // $template->setDelimiters('[[', ']]');
 
+// $template->assign('content', '<b>Hello</b>');
+// <p>{$content|raw}</p>      <!-- 直接輸出 <b>Hello</b> -->
+
 
 class Template
 {
@@ -203,6 +206,10 @@ class Template
 
             if (!isset($this->filters[$filter])) {
                 return "<?= $expr ?>";
+            }
+
+            if ($filter === 'raw') {
+                return "<?= $expr ?>";  // 直接輸出，不套用 htmlspecialchars
             }
 
             return "<?php echo call_user_func(\$this->filters['$filter'], $expr); ?>";

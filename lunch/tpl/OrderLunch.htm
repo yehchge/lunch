@@ -1,3 +1,31 @@
+{extends "index_layout.htm"}
+
+{block "title"}{$title}{/block}
+
+{block "content"}
+   
+   <div class="grid-element main">
+    <div id="breadCrumb">
+        [ {$breadcrumb} ]
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <form name="frm" method="post">
   <input type=hidden name="id" value="{id}">
   <input type=hidden name="mid" value="{mid}">
@@ -49,3 +77,15 @@
   // 防止回此頁
   history.forward();
 </script>
+
+
+
+
+
+
+
+
+
+
+  </div>
+{/block}

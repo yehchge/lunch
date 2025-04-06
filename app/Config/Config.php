@@ -28,3 +28,5 @@ include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
 require PATH_ROOT.'/app/System/Database.php';
 require PATH_ROOT.'/app/Repository/UserRepository.php';
 require PATH_ROOT.'/app/Auth/Auth.php';
+require PATH_ROOT.'/app/Repository/StoreRepository.php';
+require PATH_ROOT.'/app/System/JavaScript.php';

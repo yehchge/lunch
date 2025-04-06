@@ -6,8 +6,6 @@ header('Content-Type: text/html; charset=utf-8');
 
 require '../app/Config/Config.php';
 
-require PATH_ROOT.'/app/System/JavaScript.php';
-
 if( ! $_POST){
     //產生本程式功能內容
     // Ref: https://gist.github.com/code-boxx/957284646e7336ae01bb7a5e64f96022
@@ -46,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             unset($_SESSION['refer']);
             JavaScript::redirect($refer);
         }else{
-            header("Location: ./index.php");
+            header("Location: ./new_index.php");
         }
     } else {
         $error = "帳號或密碼錯誤";

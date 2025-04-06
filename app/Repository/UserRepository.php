@@ -25,4 +25,10 @@ class UserRepository {
         $stmt->execute(['token' => $token]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function findById($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM user WHERE id = :id LIMIT 1");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

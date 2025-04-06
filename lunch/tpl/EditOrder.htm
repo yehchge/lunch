@@ -1,3 +1,22 @@
+{extends "index_layout.htm"}
+
+{block "title"}{$title}{/block}
+
+{block "content"}
+   
+   <div class="grid-element main">
+    <div id="breadCrumb">
+        [ {$breadcrumb} ]
+    </div>
+
+
+
+
+
+
+
+
+
 <form name="frm" method="post">
 <input type=hidden name="orderid" value="{orderid}">
 <input type=hidden name="managerid" value="{managerid}">
@@ -54,3 +73,12 @@
   document.title = '管理使用者訂單狀態 - DinBenDon系統';
 </script>
 {javaScript}
+
+
+
+
+
+
+
+  </div>
+{/block}

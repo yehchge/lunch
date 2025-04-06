@@ -1,3 +1,23 @@
+{extends "index_layout.htm"}
+
+{block "title"}{$title}{/block}
+
+{block "content"}
+   
+   <div class="grid-element main">
+    <div id="breadCrumb">
+        [ {$breadcrumb} ]
+    </div>
+
+
+
+
+
+
+
+
+
+
 <form name="frm" method="post" onsubmit="return check_form_editpds(frm);" action="./index.php?func=product&action=edit">
 <input type=hidden name="pdsid" value="{pdsid}">
 <input type=hidden name="sid" value="{sid}">
@@ -38,3 +58,15 @@
 <script>
   document.title = '更新商品明細 - DinBenDon系統';
 </script>
+
+
+
+
+
+
+
+
+
+
+  </div>
+{/block}

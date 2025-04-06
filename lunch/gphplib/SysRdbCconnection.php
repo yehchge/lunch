@@ -455,7 +455,7 @@ class SysRdbCconnection {
 
     public function update(string $table, array $data, string $where, array $params): bool {
         $set = implode(' = ?, ', array_keys($data)) . ' = ?';
-        $sql = "UPDATE $table SET $set WHERE $where";
+        $sql = "UPDATE $table SET $set WHERE $where";  
         return $this->execute($sql, array_merge(array_values($data), $params));
     }
 

@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>顯示店家詳細資料</title>
-  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
 </head>
 <body topmargin="5">
 <center>
@@ -12,47 +12,47 @@
   </tr>
   <tr width=80%>
      <td class="head">商家序號：</td>
-     <td Class="TextBox">{storeid}</td>
+     <td Class="TextBox">{$row.storeid}</td>
   </tr>   
   <tr width=80%>   
      <td class="head">商家名稱：</td>
-     <td Class="TextBox">{store}</td>
+     <td Class="TextBox">{$row.store}</td>
   </tr> 
   <tr width=80%>   
      <td class="head">商家簡介：</td>
-     <td Class="TextBox">{intro}</td>
+     <td Class="TextBox">{$row.intro}</td>
   </tr>   
   <tr width=80%>   
      <td class="head">商家類別：</td>
-     <td Class="TextBox">{sclass}</td>
+     <td Class="TextBox">{$row.sclass}</td>
   </tr>   
   <tr width=80%>  
      <td class="head">負責人：</td>
-     <td Class="TextBox">{man}</td>
+     <td Class="TextBox">{$row.man}</td>
   </tr> 
   <tr width=80%>
      <td class="head">商家電話：</td>
-     <td Class="TextBox">{tel}</td>
+     <td Class="TextBox">{$row.tel}</td>
   </tr> 
   <tr width=80%>
      <td class="head">地址：</td>
-     <td Class="TextBox">{addr}</td>
+     <td Class="TextBox">{$row.addr}</td>
   </tr> 
   <tr width=80%>   
      <td class="head">建立日期：</td>
-     <td Class="TextBox">{createdate}</td>
+     <td Class="TextBox">{$row.createdate}</td>
   </tr> 
   <tr width=80%>   
      <td class="head">更新日期：</td>
-     <td Class="TextBox">{editdate}</td>
+     <td Class="TextBox">{$row.editdate}</td>
   </tr> 
   <tr width=80%>   
      <td class="head">訂購說明：</td>
-     <td Class="TextBox">{note}</td>
+     <td Class="TextBox">{$row.note}</td>
   </tr> 
   <tr width=80%>   
      <td class="head">商家狀態：</td>
-     <td Class="TextBox">{status}</td>
+     <td Class="TextBox">{$row.status}</td>
   </tr> 
   <tr width=80%>   
      <td align="right" colspan=2>[ <a href="javascript:self.close();"><img src="tpl/images/Cancel.gif" border=0> 關閉</a> ]</td>
