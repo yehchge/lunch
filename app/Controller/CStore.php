@@ -38,7 +38,7 @@ class CStore
     // 顯示資料列表
     private function index()
     {
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";         
+        include_once PATH_ROOT."/lib/LnhLnhCfactory.php";         
 
         $Lnh = new LnhLnhCfactory(); 
 
@@ -47,7 +47,7 @@ class CStore
 
         //產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
+        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
         $page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
         $Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
         $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
@@ -96,7 +96,7 @@ class CStore
 
 
                     $temp['status'] = "正常";
-                    $temp['editdetails'] = "<a href='./new_index.php?func=product&action=list&id=".$row['RecordID']."'>新增維護</a>";
+                    $temp['editdetails'] = "<a href='./index.php?func=product&action=list&id=".$row['RecordID']."'>新增維護</a>";
                 } else {
                     $temp['status'] = "停用";
                     $temp['editdetails'] = "新增維護";
@@ -119,7 +119,7 @@ class CStore
 
         $tpl->assign('title', '店家維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護');
-        $tpl->display('ListStore.htm');
+        return $tpl->display('ListStore.htm');
     }
 
     // 顯示新增表單
@@ -139,7 +139,7 @@ class CStore
     // 新增表單送出
     private function create()
     {
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
+        include_once PATH_ROOT."/lib/LnhLnhCfactory.php";
 
         $Lnh = new LnhLnhCfactory();
 
@@ -173,7 +173,7 @@ class CStore
             return $this->update();
         }
 
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
 
         $Lnh = new LnhLnhCfactory(); 
 
@@ -252,7 +252,7 @@ class CStore
         
         // 產生本程式功能內容
         if ($ret) {
-            JavaScript::vAlertRedirect('更新成功!', './new_index.php?func=store&action=list');
+            JavaScript::vAlertRedirect('更新成功!', './index.php?func=store&action=list');
         } else {
             JavaScript::vAlertBack('更新失敗!');
         }
@@ -261,7 +261,7 @@ class CStore
     // 顯示店家單筆詳細資料
     private function show()
     {
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
      
         $Lnh = new LnhLnhCfactory(); 
 
@@ -297,7 +297,7 @@ class CStore
     // 指定店家
     private function assign()
     {
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
 
         $Lnh = new LnhLnhCfactory();
 
@@ -306,7 +306,7 @@ class CStore
 
         //產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
+        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
         $page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
         $Status = 1; // 正常狀態才顯示
         $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
@@ -317,7 +317,7 @@ class CStore
             echo "<Script>\r\n";
             echo "yy=confirm('今日確定要訂購此間店的便當嗎?');\r\n";
             echo "if (yy==0) {history.back();}\r\n";
-            echo " else {location='./new_index.php?func=store&action=assigned&id=$id&Url=".urlencode('./new_index.php?func=store&action=assign')."';}\r\n";
+            echo " else {location='./index.php?func=store&action=assigned&id=$id&Url=".urlencode('./index.php?func=store&action=assign')."';}\r\n";
             echo "</Script>\r\n";
             return;
         }
@@ -363,7 +363,7 @@ class CStore
                     $i=0;
                 }
                 $temp['classname'] = $class;
-                $temp['editstoreid'] = "<a href='./new_index.php?func=store&action=assign&Status=$Status&page=$page&Name=$Name&PayType=$PayType&SysID=$SysID&id=".$row['RecordID']."'>指定</a>";
+                $temp['editstoreid'] = "<a href='./index.php?func=store&action=assign&Status=$Status&page=$page&Name=$Name&PayType=$PayType&SysID=$SysID&id=".$row['RecordID']."'>指定</a>";
                 $temp['storeid'] = $row['RecordID'];
                 if ($row['Status']==1) {
                     $temp['status'] = "正常";
@@ -395,7 +395,7 @@ class CStore
 
     private function assigned()
     {
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
         
         $Lnh = new LnhLnhCfactory();
 
@@ -420,8 +420,8 @@ class CStore
     // 顯示指定店家
     private function listAssign()
     {
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCglobal.php"; 
+        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/lib/LnhLnhCglobal.php"; 
       
         $Lnh = new LnhLnhCfactory();
         $LnhG = new LnhLnhCglobal();
@@ -431,7 +431,7 @@ class CStore
       
         //產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
+        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
         $page= isset($_REQUEST['page'])?$_REQUEST['page']:0; 
         $Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
         $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
@@ -502,8 +502,8 @@ class CStore
             return $this->editStatused();
         }
 
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCglobal.php"; 
+        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/lib/LnhLnhCglobal.php"; 
       
         $Lnh = new LnhLnhCfactory(); 
         $LnhG = new LnhLnhCglobal();
@@ -562,8 +562,8 @@ class CStore
     // 送出狀態管理表單
     private function editStatused()
     {
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
-        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
+        include_once PATH_ROOT."/gphplib/class.FastTemplate.php";
 
         $Lnh = new LnhLnhCfactory();
 
@@ -572,7 +572,7 @@ class CStore
       
         //產生本程式功能內容
         if ($Lnh->UpdateManagerStatusByRecordID($RecordID, $Status)) {
-            JavaScript::vAlertRedirect('更新狀態成功!', './new_index.php?func=store&action=list_assign');
+            JavaScript::vAlertRedirect('更新狀態成功!', './index.php?func=store&action=list_assign');
         } else {
             JavaScript::vAlertBack('更新狀態失敗!');
         }

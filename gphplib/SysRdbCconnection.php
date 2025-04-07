@@ -154,9 +154,9 @@ class SysRdbCconnection {
             $temp->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // if($temp>0){
-                $this->Status=1;
-                $this->ConnID=$temp;
-                $this->pdo = $temp;
+            $this->Status = 1;
+            $this->ConnID = $temp;
+            $this->pdo = $temp;
             // } else {
             //     $this->Status=0;
             //     header("http/1.0 404 Not Found"); 
@@ -387,7 +387,6 @@ class SysRdbCconnection {
             try{
 
                 $this->SqlStm = "insert into $argTable ($argField) values ($argValues)"; 
-
 
                 // 使用 mysql 
                 if($this->DbType==$this->MY_SQL_SERVER and $this->Status==1){

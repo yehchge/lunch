@@ -2,8 +2,8 @@
 
 // declare(strict_types=1); // 嚴格類型
 
-include_once PATH_ROOT."/lunch/gphplib/SysRdbCconnection.php";
-include_once PATH_ROOT."/lunch/lib/LnhRdbCglobal.php";
+include_once PATH_ROOT."/gphplib/SysRdbCconnection.php";
+include_once PATH_ROOT."/lib/LnhRdbCglobal.php";
 
 class LnhLnhCfactory extends SysRdbCconnection {
 
@@ -17,7 +17,7 @@ class LnhLnhCfactory extends SysRdbCconnection {
 
      public function __construct() {
         $this->LnhVariable = new LnhRdbCglobal();
-        $this->LnhDBH = new SysRdbCconnection(NULL,NULL,$this->LnhVariable->MY_SQL_UID,$this->LnhVariable->MY_SQL_PWD,NULL,$this->LnhVariable->MY_SQL_HOST,$this->LnhVariable->MY_SQL_SERVER);         
+        $this->LnhDBH = new SysRdbCconnection(NULL,$this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_UID,$this->LnhVariable->MY_SQL_PWD,NULL,$this->LnhVariable->MY_SQL_HOST,$this->LnhVariable->MY_SQL_SERVER);         
         $this->LnhDBH->activate();
      }
 
@@ -299,13 +299,15 @@ class LnhLnhCfactory extends SysRdbCconnection {
          $values = "*";
          $DateString = date("Ymd",mktime(0, 0, 0,date("m"),date("d"),date("Y")));
          $condition = "Status!=9 and CreateDate>=unix_timestamp('$DateString')";
-         // (CONVERT(char(8), a.TRX_DATE, 112) 
+         // (CONVERT(char(8), a.TRX_DATE, 112)
+
          if($Status) $condition .= " and Status=$Status";
          if($PayType) $condition .= " and PayType=$PayType";
+
          $condition .= " order by CreateDate Desc ";
-         //$condition = "SupplyID=$SupplyID";
+
          if ($rows = $this->LnhDBH->SqlDataPageSelect($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_MANAGER,$values,$condition,$startRow,$maxRows)) {
-            //echo $this->LnhDBH->SqlStm;exit();
+            // echo $this->LnhDBH->SqlStm;exit();
             return $rows;
          }
          return 0;
@@ -336,7 +338,9 @@ class LnhLnhCfactory extends SysRdbCconnection {
 
      public function GetAllManagerCount($Status=0) {
         $fileds = "count(*)";
-        $condition = "1=1 and Status!=9";
+
+        $DateString = date("Ymd",mktime(0, 0, 0,date("m"),date("d"),date("Y")));
+        $condition = "Status!=9 and CreateDate>=unix_timestamp('$DateString')";
         if ($Status) $condition .= " and Status=$Status";
         if ($rows = $this->LnhDBH->fetch_array($this->LnhDBH->SqlSelect($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_MANAGER,$fileds,$condition))) {
             return $rows[0];
@@ -349,11 +353,11 @@ class LnhLnhCfactory extends SysRdbCconnection {
         if (!$ManagerID or !$OrderMan or !$PdsID or !$PdsName or !$Price or !$Count  or !$CreateMan) return 0;
         $tt = time();
         $fileds = "ManagerID,OrderMan,PdsID,PdsName,Price,Count,Note,CreateMan,CreateDate,EditDate,EditMan,Status";
-        $values = "$ManagerID,'$OrderMan ',$PdsID,'$PdsName ',$Price,$Count,'$Note ','$CreateMan ',$tt,$tt,'',1";
+        $values = "$ManagerID,'$OrderMan',$PdsID,'$PdsName',$Price,$Count,'$Note','$CreateMan',$tt,$tt,'',1";
         if ($this->LnhDBH->SqlInsert($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_ORDER,$fileds,$values)) {
             return $this->getLastInsertID($this->LnhVariable->MY_SQL_TABLE_LUNCH_ORDER);    
         }
-        //echo $this->LnhDBH->SqlStm;exit();
+        // echo $this->LnhDBH->SqlStm;exit();
         return 0;                  
      }
      

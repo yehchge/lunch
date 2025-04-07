@@ -8,13 +8,13 @@
 	<center>
     <table Class="Forums_General">
 	  <tr Class="Forums_Header">
-		<td colspan=2><font color="#FFFFFF">&nbsp;便當明細顯示</font></td>
+		<td colspan=2><font color="#FFFFFF">&nbsp;DinBenDon明細顯示</font></td>
 	  </tr>
       <tr>
 		<td>
-		  <table style="font-size:12px" cellspacing="2" border="0" cellpadding="2">
+		  <table cellspacing="2" border="0" cellpadding="2">
 			<tr>
-			  <td colspan="9" align="center" bgcolor=#eeeeee>{totalrows}</td>
+			  <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
 			</tr>
 			<tr Class="Forums_General">
 			  <td class="Forums_Header">序號</td>
@@ -24,18 +24,18 @@
 			  <td class="Forums_Header">說明</td>
 			  <td class="Forums_Header">狀態</td>
 			</tr>
-			<!-- BEGIN DYNAMIC BLOCK: row -->
+			{foreach $items as $item}
 			<tr Class="Forums_General">
-			  <td Class="{classname}">{pdsid}</td>
-			  <td Class="{classname}">{pdsname}</td>
-			  <td Class="{classname}">{pdstype}</td>
-			  <td Class="{classname}">{price}</td>
-			  <td Class="{classname}">{note}</td>
-			  <td Class="{classname}">{status}</td>
+			  <td Class="{$item.classname}">{$item.pdsid}</td>
+			  <td Class="{$item.classname}">{$item.pdsname}</td>
+			  <td Class="{$item.classname}">{$item.pdstype}</td>
+			  <td Class="{$item.classname}">{$item.price}</td>
+			  <td Class="{$item.classname}">{$item.note}</td>
+			  <td Class="{$item.classname}">{$item.status}</td>
 			</tr>
-			<!-- END DYNAMIC BLOCK: row -->
+			{/foreach}
 			<tr>
-			  <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{pageselect}</td>
+			  <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
 			</tr>
 			<tr width=80%>   
 			  <td align="right" colspan="9">[ <a href="javascript:self.close();"><img src="tpl/images/Cancel.gif" border=0> 關閉</a> ]</td>

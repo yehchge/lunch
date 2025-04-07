@@ -1,0 +1,35 @@
+{extends "index_layout.htm"}
+{block "title"}{$title}{/block}
+{block "content"} 
+<div class="grid-element main">
+  <div id="breadCrumb">
+      [ {$breadcrumb} ]
+  </div>
+  <table Width="70%" Class="Forums_General">
+    <tr Class="Forums_Header">
+      <td colspan=4><font color="#FFFFFF">&nbsp;訂購結果</font></td>
+    </tr>
+      <tr Class="Forums_General">
+      <td Class="Forums_AlternatingItem">商品名稱</td>
+     <td Class="Forums_AlternatingItem">單價</td>
+     <td Class="Forums_AlternatingItem">數量</td>
+     <td Class="Forums_AlternatingItem">備註</td>
+    </tr>
+    
+    {foreach $items as $item}
+    <tr Class="Forums_General">
+      <td Class="{$item.classname}">{$item.pdsname}</td>
+      <td Class="{$item.classname}">{$item.price}</td>
+      <td Class="{$item.classname}">{$item.count}</td>
+      <td Class="{$item.classname}">{$item.note}</td>
+    </tr>
+    {/foreach}
+    <tr Class="Forums_General">
+      <td Class="{$classname1}" colspan=4 align="right"> [ <a href="{$PHP_SELF}"><img src="tpl/images/OK.gif" border=0></a> 回主選單 ] </td>
+    </tr>
+    <tr Class="Forums_Header">
+      <td colspan=4  align="center"> [ <font color="#FFFFFF">感謝您的訂購，先祝您用餐愉快！</font> ] </td>
+    </tr>
+  </table>
+</div>
+{/block}

@@ -1,0 +1,52 @@
+{extends "index_layout.htm"}
+{block "title"}{$title}{/block}
+{block "content"}
+<div class="grid-element main">
+  <div id="breadCrumb">
+      [ {$breadcrumb} ]
+  </div>
+    <table border="0" cellspacing="0" cellpadding="0" width="80%">
+      <tr>
+        <td>
+          <table style="font-size:12px" cellspacing="2" border="0" cellpadding="2" width="100%">
+            <tr>
+              <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
+            </tr>
+            <tr Class="Forums_General">
+              <td class="Forums_Header" align="center">序號</td>
+              <td class="Forums_Header" align="center">商品名稱</td>
+              <td class="Forums_Header" align="center">數量</td>
+              <td class="Forums_Header" align="center">單價</td>
+              <td class="Forums_Header" align="center">訂購人</td>
+              <td class="Forums_Header" align="center">備註</td>
+              <td class="Forums_Header" align="center">訂購時間</td>
+              <td  class="Forums_Header" align="center">狀態</td>
+              <td  class="Forums_Header" align="center">修改</td>
+            </tr>
+            <!-- BEGIN DYNAMIC BLOCK: row -->
+            {foreach $items as $item}
+            <tr Class="Forums_General">
+              <td Class="{$item.classname}" align="center">{$item.orderid}</td>
+              <td Class="{$item.classname}" align="center">{$item.pdsname}</td>
+              <td Class="{$item.classname}" align="center">{$item.count}</td>
+              <td Class="{$item.classname}" align="center">{$item.price}</td>
+              <td Class="{$item.classname}" align="center">{$item.man}</td>
+              <td Class="{$item.classname}" align="center">{$item.note}</td>
+              <td Class="{$item.classname}" align="center">{$item.createdate}</td>
+              <td Class="{$item.classname}" align="center">{$item.status}</td>
+              <td Class="{$item.classname}" align="center">{$item.editstatus|raw}</td>
+            </tr>
+            {/foreach}
+            <!-- END DYNAMIC BLOCK: row -->
+            <tr>
+              <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
+            </tr>
+            <tr Class="Forums_General">
+              <td colspan="9" align="right"> [ <a href="{$PHP_SELF}?func=manager&action=list_order">回上一頁</a> ] </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+</div>
+{/block}

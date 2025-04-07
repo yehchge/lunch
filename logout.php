@@ -2,7 +2,7 @@
 
 declare(strict_types=1); // 嚴格類型
 
-require '../app/Config/Config.php';
+require 'app/Config/Config.php';
 
 $db = new Database();
 $userRepo = new UserRepository($db);

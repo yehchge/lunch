@@ -1,15 +1,11 @@
 {extends "index_layout.htm"}
-
 {block "title"}{$title}{/block}
-
 {block "content"}
-   
    <div class="grid-element main">
     <div id="breadCrumb">
-        [ {$breadcrumb} ]
+      [ {$breadcrumb} ]
     </div>
-
-      <form name="frm" method="post">
+    <form name="frm" method="post">
       <input type=hidden name="managerid" value="{$row.managerid}">
       <table Class="Forums_General" Width="70%">
         <tr Class="Forums_Header">
@@ -49,16 +45,14 @@
         </tr>
         <tr>
           <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ 
-            <a href="./new_index.php?func=store&action=list_assign">
+            <a href="./index.php?func=store&action=list_assign">
               <img src="tpl/images/Cancel.gif" border=0>
             </a> 取消 ] 
           </td>
         </tr>
       </table>
-      </form>
-      <script src="assets/js/main.js"></script>
-      {$javaScript|raw}
-
-
+    </form>
+    <script src="assets/js/main.js"></script>
+    {$javaScript|raw}
   </div>
 {/block}

@@ -18,8 +18,9 @@ use Lunch\System\DotEnv;
 // echo getenv('LUNCH_ENV');echo "<br>";
 // echo getenv("DATABASE_HOST");exit;
 
-include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
-include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
+include_once PATH_ROOT."/lib/LnhLnhCfactory.php";
+include_once PATH_ROOT."/gphplib/class.FastTemplate.php";
+include_once PATH_ROOT."/lib/LnhLnhCglobal.php";
 
 // header("Cache-Control: no-cache");
 // header("Pragma: no-cache");
@@ -29,4 +30,12 @@ require PATH_ROOT.'/app/System/Database.php';
 require PATH_ROOT.'/app/Repository/UserRepository.php';
 require PATH_ROOT.'/app/Auth/Auth.php';
 require PATH_ROOT.'/app/Repository/StoreRepository.php';
+require PATH_ROOT.'/app/Repository/ProductRepository.php';
+require PATH_ROOT.'/app/Repository/OrderRepository.php';
 require PATH_ROOT.'/app/System/JavaScript.php';
+require PATH_ROOT.'/app/System/Template.php';
+
+function dd($data)
+{
+    echo "<pre>";print_r($data);echo "</pre>";
+}

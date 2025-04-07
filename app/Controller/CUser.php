@@ -24,17 +24,14 @@ class CUser
             return $this->create();
         }
 
-        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php";
-
         $Lnh = new LnhLnhCfactory();
 
-        // 產生本程式功能內容
-        $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('apg6'=>"register.htm")); 
-        $tpl->parse('BODY',"apg6");
-        return $str = $tpl->fetch('BODY');
+        // 內頁功能 (FORM)
+        $tpl = new Template("tpl");
 
+        $tpl->assign('title', '');
+        $tpl->assign('breadcrumb', '');
+        return $tpl->display('register.htm');
     }
 
     // 送出註冊表單

@@ -1,0 +1,50 @@
+{extends "index_layout.htm"}
+{block "title"}{$title}{/block}
+{block "content"} 
+   <div class="grid-element main">
+    <div id="breadCrumb">
+        [ {$breadcrumb} ]
+    </div>
+    <table border="0" cellspacing="0" cellpadding="0" width="80%">
+      <tr>
+        <td>
+          <table style="font-size:12px" cellspacing="2" border="0" cellpadding="2" width="100%">
+            <tr>
+              <td colspan="7" align="center" bgcolor=#eeeeee>{$totalrows}</td>
+            </tr>
+            <tr class="Forums_General">
+              <td class="Forums_Header" align="center">序號</td>
+              <td class="Forums_Header" align="center">指定日期</td>
+              <td class="Forums_Header" align="center">負責人</td>
+              <td class="Forums_Header" align="center">店家</td>
+              <td class="Forums_Header" align="center">明細</td>
+              <td class="Forums_Header" align="center">狀態</td>
+              <td class="Forums_Header" align="center">訂購GO</td>
+            </tr>
+            <!-- BEGIN DYNAMIC BLOCK: row -->
+            {foreach $items as $item}
+            <tr>
+              <td class="{$item.classname}" align="center">{$item.managerid}</td>
+              <td class="{$item.classname}" align="center">{$item.createdate}</td>
+              <td class="{$item.classname}" align="center">{$item.man}</td>
+              <td class="{$item.classname}" align="center">{$item.storename}</td>
+              <td class="{$item.classname}" align="center"><a href="javascript:ShowPdsInfo({$item.storeid});"><img src="tpl/images/text_file_icon.gif" border="0"></a></td>
+              <td class="{$item.classname}" align="center">{$item.status}</td>
+              <td class="{$item.classname}" align="center">
+                <a href='./index.php?func=order&action=add&id={$item.storeid}&mid={$item.managerid}'>
+                    <img src="tpl/images/top_bt_srch_new.gif" border="0">
+                </a>
+            </td>
+            </tr>
+            {/foreach}
+            <!-- END DYNAMIC BLOCK: row -->
+            <tr>
+              <td colspan="7" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <script src="assets/js/main.js"></script>
+  </div>
+{/block}

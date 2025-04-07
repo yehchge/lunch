@@ -26,19 +26,14 @@ class CProduct
     // 顯示資料列表
     private function index()
     {
-        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
-
-        $Lnh = new LnhLnhCfactory(); 
+        $Lnh = new LnhLnhCfactory();
 
         // 內頁功能 (FORM)
-        $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"PdsDetails.htm"));
-        $tpl->define_dynamic("row","TplBody");
-        
+        $tpl = new Template("tpl");
+
         //產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
+        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
         $page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
         $Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
         $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
@@ -65,53 +60,44 @@ class CProduct
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
         // Page Ended ************************************************ 
         $rows = $Lnh->GetAllPdsPageByStore($StoreID,'','',$startRow,$maxRows); //* Page *//
-        $row = $Lnh->fetch_assoc($rows);
-        if ($row == NULL) {
-            $tpl->clear_dynamic("row");
-            /*
-            $tpl->assign(editpdsid,"");
-            $tpl->assign(pdsid,"");
-            $tpl->assign(pdsname,"");
-            $tpl->assign(pdstype,"");
-            $tpl->assign(price,"");
-            $tpl->assign(note,"");
-            $tpl->assign(status,"");
-            $tpl->parse(ROWS,"row");    
-            */
-        } else {
-            $i=0;
-            while ($row != NULL) {
-                if ($i==0) {
-                    $class = "Forums_Item";
-                    $i=1;
-                } else {
-                    $class = "Forums_AlternatingItem";
-                    $i=0;
-                }
-                $tpl->assign('classname',$class);
-                $tpl->assign('storeid',$StoreID);
-                $tpl->assign('pdsid',$row['RecordID']);
-                if ($row['Status']==1) {
-                    $tpl->assign('status',"正常");
-                } else {
-                    $tpl->assign('status',"停用");
-                }
-                
-                $tpl->assign('pdsname',$row['PdsName']);
-                $tpl->assign('pdstype',$row['PdsType']);
-                $tpl->assign('price',$row['Price']);
-                $tpl->assign('note',$row['Note']);
-                
-                $tpl->parse('ROWS',".row");         
-                $row = $Lnh->fetch_assoc($rows);
+        
+
+        $i=0;
+        $items = [];
+
+        while($row = $Lnh->fetch_assoc($rows)){
+            $temp = [];
+
+           if ($i==0) {
+                $class = "Forums_Item";
+                $i=1;
+            } else {
+                $class = "Forums_AlternatingItem";
+                $i=0;
             }
+
+            $status = ($row['Status']==1)?"正常":"停用";
+
+            $temp['classname'] = $class;
+            $temp['storeid'] = $StoreID;
+            $temp['pdsid'] = $row['RecordID'];
+            $temp['status'] = $status;
+            $temp['pdsname'] = $row['PdsName'];
+            $temp['pdstype'] = $row['PdsType'];
+            $temp['price'] = $row['Price'];
+            $temp['note'] = $row['Note'];
+
+            $items[] = $temp;
         }
-
+             
+        $tpl->assign('items', $items);
         $tpl->assign('totalrows',"共 ".$Lnh->GetAllPdsCountByStore($StoreID)." 筆 "); //* Page *// 
-        $tpl->assign('pageselect',$pagestr); //* Page *// 
+        $tpl->assign('pageselect', $pagestr); //* Page *// 
 
-        $tpl->parse('BODY',"TplBody");
-        return $str = $tpl->fetch('BODY');
+        $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
+        $tpl->assign('title', '商品明細維護 - DinBenDon系統');
+        $tpl->assign('breadcrumb', '商品明細維護');
+        return $tpl->display('PdsDetails.htm');
     }
 
     // 新增表單送出
@@ -119,12 +105,16 @@ class CProduct
     {
         if (!$_POST) return '';
 
-        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
         $Lnh = new LnhLnhCfactory();
 
         // 檢查使用者有沒有登入
-        $Online = $Lnh->GetOnline();
+        // $Online = $Lnh->GetOnline();
+
+        $db = new Database();
+        $userRepo = new UserRepository($db);
+        $productRepo = new ProductRepository($db);
+
+        $Online = $userRepo->findById($_SESSION['user_id']);
         
         $PdsName = trim($_POST["pdsname"]);
         $PdsType = trim($_POST["pdstype"]);
@@ -133,7 +123,7 @@ class CProduct
         $StoreID = trim($_POST["pdsid"]);
       
         //產生本程式功能內容
-        if ($Lnh->CreateProduct($StoreID,$PdsName,$PdsType,$Price,$Online['Account'],$Note)) {
+        if ($Lnh->CreateProduct($StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note)) {
             echo "<script>\r\n";
             echo "<!--\r\n";
             echo "alert('新增便當成功!');\r\n";
@@ -157,46 +147,46 @@ class CProduct
             return $this->update();
         }
 
-        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
-      
         $Lnh = new LnhLnhCfactory(); 
 
         $id = trim($_GET['id']);
-        $sid = trim($_GET['sid']); 
-     
-        //產生本程式功能內容
-        $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('apg6'=>"EditPds.htm")); 
-      
+        $sid = trim($_GET['sid']);
+
+        // 產生本程式功能內容; 內頁功能 (FORM)
+        $tpl = new Template("tpl");
+
         $info = $Lnh->GetPdsDetailsByRecordID($id);
-        $tpl->assign('pdsid',$id);
-        $tpl->assign('sid',$sid);
-        $tpl->assign('pdsid',$info['RecordID']);
+
+        $status = ($info['Status']==1)?'':"checked";
+
+        $tpl->assign('pdsid', $id);
+        $tpl->assign('sid', $sid);
+        $tpl->assign('pdsid', $info['RecordID']);
         $tpl->assign('pdsname', htmlspecialchars($info['PdsName']));
-        $tpl->assign('pdstype',$info['PdsType']);
-        $tpl->assign('price',$info['Price']);
-        $tpl->assign('note',$info['Note']);
-        if ($info['Status']==1) {
-            $tpl->assign('status',"");
-        } else {
-            $tpl->assign('status',"checked");
-        }
-      
-        $tpl->parse('BODY',"apg6");
-        return $str = $tpl->fetch('BODY');
+        $tpl->assign('pdstype', $info['PdsType']);
+        $tpl->assign('price', $info['Price']);
+        $tpl->assign('note', $info['Note']);
+        $tpl->assign('status', $status);
+   
+        $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
+        $tpl->assign('title', '更新商品明細 - DinBenDon系統');
+        $tpl->assign('breadcrumb', '店家維護/便當明細維護/更新便當明細');
+        return $tpl->display('EditPds.htm');
     }
 
     // 編輯表單送出
     private function update()
     {
-        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
-
         $Lnh = new LnhLnhCfactory();
      
         // 檢查使用者有沒有登入
-        $Online = $Lnh->GetOnline();
+        // $Online = $Lnh->GetOnline();
+
+        $db = new Database();
+        $userRepo = new UserRepository($db);
+
+        $Online = $userRepo->findById($_SESSION['user_id']);
+
 
         $RecordID = trim($_POST["pdsid"]);
         $StoreID = trim($_POST["sid"]);
@@ -210,15 +200,15 @@ class CProduct
         if ($status=="on") {$cancel=2;} else {$cancel=1;}
         
         //產生本程式功能內容
-        if ($Lnh->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online['Account'],$Note,$cancel)) {
+        if ($Lnh->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note,$cancel)) {
             echo "<script>\r\n";
             echo "<!--\r\n";
             echo "alert('更新便當明細成功!');\r\n";
-            // echo "location='./PdsDetails.php?id=$StoreID';\r\n";
             echo "location='./index.php?func=product&action=list&id=$StoreID';\r\n";
             echo "//-->\r\n";
             echo "</script>\r\n";
         } else {
+
             echo "<script>\r\n";
             echo "<!--\r\n";
             echo "alert('更新便當明細失敗!');\r\n";
@@ -226,25 +216,20 @@ class CProduct
             echo "//-->\r\n";
             echo "</script>\r\n";
         }
-        //echo "<a href='/lunch/PdsDetails.php?id=$StoreID'>回便當明細維護</a>";
     }
 
     // 顯示店家商品明細
     private function listStore()
     {
-        include_once PATH_ROOT."/lunch/lib/LnhLnhCfactory.php"; 
-        include_once PATH_ROOT."/lunch/gphplib/class.FastTemplate.php";
-
         $Lnh = new LnhLnhCfactory(); 
      
         // 內頁功能 (FORM)
-        $tpl = new FastTemplate(PATH_ROOT."/lunch/tpl");
-        $tpl->define(array('TplBody'=>"UsrPdsDetails.htm"));
-        $tpl->define_dynamic("row","TplBody");
+        $tpl = new Template("tpl");
         
-        //產生本程式功能內容
+
+        // 產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/lunch/gphplib/SysPagCfactory.php"; 
+        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
         $page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
         $Status = 1; // 顯示正常狀態的資料
         $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
@@ -270,56 +255,42 @@ class CProduct
         $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
         // Page Ended ************************************************
+
         $row = NULL;
         $rows = $Lnh->GetAllPdsPageByStore($StoreID,$Status,'',$startRow,$maxRows); //* Page *//
-        if ($rows) $row = $Lnh->fetch_assoc($rows);
-        if ($row == NULL) {
-            $tpl->assign('editpdsid',"");
-            $tpl->assign('pdsid',"");
-            $tpl->assign('pdsname',"");
-            $tpl->assign('pdstype',"");
-            $tpl->assign('price',"");
-            $tpl->assign('note',"");
-            $tpl->assign('status',"");
-            $tpl->parse('ROWS',"row");        
-        } else {
-            $i=0;
-            while ($row != NULL) {
-                if ($i==0) {
-                    $class = "Forums_Item";
-                    $i=1;
-                } else {
-                    $class = "Forums_AlternatingItem";
-                    $i=0;
-                }
-                $tpl->assign('classname',$class);
 
-                $tpl->assign('editpdsid',"<a href='./EditPds.php?id=$row[RecordID]&sid=$StoreID'>修改</a>");
-                $tpl->assign('pdsid',$row['RecordID']);
-                if ($row['Status']==1) {
-                    $tpl->assign('status',"正常");
-                } else {
-                    $tpl->assign('status',"停用");
-                }
-                
-                $tpl->assign('pdsname',$row['PdsName']);
-                $tpl->assign('pdstype',$row['PdsType']);
-                $tpl->assign('price',$row['Price']);
-                $tpl->assign('note',$row['Note']);
-                
-                $tpl->parse('ROWS',".row");         
-                $row = $Lnh->fetch_assoc($rows);
+        $items = [];
+        $i=0;
+
+        while($row = $Lnh->fetch_assoc($rows)) {
+            $temp = [];
+         
+            if ($i==0) {
+                $class = "Forums_Item";
+                $i=1;
+            } else {
+                $class = "Forums_AlternatingItem";
+                $i=0;
             }
+            
+            $status = ($row['Status']==1)?"正常":"停用";
+
+            $temp['classname'] = $class;
+            $temp['pdsid'] = $row['RecordID'];
+            $temp['status'] =  $status;
+            $temp['pdsname'] = $row['PdsName'];
+            $temp['pdstype'] = $row['PdsType'];
+            $temp['price'] = $row['Price'];
+            $temp['note'] = $row['Note'];
+                
+            $items[] = $temp;
         }
 
+        $tpl->assign('items', $items);
         $tpl->assign('totalrows',"共 ".$Lnh->GetAllPdsCountByStore($StoreID,$Status)." 筆 "); //* Page *// 
         $tpl->assign('pageselect',$pagestr); //* Page *// 
-        
-        $tpl->parse('BODY',"TplBody");
-        //$str = $tpl->fetch('BODY');
-        $tpl->FastPrint('BODY');
-        exit;
 
+        return $tpl->display('UsrPdsDetails.htm');
     }
 
 }
