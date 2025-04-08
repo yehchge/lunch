@@ -348,20 +348,6 @@ class LnhLnhCfactory extends SysRdbCconnection {
         return 0;
      }
 
-
-     public function CreateOrder($ManagerID=0,$OrderMan='',$PdsID=0,$PdsName='',$Price=0,$Count=0,$Note='',$CreateMan='') {
-        if (!$ManagerID or !$OrderMan or !$PdsID or !$PdsName or !$Price or !$Count  or !$CreateMan) return 0;
-        $tt = time();
-        $fileds = "ManagerID,OrderMan,PdsID,PdsName,Price,Count,Note,CreateMan,CreateDate,EditDate,EditMan,Status";
-        $values = "$ManagerID,'$OrderMan',$PdsID,'$PdsName',$Price,$Count,'$Note','$CreateMan',$tt,$tt,'',1";
-        if ($this->LnhDBH->SqlInsert($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_ORDER,$fileds,$values)) {
-            return $this->getLastInsertID($this->LnhVariable->MY_SQL_TABLE_LUNCH_ORDER);    
-        }
-        // echo $this->LnhDBH->SqlStm;exit();
-        return 0;                  
-     }
-     
-
      public function UpdateOrder($RecordID=0,$OrderMan='',$PdsID=0,$PdsName='',$Price=0,$Count=0,$Note='',$EditMan='',$Status=0) {
          if(!$RecordID) return 0;
          $tt = time();

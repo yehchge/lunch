@@ -24,5 +24,35 @@ class OrderRepository
             return false;
         }
     }
+
+    public function CreateOrder($ManagerID=0,$OrderMan='',$PdsID=0,$PdsName='',$Price=0,$Count=0,$Note='',$CreateMan='') {
+        if (!$ManagerID or !$OrderMan or !$PdsID or !$PdsName or !$Price or !$Count  or !$CreateMan) return 0;
+        $tt = time();
+
+        $result = $this->insert('lunch_order', [
+            'ManagerID' => $ManagerID,
+            'OrderMan' => $OrderMan,
+            'PdsID' => $PdsID,
+            'PdsName' => $PdsName,
+            'Price' => $Price,
+            'Count' => $Count,
+            'Note' => $Note,
+            'CreateMan' => $CreateMan,
+            'CreateDate' => $tt,
+            'EditDate' => $tt,
+            'EditMan' => '',
+            'Status' => 1
+        ]);
+
+        if($result){
+            return $this->getLastInsertID('lunch_order');
+        }
+
+        return 0;                  
+    }
+
+    public function getLastInsertID($table='') {
+        return $this->pdo->lastInsertId();
+    }
     
 }

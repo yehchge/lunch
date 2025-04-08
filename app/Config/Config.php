@@ -32,6 +32,7 @@ require PATH_ROOT.'/app/Auth/Auth.php';
 require PATH_ROOT.'/app/Repository/StoreRepository.php';
 require PATH_ROOT.'/app/Repository/ProductRepository.php';
 require PATH_ROOT.'/app/Repository/OrderRepository.php';
+require PATH_ROOT.'/app/Repository/ManagerRepository.php';
 require PATH_ROOT.'/app/System/JavaScript.php';
 require PATH_ROOT.'/app/System/Template.php';
 

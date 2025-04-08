@@ -214,7 +214,6 @@ class COrder
         $userRepo = new UserRepository($db);
         $orderRepo = new OrderRepository($db);
 
-
         $Online = $userRepo->findById($_SESSION['user_id']);
 
         // 內頁功能 (FORM)
@@ -246,7 +245,6 @@ class COrder
                 $i=0;
             }
 
-            
             $PdsID = $value;
             $Count = trim($_POST["cnt".$value]);
             $Note = trim($_POST["note".$value]);
@@ -257,10 +255,10 @@ class COrder
             $Price = $info['Price'];
 
             // 寫入訂單中
-            $ret = $Lnh->CreateOrder($ManagerID,$UserInfo['name'],$PdsID,$PdsName,$Price,$Count,$Note,$Online['email']);
+            $ret = $orderRepo->CreateOrder($ManagerID,$UserInfo['name'],$PdsID,$PdsName,$Price,$Count,$Note,$Online['email']);
 
             if ($ret) {
-                $strret = "訂購成功!";
+                $strret = "訂購成功! RecordID: $ret";
             } else {
                 $strret = "失敗!";
             }
@@ -316,20 +314,13 @@ class COrder
         $info = $Lnh->GetOrderDetailsByRecordID($id);
       
         // 限制只有訂購人可修改狀態
-        if (strcmp($Online['email'], $info['CreateMan'])<>0) {
-            echo "????";exit;
-            echo "<script>\r\n";
-            echo "<!--\r\n";
-            echo "alert('ㄟ! 只有訂購人可修改!別偷改喔!');\r\n";
-            echo "history.back();\r\n";
-            echo "//-->\r\n";
-            echo "</script>\r\n";
+        if (strcmp(trim($Online['email']), trim($info['CreateMan']))<>0) {
+            JavaScript::vAlertBack('ㄟ! 只有訂購人可修改!別偷改喔!');
             return;
         }   
         
-        //產生本程式功能內容; 內頁功能 (FORM)
+        // 內頁功能 (FORM)
         $tpl = new Template("tpl");
-
 
         $tpl->assign('orderid',$id);
         $tpl->assign('managerid',$ManagerID);
