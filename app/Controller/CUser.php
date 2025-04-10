@@ -24,8 +24,6 @@ class CUser
             return $this->create();
         }
 
-        $Lnh = new LnhLnhCfactory();
-
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
 
