@@ -31,7 +31,7 @@ class LnhLnhCfactory extends SysRdbCconnection {
      } 
      
 
-     public function CreateStore($UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$CreateMan='',$Note='') {
+    public function CreateStore($UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$CreateMan='',$Note='') {
     
 
         if (!$StoreName or !$StoreIntro or !$StoreClass or !$MainMan or !$Tel or !$Address or !$CreateMan or !$Note) return 0;
@@ -48,47 +48,29 @@ class LnhLnhCfactory extends SysRdbCconnection {
         return 0;                  
     }
     
-    public function UpdateStore($RecordID=0,$UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$EditMan='',$Note='',$Status=0) {
-        if(!$RecordID) return 0;
+    // public function UpdateStore($RecordID=0,$UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$EditMan='',$Note='',$Status=0) {
+    //     if(!$RecordID) return 0;
 
-        $data = [
-            'UserName'   => $UserName,
-            'Password'   => $Password,
-            'StoreName'  => $StoreName,
-            'StoreIntro' => $StoreIntro,
-            'StoreClass' => $StoreClass,
-            'MainMan'    => $MainMan,
-            'Tel'        => $Tel,
-            'Address'    => $Address,
-            'EditMan'    => $EditMan,
-            'EditDate'   => time(),
-            'Note'       => $Note,
-            'Status'     => $Status,
-        ];
+    //     $data = [
+    //         'UserName'   => $UserName,
+    //         'Password'   => $Password,
+    //         'StoreName'  => $StoreName,
+    //         'StoreIntro' => $StoreIntro,
+    //         'StoreClass' => $StoreClass,
+    //         'MainMan'    => $MainMan,
+    //         'Tel'        => $Tel,
+    //         'Address'    => $Address,
+    //         'EditMan'    => $EditMan,
+    //         'EditDate'   => time(),
+    //         'Note'       => $Note,
+    //         'Status'     => $Status,
+    //     ];
 
-        $tmp = $this->LnhDBH->update($this->LnhVariable->MY_SQL_TABLE_LUNCH_STORE, $data, 'RecordID = ?', [$RecordID]);
-
-         // $values  = "UserName='$UserName ',";
-         // $values .= "Password='$Password ',";
-         // $values .= "StoreName='$StoreName ',";
-         // $values .= "StoreIntro='$StoreIntro ',";
-         // $values .= "StoreClass='$StoreClass ',";
-         // $values .= "MainMan='$MainMan ',";
-         // $values .= "Tel='$Tel ',";
-         // $values .= "Address='$Address ',";
-         // $values .= "EditMan='$EditMan ',";
-         // $values .= "EditDate=$tt,";
-         // $values .= "Note='$Note ',";
-         // $values .= "Status=$Status";
-         // $condition = "RecordID=$RecordID";
-         // $tmp = $this->LnhDBH->SqlUpdate($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_STORE, $values ,$condition);
-
+    //     $tmp = $this->LnhDBH->update($this->LnhVariable->MY_SQL_TABLE_LUNCH_STORE, $data, 'RecordID = ?', [$RecordID]);
+    //     if($tmp) return 1;
          
-
-         if($tmp) return 1;
-         
-         return 0;
-    }
+    //     return 0;
+    // }
      
      public function GetAllStore() {
          $fileds = "*";
@@ -158,11 +140,6 @@ class LnhLnhCfactory extends SysRdbCconnection {
             return $this->LnhDBH->lastInsertId();
         }
 
-        // $fileds = "StoreID,PdsName,PdsType,Price,CreateMan,Note,Status,CreateDate,EditDate,EditMan";
-        // $values = "$StoreID,'$PdsName ','$PdsType ',$Price,'$CreateMan ','$Note ',1,$tt,$tt,''";
-        // if ($this->LnhDBH->SqlInsert($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT,$fileds,$values)) {
-        //     return $this->getLastInsertID($this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT);  
-        // }
         return 0;                  
      }
 
@@ -183,14 +160,8 @@ class LnhLnhCfactory extends SysRdbCconnection {
         ];
 
         $tmp = $this->LnhDBH->update($this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT, $data, 'RecordID = ?', [$RecordID]);
-
-        // $values  = "StoreID=$StoreID,PdsName='$PdsName ',PdsType='$PdsType ',Price=$Price,";
-        // $values .= "EditMan='$EditMan ',EditDate=$tt,Note='$Note ',Status=$Status";
-        // $condition = "RecordID=$RecordID";
-        // $tmp = $this->LnhDBH->SqlUpdate($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT, $values ,$condition);
-         
+     
         if($tmp) return 1;
-        // echo $this->LnhDBH->SqlStm;
         return 0;
     }
 
@@ -208,15 +179,15 @@ class LnhLnhCfactory extends SysRdbCconnection {
      }
      
 
-     public function GetAllProductByStore($StoreID=0) {
-         if (!$StoreID) return 0;
-         $fileds = "*";
-         $condition = "StoreID=$StoreID";
-         if ($rows = $this->LnhDBH->SqlSelect($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT,$fileds,$condition)) {
-            return $rows;
-         }
-         return 0;
-     }
+     // public function GetAllProductByStore($StoreID=0) {
+     //     if (!$StoreID) return 0;
+     //     $fileds = "*";
+     //     $condition = "StoreID=$StoreID";
+     //     if ($rows = $this->LnhDBH->SqlSelect($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_PRODUCT,$fileds,$condition)) {
+     //        return $rows;
+     //     }
+     //     return 0;
+     // }
 
      public function GetAllPdsPageByStore($StoreID=0,$Status=0,$PayType=0,$startRow=0,$maxRows=10) {
          if (!$StoreID) return 0;
@@ -500,11 +471,8 @@ class LnhLnhCfactory extends SysRdbCconnection {
         $condition = "(($tt-ActiveDate)<=7200) and SessionID='$whois'";
         $infos = $this->LnhDBH->SqlSelect($this->LnhVariable->MY_SQL_DB_LUNCH,$this->LnhVariable->MY_SQL_TABLE_LUNCH_ONLINE,$fileds,$condition);
 
-
-        //echo $this->LnhDBH->SqlStm;
         if(!$infos) return 0;
         $info = $this->LnhDBH->fetch_array($infos);
-        // echo "<pre>";echo print_r($info);echo "</pre>";exit();
         $this->UpdateOnlineActiveByOnlineID($info[0]);
         return $info;
      }
@@ -518,16 +486,6 @@ class LnhLnhCfactory extends SysRdbCconnection {
         if ($tmp) return 1;
         return 0;
      }
-
-     Public Function PopMsg($str='',$url='') {
-        echo "<script language='JavaScript'>\n\r";
-        echo "<!--\n\r";
-        echo " alert(\"".$str."\");\n\r";
-        if ($url<>"") {
-            echo " location='".$url."';\n\r";
-        }
-        echo " //-->\n\r";
-        echo "</script>\n\r";
-     }     
+ 
 
 }

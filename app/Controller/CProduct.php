@@ -26,7 +26,8 @@ class CProduct
     // 顯示資料列表
     private function index()
     {
-        $Lnh = new LnhLnhCfactory();
+        $db = new Database();
+        $productRepo = new ProductRepository($db);
 
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
@@ -41,7 +42,7 @@ class CProduct
         $StoreID = isset($_REQUEST['id'])?$_REQUEST['id']:0;
         $SysID = 1;
       
-        $tpl->assign('id',$StoreID);
+        $tpl->assign('id', $StoreID);
       
         if(!$page) $page=1; 
         $maxRows = 10; 
@@ -49,7 +50,7 @@ class CProduct
         $SysPag = new SysPagCfactory(); 
         $SysPag->url=$_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID&Name=$Name&PayType=$PayType&SysID=$SysID"; 
         $SysPag->page=$page; 
-        $SysPag->msg_total = $Lnh->GetAllPdsCountByStore($StoreID);
+        $SysPag->msg_total = $productRepo->GetAllPdsCountByStore($StoreID);
         $SysPag->max_rows = $maxRows; 
         $SysPag->max_pages= 10;
 
@@ -58,14 +59,14 @@ class CProduct
         $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
         $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
-        // Page Ended ************************************************ 
-        $rows = $Lnh->GetAllPdsPageByStore($StoreID,'','',$startRow,$maxRows); //* Page *//
-        
+        // Page Ended ************************************************
 
+        $rows = $productRepo->GetAllPdsPageByStore($StoreID,'','',$startRow,$maxRows); //* Page *//
+        
         $i=0;
         $items = [];
 
-        while($row = $Lnh->fetch_assoc($rows)){
+        while($row = $productRepo->fetch_assoc($rows)){
             $temp = [];
 
            if ($i==0) {
@@ -91,7 +92,7 @@ class CProduct
         }
              
         $tpl->assign('items', $items);
-        $tpl->assign('totalrows',"共 ".$Lnh->GetAllPdsCountByStore($StoreID)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows',"共 ".$productRepo->GetAllPdsCountByStore($StoreID)." 筆 "); //* Page *// 
         $tpl->assign('pageselect', $pagestr); //* Page *// 
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
@@ -105,15 +106,13 @@ class CProduct
     {
         if (!$_POST) return '';
 
-        $Lnh = new LnhLnhCfactory();
-
-        // 檢查使用者有沒有登入
-        // $Online = $Lnh->GetOnline();
-
         $db = new Database();
         $userRepo = new UserRepository($db);
         $productRepo = new ProductRepository($db);
 
+        // 檢查使用者有沒有登入
+        // $Online = $Lnh->GetOnline();
+        
         $Online = $userRepo->findById($_SESSION['user_id']);
         
         $PdsName = trim($_POST["pdsname"]);
@@ -123,20 +122,10 @@ class CProduct
         $StoreID = trim($_POST["pdsid"]);
       
         //產生本程式功能內容
-        if ($Lnh->CreateProduct($StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note)) {
-            echo "<script>\r\n";
-            echo "<!--\r\n";
-            echo "alert('新增便當成功!');\r\n";
-            echo "location='./index.php?func=product&action=list&id=$StoreID';\r\n";
-            echo "//-->\r\n";
-            echo "</script>\r\n";
+        if ($productRepo->CreateProduct($StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note)) {
+            JavaScript::vAlertRedirect('新增便當成功!', $_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID");
         } else {
-            echo "<script>\r\n";
-            echo "<!--\r\n";
-            echo "alert('新增便當失敗!');\r\n";
-            echo "history.back();\r\n";
-            echo "//-->\r\n";
-            echo "</script>\r\n";
+            JavaScript::vAlertBack('新增便當失敗!');
         }
     }
 
@@ -147,7 +136,8 @@ class CProduct
             return $this->update();
         }
 
-        $Lnh = new LnhLnhCfactory(); 
+        $db = new Database();
+        $productRepo = new ProductRepository($db);
 
         $id = trim($_GET['id']);
         $sid = trim($_GET['sid']);
@@ -155,7 +145,7 @@ class CProduct
         // 產生本程式功能內容; 內頁功能 (FORM)
         $tpl = new Template("tpl");
 
-        $info = $Lnh->GetPdsDetailsByRecordID($id);
+        $info = $productRepo->GetPdsDetailsByRecordID($id);
 
         $status = ($info['Status']==1)?'':"checked";
 
@@ -177,16 +167,14 @@ class CProduct
     // 編輯表單送出
     private function update()
     {
-        $Lnh = new LnhLnhCfactory();
-     
+        $db = new Database();
+        $userRepo = new UserRepository($db);
+        $productRepo = new ProductRepository($db);
+
         // 檢查使用者有沒有登入
         // $Online = $Lnh->GetOnline();
 
-        $db = new Database();
-        $userRepo = new UserRepository($db);
-
         $Online = $userRepo->findById($_SESSION['user_id']);
-
 
         $RecordID = trim($_POST["pdsid"]);
         $StoreID = trim($_POST["sid"]);
@@ -200,32 +188,21 @@ class CProduct
         if ($status=="on") {$cancel=2;} else {$cancel=1;}
         
         //產生本程式功能內容
-        if ($Lnh->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note,$cancel)) {
-            echo "<script>\r\n";
-            echo "<!--\r\n";
-            echo "alert('更新便當明細成功!');\r\n";
-            echo "location='./index.php?func=product&action=list&id=$StoreID';\r\n";
-            echo "//-->\r\n";
-            echo "</script>\r\n";
+        if ($productRepo->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note,$cancel)) {
+            JavaScript::vAlertRedirect('更新便當明細成功!', $_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID");
         } else {
-
-            echo "<script>\r\n";
-            echo "<!--\r\n";
-            echo "alert('更新便當明細失敗!');\r\n";
-            echo "history.back();\r\n";
-            echo "//-->\r\n";
-            echo "</script>\r\n";
+            JavaScript::vAlertBack('更新便當明細失敗!');
         }
     }
 
     // 顯示店家商品明細
     private function listStore()
     {
-        $Lnh = new LnhLnhCfactory(); 
-     
+        $db = new Database();
+        $productRepo = new ProductRepository($db);
+
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
-        
 
         // 產生本程式功能內容
         // Page Start ************************************************ 
@@ -245,7 +222,7 @@ class CProduct
         $SysPag = new SysPagCfactory(); 
         $SysPag->url = $_SERVER['PHP_SELF']."?1=1&Status=$Status&id=$StoreID&Name=$Name&PayType=$PayType&SysID=$SysID"; 
         $SysPag->page=$page; 
-        $SysPag->msg_total = $Lnh->GetAllPdsCountByStore($StoreID,$Status);
+        $SysPag->msg_total = $productRepo->GetAllPdsCountByStore($StoreID,$Status);
         $SysPag->max_rows = $maxRows; 
         $SysPag->max_pages= 10;
 
@@ -257,12 +234,12 @@ class CProduct
         // Page Ended ************************************************
 
         $row = NULL;
-        $rows = $Lnh->GetAllPdsPageByStore($StoreID,$Status,'',$startRow,$maxRows); //* Page *//
+        $rows = $productRepo->GetAllPdsPageByStore($StoreID,$Status,'',$startRow,$maxRows); //* Page *//
 
         $items = [];
         $i=0;
 
-        while($row = $Lnh->fetch_assoc($rows)) {
+        while($row = $productRepo->fetch_assoc($rows)) {
             $temp = [];
          
             if ($i==0) {
@@ -287,7 +264,7 @@ class CProduct
         }
 
         $tpl->assign('items', $items);
-        $tpl->assign('totalrows',"共 ".$Lnh->GetAllPdsCountByStore($StoreID,$Status)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows',"共 ".$productRepo->GetAllPdsCountByStore($StoreID,$Status)." 筆 "); //* Page *// 
         $tpl->assign('pageselect',$pagestr); //* Page *// 
 
         return $tpl->display('UsrPdsDetails.htm');

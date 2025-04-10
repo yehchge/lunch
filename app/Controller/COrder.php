@@ -20,12 +20,11 @@ class COrder
         }
     }
 
-
     // 訂購明細
     private function index()
     {
-        $Lnh = new LnhLnhCfactory();
-        $LnhG = new LnhLnhCglobal();
+        $db = new Database();
+        $orderRepo = new OrderRepository($db);
         
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
@@ -46,7 +45,7 @@ class COrder
         $SysPag = new SysPagCfactory(); 
         $SysPag->url=$_SERVER['PHP_SELF']."?func=order&action=list&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID&mid=$ManagerID"; 
         $SysPag->page=$page; 
-        $SysPag->msg_total = $Lnh->GetOrderDetailsPageCountByManagerID($ManagerID,$Status,$PayType);
+        $SysPag->msg_total = $orderRepo->GetOrderDetailsPageCountByManagerID($ManagerID,$Status,$PayType);
         $SysPag->max_rows = $maxRows; 
         $SysPag->max_pages= 10;
 
@@ -56,14 +55,14 @@ class COrder
         $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
         // Page Ended ************************************************ 
-        $rows = $Lnh->GetOrderDetailsPageByManagerID($ManagerID,$Status,$PayType,$startRow,$maxRows); //* Page *//
+        $rows = $orderRepo->GetOrderDetailsPageByManagerID($ManagerID,$Status,$PayType,$startRow,$maxRows); //* Page *//
         
-        $Minfo = $Lnh->GetManagerDetailsByRecordID($ManagerID);
+        $Minfo = $orderRepo->GetManagerDetailsByRecordID($ManagerID);
 
         $items = [];
         $i = 0;
 
-        while($row = $Lnh->fetch_assoc($rows)) {
+        while($row = $orderRepo->fetch_assoc($rows)) {
             $temp = [];
 
             if ($i==0) {
@@ -107,7 +106,7 @@ class COrder
 
         $tpl->assign('items', $items);
 
-        $tpl->assign('totalrows',"共 ".$Lnh->GetOrderDetailsPageCountByManagerID($ManagerID,$Status,$PayType)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows',"共 ".$orderRepo->GetOrderDetailsPageCountByManagerID($ManagerID,$Status,$PayType)." 筆 "); //* Page *// 
         $tpl->assign('pageselect',$pagestr); //* Page *// 
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
@@ -122,7 +121,9 @@ class COrder
             return $this->create();
         }
 
-        $Lnh = new LnhLnhCfactory(); 
+        $db = new Database();
+        $orderRepo = new OrderRepository($db);
+        $productRepo = new ProductRepository($db);
 
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
@@ -149,7 +150,7 @@ class COrder
         $SysPag = new SysPagCfactory();
         $SysPag->url = $_SERVER['PHP_SELF']."?func=order&action=add&Status=$Status&id=$StoreID&Name=$Name&PayType=$PayType&SysID=$SysID"; 
         $SysPag->page = $page;
-        $SysPag->msg_total = $Lnh->GetAllPdsCountByStore($StoreID,$Status);
+        $SysPag->msg_total = $productRepo->GetAllPdsCountByStore($StoreID, $Status);
         $SysPag->max_rows = $maxRows; 
         $SysPag->max_pages= 10;
 
@@ -160,12 +161,12 @@ class COrder
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
         // Page Ended ************************************************
 
-        $rows = $Lnh->GetAllPdsPageByStore($StoreID,$Status,'',$startRow,$maxRows); //* Page *//
+        $rows = $productRepo->GetAllPdsPageByStore($StoreID,$Status,'',$startRow,$maxRows); //* Page *//
 
         $i=0;
         $items = [];
 
-        while($row = $Lnh->fetch_assoc($rows)){
+        while($row = $productRepo->fetch_assoc($rows)){
             $temp = [];
 
             if ($i==0) {
@@ -192,7 +193,7 @@ class COrder
 
         $tpl->assign('items', $items);
 
-        $tpl->assign('totalrows',"共 ".$Lnh->GetAllPdsCountByStore($StoreID,$Status)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows',"共 ".$productRepo->GetAllPdsCountByStore($StoreID,$Status)." 筆 "); //* Page *// 
         $tpl->assign('pageselect',$pagestr); //* Page *// 
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
@@ -205,14 +206,13 @@ class COrder
     // 新增表單送出
     private function create()
     {
-        $Lnh = new LnhLnhCfactory();
-
         // 檢查使用者有沒有登入
         // $Online = $Lnh->GetOnline();
 
         $db = new Database();
         $userRepo = new UserRepository($db);
         $orderRepo = new OrderRepository($db);
+        $productRepo = new ProductRepository($db);
 
         $Online = $userRepo->findById($_SESSION['user_id']);
 
@@ -249,7 +249,7 @@ class COrder
             $Count = trim($_POST["cnt".$value]);
             $Note = trim($_POST["note".$value]);
 
-            $info = $Lnh->GetPdsDetailsByRecordID($PdsID);
+            $info = $productRepo->GetPdsDetailsByRecordID($PdsID);
 
             $PdsName = $info['PdsName'];
             $Price = $info['Price'];
@@ -263,7 +263,6 @@ class COrder
                 $strret = "失敗!";
             }
             $str .= "便當:$PdsName, 單價:$Price, 數量:$Count,備註:$Note, $strret<br>";
-
 
             $temp['classname'] = $class;
             $temp['pdsname'] = $PdsName;
@@ -296,9 +295,10 @@ class COrder
         if ($_POST){
             return $this->update();
         }
-      
-        $Lnh = new LnhLnhCfactory(); 
-        $LnhG = new LnhLnhCglobal();
+
+        $db = new Database();
+        $userRepo = new UserRepository($db);
+        $orderRepo = new OrderRepository($db);
 
         $id = trim($_REQUEST['id']);
         $ManagerID = trim($_REQUEST['mid']);
@@ -306,12 +306,9 @@ class COrder
         // 檢查使用者有沒有登入
         // $Online = $Lnh->GetOnline();
 
-        $db = new Database();
-        $userRepo = new UserRepository($db);
-
         $Online = $userRepo->findById($_SESSION['user_id']);
 
-        $info = $Lnh->GetOrderDetailsByRecordID($id);
+        $info = $orderRepo->GetOrderDetailsByRecordID($id);
       
         // 限制只有訂購人可修改狀態
         if (strcmp(trim($Online['email']), trim($info['CreateMan']))<>0) {
@@ -336,7 +333,6 @@ class COrder
             $tpl->assign('javaScript', "<script>seldroplist(this.frm.status,'".$info['Status']."');</script>");
         }
 
-
         $tpl->assign('title', '管理使用者訂單狀態 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細/訂購人明細/管理訂購人明細狀態');
         return $tpl->display('EditOrder.htm');      
@@ -345,37 +341,24 @@ class COrder
     // 訂單編輯送出
     private function update()
     {
-        $Lnh = new LnhLnhCfactory();
+        $db = new Database();
+        $userRepo = new UserRepository($db);
+        $orderRepo = new OrderRepository($db);
 
         // 檢查使用者有沒有登入
         // $Online = $Lnh->GetOnline();
 
-        $db = new Database();
-        $userRepo = new UserRepository($db);
-
         $Online = $userRepo->findById($_SESSION['user_id']);
-
 
         $RecordID = trim($_POST["orderid"]);
         $Status = trim($_POST["status"]);
         $ManagerID = trim($_POST["managerid"]);
       
         //產生本程式功能內容
-        if ($Lnh->UpdateOrderStatusByRecordID($RecordID,$Status,$Online['email'])) {
-            // JavaScript::vAlertRedirect('更新狀態成功!', );
-            echo "<script>\r\n";
-            echo "<!--\r\n";
-            echo "alert('更新狀態成功!');\r\n";
-            echo "location='./index.php?func=order&action=list&mid=$ManagerID';\r\n";
-            echo "//-->\r\n";
-            echo "</script>\r\n";
+        if ($orderRepo->UpdateOrderStatusByRecordID($RecordID,$Status,$Online['email'])) {
+            JavaScript::vAlertRedirect('更新狀態成功!', $_SERVER['PHP_SELF']."?func=order&action=list&mid=$ManagerID");
         } else {
-            echo "<script>\r\n";
-            echo "<!--\r\n";
-            echo "alert('更新狀態失敗!');\r\n";
-            echo "history.back();\r\n";
-            echo "//-->\r\n";
-            echo "</script>\r\n";
+            JavaScript::vAlertBack('更新狀態失敗!');
         }   
     }
 

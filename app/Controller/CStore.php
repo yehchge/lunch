@@ -38,9 +38,8 @@ class CStore
     // 顯示資料列表
     private function index()
     {
-        include_once PATH_ROOT."/lib/LnhLnhCfactory.php";         
-
-        $Lnh = new LnhLnhCfactory(); 
+        $db = new Database();
+        $storeRepo = new StoreRepository($db);
 
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
@@ -60,7 +59,7 @@ class CStore
         $SysPag = new SysPagCfactory(); 
         $SysPag->url=$_SERVER['PHP_SELF']."?func=store&action=list&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
         $SysPag->page=$page; 
-        $SysPag->msg_total = $Lnh->GetAllStoreCount();
+        $SysPag->msg_total = $storeRepo->GetAllStoreCount();
         $SysPag->max_rows = $maxRows; 
         $SysPag->max_pages= 10;
 
@@ -71,9 +70,9 @@ class CStore
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
 
         // Page Ended ************************************************ 
-        $rows = $Lnh->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
+        $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
 
-        $row = $Lnh->fetch_assoc($rows);
+        $row = $storeRepo->fetch_assoc($rows);
 
         if ($row == NULL) {
             $tpl->assign('items', []);       
@@ -92,9 +91,8 @@ class CStore
 
                 $temp['classname'] = $class;
                 $temp['storeid'] = $row['RecordID'];
+
                 if ($row['Status']==1) {
-
-
                     $temp['status'] = "正常";
                     $temp['editdetails'] = "<a href='./index.php?func=product&action=list&id=".$row['RecordID']."'>新增維護</a>";
                 } else {
@@ -102,19 +100,18 @@ class CStore
                     $temp['editdetails'] = "新增維護";
                 }
                 
-                
-                $temp['storename'] = "<a href='javascript:ShowDetail($row[RecordID]);'>$row[StoreName]</a>";
+                $temp['storename'] = "<a href='javascript:ShowDetail({$row['RecordID']});'>{$row['StoreName']}</a>";
                 $temp['tel'] = $row['Tel'];
                 $temp['man'] = $row['MainMan'];
                 $temp['editdate'] = date("Y-m-d",$row['EditDate']);
                 
                 $items[] = $temp;
-                $row = $Lnh->fetch_assoc($rows);
+                $row = $storeRepo->fetch_assoc($rows);
             }
             $tpl->assign('items', $items);
         }
 
-        $tpl->assign('totalrows',"共 ".$Lnh->GetAllStoreCount()." 筆 "); //* Page *// 
+        $tpl->assign('totalrows',"共 ".$storeRepo->GetAllStoreCount()." 筆 "); //* Page *// 
         $tpl->assign('pageselect',$pagestr); //* Page *// 
 
         $tpl->assign('title', '店家維護 - DinBenDon系統');
@@ -139,9 +136,13 @@ class CStore
     // 新增表單送出
     private function create()
     {
-        include_once PATH_ROOT."/lib/LnhLnhCfactory.php";
+        $db = new Database();
+        $userRepo = new UserRepository($db);
+        $storeRepo = new StoreRepository($db);
 
-        $Lnh = new LnhLnhCfactory();
+        // $Online = $Lnh->GetOnline();
+
+        $Online = $userRepo->findById($_SESSION['user_id']);
 
         $StoreName = trim($_POST["name"]);
         $StoreIntro = trim($_POST["intro"]);
@@ -151,15 +152,8 @@ class CStore
         $Tel = trim($_POST["tel"]);
         $Note = trim($_POST["note"]);
 
-        // $Online = $Lnh->GetOnline();
-
-        $db = new Database();
-        $userRepo = new UserRepository($db);
-
-        $Online = $userRepo->findById($_SESSION['user_id']);
-
         //產生本程式功能內容
-        if ($Lnh->CreateStore('','',$StoreName,$StoreIntro,$StoreClass,$MainMan,$Tel,$Address,$Online['email'],$Note)) {
+        if ($storeRepo->CreateStore('','',$StoreName,$StoreIntro,$StoreClass,$MainMan,$Tel,$Address,$Online['email'],$Note)) {
             JavaScript::vAlertRedirect('新增成功!', $_SERVER['PHP_SELF']."?func=store&action=list");
         } else {
             JavaScript::vAlertBack('新增失敗!');
@@ -173,16 +167,15 @@ class CStore
             return $this->update();
         }
 
-        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
-
-        $Lnh = new LnhLnhCfactory(); 
+        $db = new Database();
+        $managerRepo = new ManagerRepository($db);
 
         $id = trim($_GET['id']);
      
         //產生本程式功能內容
         $tpl = new Template("tpl");
 
-        $info = $Lnh->GetStoreDetailsByRecordID($id);
+        $info = $managerRepo->GetStoreDetailsByRecordID($id);
         
         $result = [];
 
@@ -261,13 +254,12 @@ class CStore
     // 顯示店家單筆詳細資料
     private function show()
     {
-        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
-     
-        $Lnh = new LnhLnhCfactory(); 
+        $db = new Database();
+        $managerRepo = new ManagerRepository($db);
 
         $id = trim($_GET['id']);
 
-        $info = $Lnh->GetStoreDetailsByRecordID($id);
+        $info = $managerRepo->GetStoreDetailsByRecordID($id);
 
         //產生本程式功能內容
         $tpl = new Template("tpl");
@@ -297,9 +289,8 @@ class CStore
     // 指定店家
     private function assign()
     {
-        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
-
-        $Lnh = new LnhLnhCfactory();
+        $db = new Database();
+        $storeRepo = new StoreRepository($db);
 
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
@@ -314,11 +305,11 @@ class CStore
         $id = isset($_REQUEST['id'])?$_REQUEST['id']:0;
 
         if ($id) {
-            echo "<Script>\r\n";
+            echo "<script>\r\n";
             echo "yy=confirm('今日確定要訂購此間店的便當嗎?');\r\n";
             echo "if (yy==0) {history.back();}\r\n";
-            echo " else {location='./index.php?func=store&action=assigned&id=$id&Url=".urlencode('./index.php?func=store&action=assign')."';}\r\n";
-            echo "</Script>\r\n";
+            echo " else {location='".$_SERVER['PHP_SELF']."?func=store&action=assigned&id=$id&Url=".urlencode('./index.php?func=store&action=assign')."';}\r\n";
+            echo "</script>\r\n";
             return;
         }
 
@@ -330,11 +321,9 @@ class CStore
         $SysPag->url=$_SERVER['PHP_SELF']."?func=store&action=assign&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
         $SysPag->page=$page; 
         
-
-        $SysPag->msg_total = $Lnh->GetAllStoreCount($Status);
+        $SysPag->msg_total = $storeRepo->GetAllStoreCount($Status);
         $SysPag->max_rows = $maxRows; 
         $SysPag->max_pages= 10;
-
 
         $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
         $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
@@ -343,9 +332,9 @@ class CStore
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
         // Page Ended ************************************************ 
 
-
-        $rows = $Lnh->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
-        $row = $Lnh->fetch_assoc($rows);
+        $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
+        $row = $storeRepo->fetch_assoc($rows);
+        
         if ($row == NULL) {
             $tpl->assign('items', []);      
         } else {
@@ -363,7 +352,7 @@ class CStore
                     $i=0;
                 }
                 $temp['classname'] = $class;
-                $temp['editstoreid'] = "<a href='./index.php?func=store&action=assign&Status=$Status&page=$page&Name=$Name&PayType=$PayType&SysID=$SysID&id=".$row['RecordID']."'>指定</a>";
+                $temp['editstoreid'] = "<a href='".$_SERVER['PHP_SELF']."?func=store&action=assign&Status=$Status&page=$page&Name=$Name&PayType=$PayType&SysID=$SysID&id=".$row['RecordID']."'>指定</a>";
                 $temp['storeid'] = $row['RecordID'];
                 if ($row['Status']==1) {
                     $temp['status'] = "正常";
@@ -371,22 +360,21 @@ class CStore
                     $temp['status'] = "停用";
                 }
                 
-                $temp['storename'] = "<a href='javascript:ShowDetail($row[RecordID]);'>$row[StoreName]</a>";
+                $temp['storename'] = "<a href='javascript:ShowDetail({$row['RecordID']});'>{$row['StoreName']}</a>";
                 $temp['tel'] = $row['Tel'];
                 $temp['man'] = $row['MainMan'];
                 $temp['editdate'] = date("Y-m-d",$row['EditDate']);
                 
                 $items[] = $temp;
 
-                $row = $Lnh->fetch_assoc($rows);
+                $row = $storeRepo->fetch_assoc($rows);
             }
 
             $tpl->assign('items', $items);
         }
 
-        $tpl->assign('totalrows',"共 ".$Lnh->GetAllStoreCount($Status)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows',"共 ".$storeRepo->GetAllStoreCount($Status)." 筆 "); //* Page *// 
         $tpl->assign('pageselect',$pagestr); //* Page *// 
-
 
         $tpl->assign('title', '指定店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家');
@@ -395,22 +383,19 @@ class CStore
 
     private function assigned()
     {
-        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
-        
-        $Lnh = new LnhLnhCfactory();
+        $db = new Database();
+        $userRepo = new UserRepository($db);
+        $managerRepo = new ManagerRepository($db);
 
         // 檢查使用者有沒有登入
         // $Online = $Lnh->GetOnline();
-
-        $db = new Database();
-        $userRepo = new UserRepository($db);
-
+ 
         $Online = $userRepo->findById($_SESSION['user_id']);
 
         $StoreID = trim($_GET["id"]);
         $Url = trim(urldecode($_GET["Url"]));
 
-        if ($Lnh->CreateManager($StoreID,$Online['email'],'說明:系統指定')) {
+        if ($managerRepo->CreateManager($StoreID,$Online['email'],'說明:系統指定')) {
             JavaScript::vAlertRedirect('指定便當商家成功!', $Url);
         } else {
             JavaScript::vAlertBack('指定便當商家失敗!');
@@ -420,12 +405,9 @@ class CStore
     // 顯示指定店家
     private function listAssign()
     {
-        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
-        include_once PATH_ROOT."/lib/LnhLnhCglobal.php"; 
-      
-        $Lnh = new LnhLnhCfactory();
-        $LnhG = new LnhLnhCglobal();
-        
+        $db = new Database();
+        $managerRepo = new ManagerRepository($db);
+
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
       
@@ -444,7 +426,7 @@ class CStore
         $SysPag = new SysPagCfactory(); 
         $SysPag->url=$_SERVER['PHP_SELF']."?func=store&action=list_assign&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
         $SysPag->page=$page; 
-        $SysPag->msg_total = $Lnh->GetAllManagerCount();
+        $SysPag->msg_total = $managerRepo->GetAllManagerCount();
         $SysPag->max_rows = $maxRows; 
         $SysPag->max_pages= 10;
 
@@ -454,8 +436,8 @@ class CStore
         $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
         // Page Ended ************************************************ 
-        $rows = $Lnh->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
-        $row = $Lnh->fetch_assoc($rows);
+        $rows = $managerRepo->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
+        $row = $managerRepo->fetch_assoc($rows);
         if ($row == NULL) {
             $tpl->assign('items', []);
         } else {
@@ -475,19 +457,18 @@ class CStore
                 $temp['createdate'] = date("Y-m-d H:i:s", $row['CreateDate']);
                 $temp['man'] = $row['Manager'];
                 $temp['storeid'] = $row['StoreID'];
-                $info = $Lnh->GetStoreDetailsByRecordID($row['StoreID']);
+                $info = $managerRepo->GetStoreDetailsByRecordID($row['StoreID']);
                 $temp['storename'] = $info['StoreName'];
-                $temp['status'] = $LnhG->ManagerStatus[$row['Status']];
-                
+                $temp['status'] = $managerRepo->ManagerStatus[$row['Status']];
 
                 $items[] = $temp;
-                $row = $Lnh->fetch_assoc($rows);
+                $row = $managerRepo->fetch_assoc($rows);
             }
 
             $tpl->assign('items', $items);
         }
 
-        $tpl->assign('totalrows',"共 ".$Lnh->GetAllManagerCount()." 筆 "); //* Page *// 
+        $tpl->assign('totalrows',"共 ".$managerRepo->GetAllManagerCount()." 筆 "); //* Page *// 
         $tpl->assign('pageselect',$pagestr); //* Page *// 
 
         $tpl->assign('title', '指定商家管理/截止/取消 - DinBenDon系統');
@@ -502,19 +483,14 @@ class CStore
             return $this->editStatused();
         }
 
-        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
-        include_once PATH_ROOT."/lib/LnhLnhCglobal.php"; 
-      
-        $Lnh = new LnhLnhCfactory(); 
-        $LnhG = new LnhLnhCglobal();
+        $db = new Database();
+        $userRepo = new UserRepository($db);
+        $orderRepo = new OrderRepository($db);
+        $managerRepo = new ManagerRepository($db);
 
         // 檢查使用者有沒有登入
         // $Online = $Lnh->GetOnline();
-
-        $db = new Database();
-        $userRepo = new UserRepository($db);
-        $storeRepo = new StoreRepository($db);
-
+        
         $Online = $userRepo->findById($_SESSION['user_id']);
 
         $id = trim($_REQUEST['id']);
@@ -522,7 +498,7 @@ class CStore
         //產生本程式功能內容
         $tpl = new Template("tpl");
       
-        $info = $Lnh->GetManagerDetailsByRecordID($id);
+        $info = $orderRepo->GetManagerDetailsByRecordID($id);
         
         // 限制只有負責人可修改狀態
         if (strcmp($Online['email'], $info['Manager'])<>0) {
@@ -534,7 +510,7 @@ class CStore
         
         $row['managerid'] = $info['RecordID'];
         $row['storeid'] = $info['StoreID'];
-        $storeinfo = $Lnh->GetStoreDetailsByRecordID($info['StoreID']);
+        $storeinfo = $managerRepo->GetStoreDetailsByRecordID($info['StoreID']);
         $row['storename'] = $storeinfo['StoreName'];
         $row['man'] = $info['Manager'];
         $row['note'] = $info['Note'];
@@ -546,7 +522,7 @@ class CStore
         }
 
         $strStatus = "";
-        foreach($LnhG->ManagerStatus as $key => $value) {
+        foreach($managerRepo->ManagerStatus as $key => $value) {
             $strStatus .= "<option value='$key'>$value";
         }
         $row['strStatus'] = $strStatus;
@@ -562,16 +538,14 @@ class CStore
     // 送出狀態管理表單
     private function editStatused()
     {
-        include_once PATH_ROOT."/lib/LnhLnhCfactory.php"; 
-        include_once PATH_ROOT."/gphplib/class.FastTemplate.php";
-
-        $Lnh = new LnhLnhCfactory();
+        $db = new Database();
+        $managerRepo = new ManagerRepository($db);
 
         $RecordID = trim($_POST["managerid"]);
         $Status = trim($_POST["status"]);
       
         //產生本程式功能內容
-        if ($Lnh->UpdateManagerStatusByRecordID($RecordID, $Status)) {
+        if ($managerRepo->UpdateManagerStatusByRecordID($RecordID, $Status)) {
             JavaScript::vAlertRedirect('更新狀態成功!', './index.php?func=store&action=list_assign');
         } else {
             JavaScript::vAlertBack('更新狀態失敗!');

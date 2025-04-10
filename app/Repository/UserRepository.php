@@ -2,8 +2,10 @@
 
 declare(strict_types=1); // 嚴格類型
 
-class UserRepository {
+class UserRepository 
+{
     private $pdo;
+    private $debug = 1;
 
     public function __construct(Database $db) {
         $this->pdo = $db->getPdo();

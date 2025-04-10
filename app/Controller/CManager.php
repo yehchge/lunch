@@ -24,8 +24,8 @@ class CManager
     // DinBenDon(今日)
     private function index()
     {
-        $Lnh = new LnhLnhCfactory();
-        $LnhG = new LnhLnhCglobal();
+        $db = new Database();
+        $managerRepo = new ManagerRepository($db);
 
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
@@ -47,7 +47,7 @@ class CManager
         $SysPag = new SysPagCfactory(); 
         $SysPag->url=$_SERVER['PHP_SELF']."?func=manager&action=list&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
         $SysPag->page=$page; 
-        $SysPag->msg_total = $Lnh->GetAllManagerCount($Status);
+        $SysPag->msg_total = $managerRepo->GetAllManagerCount($Status);
         $SysPag->max_rows = $maxRows; 
         $SysPag->max_pages= 10;
 
@@ -58,8 +58,8 @@ class CManager
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
         // Page Ended ************************************************ 
 
-        $rows = $Lnh->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
-        if ($rows) $row = $Lnh->fetch_assoc($rows);
+        $rows = $managerRepo->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
+        if ($rows) $row = $managerRepo->fetch_assoc($rows);
 
         $items = [];
 
@@ -79,19 +79,19 @@ class CManager
                 $temp['createdate'] = date("Y-m-d H:i:s" ,$row['CreateDate']);
                 $temp['man'] = $row['Manager'];
                 $temp['storeid'] = $row['StoreID'];
-                $info = $Lnh->GetStoreDetailsByRecordID($row['StoreID']);
+                $info = $managerRepo->GetStoreDetailsByRecordID($row['StoreID']);
                 $temp['storename'] = $info['StoreName'];
-                $temp['status'] = $LnhG->ManagerStatus[$row['Status']];
+                $temp['status'] = $managerRepo->ManagerStatus[$row['Status']];
 
                 $items[] = $temp;
 
-                $row = $Lnh->fetch_assoc($rows);
+                $row = $managerRepo->fetch_assoc($rows);
             }
         }
 
         $tpl->assign('items', $items);
 
-        $tpl->assign('totalrows',"共 ".$Lnh->GetAllManagerCount($Status)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows',"共 ".$managerRepo->GetAllManagerCount($Status)." 筆 "); //* Page *// 
         $tpl->assign('pageselect',$pagestr); //* Page *// 
 
         $tpl->assign('title', 'DinBenDon(指定店家) - DinBenDon系統');
@@ -102,8 +102,8 @@ class CManager
     // DinBenDon明細
     private function listOrder()
     {
-        $Lnh = new LnhLnhCfactory();
-        $LnhG = new LnhLnhCglobal();
+        $db = new Database();
+        $managerRepo = new ManagerRepository($db);
         
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
@@ -123,7 +123,7 @@ class CManager
         $SysPag = new SysPagCfactory(); 
         $SysPag->url = $_SERVER['PHP_SELF']."?func=manager&action=list_order&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
         $SysPag->page = $page; 
-        $SysPag->msg_total = $Lnh->GetActiveManagerPageCount();
+        $SysPag->msg_total = $managerRepo->GetActiveManagerPageCount();
         $SysPag->max_rows = $maxRows; 
         $SysPag->max_pages= 10;
 
@@ -134,15 +134,15 @@ class CManager
         $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
         // Page Ended ************************************************
 
-        $rows = $Lnh->GetActiveManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
+        $rows = $managerRepo->GetActiveManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
         
         $items = [];
         $i = 0;
 
-        while($row = $Lnh->fetch_assoc($rows)){
+        while($row = $managerRepo->fetch_assoc($rows)){
             $temp = [];
 
-            $info = $Lnh->GetStoreDetailsByRecordID($row['StoreID']);
+            $info = $managerRepo->GetStoreDetailsByRecordID($row['StoreID']);
 
             if ($i==0) {
                 $class = "Forums_Item";
@@ -158,7 +158,7 @@ class CManager
             $temp['editdate'] = date("Y-m-d H:i:s", $row['EditDate']);
             $temp['man'] = $row['Manager'];
             $temp['storename'] = $info['StoreName'];
-            $temp['status'] = $LnhG->ManagerStatus[$row['Status']];
+            $temp['status'] = $managerRepo->ManagerStatus[$row['Status']];
 
             $items[] = $temp;
         }
@@ -167,7 +167,7 @@ class CManager
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
 
-        $tpl->assign('totalrows',"共 ".$Lnh->GetActiveManagerPageCount()." 筆"); //* Page *// 
+        $tpl->assign('totalrows',"共 ".$managerRepo->GetActiveManagerPageCount()." 筆"); //* Page *// 
         $tpl->assign('pageselect', $pagestr); //* Page *// 
 
         $tpl->assign('title', '訂便當明細 - DinBenDon系統');
