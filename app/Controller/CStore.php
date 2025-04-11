@@ -140,8 +140,6 @@ class CStore
         $userRepo = new UserRepository($db);
         $storeRepo = new StoreRepository($db);
 
-        // $Online = $Lnh->GetOnline();
-
         $Online = $userRepo->findById($_SESSION['user_id']);
 
         $StoreName = trim($_POST["name"]);
@@ -386,9 +384,6 @@ class CStore
         $db = new Database();
         $userRepo = new UserRepository($db);
         $managerRepo = new ManagerRepository($db);
-
-        // 檢查使用者有沒有登入
-        // $Online = $Lnh->GetOnline();
  
         $Online = $userRepo->findById($_SESSION['user_id']);
 
@@ -488,9 +483,6 @@ class CStore
         $orderRepo = new OrderRepository($db);
         $managerRepo = new ManagerRepository($db);
 
-        // 檢查使用者有沒有登入
-        // $Online = $Lnh->GetOnline();
-        
         $Online = $userRepo->findById($_SESSION['user_id']);
 
         $id = trim($_REQUEST['id']);

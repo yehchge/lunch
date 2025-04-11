@@ -18,13 +18,7 @@ use Lunch\System\DotEnv;
 // echo getenv('LUNCH_ENV');echo "<br>";
 // echo getenv("DATABASE_HOST");exit;
 
-include_once PATH_ROOT."/lib/LnhLnhCfactory.php";
-include_once PATH_ROOT."/gphplib/class.FastTemplate.php";
-include_once PATH_ROOT."/lib/LnhLnhCglobal.php";
-
-// header("Cache-Control: no-cache");
-// header("Pragma: no-cache");
-// header("Expires: Tue, Jan 12 1999 05:00:00 GMT");
+include_once PATH_ROOT."/gphplib/DebugConsole.php";
 
 require PATH_ROOT.'/app/System/Database.php';
 require PATH_ROOT.'/app/Repository/UserRepository.php';

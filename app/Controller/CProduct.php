@@ -110,9 +110,6 @@ class CProduct
         $userRepo = new UserRepository($db);
         $productRepo = new ProductRepository($db);
 
-        // 檢查使用者有沒有登入
-        // $Online = $Lnh->GetOnline();
-        
         $Online = $userRepo->findById($_SESSION['user_id']);
         
         $PdsName = trim($_POST["pdsname"]);
@@ -170,9 +167,6 @@ class CProduct
         $db = new Database();
         $userRepo = new UserRepository($db);
         $productRepo = new ProductRepository($db);
-
-        // 檢查使用者有沒有登入
-        // $Online = $Lnh->GetOnline();
 
         $Online = $userRepo->findById($_SESSION['user_id']);
 

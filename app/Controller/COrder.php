@@ -206,9 +206,6 @@ class COrder
     // 新增表單送出
     private function create()
     {
-        // 檢查使用者有沒有登入
-        // $Online = $Lnh->GetOnline();
-
         $db = new Database();
         $userRepo = new UserRepository($db);
         $orderRepo = new OrderRepository($db);
@@ -303,9 +300,6 @@ class COrder
         $id = trim($_REQUEST['id']);
         $ManagerID = trim($_REQUEST['mid']);
      
-        // 檢查使用者有沒有登入
-        // $Online = $Lnh->GetOnline();
-
         $Online = $userRepo->findById($_SESSION['user_id']);
 
         $info = $orderRepo->GetOrderDetailsByRecordID($id);
@@ -344,9 +338,6 @@ class COrder
         $db = new Database();
         $userRepo = new UserRepository($db);
         $orderRepo = new OrderRepository($db);
-
-        // 檢查使用者有沒有登入
-        // $Online = $Lnh->GetOnline();
 
         $Online = $userRepo->findById($_SESSION['user_id']);
 

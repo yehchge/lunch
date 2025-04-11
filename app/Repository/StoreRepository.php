@@ -90,7 +90,7 @@ class StoreRepository
 
     public function update(array $data, string $where, array $params): bool {
         $set = implode(' = ?, ', array_keys($data)) . ' = ?';
-        $sql = "UPDATE lunch_store SET $set WHERE $where";  
+        $sql = "UPDATE lunch_store SET $set WHERE $where";
         return $this->execute($sql, array_merge(array_values($data), $params));
     }
 
@@ -111,6 +111,7 @@ class StoreRepository
     private function handleError(string $message): void {
         if ($this->debug) {
             echo "DB Error: $message" . PHP_EOL;
+            exit;
         }
     }
 

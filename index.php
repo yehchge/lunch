@@ -18,6 +18,9 @@ try{
         exit;
     }
 
+    // $test = new DebugConsole();
+    // $test->showDebugInfo(1);
+
     $func = $_GET['func'] ?? '';
     $action = $_GET['action'] ?? '';
 
