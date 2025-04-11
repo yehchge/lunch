@@ -32,33 +32,29 @@ class CProduct
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
 
+        $StoreID = isset($_REQUEST['id'])?$_REQUEST['id']:0;
+
         //產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
-        $page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
-        $Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
-        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
-        $StoreID = isset($_REQUEST['id'])?$_REQUEST['id']:0;
-        $SysID = 1;
-      
-        $tpl->assign('id', $StoreID);
-      
-        if(!$page) $page=1; 
-        $maxRows = 10; 
-        $startRow = ($page-1)*$maxRows; 
-        $SysPag = new SysPagCfactory(); 
-        $SysPag->url=$_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID&Name=$Name&PayType=$PayType&SysID=$SysID"; 
-        $SysPag->page=$page; 
-        $SysPag->msg_total = $productRepo->GetAllPdsCountByStore($StoreID);
-        $SysPag->max_rows = $maxRows; 
-        $SysPag->max_pages= 10;
+        
 
-        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+        // 資料總筆數
+        $totalItems = $productRepo->GetAllPdsCountByStore($StoreID);
+
+        // 每頁幾筆資料
+        $itemsPerPage = 10;
+
+        // 當前頁數（可從 $_GET['page'] 取得）
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        // 保留其他 query 參數（例如搜尋條件）
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+
+        $startRow = $paginator->offset();
+        $maxRows = $paginator->limit();
         // Page Ended ************************************************
 
         $rows = $productRepo->GetAllPdsPageByStore($StoreID,'','',$startRow,$maxRows); //* Page *//
@@ -86,16 +82,19 @@ class CProduct
             $temp['pdsname'] = $row['PdsName'];
             $temp['pdstype'] = $row['PdsType'];
             $temp['price'] = $row['Price'];
-            $temp['note'] = $row['Note'];
+            $temp['note'] = mb_substr($row['Note'],0,30,'utf-8').'...';
 
             $items[] = $temp;
         }
              
         $tpl->assign('items', $items);
         $tpl->assign('totalrows',"共 ".$productRepo->GetAllPdsCountByStore($StoreID)." 筆 "); //* Page *// 
-        $tpl->assign('pageselect', $pagestr); //* Page *// 
+        $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
+
+        $tpl->assign('id', $StoreID);
+
         $tpl->assign('title', '商品明細維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '商品明細維護');
         return $tpl->display('PdsDetails.htm');
@@ -120,9 +119,9 @@ class CProduct
       
         //產生本程式功能內容
         if ($productRepo->CreateProduct($StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note)) {
-            JavaScript::vAlertRedirect('新增便當成功!', $_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID");
+            JavaScript::vAlertRedirect('新增成功!', $_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID");
         } else {
-            JavaScript::vAlertBack('新增便當失敗!');
+            JavaScript::vAlertBack('新增失敗!');
         }
     }
 
@@ -157,7 +156,7 @@ class CProduct
    
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '更新商品明細 - DinBenDon系統');
-        $tpl->assign('breadcrumb', '店家維護/便當明細維護/更新便當明細');
+        $tpl->assign('breadcrumb', '店家維護/明細維護/更新明細');
         return $tpl->display('EditPds.htm');
     }
 
@@ -183,9 +182,9 @@ class CProduct
         
         //產生本程式功能內容
         if ($productRepo->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note,$cancel)) {
-            JavaScript::vAlertRedirect('更新便當明細成功!', $_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID");
+            JavaScript::vAlertRedirect('更新明細成功!', $_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID");
         } else {
-            JavaScript::vAlertBack('更新便當明細失敗!');
+            JavaScript::vAlertBack('更新明細失敗!');
         }
     }
 
@@ -198,33 +197,30 @@ class CProduct
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
 
-        // 產生本程式功能內容
-        // Page Start ************************************************ 
-        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
-        $page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
-        $Status = 1; // 顯示正常狀態的資料
-        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
         $StoreID = isset($_REQUEST['id'])?$_REQUEST['id']:0;
-        $SysID = 1;
-      
-        $tpl->assign('id',$StoreID);
-      
-        if(!$page) $page=1; 
-        $maxRows = 10; 
-        $startRow = ($page-1)*$maxRows; 
-        $SysPag = new SysPagCfactory(); 
-        $SysPag->url = $_SERVER['PHP_SELF']."?1=1&Status=$Status&id=$StoreID&Name=$Name&PayType=$PayType&SysID=$SysID"; 
-        $SysPag->page=$page; 
-        $SysPag->msg_total = $productRepo->GetAllPdsCountByStore($StoreID,$Status);
-        $SysPag->max_rows = $maxRows; 
-        $SysPag->max_pages= 10;
+        $Status = 1; // 顯示正常狀態的資料
 
-        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+
+        // 產生本程式功能內容
+        // Page Start ************************************************
+        
+        // 資料總筆數
+        $totalItems = $productRepo->GetAllPdsCountByStore($StoreID,$Status);
+
+        // 每頁幾筆資料
+        $itemsPerPage = 10;
+
+        // 當前頁數（可從 $_GET['page'] 取得）
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        // 保留其他 query 參數（例如搜尋條件）
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+
+        $startRow = $paginator->offset();
+        $maxRows = $paginator->limit();
         // Page Ended ************************************************
 
         $row = NULL;
@@ -252,14 +248,16 @@ class CProduct
             $temp['pdsname'] = $row['PdsName'];
             $temp['pdstype'] = $row['PdsType'];
             $temp['price'] = $row['Price'];
-            $temp['note'] = $row['Note'];
+            $temp['note'] = mb_substr($row['Note'],0,30,'utf-8').'...';
                 
             $items[] = $temp;
         }
 
         $tpl->assign('items', $items);
         $tpl->assign('totalrows',"共 ".$productRepo->GetAllPdsCountByStore($StoreID,$Status)." 筆 "); //* Page *// 
-        $tpl->assign('pageselect',$pagestr); //* Page *// 
+        $tpl->assign('pageselect', $paginator->render()); //* Page *//
+
+        $tpl->assign('id',$StoreID);
 
         return $tpl->display('UsrPdsDetails.htm');
     }

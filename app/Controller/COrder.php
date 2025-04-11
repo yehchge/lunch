@@ -29,31 +29,34 @@ class COrder
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
 
+
+        $Status = isset($_REQUEST['status'])?$_REQUEST['status']:0; // 只顯示訂購中
+        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
+        $ManagerID = isset($_REQUEST['mid'])?$_REQUEST['mid']:0;
+
         //產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
-        $page= isset($_REQUEST['page'])?$_REQUEST['page']:0; 
-        $Status = isset($_REQUEST['status'])?$_REQUEST['status']:0; // 只顯示訂購中
-        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
-        $SysID = 1;
-        $ManagerID = isset($_REQUEST['mid'])?$_REQUEST['mid']:0;
-      
-        if(!$page) $page=1; 
-        $maxRows = 10; 
-        $startRow = ($page-1)*$maxRows; 
-        $SysPag = new SysPagCfactory(); 
-        $SysPag->url=$_SERVER['PHP_SELF']."?func=order&action=list&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID&mid=$ManagerID"; 
-        $SysPag->page=$page; 
-        $SysPag->msg_total = $orderRepo->GetOrderDetailsPageCountByManagerID($ManagerID,$Status,$PayType);
-        $SysPag->max_rows = $maxRows; 
-        $SysPag->max_pages= 10;
+        
 
-        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+        // 資料總筆數
+        $totalItems = $orderRepo->GetOrderDetailsPageCountByManagerID($ManagerID,$Status,$PayType);
+
+        // 每頁幾筆資料
+        $itemsPerPage = 10;
+
+        // 當前頁數（可從 $_GET['page'] 取得）
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        // 保留其他 query 參數（例如搜尋條件）
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+
+        $startRow = $paginator->offset();
+        $maxRows = $paginator->limit();
+
+
         // Page Ended ************************************************ 
         $rows = $orderRepo->GetOrderDetailsPageByManagerID($ManagerID,$Status,$PayType,$startRow,$maxRows); //* Page *//
         
@@ -96,7 +99,7 @@ class COrder
             $temp['count'] = $row['Count'];
             $temp['price'] = $row['Price'];
             $temp['man'] = $row['OrderMan'];
-            $temp['note'] = $row['Note'];
+            $temp['note'] = mb_substr($row['Note'],0,30,'utf-8').'...';
             $temp['createdate'] = date("Y-m-d H:i:s",$row['CreateDate']);
             $temp['status'] = $str;
             $temp['editstatus'] = $strStatus;
@@ -107,7 +110,7 @@ class COrder
         $tpl->assign('items', $items);
 
         $tpl->assign('totalrows',"共 ".$orderRepo->GetOrderDetailsPageCountByManagerID($ManagerID,$Status,$PayType)." 筆 "); //* Page *// 
-        $tpl->assign('pageselect',$pagestr); //* Page *// 
+        $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '訂購人明細 - DinBenDon系統');
@@ -128,37 +131,31 @@ class COrder
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
 
-        // 產生本程式功能內容
-        // Page Start ************************************************ 
-        include_once PATH_ROOT."/gphplib/SysPagCfactory.php";
-        $page = isset($_REQUEST['page'])?$_REQUEST['page']:0;
-
         $Status = 1; // 顯示正常狀態的資料
-
-        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
         $StoreID = isset($_REQUEST['id'])?$_REQUEST['id']:0;
         $ManagerID = isset($_REQUEST['mid'])?$_REQUEST['mid']:0;
-        $SysID = 1;
 
-        $tpl->assign('id',$StoreID);
-        $tpl->assign('mid',$ManagerID);
+        // 產生本程式功能內容
+        // Page Start ************************************************
+        
+        // 資料總筆數
+        $totalItems = $productRepo->GetAllPdsCountByStore($StoreID, $Status);
 
-        if(!$page) $page=1;
-        $maxRows = 10;
-        $startRow = ($page-1)*$maxRows;
-        $SysPag = new SysPagCfactory();
-        $SysPag->url = $_SERVER['PHP_SELF']."?func=order&action=add&Status=$Status&id=$StoreID&Name=$Name&PayType=$PayType&SysID=$SysID"; 
-        $SysPag->page = $page;
-        $SysPag->msg_total = $productRepo->GetAllPdsCountByStore($StoreID, $Status);
-        $SysPag->max_rows = $maxRows; 
-        $SysPag->max_pages= 10;
+        // 每頁幾筆資料
+        $itemsPerPage = 10;
 
-        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+        // 當前頁數（可從 $_GET['page'] 取得）
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        // 保留其他 query 參數（例如搜尋條件）
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+
+        $startRow = $paginator->offset();
+        $maxRows = $paginator->limit();
+
         // Page Ended ************************************************
 
         $rows = $productRepo->GetAllPdsPageByStore($StoreID,$Status,'',$startRow,$maxRows); //* Page *//
@@ -186,7 +183,7 @@ class COrder
             $temp['pdsname'] = $row['PdsName'];
             $temp['pdstype'] = $row['PdsType'];
             $temp['price'] = $row['Price'];
-            $temp['note'] = $row['Note'];
+            $temp['note'] = mb_substr($row['Note'],0,30,'utf-8').'...';
 
             $items[] = $temp;
         }
@@ -194,7 +191,10 @@ class COrder
         $tpl->assign('items', $items);
 
         $tpl->assign('totalrows',"共 ".$productRepo->GetAllPdsCountByStore($StoreID,$Status)." 筆 "); //* Page *// 
-        $tpl->assign('pageselect',$pagestr); //* Page *// 
+        $tpl->assign('pageselect', $paginator->render()); //* Page *// 
+
+        $tpl->assign('id',$StoreID);
+        $tpl->assign('mid',$ManagerID);
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
 
@@ -221,7 +221,7 @@ class COrder
         $ManagerID = $_POST["mid"];
 
         //CheckBox 抓值
-        $str = "您所訂購的便當明細如下：<br>";
+        $str = "您所訂購商品明細如下：<br>";
         $str .= "========================<br>";
 
         if (!$chkid) {
@@ -259,7 +259,7 @@ class COrder
             } else {
                 $strret = "失敗!";
             }
-            $str .= "便當:$PdsName, 單價:$Price, 數量:$Count,備註:$Note, $strret<br>";
+            $str .= "商品:$PdsName, 單價:$Price, 數量:$Count,備註:$Note, $strret<br>";
 
             $temp['classname'] = $class;
             $temp['pdsname'] = $PdsName;
@@ -282,7 +282,7 @@ class COrder
         $tpl->assign('classname1',$class);
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '訂購結果 - DinBenDon系統');
-        $tpl->assign('breadcrumb', 'DinBenDon/訂購GO/訂購便當結果');
+        $tpl->assign('breadcrumb', 'DinBenDon/訂購GO/訂購商品結果');
         return $tpl->display('OrderLunched.htm');
     }
 

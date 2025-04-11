@@ -29,6 +29,7 @@ require PATH_ROOT.'/app/Repository/OrderRepository.php';
 require PATH_ROOT.'/app/Repository/ManagerRepository.php';
 require PATH_ROOT.'/app/System/JavaScript.php';
 require PATH_ROOT.'/app/System/Template.php';
+require PATH_ROOT.'/app/System/Paginator.php';
 
 function dd($data)
 {

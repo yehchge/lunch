@@ -46,30 +46,27 @@ class CStore
 
         //產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
-        $page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
-        $Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
-        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
-        $SysID = 1;
+        
+        // 資料總筆數
+        $totalItems = $storeRepo->GetAllStoreCount();
 
-        if(!$page) $page=1; 
-        $maxRows = 10; 
-        $startRow = ($page-1)*$maxRows; 
-        $SysPag = new SysPagCfactory(); 
-        $SysPag->url=$_SERVER['PHP_SELF']."?func=store&action=list&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
-        $SysPag->page=$page; 
-        $SysPag->msg_total = $storeRepo->GetAllStoreCount();
-        $SysPag->max_rows = $maxRows; 
-        $SysPag->max_pages= 10;
+        // 每頁幾筆資料
+        $itemsPerPage = 10;
 
-        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+        // 當前頁數（可從 $_GET['page'] 取得）
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-        // Page Ended ************************************************ 
+        // 保留其他 query 參數（例如搜尋條件）
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+
+        $startRow = $paginator->offset();
+        $maxRows = $paginator->limit();
+        // Page Ended ************************************************
+        
+
         $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
 
         $row = $storeRepo->fetch_assoc($rows);
@@ -112,7 +109,7 @@ class CStore
         }
 
         $tpl->assign('totalrows',"共 ".$storeRepo->GetAllStoreCount()." 筆 "); //* Page *// 
-        $tpl->assign('pageselect',$pagestr); //* Page *// 
+        $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('title', '店家維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護');
@@ -128,7 +125,7 @@ class CStore
 
         $tpl = new Template("tpl");
 
-        $tpl->assign('title', '新增便當店家 - DinBenDon系統');
+        $tpl->assign('title', '新增店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '新增店家');
         $tpl->display('AddStore.htm');
     }
@@ -293,41 +290,39 @@ class CStore
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
 
-        //產生本程式功能內容
-        // Page Start ************************************************ 
-        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
-        $page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
         $Status = 1; // 正常狀態才顯示
-        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
         $id = isset($_REQUEST['id'])?$_REQUEST['id']:0;
 
         if ($id) {
             echo "<script>\r\n";
-            echo "yy=confirm('今日確定要訂購此間店的便當嗎?');\r\n";
+            echo "yy=confirm('今日確定要訂購此間店嗎?');\r\n";
             echo "if (yy==0) {history.back();}\r\n";
             echo " else {location='".$_SERVER['PHP_SELF']."?func=store&action=assigned&id=$id&Url=".urlencode('./index.php?func=store&action=assign')."';}\r\n";
             echo "</script>\r\n";
             return;
         }
 
-        $SysID = 1;
-        if(!$page) $page=1; 
-        $maxRows = 10; 
-        $startRow = ($page-1)*$maxRows; 
-        $SysPag = new SysPagCfactory(); 
-        $SysPag->url=$_SERVER['PHP_SELF']."?func=store&action=assign&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
-        $SysPag->page=$page; 
+        //產生本程式功能內容
+        // Page Start ************************************************
         
-        $SysPag->msg_total = $storeRepo->GetAllStoreCount($Status);
-        $SysPag->max_rows = $maxRows; 
-        $SysPag->max_pages= 10;
 
-        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+        // 資料總筆數
+        $totalItems = $storeRepo->GetAllStoreCount($Status);
+
+        // 每頁幾筆資料
+        $itemsPerPage = 10;
+
+        // 當前頁數（可從 $_GET['page'] 取得）
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        // 保留其他 query 參數（例如搜尋條件）
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+
+        $startRow = $paginator->offset();
+        $maxRows = $paginator->limit();
         // Page Ended ************************************************ 
 
         $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
@@ -372,7 +367,7 @@ class CStore
         }
 
         $tpl->assign('totalrows',"共 ".$storeRepo->GetAllStoreCount($Status)." 筆 "); //* Page *// 
-        $tpl->assign('pageselect',$pagestr); //* Page *// 
+        $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('title', '指定店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家');
@@ -391,9 +386,9 @@ class CStore
         $Url = trim(urldecode($_GET["Url"]));
 
         if ($managerRepo->CreateManager($StoreID,$Online['email'],'說明:系統指定')) {
-            JavaScript::vAlertRedirect('指定便當商家成功!', $Url);
+            JavaScript::vAlertRedirect('指定商家成功!', $Url);
         } else {
-            JavaScript::vAlertBack('指定便當商家失敗!');
+            JavaScript::vAlertBack('指定商家失敗!');
         }
     }
 
@@ -408,29 +403,27 @@ class CStore
       
         //產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
-        $page= isset($_REQUEST['page'])?$_REQUEST['page']:0; 
-        $Status = isset($_REQUEST['Status'])?$_REQUEST['Status']:0;
-        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
-        $SysID = 1;
-      
-        if(!$page) $page=1; 
-        $maxRows = 10; 
-        $startRow = ($page-1)*$maxRows; 
-        $SysPag = new SysPagCfactory(); 
-        $SysPag->url=$_SERVER['PHP_SELF']."?func=store&action=list_assign&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
-        $SysPag->page=$page; 
-        $SysPag->msg_total = $managerRepo->GetAllManagerCount();
-        $SysPag->max_rows = $maxRows; 
-        $SysPag->max_pages= 10;
+        
+        // 資料總筆數
+        $totalItems = $managerRepo->GetAllManagerCount();
 
-        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
-        // Page Ended ************************************************ 
+        // 每頁幾筆資料
+        $itemsPerPage = 10;
+
+        // 當前頁數（可從 $_GET['page'] 取得）
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        // 保留其他 query 參數（例如搜尋條件）
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+
+        $startRow = $paginator->offset();
+        $maxRows = $paginator->limit();
+        // Page Ended ************************************************
+
+
         $rows = $managerRepo->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
         $row = $managerRepo->fetch_assoc($rows);
         if ($row == NULL) {
@@ -464,7 +457,7 @@ class CStore
         }
 
         $tpl->assign('totalrows',"共 ".$managerRepo->GetAllManagerCount()." 筆 "); //* Page *// 
-        $tpl->assign('pageselect',$pagestr); //* Page *// 
+        $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('title', '指定商家管理/截止/取消 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家管理、截止、取消');

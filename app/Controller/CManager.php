@@ -31,31 +31,27 @@ class CManager
         $tpl = new Template("tpl");
 
         //產生本程式功能內容
-        // Page Start ************************************************ 
-        include_once PATH_ROOT."/gphplib/SysPagCfactory.php";
-        $page= isset($_REQUEST['page'])?$_REQUEST['page']:0;
-
+        // Page Start ************************************************
+        
         $Status = 1; // 只顯示訂購中
 
-        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
-        $SysID = 1;
-    
-        if(!$page) $page=1; 
-        $maxRows = 10; 
-        $startRow = ($page-1)*$maxRows; 
-        $SysPag = new SysPagCfactory(); 
-        $SysPag->url=$_SERVER['PHP_SELF']."?func=manager&action=list&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
-        $SysPag->page=$page; 
-        $SysPag->msg_total = $managerRepo->GetAllManagerCount($Status);
-        $SysPag->max_rows = $maxRows; 
-        $SysPag->max_pages= 10;
+        // 資料總筆數
+        $totalItems = $managerRepo->GetAllManagerCount($Status);
 
-        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+        // 每頁幾筆資料
+        $itemsPerPage = 10;
+
+        // 當前頁數（可從 $_GET['page'] 取得）
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        // 保留其他 query 參數（例如搜尋條件）
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+
+        $startRow = $paginator->offset();
+        $maxRows = $paginator->limit();
         // Page Ended ************************************************ 
 
         $rows = $managerRepo->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
@@ -92,7 +88,7 @@ class CManager
         $tpl->assign('items', $items);
 
         $tpl->assign('totalrows',"共 ".$managerRepo->GetAllManagerCount($Status)." 筆 "); //* Page *// 
-        $tpl->assign('pageselect',$pagestr); //* Page *// 
+        $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('title', 'DinBenDon(指定店家) - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon');
@@ -108,32 +104,29 @@ class CManager
         // 內頁功能 (FORM)
         $tpl = new Template("tpl");
         
-        //產生本程式功能內容
+        // 產生本程式功能內容
         // Page Start ************************************************ 
-        include_once PATH_ROOT."/gphplib/SysPagCfactory.php"; 
-        $page= isset($_REQUEST['page'])?$_REQUEST['page']:0; 
-        $Status = 1; // 只顯示訂購中
-        $Name = isset($_REQUEST['Name'])?$_REQUEST['Name']:'';
-        $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
-        $SysID = 1;
-      
-        if(!$page) $page=1; 
-        $maxRows = 10; 
-        $startRow = ($page-1)*$maxRows; 
-        $SysPag = new SysPagCfactory(); 
-        $SysPag->url = $_SERVER['PHP_SELF']."?func=manager&action=list_order&Status=$Status&Name=$Name&PayType=$PayType&SysID=$SysID"; 
-        $SysPag->page = $page; 
-        $SysPag->msg_total = $managerRepo->GetActiveManagerPageCount();
-        $SysPag->max_rows = $maxRows; 
-        $SysPag->max_pages= 10;
 
-        $pagestr = $SysPag->SysPagShowMiniLink( $page, "last");
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "last"); 
-        $pagestr.= $SysPag->SysPagShowPageNumber($page,"number");  
-        $pagestr.= $SysPag->SysPagShowPageLink( $page, "next");
-        $pagestr.= $SysPag->SysPagShowMiniLink( $page, "next"); 
+        // 資料總筆數
+        $totalItems = $managerRepo->GetActiveManagerPageCount();
+
+        // 每頁幾筆資料
+        $itemsPerPage = 10;
+
+        // 當前頁數（可從 $_GET['page'] 取得）
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        // 保留其他 query 參數（例如搜尋條件）
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+
+        $startRow = $paginator->offset();
+        $maxRows = $paginator->limit();
         // Page Ended ************************************************
-
+        
+        $Status = 1; // 只顯示訂購中
         $rows = $managerRepo->GetActiveManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
         
         $items = [];
@@ -168,9 +161,9 @@ class CManager
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
 
         $tpl->assign('totalrows',"共 ".$managerRepo->GetActiveManagerPageCount()." 筆"); //* Page *// 
-        $tpl->assign('pageselect', $pagestr); //* Page *// 
+        $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
-        $tpl->assign('title', '訂便當明細 - DinBenDon系統');
+        $tpl->assign('title', 'DinBenDon明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細');
         return $tpl->display('ListOrder.htm');
     }
