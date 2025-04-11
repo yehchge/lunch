@@ -42,7 +42,7 @@ class CStore
         $storeRepo = new StoreRepository($db);
 
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         //產生本程式功能內容
         // Page Start ************************************************ 
@@ -66,6 +66,9 @@ class CStore
         $maxRows = $paginator->limit();
         // Page Ended ************************************************
         
+        $Status = 0;
+        $Name = '';
+        $PayType = 0;
 
         $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
 
@@ -113,7 +116,8 @@ class CStore
 
         $tpl->assign('title', '店家維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護');
-        return $tpl->display('ListStore.htm');
+
+        return $tpl->display(class_basename($this).'/ListStore.htm');
     }
 
     // 顯示新增表單
@@ -123,11 +127,11 @@ class CStore
             return $this->create();
         }
 
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $tpl->assign('title', '新增店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '新增店家');
-        $tpl->display('AddStore.htm');
+        $tpl->display(class_basename($this).'/AddStore.htm');
     }
 
     // 新增表單送出
@@ -168,7 +172,7 @@ class CStore
         $id = trim($_GET['id']);
      
         //產生本程式功能內容
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $info = $managerRepo->GetStoreDetailsByRecordID($id);
         
@@ -198,7 +202,7 @@ class CStore
         $tpl->assign('result', $result);
         $tpl->assign('title', '更新店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護/更新店家');
-        $tpl->display('EditStore.htm');
+        $tpl->display(class_basename($this).'/EditStore.htm');
     }
 
     // 編輯表單送出
@@ -257,7 +261,7 @@ class CStore
         $info = $managerRepo->GetStoreDetailsByRecordID($id);
 
         //產生本程式功能內容
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $row = [];
               
@@ -278,7 +282,7 @@ class CStore
         }
 
         $tpl->assign('row', $row);     
-        $tpl->display('StoreDetail.htm');
+        $tpl->display(class_basename($this).'/StoreDetail.htm');
     }
 
     // 指定店家
@@ -288,7 +292,7 @@ class CStore
         $storeRepo = new StoreRepository($db);
 
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $Status = 1; // 正常狀態才顯示
         $id = isset($_REQUEST['id'])?$_REQUEST['id']:0;
@@ -371,7 +375,7 @@ class CStore
 
         $tpl->assign('title', '指定店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家');
-        $tpl->display('AssignStore.htm');        
+        $tpl->display(class_basename($this).'/AssignStore.htm');        
     }
 
     private function assigned()
@@ -399,7 +403,7 @@ class CStore
         $managerRepo = new ManagerRepository($db);
 
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
       
         //產生本程式功能內容
         // Page Start ************************************************ 
@@ -461,7 +465,7 @@ class CStore
 
         $tpl->assign('title', '指定商家管理/截止/取消 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家管理、截止、取消');
-        $tpl->display('ListAssignStore.htm'); 
+        $tpl->display(class_basename($this).'/ListAssignStore.htm'); 
     }
 
     // 狀態管理
@@ -481,7 +485,7 @@ class CStore
         $id = trim($_REQUEST['id']);
         
         //產生本程式功能內容
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
       
         $info = $orderRepo->GetManagerDetailsByRecordID($id);
         
@@ -517,7 +521,7 @@ class CStore
 
         $tpl->assign('title', '管理指定店家狀態 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家管理、截止、取消/管理指定店家狀態');
-        $tpl->display('EditManager.htm');
+        $tpl->display(class_basename($this).'/EditManager.htm');
     }
 
     // 送出狀態管理表單

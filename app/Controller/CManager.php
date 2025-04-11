@@ -28,7 +28,7 @@ class CManager
         $managerRepo = new ManagerRepository($db);
 
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         //產生本程式功能內容
         // Page Start ************************************************
@@ -92,7 +92,7 @@ class CManager
 
         $tpl->assign('title', 'DinBenDon(指定店家) - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon');
-        return $tpl->display('OrderStore.htm');
+        return $tpl->display(class_basename($this).'/OrderStore.htm');
     }
 
     // DinBenDon明細
@@ -102,7 +102,7 @@ class CManager
         $managerRepo = new ManagerRepository($db);
         
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
         
         // 產生本程式功能內容
         // Page Start ************************************************ 
@@ -165,7 +165,7 @@ class CManager
 
         $tpl->assign('title', 'DinBenDon明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細');
-        return $tpl->display('ListOrder.htm');
+        return $tpl->display(class_basename($this).'/ListOrder.htm');
     }
 
 }

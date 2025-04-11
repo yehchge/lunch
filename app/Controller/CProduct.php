@@ -30,7 +30,7 @@ class CProduct
         $productRepo = new ProductRepository($db);
 
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $StoreID = isset($_REQUEST['id'])?$_REQUEST['id']:0;
 
@@ -97,7 +97,7 @@ class CProduct
 
         $tpl->assign('title', '商品明細維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '商品明細維護');
-        return $tpl->display('PdsDetails.htm');
+        return $tpl->display(class_basename($this).'/PdsDetails.htm');
     }
 
     // 新增表單送出
@@ -139,7 +139,7 @@ class CProduct
         $sid = trim($_GET['sid']);
 
         // 產生本程式功能內容; 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $info = $productRepo->GetPdsDetailsByRecordID($id);
 
@@ -157,7 +157,7 @@ class CProduct
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '更新商品明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護/明細維護/更新明細');
-        return $tpl->display('EditPds.htm');
+        return $tpl->display(class_basename($this).'/EditPds.htm');
     }
 
     // 編輯表單送出
@@ -195,7 +195,7 @@ class CProduct
         $productRepo = new ProductRepository($db);
 
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $StoreID = isset($_REQUEST['id'])?$_REQUEST['id']:0;
         $Status = 1; // 顯示正常狀態的資料
@@ -259,7 +259,7 @@ class CProduct
 
         $tpl->assign('id',$StoreID);
 
-        return $tpl->display('UsrPdsDetails.htm');
+        return $tpl->display(class_basename($this).'/UsrPdsDetails.htm');
     }
 
 }

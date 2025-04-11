@@ -37,3 +37,10 @@ function dd($data)
 {
     echo "<pre>";print_r($data);echo "</pre>";
 }
+
+function class_basename($class)
+{
+    $class = is_object($class) ? $class::class : $class;
+
+    return basename(str_replace('\\', '/', $class));
+}

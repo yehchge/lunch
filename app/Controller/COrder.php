@@ -27,7 +27,7 @@ class COrder
         $orderRepo = new OrderRepository($db);
         
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
 
         $Status = isset($_REQUEST['status'])?$_REQUEST['status']:0; // 只顯示訂購中
@@ -115,7 +115,7 @@ class COrder
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '訂購人明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細/訂購人明細');
-        return $tpl->display('OrderDetails.htm');
+        return $tpl->display(class_basename($this).'/OrderDetails.htm');
     }
 
     private function add()
@@ -129,7 +129,7 @@ class COrder
         $productRepo = new ProductRepository($db);
 
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $Status = 1; // 顯示正常狀態的資料
         $StoreID = isset($_REQUEST['id'])?$_REQUEST['id']:0;
@@ -200,7 +200,7 @@ class COrder
 
         $tpl->assign('title', 'DinBenDon - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon/訂購GO');
-        return $tpl->display('OrderLunch.htm');
+        return $tpl->display(class_basename($this).'/OrderLunch.htm');
     }
 
     // 新增表單送出
@@ -214,7 +214,7 @@ class COrder
         $Online = $userRepo->findById($_SESSION['user_id']);
 
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $UserInfo['name'] = 'John';
         $chkid = isset($_POST["chk"])?$_POST["chk"]:0;
@@ -283,7 +283,7 @@ class COrder
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '訂購結果 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon/訂購GO/訂購商品結果');
-        return $tpl->display('OrderLunched.htm');
+        return $tpl->display(class_basename($this).'/OrderLunched.htm');
     }
 
     // 訂單編輯
@@ -329,7 +329,7 @@ class COrder
 
         $tpl->assign('title', '管理使用者訂單狀態 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細/訂購人明細/管理訂購人明細狀態');
-        return $tpl->display('EditOrder.htm');      
+        return $tpl->display(class_basename($this).'/EditOrder.htm');      
     }
 
     // 訂單編輯送出

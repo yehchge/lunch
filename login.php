@@ -12,7 +12,7 @@ if( ! $_POST){
 
     $error = JavaScript::getFlashMessage();
   
-    $tpl = new Template("tpl");
+    $tpl = new Template("app/Views");
     // $tpl->setDebug();
     $tpl->setDelimiters('[[', ']]');
 

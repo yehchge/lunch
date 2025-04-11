@@ -25,7 +25,7 @@ try{
     $action = $_GET['action'] ?? '';
 
     //產生本程式功能內容
-    $tpl = new Template("tpl");
+    $tpl = new Template("app/Views");
 
     $routes = [
         'store' => 'CStore',

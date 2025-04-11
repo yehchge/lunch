@@ -25,7 +25,7 @@ class CUser
         }
 
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $tpl->assign('title', '');
         $tpl->assign('breadcrumb', '');
