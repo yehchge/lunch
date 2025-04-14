@@ -2,7 +2,7 @@
 
 class CManager
 {
-    public function tManager()
+    public function handleRequest()
     {
         $action = $_GET['action'] ?? '';
         try{

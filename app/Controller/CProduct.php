@@ -2,7 +2,7 @@
 
 class CProduct
 {
-    public function tManager()
+    public function handleRequest()
     {
         $action = $_GET['action'] ?? '';
 

@@ -5,7 +5,9 @@ class Auth {
 
     public function __construct(UserRepository $userRepo) {
         $this->userRepo = $userRepo;
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
     public function login($username, $password, $rememberMe = false) {
@@ -35,6 +37,7 @@ class Auth {
         }
 
         if (!empty($_COOKIE['remember_me'])) {
+
             $user = $this->userRepo->findByRememberToken($_COOKIE['remember_me']);
             if ($user) {
                 $_SESSION['user_id'] = $user['id'];
