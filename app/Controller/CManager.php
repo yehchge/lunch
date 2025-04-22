@@ -2,27 +2,8 @@
 
 class CManager
 {
-    public function handleRequest()
-    {
-        $action = $_GET['action'] ?? '';
-        try{
-            switch($action){
-                case 'list_order':
-                    return $this->listOrder();
-                    break;
-                case 'list':
-                default:
-                    return $this->index();
-                    break;
-            }
-        }catch (\Exception $e){
-            echo $e->getMessage().PHP_EOL;
-            exit;
-        }
-    }
-
     // DinBenDon(今日)
-    private function index()
+    public function list()
     {
         $db = new Database();
         $managerRepo = new ManagerRepository($db);
@@ -48,7 +29,7 @@ class CManager
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'manager/list', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
@@ -92,11 +73,12 @@ class CManager
 
         $tpl->assign('title', 'DinBenDon(指定店家) - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon');
+        $tpl->assign('baseUrl', BASE_URL);
         return $tpl->display(class_basename($this).'/OrderStore.htm');
     }
 
     // DinBenDon明細
-    private function listOrder()
+    public function listOrder()
     {
         $db = new Database();
         $managerRepo = new ManagerRepository($db);
@@ -120,7 +102,7 @@ class CManager
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'manager/listOrder', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
@@ -165,7 +147,7 @@ class CManager
 
         $tpl->assign('title', 'DinBenDon明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細');
+        $tpl->assign('baseUrl', BASE_URL);
         return $tpl->display(class_basename($this).'/ListOrder.htm');
     }
-
 }

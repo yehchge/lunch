@@ -2,23 +2,7 @@
 
 class CLogin
 {
-    public function handleRequest()
-    {
-        $action = $_GET['action'] ?? '';
-        try{
-            switch($action){
-                case 'login':
-                default:
-                    return $this->tLogin();
-                    break;
-            }
-        }catch (\Exception $e){
-            echo $e->getMessage().PHP_EOL;
-            exit;
-        }
-    }
-
-    private function tLogin(){
+    public function index(){
 
         if( ! $_POST){
             //產生本程式功能內容
@@ -31,6 +15,7 @@ class CLogin
             $tpl->setDelimiters('[[', ']]');
 
             $tpl->assign('error', $error);
+            $tpl->assign('baseUrl', BASE_URL);
             $tpl->display('login.htm');
             exit;
         }
@@ -57,13 +42,12 @@ class CLogin
                     unset($_SESSION['refer']);
                     JavaScript::redirect($refer);
                 }else{
-                    header("Location: ./index.php");
+                    header("Location: ".BASE_URL);
                 }
             } else {
                 $error = "帳號或密碼錯誤";
-                JavaScript::redirect('./index.php?func=login', $error);
+                JavaScript::redirect(BASE_URL.'login', $error);
             }
         }
-
     }
 }

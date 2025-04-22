@@ -15,10 +15,13 @@ try{
     // $test = new DebugConsole();
     // $test->showDebugInfo(1);
 
-    $func = $_GET['func'] ?? '';
-    $action = $_GET['action'] ?? '';
+    $router = new Router();
 
-    //產生本程式功能內容
+    $func = $router->func();
+    $action = $router->action();
+    $params = $router->params();
+
+    // 產生本程式功能內容
     $tpl = new Template("app/Views");
 
     $routes = [
@@ -31,9 +34,6 @@ try{
         'logout' => ['CLogout', false] // 不需要登入
     ];
 
-    $func = $_GET['func'] ?? '';
-    $action = $_GET['action'] ?? '';
-
     $sController = '';
 
     foreach ($routes as $route => [$controller, $needAuth]) {
@@ -42,7 +42,7 @@ try{
                 // 檢查使用者有沒有登入
                 if (!$auth->check()) {
                     $_SESSION['refer'] = $_SERVER['REQUEST_URI'] ?? '';
-                    header("Location: ./index.php?func=login");
+                    header("Location: ".BASE_URL."login");
                     exit;
                 }                
             }
@@ -51,10 +51,23 @@ try{
     }
 
     if($sController!==''){
-        //include, new target controller, and run handleRequest
-        include_once(PATH_ROOT."/app/Controller/$sController.php"); //include controller.php
-        $oController = new $sController();  //new target controller
-        return $oController->handleRequest();   //call controller entry function
+        $controllerFile = PATH_ROOT."/app/Controller/$sController.php";
+        if (file_exists($controllerFile)){
+            //include, new target controller, and run method
+            require_once $controllerFile; //include controller.php
+            $oController = new $sController();  //new target controller
+
+            if (method_exists($oController, $action)) {
+                return call_user_func_array([$oController, $action], $params);
+            } else {
+                http_response_code(404);
+                echo "404 - Method '{$action}' not found.";
+            }
+        } else {
+            http_response_code(404);
+            echo "404 - Controller '{$func}' not found.";
+        }
+        
     } else {
         // $tpl->assign("FUNCTION", '');
     }

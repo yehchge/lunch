@@ -2,29 +2,8 @@
 
 class CProduct
 {
-    public function handleRequest()
-    {
-        $action = $_GET['action'] ?? '';
-
-        switch($action){
-            case 'add':
-                return $this->create();
-                break;
-            case 'edit':
-                return $this->edit();
-                break;
-            case 'list_store':
-                return $this->listStore();
-                break;
-            case 'list':
-            default:
-                return $this->index();
-                break;
-        }
-    }
-
     // 顯示資料列表
-    private function index()
+    public function list()
     {
         $db = new Database();
         $productRepo = new ProductRepository($db);
@@ -51,7 +30,7 @@ class CProduct
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'product/list', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
@@ -97,11 +76,12 @@ class CProduct
 
         $tpl->assign('title', '商品明細維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '商品明細維護');
+        $tpl->assign('baseUrl', BASE_URL);
         return $tpl->display(class_basename($this).'/PdsDetails.htm');
     }
 
     // 新增表單送出
-    private function create()
+    public function add()
     {
         if (!$_POST) return '';
 
@@ -119,14 +99,14 @@ class CProduct
       
         //產生本程式功能內容
         if ($productRepo->CreateProduct($StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note)) {
-            JavaScript::vAlertRedirect('新增成功!', $_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID");
+            JavaScript::vAlertRedirect('新增成功!', BASE_URL."product/list?id=$StoreID");
         } else {
             JavaScript::vAlertBack('新增失敗!');
         }
     }
 
     // 顯示編輯表單
-    private function edit()
+    public function edit()
     {
         if ($_POST){
             return $this->update();
@@ -157,11 +137,12 @@ class CProduct
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '更新商品明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護/明細維護/更新明細');
+        $tpl->assign('baseUrl', BASE_URL);
         return $tpl->display(class_basename($this).'/EditPds.htm');
     }
 
     // 編輯表單送出
-    private function update()
+    public function update()
     {
         $db = new Database();
         $userRepo = new UserRepository($db);
@@ -182,14 +163,14 @@ class CProduct
         
         //產生本程式功能內容
         if ($productRepo->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note,$cancel)) {
-            JavaScript::vAlertRedirect('更新明細成功!', $_SERVER['PHP_SELF']."?func=product&action=list&id=$StoreID");
+            JavaScript::vAlertRedirect('更新明細成功!', BASE_URL."product/list?id=$StoreID");
         } else {
             JavaScript::vAlertBack('更新明細失敗!');
         }
     }
 
     // 顯示店家商品明細
-    private function listStore()
+    public function listStore()
     {
         $db = new Database();
         $productRepo = new ProductRepository($db);
@@ -217,7 +198,7 @@ class CProduct
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'product/listStore', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
@@ -258,6 +239,7 @@ class CProduct
         $tpl->assign('pageselect', $paginator->render()); //* Page *//
 
         $tpl->assign('id',$StoreID);
+        $tpl->assign('baseUrl', BASE_URL);
 
         return $tpl->display(class_basename($this).'/UsrPdsDetails.htm');
     }

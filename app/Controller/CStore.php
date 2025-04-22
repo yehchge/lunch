@@ -2,41 +2,8 @@
 
 class CStore
 {
-    public function handleRequest()
-    {
-        $action = $_GET['action'] ?? '';
-
-        switch($action){
-            case 'add':
-                return $this->new();
-                break;
-            case 'edit':
-                return $this->edit();
-                break;
-            case 'show':
-                return $this->show();
-                break;
-            case 'assign':
-                return $this->assign();
-                break;
-            case 'assigned':
-                return $this->assigned();
-                break;
-            case 'list_assign':
-                return $this->listAssign();
-                break;
-            case 'edit_status':
-                return $this->editStatus();
-                break;
-            case 'list':
-            default:
-                return $this->index();
-                break;
-        }
-    }
-
     // 顯示資料列表
-    private function index()
+    public function list()
     {
         $db = new Database();
         $storeRepo = new StoreRepository($db);
@@ -60,7 +27,7 @@ class CStore
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'store/list', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
@@ -94,13 +61,13 @@ class CStore
 
                 if ($row['Status']==1) {
                     $temp['status'] = "正常";
-                    $temp['editdetails'] = "<a href='./index.php?func=product&action=list&id=".$row['RecordID']."'>新增維護</a>";
+                    $temp['editdetails'] = "<a href='".BASE_URL."product/list?id=".$row['RecordID']."'>新增維護</a>";
                 } else {
                     $temp['status'] = "停用";
                     $temp['editdetails'] = "新增維護";
                 }
                 
-                $temp['storename'] = "<a href='javascript:ShowDetail({$row['RecordID']});'>{$row['StoreName']}</a>";
+                $temp['storename'] = "<a href='javascript:ShowDetail(\"".BASE_URL."\", {$row['RecordID']});'>{$row['StoreName']}</a>";
                 $temp['tel'] = $row['Tel'];
                 $temp['man'] = $row['MainMan'];
                 $temp['editdate'] = date("Y-m-d",$row['EditDate']);
@@ -116,12 +83,13 @@ class CStore
 
         $tpl->assign('title', '店家維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護');
+        $tpl->assign('baseUrl', BASE_URL);
 
         return $tpl->display(class_basename($this).'/ListStore.htm');
     }
 
     // 顯示新增表單
-    private function new()
+    public function add()
     {
         if ($_POST) {
             return $this->create();
@@ -131,11 +99,12 @@ class CStore
 
         $tpl->assign('title', '新增店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '新增店家');
+        $tpl->assign('baseUrl', BASE_URL);
         $tpl->display(class_basename($this).'/AddStore.htm');
     }
 
     // 新增表單送出
-    private function create()
+    public function create()
     {
         $db = new Database();
         $userRepo = new UserRepository($db);
@@ -153,14 +122,14 @@ class CStore
 
         //產生本程式功能內容
         if ($storeRepo->CreateStore('','',$StoreName,$StoreIntro,$StoreClass,$MainMan,$Tel,$Address,$Online['email'],$Note)) {
-            JavaScript::vAlertRedirect('新增成功!', $_SERVER['PHP_SELF']."?func=store&action=list");
+            JavaScript::vAlertRedirect('新增成功!', BASE_URL."store/list");
         } else {
             JavaScript::vAlertBack('新增失敗!');
         }
     }
 
     // 顯示編輯表單
-    private function edit()
+    public function edit()
     {
         if ($_POST){
             return $this->update();
@@ -202,11 +171,12 @@ class CStore
         $tpl->assign('result', $result);
         $tpl->assign('title', '更新店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護/更新店家');
+        $tpl->assign('baseUrl', BASE_URL);
         $tpl->display(class_basename($this).'/EditStore.htm');
     }
 
     // 編輯表單送出
-    private function update()
+    public function update()
     {
         // 檢查使用者有沒有登入
         $db = new Database();
@@ -244,14 +214,14 @@ class CStore
         
         // 產生本程式功能內容
         if ($ret) {
-            JavaScript::vAlertRedirect('更新成功!', './index.php?func=store&action=list');
+            JavaScript::vAlertRedirect('更新成功!', BASE_URL.'store/list');
         } else {
             JavaScript::vAlertBack('更新失敗!');
         }
     }
 
     // 顯示店家單筆詳細資料
-    private function show()
+    public function show()
     {
         $db = new Database();
         $managerRepo = new ManagerRepository($db);
@@ -282,11 +252,12 @@ class CStore
         }
 
         $tpl->assign('row', $row);     
+        $tpl->assign('baseUrl', BASE_URL);
         $tpl->display(class_basename($this).'/StoreDetail.htm');
     }
 
     // 指定店家
-    private function assign()
+    public function assign()
     {
         $db = new Database();
         $storeRepo = new StoreRepository($db);
@@ -301,7 +272,7 @@ class CStore
             echo "<script>\r\n";
             echo "yy=confirm('今日確定要訂購此間店嗎?');\r\n";
             echo "if (yy==0) {history.back();}\r\n";
-            echo " else {location='".$_SERVER['PHP_SELF']."?func=store&action=assigned&id=$id&Url=".urlencode('./index.php?func=store&action=assign')."';}\r\n";
+            echo " else {location='".BASE_URL."store/assigned?id=$id&Url=".urlencode(BASE_URL.'store/assign')."';}\r\n";
             echo "</script>\r\n";
             return;
         }
@@ -323,7 +294,7 @@ class CStore
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'store/assign', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
@@ -349,7 +320,7 @@ class CStore
                     $i=0;
                 }
                 $temp['classname'] = $class;
-                $temp['editstoreid'] = "<a href='".$_SERVER['PHP_SELF']."?func=store&action=assign&Status=$Status&page=$page&Name=$Name&PayType=$PayType&SysID=$SysID&id=".$row['RecordID']."'>指定</a>";
+                $temp['editstoreid'] = "<a href='".BASE_URL."store/assign?Status=$Status&page=$page&Name=$Name&PayType=$PayType&SysID=$SysID&id=".$row['RecordID']."'>指定</a>";
                 $temp['storeid'] = $row['RecordID'];
                 if ($row['Status']==1) {
                     $temp['status'] = "正常";
@@ -357,7 +328,7 @@ class CStore
                     $temp['status'] = "停用";
                 }
                 
-                $temp['storename'] = "<a href='javascript:ShowDetail({$row['RecordID']});'>{$row['StoreName']}</a>";
+                $temp['storename'] = "<a href='javascript:ShowDetail(\"".BASE_URL."\", {$row['RecordID']});'>{$row['StoreName']}</a>";
                 $temp['tel'] = $row['Tel'];
                 $temp['man'] = $row['MainMan'];
                 $temp['editdate'] = date("Y-m-d",$row['EditDate']);
@@ -375,10 +346,11 @@ class CStore
 
         $tpl->assign('title', '指定店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家');
+        $tpl->assign('baseUrl', BASE_URL);
         $tpl->display(class_basename($this).'/AssignStore.htm');        
     }
 
-    private function assigned()
+    public function assigned()
     {
         $db = new Database();
         $userRepo = new UserRepository($db);
@@ -397,7 +369,7 @@ class CStore
     }
 
     // 顯示指定店家
-    private function listAssign()
+    public function listAssign()
     {
         $db = new Database();
         $managerRepo = new ManagerRepository($db);
@@ -421,7 +393,7 @@ class CStore
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'store/listAssign', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
@@ -465,11 +437,12 @@ class CStore
 
         $tpl->assign('title', '指定商家管理/截止/取消 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家管理、截止、取消');
+        $tpl->assign('baseUrl', BASE_URL);
         $tpl->display(class_basename($this).'/ListAssignStore.htm'); 
     }
 
     // 狀態管理
-    private function editStatus()
+    public function editStatus()
     {
         if($_POST){
             return $this->editStatused();
@@ -521,11 +494,12 @@ class CStore
 
         $tpl->assign('title', '管理指定店家狀態 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家管理、截止、取消/管理指定店家狀態');
+        $tpl->assign('baseUrl', BASE_URL);
         $tpl->display(class_basename($this).'/EditManager.htm');
     }
 
     // 送出狀態管理表單
-    private function editStatused()
+    public function editStatused()
     {
         $db = new Database();
         $managerRepo = new ManagerRepository($db);
@@ -535,7 +509,7 @@ class CStore
       
         //產生本程式功能內容
         if ($managerRepo->UpdateManagerStatusByRecordID($RecordID, $Status)) {
-            JavaScript::vAlertRedirect('更新狀態成功!', './index.php?func=store&action=list_assign');
+            JavaScript::vAlertRedirect('更新狀態成功!', BASE_URL.'store/list_assign');
         } else {
             JavaScript::vAlertBack('更新狀態失敗!');
         }

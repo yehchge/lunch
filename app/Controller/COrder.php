@@ -2,26 +2,8 @@
 
 class COrder
 {
-    public function handleRequest()
-    {
-        $action = $_GET['action'] ?? '';
-
-        switch($action){
-            case 'add':
-                return $this->add();
-                break;
-            case 'edit':
-                return $this->edit();
-                break;
-            case 'list':
-            default:
-                return $this->index();
-                break;
-        }
-    }
-
     // 訂購明細
-    private function index()
+    public function list()
     {
         $db = new Database();
         $orderRepo = new OrderRepository($db);
@@ -51,7 +33,7 @@ class COrder
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'order/list', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
@@ -87,9 +69,9 @@ class COrder
             }
             
             if ($Minfo['Status']==1) {
-                $strStatus = "<a href='./index.php?func=order&action=edit&id=".$row['RecordID']."&mid=$ManagerID'><img src='tpl/images/edit_s.gif' border='0'></a>";
+                $strStatus = "<a href='".BASE_URL."order/edit?id=".$row['RecordID']."&mid=$ManagerID'><img src='".BASE_URL."assets/images/edit_s.gif' border='0'></a>";
             } else {
-                $strStatus = "<img src='tpl/images/lock.gif' border='0'>";
+                $strStatus = "<img src='".BASE_URL."assets/images/lock.gif' border='0'>";
             }
 
             $temp['classname'] = $class;
@@ -115,10 +97,11 @@ class COrder
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '訂購人明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細/訂購人明細');
+        $tpl->assign('baseUrl', BASE_URL);
         return $tpl->display(class_basename($this).'/OrderDetails.htm');
     }
 
-    private function add()
+    public function add()
     {
         if($_POST){
             return $this->create();
@@ -151,7 +134,7 @@ class COrder
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, '', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'order/add', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
@@ -177,7 +160,7 @@ class COrder
             $status = ($row['Status']==1)?"正常":"停用";
 
             $temp['classname'] = $class;
-            $temp['editpdsid'] = "<a href='./EditPds.php?id=".$row['RecordID']."&sid=$StoreID'>修改</a>";
+            $temp['editpdsid'] = "<a href='".BASE_URL."product/edit?id=".$row['RecordID']."&sid=$StoreID'>修改</a>";
             $temp['pdsid'] = $row['RecordID'];
             $temp['status'] =  $status;
             $temp['pdsname'] = $row['PdsName'];
@@ -200,11 +183,12 @@ class COrder
 
         $tpl->assign('title', 'DinBenDon - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon/訂購GO');
+        $tpl->assign('baseUrl', BASE_URL);
         return $tpl->display(class_basename($this).'/OrderLunch.htm');
     }
 
     // 新增表單送出
-    private function create()
+    public function create()
     {
         $db = new Database();
         $userRepo = new UserRepository($db);
@@ -283,11 +267,12 @@ class COrder
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '訂購結果 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon/訂購GO/訂購商品結果');
+        $tpl->assign('baseUrl', BASE_URL);
         return $tpl->display(class_basename($this).'/OrderLunched.htm');
     }
 
     // 訂單編輯
-    private function edit()
+    public function edit()
     {
         if ($_POST){
             return $this->update();
@@ -329,11 +314,12 @@ class COrder
 
         $tpl->assign('title', '管理使用者訂單狀態 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細/訂購人明細/管理訂購人明細狀態');
+        $tpl->assign('baseUrl', BASE_URL);
         return $tpl->display(class_basename($this).'/EditOrder.htm');      
     }
 
     // 訂單編輯送出
-    private function update()
+    public function update()
     {
         $db = new Database();
         $userRepo = new UserRepository($db);
@@ -347,7 +333,7 @@ class COrder
       
         //產生本程式功能內容
         if ($orderRepo->UpdateOrderStatusByRecordID($RecordID,$Status,$Online['email'])) {
-            JavaScript::vAlertRedirect('更新狀態成功!', $_SERVER['PHP_SELF']."?func=order&action=list&mid=$ManagerID");
+            JavaScript::vAlertRedirect('更新狀態成功!', BASE_URL."order/list?mid=$ManagerID");
         } else {
             JavaScript::vAlertBack('更新狀態失敗!');
         }   

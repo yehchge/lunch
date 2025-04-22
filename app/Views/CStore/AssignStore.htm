@@ -29,7 +29,7 @@
               {foreach $items as $item}
               <tr>
                 <td class="{$item.classname}" align="center" bgcolor="#ffffff">{$item.editstoreid|raw}</td>
-                <td class="{$item.classname}" bgcolor="#ffffff" align="center"><a href="javascript:ShowPdsInfo({$item.storeid});"><img src="tpl/images/text_file_icon.gif" border="0"></a></td>
+                <td class="{$item.classname}" bgcolor="#ffffff" align="center"><a href="javascript:ShowPdsInfo('{$baseUrl}', {$item.storeid});"><img src="{$baseUrl}assets/images/text_file_icon.gif" border="0"></a></td>
                 <td class="{$item.classname}" bgcolor="#ffffff">{$item.storeid}</td>
                 <td class="{$item.classname}" bgcolor="#ffffff">{$item.storename|raw}</td>
                 <td class="{$item.classname}" bgcolor="#ffffff">{$item.tel}</td>
@@ -46,6 +46,6 @@
           </td>
         </tr>
       </table>
-      <script src="assets/js/main.js"></script>
+      <script src="{$baseUrl}assets/js/main.js"></script>
   </div>
 {/block}

@@ -5,7 +5,7 @@
   <div id="breadCrumb">
     [ {$breadcrumb} ]
   </div>
-  <form name="frm" method="post" onsubmit="return check_form_editpds(frm);" action="{$PHP_SELF}?func=product&action=edit">
+  <form name="frm" method="post" onsubmit="return check_form_editpds(frm);" action="{$baseUrl}product/edit">
     <input type=hidden name="pdsid" value="{$pdsid}">
     <input type=hidden name="sid" value="{$sid}">
     <table class="Forums_General" Width="80%">
@@ -37,10 +37,10 @@
       <td class="TextBox"><input type=checkbox name="status" {$status}>停用</td>
       </tr>
       <tr>
-        <td colspan="2" align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="{$PHP_SELF}?func=product&action=list&id={$sid}"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
+        <td colspan="2" align="right"> [ <input type="image" src="{$baseUrl}assets/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="{$baseUrl}product/list?id={$sid}"><img src="{$baseUrl}assets/images/Cancel.gif" border=0></a> 取消 ] </td>
       </tr>
     </table>
   </form>
-  <script src="assets/js/main.js"></script>
+  <script src="{$baseUrl}assets/js/main.js"></script>
 </div>
 {/block}

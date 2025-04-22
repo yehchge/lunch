@@ -1,7 +1,5 @@
 {extends "index.htm"}
-
 {block "title"}{$title}{/block}
-
 {block "content"}
    
    <div class="grid-element main">
@@ -9,19 +7,7 @@
         [ {$breadcrumb} ]
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<form name="frm" method="post" onsubmit="return check_form_editStore(frm);" action="./index.php?func=store&action=edit">
+<form name="frm" method="post" onsubmit="return check_form_editStore(frm);" action="{$baseUrl}store/edit">
 <input type=hidden name="storeid" value="{$result.storeid}">
 <table Class="Forums_General" Width="80%">
   <tr Class="Forums_Header">
@@ -67,21 +53,11 @@
 	<td Class="TextBox"><input type=checkbox name="status" {$result.status}>停用</td>
   </tr>
   <tr>
-    <td colspan=2 align="right"> [ <input type="image" src="tpl/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="./index.php?func=store&action=list"><img src="tpl/images/Cancel.gif" border=0></a> 取消 ] </td>
+    <td colspan=2 align="right"> [ <input type="image" src="{$baseUrl}assets/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="{$baseUrl}store/list"><img src="{$baseUrl}assets/images/Cancel.gif" border=0></a> 取消 ] </td>
   </tr>
 </table>
 </form>
-<script src="assets/js/main.js"></script>
+<script src="{$baseUrl}assets/js/main.js"></script>
 {$result.javaScript|raw}
-
-
-
-
-
-
-
-
-
-
   </div>
 {/block}

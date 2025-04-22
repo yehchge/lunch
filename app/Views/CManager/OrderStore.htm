@@ -28,11 +28,11 @@
               <td class="{$item.classname}" align="center">{$item.createdate}</td>
               <td class="{$item.classname}" align="center">{$item.man}</td>
               <td class="{$item.classname}" align="center">{$item.storename}</td>
-              <td class="{$item.classname}" align="center"><a href="javascript:ShowPdsInfo({$item.storeid});"><img src="tpl/images/text_file_icon.gif" border="0"></a></td>
+              <td class="{$item.classname}" align="center"><a href="javascript:ShowPdsInfo('{$baseUrl}', {$item.storeid});"><img src="{$baseUrl}assets/images/text_file_icon.gif" border="0"></a></td>
               <td class="{$item.classname}" align="center">{$item.status}</td>
               <td class="{$item.classname}" align="center">
-                <a href='./index.php?func=order&action=add&id={$item.storeid}&mid={$item.managerid}'>
-                    <img src="tpl/images/top_bt_srch_new.gif" border="0">
+                <a href='{$baseUrl}order/add?id={$item.storeid}&mid={$item.managerid}'>
+                    <img src="{$baseUrl}assets/images/top_bt_srch_new.gif" border="0">
                 </a>
             </td>
             </tr>
@@ -45,6 +45,6 @@
         </td>
       </tr>
     </table>
-    <script src="assets/js/main.js"></script>
+    <script src="{$baseUrl}assets/js/main.js"></script>
   </div>
 {/block}

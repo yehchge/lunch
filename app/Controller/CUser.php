@@ -2,23 +2,13 @@
 
 class CUser
 {
-    public function handleRequest()
+    public function index()
     {
-        $action = $_GET['action'] ?? '';
 
-        switch($action){
-            case 'register':
-                return $this->register();
-                break;
-            case 'list': // user list
-            default:
-                return $this->index();
-                break;
-        }
     }
 
     // 顯示註冊
-    private function register()
+    public function register()
     {
         if ($_POST) {
             return $this->create();
@@ -29,6 +19,7 @@ class CUser
 
         $tpl->assign('title', '');
         $tpl->assign('breadcrumb', '');
+        $tpl->assign('baseUrl', BASE_URL);
         return $tpl->display('register.htm');
     }
 

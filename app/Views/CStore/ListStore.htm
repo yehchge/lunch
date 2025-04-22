@@ -5,7 +5,7 @@
   <div id="breadCrumb">
       [ {$breadcrumb} ]
   </div>
-  <a href="./index.php?func=store&action=add">新增店家</a>
+  <a href="{$baseUrl}store/add">新增店家</a>
   <table border="0" cellspacing="0" cellpadding="0" width="80%">
     <tr>
       <td>
@@ -13,7 +13,7 @@
           <tr>
             <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
           </tr>
-          <tr Class="Forums_General">
+          <tr class="Forums_General">
             <td class="Forums_Header">修改</td>
             <td class="Forums_Header">商品明細</td>
             <td class="Forums_Header">序號</td>
@@ -25,19 +25,19 @@
           </tr>
           <!-- BEGIN DYNAMIC BLOCK: row -->
           {foreach $items as $item}
-          <tr Class="Forums_General">
-            <td Class="{$item.classname}" align="center">
-              <a href='./index.php?func=store&action=edit&id={$item.storeid}'>
-                  <img border=0 src="tpl/images/Edit.gif">
+          <tr class="Forums_General">
+            <td class="{$item.classname}" align="center">
+              <a href='{$baseUrl}store/edit?id={$item.storeid}'>
+                  <img border=0 src="{$baseUrl}assets/images/Edit.gif">
               </a>
             </td>
-            <td Class="{$item.classname}" align="center">{$item.editdetails|raw}</td>
-            <td Class="{$item.classname}">{$item.storeid}</td>
-            <td Class="{$item.classname}">{$item.storename|raw}</td>
-            <td Class="{$item.classname}">{$item.tel}</td>
-            <td Class="{$item.classname}" nowrap>{$item.man}</td>
-            <td Class="{$item.classname}">{$item.editdate}</td>
-            <td Class="{$item.classname}" nowrap>{$item.status}</td>
+            <td class="{$item.classname}" align="center">{$item.editdetails|raw}</td>
+            <td class="{$item.classname}">{$item.storeid}</td>
+            <td class="{$item.classname}">{$item.storename|raw}</td>
+            <td class="{$item.classname}">{$item.tel}</td>
+            <td class="{$item.classname}" nowrap>{$item.man}</td>
+            <td class="{$item.classname}">{$item.editdate}</td>
+            <td class="{$item.classname}" nowrap>{$item.status}</td>
           </tr>
           {/foreach}
           <!-- END DYNAMIC BLOCK: row -->
@@ -48,6 +48,6 @@
       </td>
     </tr>
   </table>
-  <script src="assets/js/main.js"></script>
+  <script src="{$baseUrl}assets/js/main.js"></script>
 </div>
 {/block}

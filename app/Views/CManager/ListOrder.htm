@@ -12,7 +12,7 @@
             <tr>
               <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
             </tr>
-            <tr Class="Forums_General">
+            <tr class="Forums_General">
               <td class="Forums_Header" align="center">序號</td>
               <td class="Forums_Header" align="center">建立日期</td>
               <td class="Forums_Header" align="center">負責人</td>
@@ -23,16 +23,16 @@
             </tr>
             <!-- BEGIN DYNAMIC BLOCK: row -->
             {foreach $items as $item}
-            <tr Class="Forums_General">
-              <td Class="{$item.classname}" align="center">{$item.managerid}</td>
-              <td Class="{$item.classname}" align="center">{$item.createdate}</td>
-              <td Class="{$item.classname}" align="center">{$item.man}</td>
-              <td Class="{$item.classname}" align="center">{$item.storename}</td>
-              <td Class="{$item.classname}" align="center">{$item.editdate}</td>
-              <td Class="{$item.classname}" align="center">{$item.status}</td>
-              <td Class="{$item.classname}" align="center">
-                <a href="{$PHP_SELF}?func=order&action=list&mid={$item.managerid}">
-                  <img src="tpl/images/View.gif" border="0">
+            <tr class="Forums_General">
+              <td class="{$item.classname}" align="center">{$item.managerid}</td>
+              <td class="{$item.classname}" align="center">{$item.createdate}</td>
+              <td class="{$item.classname}" align="center">{$item.man}</td>
+              <td class="{$item.classname}" align="center">{$item.storename}</td>
+              <td class="{$item.classname}" align="center">{$item.editdate}</td>
+              <td class="{$item.classname}" align="center">{$item.status}</td>
+              <td class="{$item.classname}" align="center">
+                <a href="{$baseUrl}order/list?mid={$item.managerid}">
+                  <img src="{$baseUrl}assets/images/View.gif" border="0">
                 </a>
               </td>
             </tr>

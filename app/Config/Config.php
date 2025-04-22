@@ -7,6 +7,7 @@
 declare(strict_types=1); // 嚴格類型
 
 defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/../..'));
+defined('BASE_URL')|| define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/');
 
 // require PATH_ROOT."/vendor/autoload.php";
 
@@ -32,6 +33,7 @@ require PATH_ROOT.'/app/Repository/ManagerRepository.php';
 require PATH_ROOT.'/app/System/JavaScript.php';
 require PATH_ROOT.'/app/System/Template.php';
 require PATH_ROOT.'/app/System/Paginator.php';
+require PATH_ROOT.'/app/System/Router.php';
 
 function dd($data)
 {

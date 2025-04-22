@@ -65,13 +65,11 @@ function myPopUp(url, width, height, top, left)
     window.open(url,"Win","resizable=no, scrollbars=yes, width=" + width + ", height=" + height + ", top=" + top + ", left=" + left + ", toolbar=no, ,location=0, menubar=no, status=no, menubat=0, alwaysRaised");
 }
 
-function ShowDetail(sid) {
-    myPopUp('./index.php?func=store&action=show&id='+sid, 400, 300, 430, 0);
-    // window.open('./index.php?func=store&action=show&id='+sid+'','SD','height=300,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+function ShowDetail(baseUrl, sid) {
+    myPopUp(baseUrl + 'store/show?id='+sid, 400, 300, 430, 0);
 }
-function ShowPdsInfo(sid) {
-    myPopUp('./index.php?func=product&action=list_store&id='+sid, 400, 400, 430, 0);
-    // window.open('./index.php?func=product&action=list_store&id='+sid+'','SPI','height=400,width=400,left=0,scrollbars=no,location=0,status=0,menubat=0,top=430');
+function ShowPdsInfo(baseUrl, sid) {
+    myPopUp(baseUrl + 'product/list_store?id='+sid, 400, 400, 430, 0);
 }
 
 function popup(url, width, height)
