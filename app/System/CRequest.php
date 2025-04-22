@@ -3,7 +3,7 @@
 class CRequest
 {
     # 取得用戶端真實IP
-    punlic static function getAddress()
+    public static function getAddress()
     {
         $ipSources = [
             'HTTP_CLIENT_IP',
@@ -24,5 +24,16 @@ class CRequest
         }
 
         return 'UNKNOWN';
+    }
+
+    public function getQueryParams(): array
+    {
+        return $_GET;
+    }
+
+    public function withoutPageParam(array $queryParams): array
+    {
+        unset($queryParams['page']);
+        return $queryParams;
     }
 }

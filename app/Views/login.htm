@@ -3,14 +3,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Login Page</title>
-    <link rel="stylesheet" href="[[$baseUrl]]assets/css/3-login.css">
+    <link rel="stylesheet" href="<{$baseUrl}>assets/css/3-login.css">
   </head>
   <body>
     <!-- (C1) ERROR MESSAGES (IF ANY) -->
-    [[if $error]]
-    <div id='notify'>[[$error]]</div><!-- Invalid user/password -->
-    [[else]]
-    [[/if]]
+    <{if $error}>
+    <div id='notify'><{$error}></div><!-- Invalid user/password -->
+    <{else}>
+    <{/if}>
     <!-- (C2) LOGIN FORM -->
     <form id="login" method="post">
       <h2>MEMBER LOGIN</h2>

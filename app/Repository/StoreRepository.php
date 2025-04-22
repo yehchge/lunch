@@ -7,6 +7,12 @@ class StoreRepository
     private $pdo;
     private $debug = 1;
 
+    public $StoreStatus = [
+        1 => '正常',
+        2 => '停用',
+        9 => '刪除'
+    ];
+
     public function __construct(Database $db) {
         $this->pdo = $db->getPdo();
     }
@@ -42,11 +48,11 @@ class StoreRepository
     public function GetAllStorePage($Status=0,$Name='',$PayType=0,$startRow=0,$maxRows=10) {
         $values = "*";
 
-        $condition = "1=1";
+        $condition = "`Status`!=9";
         if($Status) $condition.= " AND Status=$Status";
         if($Name) $condition .= " AND Name like '%$Name''";
         if($PayType) $condition .= " AND PayType=$PayType";
-        $condition .= " ORDER BY CreateDate DESC";
+        $condition .= " ORDER BY `CreateDate` DESC";
 
         return $this->queryIterator("SELECT $values FROM lunch_store WHERE $condition LIMIT $startRow, $maxRows");
     }
@@ -54,7 +60,7 @@ class StoreRepository
     public function GetAllStoreCount($Status=0) {
         $fileds = "COUNT(*) AS total";
 
-        $condition = "1=1";
+        $condition = "`Status`!=9";
         if($Status) $condition.= " AND Status=$Status";
 
         $stmt = $this->queryIterator("SELECT $fileds FROM lunch_store WHERE $condition");

@@ -11,7 +11,6 @@ class COrder
         // 內頁功能 (FORM)
         $tpl = new Template("app/Views");
 
-
         $Status = isset($_REQUEST['status'])?$_REQUEST['status']:0; // 只顯示訂購中
         $PayType = isset($_REQUEST['PayType'])?$_REQUEST['PayType']:0;
         $ManagerID = isset($_REQUEST['mid'])?$_REQUEST['mid']:0;

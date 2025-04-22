@@ -6,79 +6,62 @@ class CStore
     public function list()
     {
         $db = new Database();
+        $request = new CRequest();
         $storeRepo = new StoreRepository($db);
-
-        // 內頁功能 (FORM)
         $tpl = new Template("app/Views");
 
-        //產生本程式功能內容
-        // Page Start ************************************************ 
+        // 取得查詢參數
+        $queryParams = $request->getQueryParams();
+
+        // 當前頁數
+        $currentPage = $queryParams['page'] ?? 1;
         
-        // 資料總筆數
+        // 總筆數
         $totalItems = $storeRepo->GetAllStoreCount();
 
-        // 每頁幾筆資料
+        // 每頁幾筆
         $itemsPerPage = 10;
 
-        // 當前頁數（可從 $_GET['page'] 取得）
-        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-
-        // 保留其他 query 參數（例如搜尋條件）
-        $queryParams = $_GET;
-        unset($queryParams['page']);
-
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'store/list', $queryParams);
+        $paginator = new Paginator(
+            $totalItems,
+            $itemsPerPage,
+            $currentPage,
+            BASE_URL.'store/list',
+            $request->withoutPageParam($queryParams)
+        );
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
-        // Page Ended ************************************************
         
+        // 查詢條件可從 $queryParams 帶入
         $Status = 0;
         $Name = '';
         $PayType = 0;
 
-        $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
+        $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows);
 
-        $row = $storeRepo->fetch_assoc($rows);
+        $items = [];
+        
+        while ($row = $storeRepo->fetch_assoc($rows)) {
 
-        if ($row == NULL) {
-            $tpl->assign('items', []);       
-        } else {
-            $items = [];
-            $i=0;
-            while ($row != NULL) {
-                $temp = [];
-                if ($i==0) {
-                    $class = "Forums_Item";
-                    $i=1;
-                } else {
-                    $class = "Forums_AlternatingItem";
-                    $i=0;
-                }
-
-                $temp['classname'] = $class;
-                $temp['storeid'] = $row['RecordID'];
-
-                if ($row['Status']==1) {
-                    $temp['status'] = "正常";
-                    $temp['editdetails'] = "<a href='".BASE_URL."product/list?id=".$row['RecordID']."'>新增維護</a>";
-                } else {
-                    $temp['status'] = "停用";
-                    $temp['editdetails'] = "新增維護";
-                }
-                
-                $temp['storename'] = "<a href='javascript:ShowDetail(\"".BASE_URL."\", {$row['RecordID']});'>{$row['StoreName']}</a>";
-                $temp['tel'] = $row['Tel'];
-                $temp['man'] = $row['MainMan'];
-                $temp['editdate'] = date("Y-m-d",$row['EditDate']);
-                
-                $items[] = $temp;
-                $row = $storeRepo->fetch_assoc($rows);
+            $editdetails = "新增維護";
+            if ($row['Status']==1) {
+                $editdetails = "<a href='".BASE_URL."product/list?id=".$row['RecordID']."'>新增維護</a>";
             }
-            $tpl->assign('items', $items);
+            
+            $items[] = [
+                'storeid' => $row['RecordID'],
+                'status' => $storeRepo->StoreStatus[$row['Status']],
+                'storename' => $row['StoreName'],
+                'tel' => $row['Tel'],
+                'man' => $row['MainMan'],
+                'editdate' => date("Y-m-d",$row['EditDate']),
+                'editdetails' => $editdetails
+            ];
         }
 
-        $tpl->assign('totalrows',"共 ".$storeRepo->GetAllStoreCount()." 筆 "); //* Page *// 
+        $tpl->assign('items', $items);
+        $tpl->assign('totalrows',"共 $totalItems 筆"); //* Page *// 
         $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('title', '店家維護 - DinBenDon系統');

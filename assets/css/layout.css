@@ -4,14 +4,20 @@ body {
 /*  font-family: "Dosis";*/
 }
 
-table td {
-  color: #000;
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
 }
 
-TD {
-/*    font: x-small Verdana, Arial, sans-serif;*/
-/*    font-size: 12;*/
-/*    line-height: 17px;*/
+#tableList {
+  border-collapse: collapse;
+}
+#tableList tr:nth-child(odd) {
+  background: #f2f2f2;
+}
+#tableList td {
+  border: 1px solid #ddd;
+  padding: 10px;
 }
 
 .sectionLinks {
@@ -102,12 +108,6 @@ a:hover {
 }
 
 
-
-
-
-
-
-
 .grid-container {
   display: grid;
   grid-template-columns: 0.25fr 0px 0.75fr;
@@ -115,8 +115,8 @@ a:hover {
 }
 
 .grid-element {
-  background-color: #444;
-  color: #fff;
+  /*background-color: #444;*/
+  /*color: #fff;*/
   padding: 10px;
   font-size: 1em;
 }
@@ -145,8 +145,8 @@ a:hover {
   grid-row-start: 3;
   grid-row-end: 4;
 /*  background: #F69;*/
-  background: #EAEBEF;
-  height:500px;
+  /*background: #EAEBEF;*/
+  /*height:500px;*/
 }
 
 .extra {

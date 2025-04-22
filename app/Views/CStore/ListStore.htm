@@ -1,18 +1,18 @@
 {extends "index.htm"}
 {block "title"}{$title}{/block}
 {block "content"}
- <div class="grid-element main">
+<div class="grid-element main">
   <div id="breadCrumb">
-      [ {$breadcrumb} ]
+    [ {$breadcrumb} ]
   </div>
-  <a href="{$baseUrl}store/add">新增店家</a>
-  <table border="0" cellspacing="0" cellpadding="0" width="80%">
+  <a href="{$baseUrl}store/add">新增店家</a><br><br>
+  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+      <td align="center" bgcolor=#eeeeee style="padding:10px">{$totalrows}</td>
+    </tr>
     <tr>
       <td>
-        <table cellspacing="2" border="0" cellpadding="2" width="100%">
-          <tr>
-            <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
-          </tr>
+        <table id="tableList" cellspacing="2" border="0" cellpadding="2" width="100%">
           <tr class="Forums_General">
             <td class="Forums_Header">修改</td>
             <td class="Forums_Header">商品明細</td>
@@ -23,29 +23,31 @@
             <td class="Forums_Header" nowrap>最後修改日</td>
             <td class="Forums_Header">狀態</td>
           </tr>
-          <!-- BEGIN DYNAMIC BLOCK: row -->
           {foreach $items as $item}
-          <tr class="Forums_General">
-            <td class="{$item.classname}" align="center">
+          <tr>
+            <td align="center">
               <a href='{$baseUrl}store/edit?id={$item.storeid}'>
-                  <img border=0 src="{$baseUrl}assets/images/Edit.gif">
+                <img src="{$baseUrl}assets/images/Edit.gif">
               </a>
             </td>
-            <td class="{$item.classname}" align="center">{$item.editdetails|raw}</td>
-            <td class="{$item.classname}">{$item.storeid}</td>
-            <td class="{$item.classname}">{$item.storename|raw}</td>
-            <td class="{$item.classname}">{$item.tel}</td>
-            <td class="{$item.classname}" nowrap>{$item.man}</td>
-            <td class="{$item.classname}">{$item.editdate}</td>
-            <td class="{$item.classname}" nowrap>{$item.status}</td>
+            <td align="center">{$item.editdetails|raw}</td>
+            <td>{$item.storeid}</td>
+            <td>
+              <a href='javascript:ShowDetail("{$baseUrl}", {$item.storeid});'>
+                {$item.storename}
+              </a>
+            </td>
+            <td>{$item.tel}</td>
+            <td nowrap>{$item.man}</td>
+            <td>{$item.editdate}</td>
+            <td nowrap>{$item.status}</td>
           </tr>
           {/foreach}
-          <!-- END DYNAMIC BLOCK: row -->
-          <tr>
-            <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
-          </tr>
         </table>
       </td>
+    </tr>
+    <tr>
+      <td align="center" bgcolor=#eeeeee noswarp style="padding:10px">{$pageselect|raw}</td>
     </tr>
   </table>
   <script src="{$baseUrl}assets/js/main.js"></script>

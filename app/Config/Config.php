@@ -34,6 +34,7 @@ require PATH_ROOT.'/app/System/JavaScript.php';
 require PATH_ROOT.'/app/System/Template.php';
 require PATH_ROOT.'/app/System/Paginator.php';
 require PATH_ROOT.'/app/System/Router.php';
+require PATH_ROOT.'/app/System/CRequest.php';
 
 function dd($data)
 {

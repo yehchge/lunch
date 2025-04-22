@@ -1,5 +1,7 @@
 <?php
 
+# 登出
+
 class CLogout
 {
     public function index()

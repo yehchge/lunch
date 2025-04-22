@@ -1,5 +1,7 @@
 <?php
 
+# 登入
+
 class CLogin
 {
     public function index(){
@@ -12,7 +14,7 @@ class CLogin
           
             $tpl = new Template("app/Views");
             // $tpl->setDebug();
-            $tpl->setDelimiters('[[', ']]');
+            $tpl->setDelimiters('<{', '}>');
 
             $tpl->assign('error', $error);
             $tpl->assign('baseUrl', BASE_URL);
@@ -45,8 +47,7 @@ class CLogin
                     header("Location: ".BASE_URL);
                 }
             } else {
-                $error = "帳號或密碼錯誤";
-                JavaScript::redirect(BASE_URL.'login', $error);
+                JavaScript::redirect(BASE_URL.'login', "帳號或密碼錯誤");
             }
         }
     }
