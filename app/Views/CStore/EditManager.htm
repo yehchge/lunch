@@ -1,58 +1,58 @@
 {extends "index.htm"}
 {block "title"}{$title}{/block}
 {block "content"}
-   <div class="grid-element main">
-    <div id="breadCrumb">
-      [ {$breadcrumb} ]
-    </div>
-    <form name="frm" method="post">
-      <input type=hidden name="managerid" value="{$row.managerid}">
-      <table Class="Forums_General" Width="70%">
-        <tr Class="Forums_Header">
-          <td colspan=2><font color="#FFFFFF">&nbsp;管理指定店家狀態</font></td>
-        </tr>
-        <tr>
-          <td>管理序號：</td>
-      	<td Class="TextBox">{$row.managerid}</td>
-        </tr>
-        <tr>
-          <td>商店序號：</td>
-      	<td Class="TextBox">{$row.storeid}</td>
-        </tr>
-        <tr>
-          <td>店名：</td>
-      	<td Class="TextBox">{$row.storename}</td>
-        </tr>
-        <tr>
-          <td>負責人：</td>
-      	<td Class="TextBox">{$row.man}</td>
-        </tr>
-        <tr>
-          <td>說明：</td>
-      	<td Class="TextBox">{$row.note}</td>
-        </tr>
-        <tr>
-          <td>建立日期：</td>
-      	<td Class="TextBox">{$row.createdate}</td>
-        </tr>
-        <tr>
-          <td>狀態：</td>
-      	<td Class="TextBox">
-          <select name="status">
-      			{$row.strStatus|raw}
-      		</select>
-      	</td>
-        </tr>
-        <tr>
-          <td colspan=2 align="right"> [ <input type="image" src="{$baseUrl}assets/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ 
-            <a href="{$baseUrl}store/list_assign">
-              <img src="{$baseUrl}assets/images/Cancel.gif" border=0>
-            </a> 取消 ] 
-          </td>
-        </tr>
-      </table>
-    </form>
-    <script src="{$baseUrl}assets/js/main.js"></script>
-    {$javaScript|raw}
+<div class="grid-element main">
+  <div id="breadCrumb">
+    [ {$breadcrumb} ]
   </div>
+  <form name="frm" method="post">
+    <input type=hidden name="managerid" value="{$row.managerid}">
+    <table Class="Forums_General" Width="70%">
+      <tr Class="Forums_Header">
+        <td colspan=2><font color="#FFFFFF">&nbsp;管理指定店家狀態</font></td>
+      </tr>
+      <tr>
+        <td>管理序號：</td>
+      <td Class="TextBox">{$row.managerid}</td>
+      </tr>
+      <tr>
+        <td>商店序號：</td>
+      <td Class="TextBox">{$row.storeid}</td>
+      </tr>
+      <tr>
+        <td>店名：</td>
+      <td Class="TextBox">{$row.storename}</td>
+      </tr>
+      <tr>
+        <td>負責人：</td>
+      <td Class="TextBox">{$row.man}</td>
+      </tr>
+      <tr>
+        <td>說明：</td>
+      <td Class="TextBox">{$row.note}</td>
+      </tr>
+      <tr>
+        <td>建立日期：</td>
+      <td Class="TextBox">{$row.createdate}</td>
+      </tr>
+      <tr>
+        <td>狀態：</td>
+      <td Class="TextBox">
+        <select name="status">
+          {$row.strStatus|raw}
+        </select>
+      </td>
+      </tr>
+      <tr>
+        <td colspan=2 align="right"> [ <input type="image" src="{$baseUrl}assets/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ 
+          <a href="{$baseUrl}store/list_assign">
+            <img src="{$baseUrl}assets/images/Cancel.gif" border=0>
+          </a> 取消 ] 
+        </td>
+      </tr>
+    </table>
+  </form>
+  <script src="{$baseUrl}assets/js/main.js"></script>
+  {$javaScript|raw}
+</div>
 {/block}

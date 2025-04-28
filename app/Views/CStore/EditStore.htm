@@ -1,63 +1,61 @@
 {extends "index.htm"}
 {block "title"}{$title}{/block}
 {block "content"}
-   
-   <div class="grid-element main">
-    <div id="breadCrumb">
-        [ {$breadcrumb} ]
-    </div>
-
-<form name="frm" method="post" onsubmit="return check_form_editStore(frm);" action="{$baseUrl}store/edit">
-<input type=hidden name="storeid" value="{$result.storeid}">
-<table Class="Forums_General" Width="80%">
-  <tr Class="Forums_Header">
-    <td colspan=2><font color="#FFFFFF">&nbsp;更新店家</font></td>
-  </tr>
-  <tr>
-    <td>店名：</td>
-	<td Class="TextBox"><input type=text name="sname" value="{$result.sname}" maxLength=90 size=30></td>
-  </tr> 
-  <tr> 
-    <td>簡介：</td>
-	<td Class="TextBox"><textarea name="intro" rows="4" cols="50">{$result.intro}</textarea></td>
-  </tr> 
-  <tr>
-    <td>店家類別：</td>
-	<td Class="TextBox">
-        <select name="sclass">
-			<option value="0">請選擇
-			<option value="便當">便當
-			<option value="速食">速食
-			<option value="飲料">飲料
-		</select>
-	</td>
-  </tr>
-  <tr>
-    <td>負責人：</td>
-	<td Class="TextBox"><input name="man" value="{$result.man}" type="text" size="30" maxlength="10"><font color=red>(Ex:Boss)</font></td>
-  </tr>
-  <tr> 
-    <td>地址：</td>
-	<td Class="TextBox"><input name="addr" value="{$result.addr}" type="text" size="50" maxlength="50"></td>
-  </tr>
-  <tr> 
-    <td>電話：</td>
-	<td Class="TextBox"><input type=text name="tel" value="{$result.tel}" maxLength=21 size=30></td>
-  </tr> 
-  <tr> 
-    <td>訂購說明：</td>
-	<td Class="TextBox"><textarea name="note" rows="4" cols="50">{$result.note}</textarea></td>
-  </tr>
-  <tr>
-    <td>狀態：</td>
-	<td Class="TextBox"><input type=checkbox name="status" {$result.status}>停用</td>
-  </tr>
-  <tr>
-    <td colspan=2 align="right"> [ <input type="image" src="{$baseUrl}assets/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="{$baseUrl}store/list"><img src="{$baseUrl}assets/images/Cancel.gif" border=0></a> 取消 ] </td>
-  </tr>
-</table>
-</form>
-<script src="{$baseUrl}assets/js/main.js"></script>
-{$result.javaScript|raw}
+<div class="grid-element main">
+  <div id="breadCrumb">
+    [ {$breadcrumb} ]
   </div>
+  <form name="frm" method="post" onsubmit="return check_form_editStore(frm);" action="{$baseUrl}store/edit">
+    <input type=hidden name="storeid" value="{$result.storeid}">
+    <table Class="Forums_General" Width="80%">
+      <tr Class="Forums_Header">
+        <td colspan=2><font color="#FFFFFF">&nbsp;更新店家</font></td>
+      </tr>
+      <tr>
+        <td>店名：</td>
+      <td Class="TextBox"><input type=text name="sname" value="{$result.sname}" maxLength=90 size=30></td>
+      </tr> 
+      <tr> 
+        <td>簡介：</td>
+      <td Class="TextBox"><textarea name="intro" rows="4" cols="50">{$result.intro}</textarea></td>
+      </tr> 
+      <tr>
+        <td>店家類別：</td>
+      <td Class="TextBox">
+        <select name="sclass">
+          <option value="0">請選擇
+          <option value="便當">便當
+          <option value="速食">速食
+          <option value="飲料">飲料
+        </select>
+      </td>
+      </tr>
+      <tr>
+        <td>負責人：</td>
+      <td Class="TextBox"><input name="man" value="{$result.man}" type="text" size="30" maxlength="10"><font color=red>(Ex:Boss)</font></td>
+      </tr>
+      <tr> 
+        <td>地址：</td>
+      <td Class="TextBox"><input name="addr" value="{$result.addr}" type="text" size="50" maxlength="50"></td>
+      </tr>
+      <tr> 
+        <td>電話：</td>
+      <td Class="TextBox"><input type=text name="tel" value="{$result.tel}" maxLength=21 size=30></td>
+      </tr> 
+      <tr> 
+        <td>訂購說明：</td>
+      <td Class="TextBox"><textarea name="note" rows="4" cols="50">{$result.note}</textarea></td>
+      </tr>
+      <tr>
+        <td>狀態：</td>
+      <td Class="TextBox"><input type=checkbox name="status" {$result.status}>停用</td>
+      </tr>
+      <tr>
+        <td colspan=2 align="right"> [ <input type="image" src="{$baseUrl}assets/images/OK.gif" name="sb1"> 確定 ]&nbsp;[ <a href="{$baseUrl}store/list"><img src="{$baseUrl}assets/images/Cancel.gif" border=0></a> 取消 ] </td>
+      </tr>
+    </table>
+  </form>
+  <script src="{$baseUrl}assets/js/main.js"></script>
+  {$result.javaScript|raw}
+</div>
 {/block}

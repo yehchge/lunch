@@ -5,29 +5,29 @@
   <div id="breadCrumb">
       [ {$breadcrumb} ]
   </div>
-  <table Width="70%" Class="Forums_General">
-    <tr Class="Forums_Header">
+  <table id="tableList" Width="70%">
+    <tr>
       <td colspan=4><font color="#FFFFFF">&nbsp;訂購結果</font></td>
     </tr>
-      <tr Class="Forums_General">
-      <td Class="Forums_AlternatingItem">商品名稱</td>
-     <td Class="Forums_AlternatingItem">單價</td>
-     <td Class="Forums_AlternatingItem">數量</td>
-     <td Class="Forums_AlternatingItem">備註</td>
+    <tr>
+      <th>商品名稱</th>
+      <th>單價</th>
+      <th>數量</th>
+      <th>備註</th>
     </tr>
     
     {foreach $items as $item}
-    <tr Class="Forums_General">
-      <td Class="{$item.classname}">{$item.pdsname}</td>
-      <td Class="{$item.classname}">{$item.price}</td>
-      <td Class="{$item.classname}">{$item.count}</td>
-      <td Class="{$item.classname}">{$item.note}</td>
+    <tr>
+      <td>{$item.pdsname}</td>
+      <td>{$item.price}</td>
+      <td>{$item.count}</td>
+      <td>{$item.note}</td>
     </tr>
     {/foreach}
-    <tr Class="Forums_General">
+    <tr>
       <td Class="{$classname1}" colspan=4 align="right"> [ <a href="{$baseUrl}"><img src="{$baseUrl}assets/images/OK.gif" border=0></a> 回主選單 ] </td>
     </tr>
-    <tr Class="Forums_Header">
+    <tr>
       <td colspan=4  align="center"> [ <font color="#FFFFFF">感謝您的訂購，先祝您用餐愉快！</font> ] </td>
     </tr>
   </table>

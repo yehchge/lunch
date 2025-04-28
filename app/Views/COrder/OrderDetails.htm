@@ -8,40 +8,38 @@
     <table border="0" cellspacing="0" cellpadding="0" width="80%">
       <tr>
         <td>
-          <table cellspacing="2" border="0" cellpadding="2" width="100%">
+          <table id="tableList" cellspacing="2" border="0" cellpadding="2" width="100%">
             <tr>
               <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
             </tr>
-            <tr Class="Forums_General">
-              <td class="Forums_Header" align="center">序號</td>
-              <td class="Forums_Header" align="center">商品名稱</td>
-              <td class="Forums_Header" align="center">數量</td>
-              <td class="Forums_Header" align="center">單價</td>
-              <td class="Forums_Header" align="center">訂購人</td>
-              <td class="Forums_Header" align="center">備註</td>
-              <td class="Forums_Header" align="center">訂購時間</td>
-              <td  class="Forums_Header" align="center">狀態</td>
-              <td  class="Forums_Header" align="center">修改</td>
+            <tr>
+              <th>序號</th>
+              <th>商品名稱</th>
+              <th>數量</th>
+              <th>單價</th>
+              <th>訂購人</th>
+              <th>備註</th>
+              <th>訂購時間</th>
+              <th>狀態</th>
+              <th>修改</th>
             </tr>
-            <!-- BEGIN DYNAMIC BLOCK: row -->
             {foreach $items as $item}
-            <tr Class="Forums_General">
-              <td Class="{$item.classname}" align="center">{$item.orderid}</td>
-              <td Class="{$item.classname}" align="center">{$item.pdsname}</td>
-              <td Class="{$item.classname}" align="center">{$item.count}</td>
-              <td Class="{$item.classname}" align="center">{$item.price}</td>
-              <td Class="{$item.classname}" align="center">{$item.man}</td>
-              <td Class="{$item.classname}" align="center">{$item.note}</td>
-              <td Class="{$item.classname}" align="center">{$item.createdate}</td>
-              <td Class="{$item.classname}" align="center">{$item.status}</td>
-              <td Class="{$item.classname}" align="center">{$item.editstatus|raw}</td>
+            <tr>
+              <td>{$item.orderid}</td>
+              <td>{$item.pdsname}</td>
+              <td>{$item.count}</td>
+              <td>{$item.price}</td>
+              <td>{$item.man}</td>
+              <td>{$item.note}</td>
+              <td>{$item.createdate}</td>
+              <td>{$item.status}</td>
+              <td>{$item.editstatus|raw}</td>
             </tr>
             {/foreach}
-            <!-- END DYNAMIC BLOCK: row -->
             <tr>
               <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
             </tr>
-            <tr Class="Forums_General">
+            <tr>
               <td colspan="9" align="right"> [ <a href="{$baseUrl}manager/list_order">回上一頁</a> ] </td>
             </tr>
           </table>

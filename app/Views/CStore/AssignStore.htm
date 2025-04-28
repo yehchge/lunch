@@ -1,51 +1,46 @@
 {extends "index.htm"}
-
 {block "title"}{$title}{/block}
-
-{block "content"}
-   
-   <div class="grid-element main">
-    <div id="breadCrumb">
-        [ {$breadcrumb} ]
-    </div>
-      <table border="0" cellspacing="0" cellpadding="0" width="80%">
-        <tr>
-          <td>
-            <table  cellspacing="2" border="0" cellpadding="2" width="100%">
-              <tr>
-                <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
-              </tr>
-              <tr class="Forums_General">
-                <td class="Forums_Header" align="center">指定店家</td>
-                <td class="Forums_Header" align="center">商品</td>
-                <td class="Forums_Header" align="center">序號</td>
-                <td class="Forums_Header" align="center">店名</td>
-                <td class="Forums_Header" align="center">電話</td>
-                <td class="Forums_Header" align="center">負責人</td>
-                <td class="Forums_Header" align="center">最後修改日</td>
-                <td class="Forums_Header" align="center">狀態</td>
-              </tr>
-              <!-- BEGIN DYNAMIC BLOCK: row -->
-              {foreach $items as $item}
-              <tr>
-                <td class="{$item.classname}" align="center" bgcolor="#ffffff">{$item.editstoreid|raw}</td>
-                <td class="{$item.classname}" bgcolor="#ffffff" align="center"><a href="javascript:ShowPdsInfo('{$baseUrl}', {$item.storeid});"><img src="{$baseUrl}assets/images/text_file_icon.gif" border="0"></a></td>
-                <td class="{$item.classname}" bgcolor="#ffffff">{$item.storeid}</td>
-                <td class="{$item.classname}" bgcolor="#ffffff">{$item.storename|raw}</td>
-                <td class="{$item.classname}" bgcolor="#ffffff">{$item.tel}</td>
-                <td class="{$item.classname}" nowrap bgcolor="#ffffff">{$item.man}</td>
-                <td class="{$item.classname}" bgcolor="#ffffff">{$item.editdate}</td>
-                <td class="{$item.classname}" nowrap bgcolor="#ffffff">{$item.status}</td>
-              </tr>
-              {/foreach}
-              <!-- END DYNAMIC BLOCK: row -->
-              <tr>
-                <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      <script src="{$baseUrl}assets/js/main.js"></script>
+{block "content"} 
+<div class="grid-element main">
+  <div id="breadCrumb">
+    [ {$breadcrumb} ]
   </div>
+  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+      <td>
+        <table id="tableList" cellspacing="2" border="0" cellpadding="2">
+          <tr>
+            <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
+          </tr>
+          <tr>
+            <th>指定店家</th>
+            <th>商品</th>
+            <th>序號</th>
+            <th>店名</th>
+            <th>電話</th>
+            <th>負責人</th>
+            <th>最後修改日</th>
+            <th>狀態</th>
+          </tr>
+          {foreach $items as $item}
+          <tr>
+            <td align="center" bgcolor="#ffffff">{$item.editstoreid|raw}</td>
+            <td bgcolor="#ffffff" align="center"><a href="javascript:ShowPdsInfo('{$baseUrl}', {$item.storeid});"><img src="{$baseUrl}assets/images/text_file_icon.gif" border="0"></a></td>
+            <td bgcolor="#ffffff">{$item.storeid}</td>
+            <td bgcolor="#ffffff">{$item.storename|raw}</td>
+            <td bgcolor="#ffffff">{$item.tel}</td>
+            <td nowrap bgcolor="#ffffff">{$item.man}</td>
+            <td bgcolor="#ffffff">{$item.editdate}</td>
+            <td nowrap bgcolor="#ffffff">{$item.status}</td>
+          </tr>
+          {/foreach}
+          <tr>
+            <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <script src="{$baseUrl}assets/js/main.js"></script>
+</div>
 {/block}

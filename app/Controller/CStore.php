@@ -61,9 +61,8 @@ class CStore
         }
 
         $tpl->assign('items', $items);
-        $tpl->assign('totalrows',"共 $totalItems 筆"); //* Page *// 
-        $tpl->assign('pageselect', $paginator->render()); //* Page *// 
-
+        $tpl->assign('totalrows',"共 $totalItems 筆");
+        $tpl->assign('pageselect', $paginator->render());
         $tpl->assign('title', '店家維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護');
         $tpl->assign('baseUrl', BASE_URL);

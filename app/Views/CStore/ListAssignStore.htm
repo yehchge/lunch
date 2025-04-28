@@ -1,54 +1,47 @@
 {extends "index.htm"}
-
 {block "title"}{$title}{/block}
-
-{block "content"}
-   
-   <div class="grid-element main">
-    <div id="breadCrumb">
-        [ {$breadcrumb} ]
-    </div>
-
-      <table border="0" cellspacing="0" cellpadding="0" width="80%">
-        <tr>
-          <td>
-            <table cellspacing="2" border="0" cellpadding="2" width="100%">
-              <tr>
-                <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
-              </tr>
-              <tr Class="Forums_General">
-                <td class="Forums_Header" align="center">序號</td>
-                <td class="Forums_Header" align="center">日期</td>
-                <td class="Forums_Header" align="center">負責人</td>
-                <td class="Forums_Header" align="center">店家序號</td>
-                <td class="Forums_Header" align="center">店家</td>
-                <td class="Forums_Header" align="center">狀態</td>
-                <td class="Forums_Header" align="center">管理</td>
-              </tr>
-              <!-- BEGIN DYNAMIC BLOCK: row -->
-              {foreach $items as $item}
-              <tr>
-                <td Class="{$item.classname}" align="center">{$item.managerid}</td>
-                <td Class="{$item.classname}" align="center">{$item.createdate}</td>
-                <td Class="{$item.classname}" align="center">{$item.man}</td>
-                <td Class="{$item.classname}" align="center">{$item.storeid}</td>
-                <td Class="{$item.classname}">{$item.storename}</td>
-                <td Class="{$item.classname}" align="center">{$item.status}</td>
-                <td Class="{$item.classname}" align="center">
-                  <a href='{$baseUrl}store/edit_status?id={$item.managerid}'>
-                    <img border="0" src="{$baseUrl}assets/images/edit_s.gif">
-                  </a>
-                </td>
-              </tr>
-              {/foreach}
-              <!-- END DYNAMIC BLOCK: row -->
-              <tr>
-                <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-
+{block "content"} 
+<div class="grid-element main">
+  <div id="breadCrumb">
+    [ {$breadcrumb} ]
   </div>
+  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+      <td>
+        <table id="tableList" cellspacing="2" border="0" cellpadding="2">
+          <tr>
+            <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
+          </tr>
+          <tr>
+            <th>序號</th>
+            <th>日期</th>
+            <th>負責人</th>
+            <th>店家序號</th>
+            <th>店家</th>
+            <th>狀態</th>
+            <th>管理</th>
+          </tr>
+          {foreach $items as $item}
+          <tr>
+            <td>{$item.managerid}</td>
+            <td>{$item.createdate}</td>
+            <td>{$item.man}</td>
+            <td>{$item.storeid}</td>
+            <td>{$item.storename}</td>
+            <td>{$item.status}</td>
+            <td>
+              <a href='{$baseUrl}store/edit_status?id={$item.managerid}'>
+                <img border="0" src="{$baseUrl}assets/images/edit_s.gif">
+              </a>
+            </td>
+          </tr>
+          {/foreach}
+          <tr>
+            <td colspan="9" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
 {/block}

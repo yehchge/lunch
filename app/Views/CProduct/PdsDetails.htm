@@ -8,32 +8,32 @@
     <table border="0" cellspacing="0" cellpadding="0" width="80%">
       <tr>
         <td>
-          <table cellspacing="2" border="0" cellpadding="2" width="100%">
+          <table id="tableList" cellspacing="2" border="0" cellpadding="2" width="100%">
             <tr>
-              <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
+              <td colspan="9"  bgcolor=#eeeeee>{$totalrows}</td>
             </tr>
-            <tr Class="Forums_General">
-              <td class="Forums_Header" align="center">修改</td>
-              <td class="Forums_Header" align="center">序號</td>
-              <td class="Forums_Header">商品名稱</td>
-              <td class="Forums_Header" nowrap>型別</td>
-              <td class="Forums_Header">金額</td>
-              <td class="Forums_Header" nowrap>說明</td>
-              <td class="Forums_Header">狀態</td>
+            <tr>
+              <th>修改</th>
+              <th>序號</th>
+              <th>商品名稱</th>
+              <th>型別</th>
+              <th>金額</th>
+              <th>說明</th>
+              <th>狀態</th>
             </tr>
             {foreach $items as $item}
-            <tr Class="Forums_General">
-              <td Class="{$item.classname}" align="center">
+            <tr>
+              <td>
                 <a href='{$baseUrl}product/edit?id={$item.pdsid}&sid={$item.storeid}'>
                   <img border=0 src="{$baseUrl}assets/images/Edit.gif">
                 </a>
               </td>
-              <td Class="{$item.classname}" align="center">{$item.pdsid}</td>
-              <td Class="{$item.classname}" bgcolor="#ffffff">{$item.pdsname}</td>
-              <td Class="{$item.classname}" bgcolor="#ffffff">{$item.pdstype}</td>
-              <td Class="{$item.classname}" nowrap bgcolor="#ffffff">{$item.price}</td>
-              <td Class="{$item.classname}" bgcolor="#ffffff">{$item.note}</td>
-              <td Class="{$item.classname}" nowrap bgcolor="#ffffff">{$item.status}</td>
+              <td>{$item.pdsid}</td>
+              <td>{$item.pdsname}</td>
+              <td>{$item.pdstype}</td>
+              <td>{$item.price}</td>
+              <td>{$item.note}</td>
+              <td>{$item.status}</td>
             </tr>
             {/foreach}
             <tr>
@@ -42,7 +42,7 @@
             <tr>
               <td colspan="9" align="right">
                 <a href="{$baseUrl}store/list">
-                    [ <img border="0" src="{$baseUrl}assets/images/Cancel.gif"> 取消 ]
+                  [ <img border="0" src="{$baseUrl}assets/images/Cancel.gif"> 取消 ]
                 </a>
               </td>
             </tr>
@@ -52,20 +52,20 @@
     </table>
     <form name="addfrm" method="post" action="{$baseUrl}product/add">
       <input type=hidden name="pdsid" value="{$id}">
-      <table border="0" cellspacing="2" cellpadding="2" width="80%" Class="Forums_General">
-        <tr Class="Forums_General">
-          <td class="Forums_Header" align="center">商品名稱</td>
-          <td class="Forums_Header" align="center">型別</td>
-          <td class="Forums_Header" align="center">單價(元)</td>
-          <td class="Forums_Header" align="center">說明</td>
-          <td class="Forums_Header">&nbsp;</td>
+      <table border="0" cellspacing="2" cellpadding="2" width="80%">
+        <tr>
+          <td>商品名稱</td>
+          <td>型別</td>
+          <td>單價(元)</td>
+          <td>說明</td>
+          <td>&nbsp;</td>
         </tr>
         <tr>
-          <td bgcolor="#F5F5F5" align="center"><input type="text" name="pdsname" size="20"></td>
-          <td bgcolor="#F5F5F5" align="center"><input type="text" name="pdstype" size="5"></td>
-          <td bgcolor="#F5F5F5" align="center"><input type="text" name="pdsprice" size="5" maxlength="4"></td>
-          <td bgcolor="#F5F5F5" align="center"><input type="text" name="pdsnote" size="28"></td>
-          <td bgcolor="#F5F5F5" align="center">[ <input type="image" src="{$baseUrl}assets/images/OK.gif" name="sb"> 新增商品 ]</td>
+          <td bgcolor="#F5F5F5" ><input type="text" name="pdsname" size="20"></td>
+          <td bgcolor="#F5F5F5" ><input type="text" name="pdstype" size="5"></td>
+          <td bgcolor="#F5F5F5" ><input type="text" name="pdsprice" size="5" maxlength="4"></td>
+          <td bgcolor="#F5F5F5" ><input type="text" name="pdsnote" size="28"></td>
+          <td bgcolor="#F5F5F5" >[ <input type="image" src="{$baseUrl}assets/images/OK.gif" name="sb"> 新增商品 ]</td>
         </tr>
       </table>
     </form>

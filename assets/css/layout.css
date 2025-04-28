@@ -1,7 +1,5 @@
 body {
   margin: 0;
-/*  text-align: center;*/
-/*  font-family: "Dosis";*/
 }
 
 * {
@@ -11,14 +9,28 @@ body {
 
 #tableList {
   border-collapse: collapse;
+  vertical-align: middle;
+  width: 100%;
 }
+
+#tableList th {
+  font: bold Arial;
+  color: #707070;
+  border: 1px; 
+  border-color: #c0c0c0;
+  border-style: solid;
+  padding: 10px;
+}
+
 #tableList tr:nth-child(odd) {
   background: #f2f2f2;
 }
+
 #tableList td {
   border: 1px solid #ddd;
   padding: 10px;
 }
+
 
 .sectionLinks {
     margin: 0px;
@@ -40,6 +52,7 @@ body {
     font: bold Arial;
     color: white;
     background-color: #cccccc;
+    padding: 10px;
 }
 
 .Forums_Header2 {

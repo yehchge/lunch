@@ -5,39 +5,37 @@
     <div id="breadCrumb">
         [ {$breadcrumb} ]
     </div>
-    <table border="0" cellspacing="0" cellpadding="0" width="80%">
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
       <tr>
         <td>
-          <table cellspacing="2" border="0" cellpadding="2" width="100%">
+          <table id="tableList" cellspacing="2" border="0" cellpadding="2">
             <tr>
               <td colspan="7" align="center" bgcolor=#eeeeee>{$totalrows}</td>
             </tr>
-            <tr class="Forums_General">
-              <td class="Forums_Header" align="center">序號</td>
-              <td class="Forums_Header" align="center">指定日期</td>
-              <td class="Forums_Header" align="center">負責人</td>
-              <td class="Forums_Header" align="center">店家</td>
-              <td class="Forums_Header" align="center">明細</td>
-              <td class="Forums_Header" align="center">狀態</td>
-              <td class="Forums_Header" align="center">訂購GO</td>
+            <tr>
+              <th>序號</th>
+              <th>指定日期</th>
+              <th>負責人</th>
+              <th>店家</th>
+              <th>明細</th>
+              <th>狀態</th>
+              <th>訂購GO</th>
             </tr>
-            <!-- BEGIN DYNAMIC BLOCK: row -->
             {foreach $items as $item}
             <tr>
-              <td class="{$item.classname}" align="center">{$item.managerid}</td>
-              <td class="{$item.classname}" align="center">{$item.createdate}</td>
-              <td class="{$item.classname}" align="center">{$item.man}</td>
-              <td class="{$item.classname}" align="center">{$item.storename}</td>
-              <td class="{$item.classname}" align="center"><a href="javascript:ShowPdsInfo('{$baseUrl}', {$item.storeid});"><img src="{$baseUrl}assets/images/text_file_icon.gif" border="0"></a></td>
-              <td class="{$item.classname}" align="center">{$item.status}</td>
-              <td class="{$item.classname}" align="center">
+              <td>{$item.managerid}</td>
+              <td>{$item.createdate}</td>
+              <td>{$item.man}</td>
+              <td>{$item.storename}</td>
+              <td><a href="javascript:ShowPdsInfo('{$baseUrl}', {$item.storeid});"><img src="{$baseUrl}assets/images/text_file_icon.gif" border="0"></a></td>
+              <td>{$item.status}</td>
+              <td>
                 <a href='{$baseUrl}order/add?id={$item.storeid}&mid={$item.managerid}'>
-                    <img src="{$baseUrl}assets/images/top_bt_srch_new.gif" border="0">
+                  <img src="{$baseUrl}assets/images/top_bt_srch_new.gif" border="0">
                 </a>
-            </td>
+              </td>
             </tr>
             {/foreach}
-            <!-- END DYNAMIC BLOCK: row -->
             <tr>
               <td colspan="7" align="center" bgcolor=#eeeeee noswarp>{$pageselect|raw}</td>
             </tr>

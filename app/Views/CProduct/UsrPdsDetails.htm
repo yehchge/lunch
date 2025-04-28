@@ -7,31 +7,31 @@
 <body topmargin="5">
 	<center>
     <table Class="Forums_General">
-	  <tr Class="Forums_Header">
+	  <tr>
 		<td colspan=2><font color="#FFFFFF">&nbsp;DinBenDon明細顯示</font></td>
 	  </tr>
       <tr>
 		<td>
-		  <table cellspacing="2" border="0" cellpadding="2">
+		  <table id="tableList" cellspacing="2" border="0" cellpadding="2">
 			<tr>
 			  <td colspan="9" align="center" bgcolor=#eeeeee>{$totalrows}</td>
 			</tr>
-			<tr Class="Forums_General">
-			  <td class="Forums_Header">序號</td>
-			  <td class="Forums_Header">商品名稱</td>
-			  <td class="Forums_Header">型別</td>
-			  <td class="Forums_Header">金額</td>
-			  <td class="Forums_Header">說明</td>
-			  <td class="Forums_Header">狀態</td>
+			<tr>
+			  <th>序號</th>
+			  <th>商品名稱</th>
+			  <th>型別</th>
+			  <th>金額</th>
+			  <th>說明</th>
+			  <th>狀態</th>
 			</tr>
 			{foreach $items as $item}
-			<tr Class="Forums_General">
-			  <td Class="{$item.classname}">{$item.pdsid}</td>
-			  <td Class="{$item.classname}">{$item.pdsname}</td>
-			  <td Class="{$item.classname}">{$item.pdstype}</td>
-			  <td Class="{$item.classname}">{$item.price}</td>
-			  <td Class="{$item.classname}">{$item.note}</td>
-			  <td Class="{$item.classname}">{$item.status}</td>
+			<tr>
+			  <td>{$item.pdsid}</td>
+			  <td>{$item.pdsname}</td>
+			  <td>{$item.pdstype}</td>
+			  <td>{$item.price}</td>
+			  <td>{$item.note}</td>
+			  <td>{$item.status}</td>
 			</tr>
 			{/foreach}
 			<tr>
