@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-  <meta cherset='UTF-8'>
-  <title>{block "title"}DinBenDon系統{/block}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{block "title"}後台管理系統{/block}</title>
   <link rel="stylesheet" href="{$baseUrl}assets/css/layout.css">
 </head>
 <body>
-<div class="grid-container">
   {include "index_header.htm"}
-  {include "index_menu.htm"}
-  {block "content"}Main Content{/block}
-  <!-- <div class="grid-element extra">Extra Content</div> -->
-  <!-- {include "index_footer.htm"} -->
-</div>
+  <div class="container" id="layout">
+    {include "index_menu.htm"}
+    <main>
+      {block "content"}Body 內容區塊{/block}
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('toggle-nav').addEventListener('click', function () {
+      document.getElementById('layout').classList.toggle('nav-collapsed');
+    });
+  </script>
 </body>
 </html>

@@ -21,61 +21,90 @@ try{
     $action = $router->action();
     $params = $router->params();
 
+// echo "func = $func , action = $action";exit;
+
     // 產生本程式功能內容
     $tpl = new Template("app/Views");
 
-    $routes = [
-        '' => ['', true], // 需要登入
-        'store' => ['CStore', true],
-        'product' => ['CProduct', true],
-        'manager' => ['CManager', true],
-        'order' => ['COrder', true],
-        'login' => ['CLogin', false],  // 不需要登入
-        'logout' => ['CLogout', false] // 不需要登入
-    ];
+    $routes = require PATH_ROOT."/app/Config/Routes.php";
 
     $sController = '';
 
-    foreach ($routes as $route => [$controller, $needAuth]) {
-        if($route==$func){
-            if($needAuth){
+    $requestUri = trim($func.'/'.$action, '/');
+// echo $requestUri;exit;
+
+    $matched = false;
+
+    foreach ($routes as $route => [$controller, $method, $needAuth]) {
+        $pattern = "@^" . $route . "$@";
+        if (preg_match($pattern, $requestUri, $matches)) {
+            $matched = true;
+
+            if ($needAuth) {
                 // 檢查使用者有沒有登入
                 if (!$auth->check()) {
                     $_SESSION['refer'] = $_SERVER['REQUEST_URI'] ?? '';
                     header("Location: ".BASE_URL."login");
                     exit;
-                }                
+                }
             }
-            $sController = $controller;
-        }
-    }
 
-    if($sController!==''){
-        $controllerFile = PATH_ROOT."/app/Controller/$sController.php";
-        if (file_exists($controllerFile)){
-            //include, new target controller, and run method
-            require_once $controllerFile; //include controller.php
-            $oController = new $sController();  //new target controller
+            $controllerFile = PATH_ROOT."/app/Controller/{$controller}.php";
+            if (file_exists($controllerFile)){
+                //include, new target controller, and run method
+                require_once $controllerFile; //include controller.php
+                $instance = new $controller();  //new target controller
 
-            if (method_exists($oController, $action)) {
-                return call_user_func_array([$oController, $action], $params);
+                if (method_exists($controller, $method)) {
+                    call_user_func_array([$instance, $method], $params);
+                    break;
+                } else {
+                    http_response_code(404);
+                    echo "404 - Method '{$method}' not found.";
+                }
             } else {
                 http_response_code(404);
-                echo "404 - Method '{$action}' not found.";
+                echo "404 - Controller '{$controller}' not found.";
             }
-        } else {
-            http_response_code(404);
-            echo "404 - Controller '{$func}' not found.";
         }
-        
-    } else {
-        // $tpl->assign("FUNCTION", '');
+
+        elseif (preg_match("/\(:segment\)/i", $route)) {
+            $matched = true;
+            
+            // if ($needAuth) {
+            //     // 檢查使用者有沒有登入
+            //     if (!$auth->check()) {
+            //         $_SESSION['refer'] = $_SERVER['REQUEST_URI'] ?? '';
+            //         header("Location: ".BASE_URL."login");
+            //         exit;
+            //     }
+            // }
+
+            $params = [$func];
+            $controllerFile = PATH_ROOT."/app/Controller/{$controller}.php";
+            if (file_exists($controllerFile)){
+                //include, new target controller, and run method
+                require_once $controllerFile; //include controller.php
+                $instance = new $controller();  //new target controller
+
+                if (method_exists($controller, $method)) {
+                    call_user_func_array([$instance, $method], $params);
+                    break;
+                } else {
+                    http_response_code(404);
+                    echo "404 - Method '{$method}' not found.";
+                }
+            } else {
+                http_response_code(404);
+                echo "404 - Controller '{$controller}' not found.";
+            }
+        }
     }
 
-    $tpl->assign('title', 'DinBenDon系統');
-    $tpl->assign('breadcrumb', 'DinBenDon首頁');
-    $tpl->display('body.htm');
-
+    if (!$matched) {
+        http_response_code(404);
+        echo "404 Not Found";
+    }
 }catch (\Exception $e){
     echo $e->getMessage().PHP_EOL;
     exit;

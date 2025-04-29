@@ -13,14 +13,14 @@ class Router
         $action = '';
         $params = [];
 
-        $defaultFunc = '';
+        $defaultFunc = 'home';
         $defaultAction = 'index';
 
         if(!empty($_GET['func']) || !empty($_GET['action'])) {
             // 有舊網址參數 $_GET['func'] or $_GET['action']
-            
+           
             $func = $_GET['func'] ?? '';
-            $action = $_GET['action'] ?? $defaultAction;
+            $action = $_GET['action'] ?? '';
 
             $params = [];
             foreach($_GET as $key => $value) {
@@ -33,7 +33,7 @@ class Router
             // index.php/about/contact/1234
             // /about/contact/1234
             // /專案名稱/index.php/avout/contact/1234
-            
+          
             $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
             $basePath = rtrim(dirname($scriptName), '/');
 
@@ -54,9 +54,11 @@ class Router
             }
 
             $path = trim($path, '/');
-            $segments = explode('/', $path);
+            if ($path) $segments = explode('/', $path);
+            else $segments = [];
+
             $func = $segments[0] ?? '';
-            $action = $segments[1] ?? $defaultAction;
+            $action = $segments[1] ?? '';
             $params = array_slice($segments, 2);
         }
 
