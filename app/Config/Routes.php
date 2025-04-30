@@ -6,6 +6,8 @@
 
 return [
     '' => ['Home', 'index', false],
+    'pagination' => ['PaginationController', 'index', false], // 分頁練習
+    'loadRecord' => ['PaginationController', 'loadRecord', false], // 分頁練習
     // 'home/index' => ['Home', 'index', true], // 需要登入
     'store/list' => ['CStore', 'list', true],
     'store/add' => ['CStore', 'add', true],
