@@ -30,8 +30,8 @@ return [
     'order/create' => ['COrder', 'create', true],
     'order/edit' => ['COrder', 'edit', true],
     'order/update' => ['COrder', 'update', true],
-    'login/index' => ['CLogin', 'index', false],  // 不需要登入
-    'logout/index' => ['CLogout', 'index', false], // 不需要登入
+    'login' => ['CLogin', 'index', false],  // 不需要登入
+    'logout' => ['CLogout', 'index', false], // 不需要登入
     'pages' => ['Pages', 'index', false],
     '(:segment)' => ['Pages', 'view', false]
 ];

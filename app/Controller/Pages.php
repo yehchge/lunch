@@ -18,7 +18,6 @@ function view(string $viewName, array $data = []): void
     include $viewPath;
 }
 
-
 function esc(string $string)
 {
     return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
@@ -28,26 +27,11 @@ class Pages
 {
     public function index()
     {
-        echo "Hello world.";
-
-        // $tpl = new Template("app/Views");
-
-        // $tpl->assign('title', 'Welcome to ...');
-        // $tpl->assign('breadcrumb', 'Welcome to pages.');
-        // $tpl->assign('baseUrl', BASE_URL);
-        // $tpl->display('body.htm');
+        return view('welcome_message');
     }
-
-    // public function view()
-    // {
-    //     // ...
-    //     echo "Views....";
-    // }
 
     public function view(string $page = 'home')
     {
-
-// echo "page = $page";exit;
         $controllerFile = PATH_ROOT."/app/Views/pages/{$page}.php";
         if (!file_exists($controllerFile)){
             // Whoops, we don't have a page for that!
@@ -58,9 +42,6 @@ class Pages
         }
 
         $data['title'] = ucfirst($page); // Capitalize the first letter
-
-
-
 
         return view('templates/header', $data)
             . view('pages/' . $page)
