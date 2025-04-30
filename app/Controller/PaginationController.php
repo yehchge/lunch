@@ -23,8 +23,9 @@ class PaginationController
 
     public function loadRecord()
     {
-        $request = service('request');
+        // $request = service('request');
 
+        $request = new CRequest();
         $searchData  = $request->getGet();
 
         $search = '';

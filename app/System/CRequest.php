@@ -36,4 +36,9 @@ class CRequest
         unset($queryParams['page']);
         return $queryParams;
     }
+
+    public function getGet()
+    {
+        return $_GET;
+    }
 }
