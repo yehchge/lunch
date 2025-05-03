@@ -12,6 +12,8 @@ class PaginationModel
     private $perPage;
 
     public $pager;
+    public $select = '';
+    public $where = '';
 
     protected $table            = 'pagination_users';
     protected $primaryKey       = 'id';
@@ -51,6 +53,22 @@ class PaginationModel
         }
     }
 
+    public function select($query)
+    {
+        $this->select = $query;
+        return $this;
+    }
+
+    public function orLike($field, $value)
+    {
+        if(!$this->where) {
+            $this->where = "$field LIKE '%$value%'";
+        } else {
+            $this->where .= " OR $field LIKE '%$value%'";
+        }
+        return $this;
+    }
+
     public function paginate($perPage = 10)
     { 
         $request = new CRequest();
@@ -64,7 +82,22 @@ class PaginationModel
         $offset = ($currentPage - 1) * $perPage;
 
         $this->perPage = $perPage;
-        return $this->query("SELECT * FROM {$this->table} LIMIT $offset, $perPage");
+
+        if ($this->select) {
+            $sql = "SELECT ".$this->select." FROM ".$this->table;    
+        } else {
+            $sql = "SELECT * FROM ".$this->table;
+        }
+
+        if ($this->where) {
+            $sql .= " WHERE ".$this->where;
+        }
+        
+        $sql .= " LIMIT $offset, $perPage";
+
+        $this->pager = $this;
+
+        return $this->query($sql);
     }
 
     public function fetch_assoc($stmt)
@@ -86,9 +119,25 @@ class PaginationModel
     }
 
     public function iGetCount(){
+        $request = new CRequest();
+
+        // 取得查詢參數
+        $queryParams = $request->getQueryParams();
+        
+        // 當前頁數
+        $currentPage = $queryParams['page'] ?? 1;
+
+        $offset = ($currentPage - 1) * $this->perPage;
+
         $fileds = "COUNT(*) AS total";
 
-        $stmt = $this->queryIterator("SELECT $fileds FROM {$this->table}");
+        $sql = "SELECT $fileds FROM ".$this->table;
+
+        if ($this->where) {
+            $sql .= " WHERE ".$this->where;
+        }
+        
+        $stmt = $this->queryIterator($sql);
 
         $row = $this->fetch_assoc($stmt);
         return $row['total'];

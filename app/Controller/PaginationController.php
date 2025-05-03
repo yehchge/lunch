@@ -50,7 +50,7 @@ class PaginationController
 
         $search = '';
         if (isset($searchData) && isset($searchData['search'])) {
-            $search = $search['search'];
+            $search = $searchData['search'];
         }
 
         // Get data

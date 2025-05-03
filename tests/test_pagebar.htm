@@ -1,0 +1,78 @@
+<meta charset="UTF-8">
+<style>
+  .pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 1em 0;
+  gap: 0.5em;
+  justify-content: center;
+}
+
+.page-item {
+}
+
+.page-link {
+  display: block;
+  padding: 0.5em 0.75em;
+  text-decoration: none;
+  color: #007bff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  transition: background-color 0.2s;
+  min-width: 2em;
+  text-align: center;
+}
+
+.page-link:hover {
+  background-color: #f0f0f0;
+}
+
+.page-item.active .page-link {
+  background-color: #007bff;
+  color: white;
+  pointer-events: none;
+  cursor: default;
+}
+
+.page-item.disabled .page-link {
+  color: #aaa;
+  border-color: #eee;
+  background-color: #f9f9f9;
+  pointer-events: none;
+  cursor: default;
+}
+
+</style>
+
+<nav aria-label="頁碼導覽">
+  <ul class="pagination" role="list">
+    <!-- 上一頁 -->
+    <li class="page-item">
+      <a href="?page=1" class="page-link" aria-label="上一頁">‹</a>
+    </li>
+
+    <!-- 頁碼 -->
+    <li class="page-item">
+      <a href="?page=1" class="page-link">1</a>
+    </li>
+    <li class="page-item active" aria-current="page">
+      <a href="?page=2" class="page-link">2</a>
+    </li>
+    <li class="page-item">
+      <a href="?page=3" class="page-link">3</a>
+    </li>
+    <li class="page-item">
+      <a href="?page=4" class="page-link">4</a>
+    </li>
+    <li class="page-item">
+      <a href="?page=5" class="page-link">5</a>
+    </li>
+
+    <!-- 下一頁 -->
+    <li class="page-item">
+      <a href="?page=3" class="page-link" aria-label="下一頁">›</a>
+    </li>
+  </ul>
+</nav>
