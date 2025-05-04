@@ -159,7 +159,7 @@ class PaginationModel
         // 每頁幾筆
         $itemsPerPage = $this->perPage;
 
-        $paginator = new Paginator(
+        $paginator = new Pagebar(
             $totalItems,
             $itemsPerPage,
             $currentPage,
