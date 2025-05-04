@@ -22,13 +22,15 @@ class CStore
         // 每頁幾筆
         $itemsPerPage = 10;
 
-        $paginator = new Paginator(
-            $totalItems,
-            $itemsPerPage,
-            $currentPage,
-            BASE_URL.'store/list',
-            $request->withoutPageParam($queryParams)
-        );
+        $paginator = $storeRepo->paginate($itemsPerPage);
+
+        // $paginator = new Paginator(
+        //     $totalItems,
+        //     $itemsPerPage,
+        //     $currentPage,
+        //     BASE_URL.'store/list',
+        //     $request->withoutPageParam($queryParams)
+        // );
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();
