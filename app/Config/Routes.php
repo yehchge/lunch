@@ -6,6 +6,7 @@
 
 return [
     '' => ['Home', 'index', false],
+    'smarty' => ['SmartyController', 'index', false], // Smarty
     'pagination' => ['PaginationController', 'index', false], // 分頁練習
     'loadRecord' => ['PaginationController', 'loadRecord', false], // 分頁練習
     // 'home/index' => ['Home', 'index', true], // 需要登入

@@ -1,0 +1,58 @@
+# 通常建議專案最頂層的配置文件設定該值
+root = true
+
+# 表示以 Unix 風格的換行符號結尾另外刪除換行字元所有的空白
+[*]
+end_if_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+# PHP-Files, Composer.json, MD-Files
+[{*.php,composer.json,*.md}]
+indent_size = 4
+indent_style = space
+
+# HTML-Files LESS-Files SASS-Files CSS-Files JS-Files JSON-Files
+[{*.html,*.less,*.json}]
+indent_size = 4
+
+# 中括號中的可以批配多種類型文件
+# 並設定文件的編碼類型
+[*.{js,py}]
+charset = utf-8
+
+# 四格縮排
+[*.py]
+indent_style = space
+indent_size = 4
+
+# 兩格縮排
+[*.js,*.css]
+indent_style = space
+indent_size = 2
+
+# 設定縮排類型為 tab
+[Makefile]
+indent_style = tab
+
+# Batch files use tabs for indentation
+[*.bat]
+indent_style = tab
+
+# 精準批配 package.json 和 .travis.yml
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2
+
+# The JSON files contain newlines inconsistently
+[*.json]
+insert_final_newline = ignore
+
+# Minified JavaScript files shouldn't be changed
+[**.min.js]
+indent_style = ignore
+insert_final_newline = ignore
+
+[*.md]
+trim_trailing_whitespace = false

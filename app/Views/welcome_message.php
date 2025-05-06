@@ -14,8 +14,8 @@
             <li><a href='./home'>Home</a></li>
             <li><a href='./about'>About</a></li>
             <li><a href='./shop'>Shop</a></li>
-            <li><a href='./pagination'>pagination</a></li>
-            <li><a href=''>&nbsp;</a></li>
+            <li><a href='./pagination'>Pagination</a></li>
+            <li><a href='./smarty'>Smarty</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>

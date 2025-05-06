@@ -5,5 +5,7 @@
             "Lunch\\": "app/"
         }
     },
-    "require": {}
+    "require": {
+        "smarty/smarty": "^4"
+    }
 }

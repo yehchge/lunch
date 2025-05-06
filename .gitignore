@@ -1,2 +1,8 @@
 /vendor/
 .env
+
+#-------------------------
+# Temporary Files
+#-------------------------
+writable/smarty/*
+!writable/smarty/index.html

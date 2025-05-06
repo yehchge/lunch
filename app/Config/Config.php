@@ -9,7 +9,7 @@ declare(strict_types=1); // 嚴格類型
 defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/../..'));
 defined('BASE_URL')|| define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/');
 
-// require PATH_ROOT."/vendor/autoload.php";
+require PATH_ROOT."/vendor/autoload.php";
 
 require PATH_ROOT.'/app/System/DotEnv.php';
 
@@ -21,6 +21,9 @@ use Lunch\System\DotEnv;
 
 // echo getenv('LUNCH_ENV');echo "<br>";
 // echo getenv("DATABASE_HOST");exit;
+
+require PATH_ROOT.'/app/Helpers/service.php';
+require PATH_ROOT.'/app/Config/Paths.php';
 
 require PATH_ROOT.'/app/System/DebugConsole.php';
 require PATH_ROOT.'/app/System/Database.php';
@@ -39,6 +42,13 @@ require PATH_ROOT.'/app/System/Router.php';
 require PATH_ROOT.'/app/System/CRequest.php';
 require PATH_ROOT.'/app/System/CResponse.php';
 
+
+
+
+$Paths = new Paths();
+definePathConstants($Paths);
+
+
 function dd($data)
 {
     echo "<pre>";print_r($data);echo "</pre>";
@@ -49,4 +59,32 @@ function class_basename($class)
     $class = is_object($class) ? $class::class : $class;
 
     return basename(str_replace('\\', '/', $class));
+}
+
+
+function definePathConstants(Paths $paths): void
+{
+    // The path to the application directory.
+    if (! defined('APPPATH')) {
+        define('APPPATH', realpath(rtrim($paths->appDirectory, '\\/ ')) . DIRECTORY_SEPARATOR);
+    }
+
+    // The path to the project root directory. Just above APPPATH.
+    if (! defined('ROOTPATH')) {
+        define('ROOTPATH', realpath(APPPATH . '../') . DIRECTORY_SEPARATOR);
+    }
+
+    // The path to the writable directory.
+    if (! defined('WRITEPATH')) {
+        $writePath = realpath(rtrim($paths->writableDirectory, '\\/ '));
+
+        if ($writePath === false) {
+            header('HTTP/1.1 503 Service Unavailable.', true, 503);
+            echo 'The WRITEPATH is not set correctly.';
+
+            // EXIT_ERROR is not yet defined
+            exit(1);
+        }
+        define('WRITEPATH', $writePath . DIRECTORY_SEPARATOR);
+    }
 }
