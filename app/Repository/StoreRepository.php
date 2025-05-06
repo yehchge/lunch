@@ -7,6 +7,14 @@ class StoreRepository
     private $pdo;
     private $debug = 1;
 
+    private $perPage;
+    public $pager;
+
+    public $select = '';
+    public $where = '';
+
+    protected $table            = 'lunch_store';
+
     public $StoreStatus = [
         1 => '正常',
         2 => '停用',
@@ -15,6 +23,19 @@ class StoreRepository
 
     public function __construct(Database $db) {
         $this->pdo = $db->getPdo();
+
+        $this->pager = $this;
+    }
+
+    public function query(string $sql, array $params = []): array|false {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            $this->handleError($e->getMessage());
+            return false;
+        }
     }
 
     public function CreateStore($UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$CreateMan='',$Note='') {
@@ -119,6 +140,89 @@ class StoreRepository
             echo "DB Error: $message" . PHP_EOL;
             exit;
         }
+    }
+
+    public function paginate($perPage = 10)
+    { 
+        $request = new CRequest();
+
+        // 取得查詢參數
+        $queryParams = $request->getQueryParams();
+        
+        // 當前頁數
+        $currentPage = $queryParams['page'] ?? 1;
+
+        $offset = ($currentPage - 1) * $perPage;
+
+        $this->perPage = $perPage;
+
+        if ($this->select) {
+            $sql = "SELECT ".$this->select." FROM ".$this->table;    
+        } else {
+            $sql = "SELECT * FROM ".$this->table;
+        }
+
+        if ($this->where) {
+            $sql .= " WHERE ".$this->where;
+        }
+        
+        $sql .= " LIMIT $offset, $perPage";
+
+        $this->pager = $this;
+
+        return $this->query($sql);
+    }
+
+    public function links(){
+
+        $request = new CRequest();
+
+        // 取得查詢參數
+        $queryParams = $request->getQueryParams();
+        
+        // 當前頁數
+        $currentPage = $queryParams['page'] ?? 1;
+    
+        // 總筆數
+        $totalItems = $this->iGetCount();
+
+        // 每頁幾筆
+        $itemsPerPage = $this->perPage;
+
+        $paginator = new Pagebar(
+            $totalItems,
+            $itemsPerPage,
+            (int)$currentPage,
+            BASE_URL.'store/list',
+            $request->withoutPageParam($queryParams)
+        );
+
+        return $paginator->render();
+    }
+
+    public function iGetCount(){
+        $request = new CRequest();
+
+        // 取得查詢參數
+        $queryParams = $request->getQueryParams();
+        
+        // 當前頁數
+        $currentPage = $queryParams['page'] ?? 1;
+
+        $offset = ($currentPage - 1) * $this->perPage;
+
+        $fileds = "COUNT(*) AS total";
+
+        $sql = "SELECT $fileds FROM ".$this->table;
+
+        if ($this->where) {
+            $sql .= " WHERE ".$this->where;
+        }
+        
+        $stmt = $this->queryIterator($sql);
+
+        $row = $this->fetch_assoc($stmt);
+        return $row['total'];
     }
 
 }

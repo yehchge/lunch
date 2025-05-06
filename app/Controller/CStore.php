@@ -20,51 +20,71 @@ class CStore
         $totalItems = $storeRepo->GetAllStoreCount();
 
         // 每頁幾筆
-        $itemsPerPage = 10;
+        $itemsPerPage = 5;
 
-        $paginator = $storeRepo->paginate($itemsPerPage);
 
-        // $paginator = new Paginator(
-        //     $totalItems,
-        //     $itemsPerPage,
-        //     $currentPage,
-        //     BASE_URL.'store/list',
-        //     $request->withoutPageParam($queryParams)
-        // );
+        $request = new CRequest();
+        $searchData  = $request->getGet();
 
-        $startRow = $paginator->offset();
-        $maxRows = $paginator->limit();
-        
-        // 查詢條件可從 $queryParams 帶入
-        $Status = 0;
-        $Name = '';
-        $PayType = 0;
-
-        $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows);
-
-        $items = [];
-        
-        while ($row = $storeRepo->fetch_assoc($rows)) {
-
-            $editdetails = "新增維護";
-            if ($row['Status']==1) {
-                $editdetails = "<a href='".BASE_URL."product/list?id=".$row['RecordID']."'>新增維護</a>";
-            }
-            
-            $items[] = [
-                'storeid' => $row['RecordID'],
-                'status' => $storeRepo->StoreStatus[$row['Status']],
-                'storename' => $row['StoreName'],
-                'tel' => $row['Tel'],
-                'man' => $row['MainMan'],
-                'editdate' => date("Y-m-d",$row['EditDate']),
-                'editdetails' => $editdetails
-            ];
+        $search = '';
+        if (isset($searchData) && isset($searchData['search'])) {
+            $search = $searchData['search'];
         }
 
-        $tpl->assign('items', $items);
+        if ($search == '') {
+            $paginator = $storeRepo->paginate($itemsPerPage);
+        } else {
+            // do something ...
+            
+            // $paginator = new Paginator(
+            //     $totalItems,
+            //     $itemsPerPage,
+            //     $currentPage,
+            //     BASE_URL.'store/list',
+            //     $request->withoutPageParam($queryParams)
+            // );
+
+            $startRow = $paginator->offset();
+            $maxRows = $paginator->limit();
+            
+            // 查詢條件可從 $queryParams 帶入
+            $Status = 0;
+            $Name = '';
+            $PayType = 0;
+
+            $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows);
+        }
+
+
+
+        // $items = [];
+        
+        // while ($row = $storeRepo->fetch_assoc($rows)) {
+
+        //     $editdetails = "新增維護";
+        //     if ($row['Status']==1) {
+        //         $editdetails = "<a href='".BASE_URL."product/list?id=".$row['RecordID']."'>新增維護</a>";
+        //     }
+            
+        //     $items[] = [
+        //         'storeid' => $row['RecordID'],
+        //         'status' => $storeRepo->StoreStatus[$row['Status']],
+        //         'storename' => $row['StoreName'],
+        //         'tel' => $row['Tel'],
+        //         'man' => $row['MainMan'],
+        //         'editdate' => date("Y-m-d",$row['EditDate']),
+        //         'editdetails' => $editdetails
+        //     ];
+        // }
+    
+
+// echo "<pre>";print_r($paginator);echo "</pre>";
+
+
+        $tpl->assign('StoreStatus', $storeRepo->StoreStatus);
+        $tpl->assign('items', $paginator);
         $tpl->assign('totalrows',"共 $totalItems 筆");
-        $tpl->assign('pageselect', $paginator->render());
+        $tpl->assign('pageselect', $storeRepo->links());
         $tpl->assign('title', '店家維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護');
         $tpl->assign('baseUrl', BASE_URL);

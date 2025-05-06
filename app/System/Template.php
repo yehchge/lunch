@@ -174,6 +174,7 @@ class Template
 
         // if / else / endif
         $content = preg_replace("/{$ld}if\s+(.*?){$rd}/", "<?php if ($1): ?>", $content);
+        $content = preg_replace("/{$ld}elseif\s+(.*?){$rd}/", "<?php elseif ($1): ?>", $content);
         $content = preg_replace("/{$ld}else{$rd}/", "<?php else: ?>", $content);
         $content = preg_replace("/{$ld}\/if{$rd}/", "<?php endif; ?>", $content);
 
