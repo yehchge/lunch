@@ -2,6 +2,8 @@
 
 declare(strict_types=1); // 嚴格類型
 
+define('CI_START', microtime(true));
+
 header('Content-Type: text/html; charset=utf-8');
 
 require 'app/Config/Config.php';
@@ -21,8 +23,6 @@ try{
     $action = $router->action();
     $params = $router->params();
 
-// echo "func = $func , action = $action";exit;
-
     // 產生本程式功能內容
     $tpl = new Template("app/Views");
 
@@ -31,7 +31,6 @@ try{
     $sController = '';
 
     $requestUri = trim($func.'/'.$action, '/');
-// echo $requestUri;exit;
 
     $matched = false;
 

@@ -22,6 +22,7 @@ use Lunch\System\DotEnv;
 // echo getenv('LUNCH_ENV');echo "<br>";
 // echo getenv("DATABASE_HOST");exit;
 
+require PATH_ROOT.'/app/Config/App.php';
 require PATH_ROOT.'/app/Helpers/service.php';
 require PATH_ROOT.'/app/Config/Paths.php';
 
@@ -42,12 +43,8 @@ require PATH_ROOT.'/app/System/Router.php';
 require PATH_ROOT.'/app/System/CRequest.php';
 require PATH_ROOT.'/app/System/CResponse.php';
 
-
-
-
 $Paths = new Paths();
 definePathConstants($Paths);
-
 
 function dd($data)
 {
