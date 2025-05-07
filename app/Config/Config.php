@@ -25,6 +25,10 @@ use Lunch\System\DotEnv;
 require PATH_ROOT.'/app/Config/App.php';
 require PATH_ROOT.'/app/Helpers/service.php';
 require PATH_ROOT.'/app/Config/Paths.php';
+require PATH_ROOT.'/app/System/Events.php';
+
+require PATH_ROOT.'/app/Config/Events.php';
+Events::trigger('pre_system');
 
 require PATH_ROOT.'/app/System/DebugConsole.php';
 require PATH_ROOT.'/app/System/Database.php';

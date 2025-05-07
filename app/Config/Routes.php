@@ -6,6 +6,7 @@
 
 return [
     '' => ['Home', 'index', false],
+    'maintenance' => ['Maintenance', 'index', false], // 4. 維護頁練習
     'welcome' => ['Home', 'welcome', false], // 3. CodeIgniter 3 Version Page
     'smarty' => ['SmartyController', 'index', false], // Smarty
     'pagination' => ['PaginationController', 'index', false], // 分頁練習
