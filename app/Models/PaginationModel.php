@@ -14,6 +14,7 @@ class PaginationModel
     public $pager;
     public $select = '';
     public $where = '';
+    public $segment = 0;
 
     protected $table            = 'pagination_users';
     protected $primaryKey       = 'id';
@@ -69,15 +70,52 @@ class PaginationModel
         return $this;
     }
 
-    public function paginate($perPage = 10)
-    { 
+    public function iGetPageByURI($segment)
+    {
+        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+        $basePath = rtrim(dirname($scriptName), '/');
+
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+        $path = parse_url($requestUri, PHP_URL_PATH);
+
+        // 去掉專案根目錄
+        if(str_starts_with($path, $basePath)) {
+            $path = substr($path, strlen($basePath));
+        } else {
+            $path = $requestUri;
+        }
+        $path = trim($path, '/');
+
+        // 如果還有 index.php/ 開頭，把它移除（支援 index.php/about/contact）
+        if (str_starts_with($path, 'index.php')) {
+            $path = ltrim(substr($path, strlen('index.php')), '/');
+        }
+
+        $path = trim($path, '/');
+
+        if ($path) $segments = explode('/', $path);
+        else $segments = [];
+
+        // 當前頁數
+        $currentPage = $segments[$segment-1] ?? 1;
+        return $currentPage;
+    }
+
+    public function paginate($perPage = 10, $group = 'default', $setPage = null, $segment = 0)
+    {
+        $this->segment = $segment;
+
         $request = new CRequest();
 
         // 取得查詢參數
         $queryParams = $request->getQueryParams();
-        
+
         // 當前頁數
         $currentPage = $queryParams['page'] ?? 1;
+
+        if ($segment) {
+            $currentPage = $this->iGetPageByURI($segment);
+        }
 
         $offset = ($currentPage - 1) * $perPage;
 
@@ -144,6 +182,11 @@ class PaginationModel
     }
 
     public function links(){
+        $router = new Router();
+
+        $func = $router->func();
+        $action = $router->action();
+        $params = $router->params();
 
         $request = new CRequest();
 
@@ -152,6 +195,12 @@ class PaginationModel
         
         // 當前頁數
         $currentPage = $queryParams['page'] ?? 1;
+        $mode = 'query';
+
+        if ($this->segment) {
+            $currentPage = $this->iGetPageByURI($this->segment);
+            $mode = 'uri';
+        }
         
         // 總筆數
         $totalItems = $this->iGetCount();
@@ -163,8 +212,10 @@ class PaginationModel
             $totalItems,
             $itemsPerPage,
             $currentPage,
-            BASE_URL.'loadRecord',
-            $request->withoutPageParam($queryParams)
+            // BASE_URL.'loadRecord',
+            BASE_URL.$func,
+            $request->withoutPageParam($queryParams),
+            ['mode' => $mode]
         );
 
         return $paginator->render();

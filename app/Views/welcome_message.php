@@ -18,7 +18,7 @@
             <li><a href='./smarty'>Smarty</a></li>
             <li><a href='./welcome'>CodeIgniter3 Welcome Page</a></li>
             <li><a href='./maintenance'>Maintenance</a></li>
-            <li><a href=''>&nbsp;</a></li>
+            <li><a href='./pgusers'>Pgusers</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>

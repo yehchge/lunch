@@ -6,11 +6,7 @@
 
 return [
     '' => ['Home', 'index', false],
-    'maintenance' => ['Maintenance', 'index', false], // 4. 維護頁練習
-    'welcome' => ['Home', 'welcome', false], // 3. CodeIgniter 3 Version Page
-    'smarty' => ['SmartyController', 'index', false], // Smarty
-    'pagination' => ['PaginationController', 'index', false], // 分頁練習
-    'loadRecord' => ['PaginationController', 'loadRecord', false], // 分頁練習
+
     // 'home/index' => ['Home', 'index', true], // 需要登入
     'store/list' => ['CStore', 'list', true],
     'store/add' => ['CStore', 'add', true],
@@ -37,6 +33,25 @@ return [
     'order/update' => ['COrder', 'update', true],
     'login' => ['CLogin', 'index', false],  // 不需要登入
     'logout' => ['CLogout', 'index', false], // 不需要登入
+
+    // 6. Pagination Specifying the URI Segment for Page
+    'pgusers/(:segment)' => ['PaginationController', 'getAll', false],
+    'pgusers' => ['PaginationController', 'getAll', false],
+
+    // 5. maintenance Page
+    'maintenance' => ['Maintenance', 'index', false], // 4. 維護頁練習
+
+    // 4. Smarty sample
+    'smarty' => ['SmartyController', 'index', false], // Smarty
+
+    // 3. CodeIgniter 3 Version Page
+    'welcome' => ['Home', 'welcome', false], // 3. CodeIgniter 3 Version Page
+
+    // 2. Pagination with search filter (Pagination sample)
+    'pagination' => ['PaginationController', 'index', false], // 分頁練習
+    'loadRecord' => ['PaginationController', 'loadRecord', false], // 分頁練習
+
+    // 1. Static Pages
     'pages' => ['Pages', 'index', false],
     '(:segment)' => ['Pages', 'view', false]
 ];

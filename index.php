@@ -35,7 +35,9 @@ try{
     $matched = false;
 
     foreach ($routes as $route => [$controller, $method, $needAuth]) {
-        $pattern = "@^" . $route . "$@";
+        $routeRep = preg_replace('/\(:segment\)/i', '\w+', $route);
+
+        $pattern = "@^" . $routeRep . "$@";
         if (preg_match($pattern, $requestUri, $matches)) {
             $matched = true;
 
@@ -49,39 +51,13 @@ try{
             }
 
             $controllerFile = PATH_ROOT."/app/Controller/{$controller}.php";
-            if (file_exists($controllerFile)){
-                //include, new target controller, and run method
-                require_once $controllerFile; //include controller.php
-                $instance = new $controller();  //new target controller
 
-                if (method_exists($controller, $method)) {
-                    call_user_func_array([$instance, $method], $params);
-                    break;
-                } else {
-                    http_response_code(404);
-                    echo "404 - Method '{$method}' not found.";
-                }
-            } else {
-                http_response_code(404);
-                echo "404 - Controller '{$controller}' not found.";
+            if (preg_match("/\(:segment\)/i", $route)) {
+                $params = [$func];
             }
-        }
 
-        elseif (preg_match("/\(:segment\)/i", $route)) {
-            $matched = true;
-            
-            // if ($needAuth) {
-            //     // 檢查使用者有沒有登入
-            //     if (!$auth->check()) {
-            //         $_SESSION['refer'] = $_SERVER['REQUEST_URI'] ?? '';
-            //         header("Location: ".BASE_URL."login");
-            //         exit;
-            //     }
-            // }
-
-            $params = [$func];
-            $controllerFile = PATH_ROOT."/app/Controller/{$controller}.php";
             if (file_exists($controllerFile)){
+
                 //include, new target controller, and run method
                 require_once $controllerFile; //include controller.php
                 $instance = new $controller();  //new target controller

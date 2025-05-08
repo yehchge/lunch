@@ -34,6 +34,7 @@ class Pagebar
             'dots_class' => 'dots',
             'prev_text' => '« Previous',
             'next_text' => 'Next »',
+            'mode' => 'query',
         ], $options);
     }
 
@@ -54,8 +55,19 @@ class Pagebar
 
     protected function buildUrl(int $page): string
     {
-        $params = array_merge($this->queryParams, ['page' => $page]);
-        return $this->baseUrl . '?' . http_build_query($params);
+        $mode = $this->options['mode'];
+
+        if ($mode === 'uri') {
+            // URI 模式：如 /index.php/3
+            $url = rtrim($this->baseUrl, '/') . '/' . $page;
+            if (!empty($this->queryParams)) {
+                $url .= '?' . http_build_query($this->queryParams);
+            }
+            return $url;
+        } else {
+            $params = array_merge($this->queryParams, ['page' => $page]);
+            return $this->baseUrl . '?' . http_build_query($params);
+        }
     }
 
     public function render(): string

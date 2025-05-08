@@ -4,10 +4,8 @@
  * 註冊事件
  */
 
-
 // 維護功能
 require PATH_ROOT."/app/ThirdParty/MyMaintenance.php";
-
 
 // 維護
 $MyMaintenance = new MyMaintenance();
