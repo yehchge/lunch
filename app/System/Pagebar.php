@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 列表分頁 Pagebar
+ * 列表分頁 Pagebar(default)
  */
 
 class Pagebar
@@ -11,8 +11,12 @@ class Pagebar
     protected int $currentPage;
     protected string $baseUrl;
     protected array $queryParams;
-    protected int $maxVisibleLinks = 7;
     protected array $options = [];
+    protected int $surroundCount = 2; // 環繞數量
+
+    public array $templates = [
+        'custom_view' => 'app/Views/layouts/custom_pagination', // custom_pagination
+    ];
 
     public function __construct(
         int $totalItems,
@@ -32,8 +36,10 @@ class Pagebar
             'active_class' => 'active',
             'disabled_class' => 'disabled',
             'dots_class' => 'dots',
-            'prev_text' => '« Previous',
-            'next_text' => 'Next »',
+            // 'prev_text' => '« Previous',
+            'prev_text' => 'Previous',
+            // 'next_text' => 'Next »',
+            'next_text' => 'Next',
             'mode' => 'query',
         ], $options);
     }
@@ -70,8 +76,57 @@ class Pagebar
         }
     }
 
-    public function render(): string
+    private function renderFile(string $view, array $data = [])
     {
+        $data = [
+            'page' => $this->page,
+            'perPage' => $this->perPage,
+            'total' => $this->total,
+            'pager' => $this
+        ];
+
+        // 設定 views 的資料夾路徑
+        $viewPath = PATH_ROOT . '/' . $view . '.php';
+
+
+        if (!file_exists($viewPath)) {
+            http_response_code(404);
+            echo "View '{$viewName}' not found.";
+            return;
+        }
+
+        extract($data);
+        $engine = $this;
+        ob_start();
+        include $viewPath;
+        // ob_end_clean();
+
+        // 取得緩衝內容
+        $output = ob_get_clean();
+        return $output;
+
+        // 沒有 layout，就直接輸出
+        // include $viewPath;
+
+        // if ($this->layout) {
+        //     $layoutPath = __DIR__ . '/views/' . $this->layout . '.php';
+        //     if (file_exists($layoutPath)) {
+        //         include $layoutPath;
+        //     } else {
+        //         die("Layout '{$this->layout}' not found.");
+        //     }
+        // } else {
+        //     // 沒有 layout，就直接輸出
+        //     include $viewPath;
+        // }
+    }
+
+    public function render(string $view = '', array $data = []): string
+    {
+        if ($view) {
+            return $this->renderFile($view, $data);
+        }
+
         $totalPages = $this->totalPages();
         if ($totalPages <= 1) return '';
 
@@ -79,54 +134,121 @@ class Pagebar
         $html = '<nav aria-label="Page navigation">';
         $html .= '<ul class="' . $o['container_class'] . '" role="list">';
 
-        // 上一頁
-        if ($this->currentPage > 1) {
+
+        $range = $this->getVisiblePageRange($totalPages);
+
+
+        if ($this->hasPrevious()) {
+            // 第一頁
+            $html .= sprintf('<li><a href="%s" aria-label="First">First</a></li>',
+                $this->buildUrl(1)
+            );
+
+
+            // 上一頁
             $html .= sprintf('<li><a href="%s" aria-label="Previous">%s</a></li> ',
                 $this->buildUrl($this->currentPage - 1),
                 $o['prev_text']
             );
         }
 
-        $range = $this->getVisiblePageRange($totalPages);
-
-        if ($range['start'] > 1) {
-            if ($range['start'] > 2) {
-                $html .= sprintf('<li><a href="%s" aria-label="First">1</a></li>',
-                    $this->buildUrl(1)
-                );
-
-                $html .= '<span class="' . $o['dots_class'] . '">…</span> ';
-            }else{
-                $html .= $this->link(1);
-            }
-        }
-
         for ($i = $range['start']; $i <= $range['end']; $i++) {
             $html .= $this->link($i);
         }
 
-        if ($range['end'] < $totalPages) {
-            if ($range['end'] < $totalPages - 1) {
-                $html .= '<span class="' . $o['dots_class'] . '">…</span> ';
-            }
-            $html .= sprintf('<li><a href="%s" aria-label="Last">%d</a></li> ',
-                $this->buildUrl($totalPages),
-                $totalPages
-            );
-
-        }
-
-        // 下一頁
-        if ($this->currentPage < $totalPages) {
+        if ($this->hasNext()) {
+            // 下一頁
             $html .= sprintf('<li><a href="%s" aria-label="Next">%s</a></li> ',
                 $this->buildUrl($this->currentPage + 1),
                 $o['next_text']
             );
+
+            // // 最後一頁
+            // if ($range['end'] < $totalPages) {
+                $html .= sprintf('<li><a href="%s" aria-label="Last">Last</a></li> ',
+                    $this->buildUrl($totalPages),
+                    $totalPages
+                );
+            // }
         }
+
+
+
 
         $html .= "</ul>";
         $html .= '</nav>';
         return $html;
+    }
+
+    public function links(){
+        return $this->render();
+    }
+
+    public function linksCustom()
+    {
+        // [
+        //     'active' => 'active',
+        //     'uri' => '',
+        //     'title' => 5, // page
+        // ];
+
+
+        $results = [];
+
+        $totalPages = $this->totalPages();
+        if ($totalPages <= 1) return [];
+
+        $o = $this->options;
+
+        $range = $this->getVisiblePageRange($totalPages);
+
+        // if ($this->hasPrevious()) {
+        //     if ($range['start'] > 2) {
+        //         $results[] = [
+        //             'active' => '',
+        //             'uri' =>  $this->buildUrl(1),
+        //             'title' => 1, // page
+        //         ];
+        //     }else{
+        //         $isActive = (1 === $this->currentPage);
+        //         $active = '';
+        //         if ($isActive) $active = 'active';
+
+        //         $results[] = [
+        //             'active' => $active,
+        //             'uri' =>  $this->buildUrl(1),
+        //             'title' => 1, // page
+        //         ];
+        //     }
+        // }
+
+        for ($i = $range['start']; $i <= $range['end']; $i++) {
+
+            $isActive = ($i === $this->currentPage);
+            $active = '';
+            if ($isActive) $active = 'active';
+
+            $results[] = [
+                'active' => $active,
+                'uri' =>  $this->buildUrl($i),
+                'title' => $i, // page
+            ];
+        }
+
+        // if ($range['end'] < $totalPages) {
+
+        //     $isActive = ($totalPages === $this->currentPage);
+        //     $active = '';
+        //     if ($isActive) $active = 'active';
+
+        //     $results[] = [
+        //         'active' => $active,
+        //         'uri' =>  $this->buildUrl($totalPages),
+        //         'title' => $totalPages, // page
+        //     ];
+        // }
+
+        return $results;
     }
 
     protected function link(int $page): string
@@ -147,16 +269,115 @@ class Pagebar
         }
     }
 
+
+    public function setSurroundCount(?int $count = null)
+    {
+        $this->surroundCount = $count;
+
+        $totalPages = $this->totalPages();
+        $this->getVisiblePageRange($totalPages);
+
+        // $this->updatePages($count);
+
+        return $this;
+    }
+
     protected function getVisiblePageRange(int $totalPages): array
     {
-        $half = (int) floor($this->maxVisibleLinks / 2);
+        $half = (int) $this->surroundCount;
         $start = max(1, $this->currentPage - $half);
-        $end = min($totalPages, $start + $this->maxVisibleLinks - 1);
+        $end = min($totalPages, $this->currentPage + $half);
 
-        if ($end - $start + 1 < $this->maxVisibleLinks) {
-            $start = max(1, $end - $this->maxVisibleLinks + 1);
+        if ($end - $start + 1 < ($half * 2)) {
+            $start = max(1, $end - ($half * 2) + 1);
         }
 
         return ['start' => $start, 'end' => $end];
+    }
+
+
+    /**
+     * Allows for a simple, manual, form of pagination where all of the data
+     * is provided by the user. The URL is the current URI.
+     *
+     * @param string      $template The output template alias to render.
+     * @param int         $segment  (whether page number is provided by URI segment)
+     * @param string|null $group    optional group (i.e. if we'd like to define custom path)
+     */
+    public function makeLinks(int $page, ?int $perPage, int $total, string $template = 'default_full', int $segment = 0, ?string $group = 'default'): string
+    {
+        $this->page = $page;
+        $this->perPage = $perPage;
+        $this->total = $total;
+
+        return $this->displayLinks($group, $template);
+    }
+
+
+
+
+    /**
+     * Does the actual work of displaying the view file. Used internally
+     * by links(), simpleLinks(), and makeLinks().
+     */
+    protected function displayLinks(string $group, string $template): string
+    {
+        return $this->render($this->templates[$template]);
+    }
+
+    public function hasPrevious()
+    {
+        return ($this->currentPage > ($this->surroundCount + 1))?true:false;
+    }
+
+    public function getFirst()
+    {
+        return $this->buildUrl(1);
+    }
+
+    public function getPrevious()
+    {
+        return $this->buildUrl($this->currentPage - 1);
+    }
+
+    public function hasNext()
+    {
+        $totalPages = $this->totalPages();
+        if (($this->currentPage + $this->surroundCount) < $totalPages) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getNext()
+    {
+        return $this->buildUrl($this->currentPage + 1);
+    }
+
+    public function getLast()
+    {
+        $totalPages = $this->totalPages();
+        return $this->buildUrl($totalPages);
+    }
+
+    public function getPerPageStart()
+    {
+        return  $this->offset() + 1;
+    }
+
+    public function getPerPageEnd()
+    {
+        $endItem = $this->limit() + $this->offset();
+        if ($endItem > $this->totalItems) {
+            $endItem = $this->totalItems;
+        }
+
+        return $endItem;
+    }
+
+    public function getTotal()
+    {
+        // 總筆數
+        return $this->totalItems;
     }
 }

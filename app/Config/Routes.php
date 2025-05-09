@@ -34,6 +34,9 @@ return [
     'login' => ['CLogin', 'index', false],  // 不需要登入
     'logout' => ['CLogout', 'index', false], // 不需要登入
 
+    // 7. Custom Pagination
+    'codestar' => ['Main', 'index', false],
+
     // 6. Pagination Specifying the URI Segment for Page
     'pgusers/(:segment)' => ['PaginationController', 'getAll', false],
     'pgusers' => ['PaginationController', 'getAll', false],
