@@ -24,6 +24,7 @@ use Lunch\System\DotEnv;
 
 require PATH_ROOT.'/app/Config/App.php';
 require PATH_ROOT.'/app/Helpers/service.php';
+require PATH_ROOT.'/app/Helpers/session_helper.php';
 
 require PATH_ROOT.'/app/System/ViewEngine.php';
 
@@ -46,6 +47,7 @@ require PATH_ROOT.'/app/Repository/ManagerRepository.php';
 require PATH_ROOT.'/app/System/Model.php';
 require PATH_ROOT.'/app/Models/PaginationModel.php';
 require PATH_ROOT.'/app/Models/DummyTableModel.php';
+require PATH_ROOT.'/app/Models/NewsModel.php';
 
 require PATH_ROOT.'/app/System/JavaScript.php';
 require PATH_ROOT.'/app/System/Template.php';

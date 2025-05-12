@@ -34,6 +34,12 @@ return [
     'login' => ['CLogin', 'index', false],  // 不需要登入
     'logout' => ['CLogout', 'index', false], // 不需要登入
 
+    // 8. News Section
+    'news' => ['News', 'index', false],
+    'news/new' => ['News', 'new', false],
+    'news/create' => ['News', 'create', false],
+    'news/(:segment)' => ['News', 'show', false],
+
     // 7. Custom Pagination
     'codestar' => ['Main', 'index', false],
 

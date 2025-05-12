@@ -44,14 +44,55 @@ class Model
         return $this;
     }
 
+    public function where(array $data)
+    {
+        $myData = [];
+
+        foreach($data as $field => $value){
+            array_push($myData, "$field = '$value'");
+        }
+
+        $columns = implode(' AND ', $myData);
+
+        if (!$this->where) {
+            $this->where = $columns;
+        } else {
+            $this->where .= ' AND '.$columns;
+        }
+        return $this;
+    }
+
     public function orLike($field, $value)
     {
-        if(!$this->where) {
+        if (!$this->where) {
             $this->where = "$field LIKE '%$value%'";
         } else {
             $this->where .= " OR $field LIKE '%$value%'";
         }
         return $this;
+    }
+
+
+    public function first()
+    {
+        if ($this->select) {
+            $sql = "SELECT ".$this->select." FROM ".$this->table;
+        } else {
+            $sql = "SELECT * FROM ".$this->table;
+        }
+
+        if ($this->where) {
+            $sql .= " WHERE ".$this->where;
+        }
+
+        try {
+            $stmt = $this->queryIterator($sql);
+            $row = $this->fetch_assoc($stmt);
+            return $row;
+        } catch (PDOException $e) {
+            $this->handleError($e->getMessage());
+            return false;
+        }
     }
 
     public function paginate($perPage = 10, $group = 'default', $setPage = null, $segment = 0)
@@ -205,6 +246,35 @@ class Model
         // 當前頁數
         $currentPage = $segments[$segment-1] ?? 1;
         return $currentPage;
+    }
+
+    public function findAll() {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM ".$this->table);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            $this->handleError($e->getMessage());
+            return false;
+        }
+    }
+
+    public function save(array $data): bool {
+        $table = $this->table;
+        $columns = implode(',', array_keys($data));
+        $placeholders = implode(',', array_fill(0, count($data), '?'));
+        $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
+        return $this->execute($sql, array_values($data));
+    }
+
+    public function execute(string $sql, array $params = []): bool {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute($params);
+        } catch (PDOException $e) {
+            $this->handleError($e->getMessage());
+            return false;
+        }
     }
 
 }

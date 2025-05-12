@@ -35,9 +35,10 @@ try{
     $matched = false;
 
     foreach ($routes as $route => [$controller, $method, $needAuth]) {
-        $routeRep = preg_replace('/\(:segment\)/i', '\w+', $route);
+        $routeRep = preg_replace('/\(:segment\)/i', '.*?', $route);
 
         $pattern = "@^" . $routeRep . "$@";
+
         if (preg_match($pattern, $requestUri, $matches)) {
             $matched = true;
 
@@ -53,7 +54,12 @@ try{
             $controllerFile = PATH_ROOT."/app/Controller/{$controller}.php";
 
             if (preg_match("/\(:segment\)/i", $route)) {
-                $params = [$func];
+                $uri = explode('/', $route);
+                if (preg_match("/\(:segment\)/i", $uri[0])) {
+                    $params = [$func];
+                } elseif (preg_match("/\(:segment\)/i", $uri[1])) {
+                    $params = [$action];
+                }
             }
 
             if (file_exists($controllerFile)){

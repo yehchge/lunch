@@ -41,4 +41,9 @@ class CRequest
     {
         return $_GET;
     }
+
+    public function getPost()
+    {
+        return $_POST;
+    }
 }
