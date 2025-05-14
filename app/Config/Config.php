@@ -25,6 +25,7 @@ use Lunch\System\DotEnv;
 require PATH_ROOT.'/app/Config/App.php';
 require PATH_ROOT.'/app/Helpers/service.php';
 require PATH_ROOT.'/app/Helpers/session_helper.php';
+require PATH_ROOT.'/app/System/File.php';
 
 require PATH_ROOT.'/app/System/ViewEngine.php';
 

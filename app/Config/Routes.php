@@ -34,6 +34,10 @@ return [
     'login' => ['CLogin', 'index', false],  // 不需要登入
     'logout' => ['CLogout', 'index', false], // 不需要登入
 
+    // 9. Working with Uploaded Files
+    'upload' => ['Upload', 'index', false],         // Add this line.
+    'upload/upload' => ['Upload', 'upload', false], // Add this line.
+
     // 8. News Section
     'news' => ['News', 'index', false],
     'news/new' => ['News', 'new', false],

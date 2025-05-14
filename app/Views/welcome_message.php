@@ -22,7 +22,7 @@
             <li><a href='./codestar'>CodeStar</a></li>
             <li><a href='./news'>News List</a></li>
             <li><a href='./news/new'>Add News</a></li>
-            <li><a href=''>&nbsp;</a></li>
+            <li><a href='./upload'>Upload</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>

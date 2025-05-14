@@ -6,3 +6,6 @@
 #-------------------------
 writable/smarty/*
 !writable/smarty/index.html
+
+writable/uploads/*
+!writable/uploads/index.html
