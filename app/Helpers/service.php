@@ -1,5 +1,11 @@
 <?php
 
+// 全局輔助函數
+function model($class) {
+    global $container; // 假設容器是全局單例
+    return $container->make($class);
+}
+
 function service(string $name)
 {
     if (!class_exists('Services')) {

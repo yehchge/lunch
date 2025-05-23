@@ -4,42 +4,6 @@
  * Routes
  */
 
-
-$routes = new Router();
-
-$routes->get('', 'Home::index', false);
-
-$routes->get('news', [News::class, 'index'], false);
-$routes->get('news/new', [News::class, 'new'], false);
-$routes->post('news/create', [News::class, 'create'], false);
-$routes->get('news/(:segment)', [News::class, 'show'], false);
-
-$routes->get('employee', 'Employee::index', false);
-$routes->get('employee/(:segment)', 'Employee::show/$1', false);
-$routes->post('employee', 'Employee::create', false);
-$routes->put('employee/(:segment)', 'Employee::update/$1', false);
-$routes->delete('employee/(:segment)', 'Employee::delete/$1', false);
-
-
-
-
-
-// 2. Pagination with search filter (Pagination sample)
-$routes->get('pagination', [PaginationController::class, 'index'], false); // 分頁練習
-$routes->get('loadRecord', [PaginationController::class, 'loadRecord'], false); // 分頁練習
-
-// 1. Static Pages
-$routes->get('pages', [Pages::class, 'index'], false);
-$routes->get('(:segment)', [Pages::class, 'view'], false);
-
-
-return $routes;
-
-
-
-
-
-
 return [
     '' => ['Home', 'index', false],
 

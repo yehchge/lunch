@@ -52,6 +52,14 @@ class CResponse
         }
     }
 
+    public function respond(array $data, int $status = 200): void
+    {
+        $this->setHeader('Content-Type', 'application/json; charset=UTF-8')
+            ->setStatus($status)
+            ->setBody(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT))
+            ->send();
+    }
+
     public function json(array $data, int $status = 200): void
     {
         $this->setHeader('Content-Type', 'application/json; charset=UTF-8')
@@ -63,6 +71,11 @@ class CResponse
     public function fail(string $message, int $status = 400, array $errors = []): void
     {
         $this->json(['error' => $message, 'details' => $errors], $status);
+    }
+
+    public function failNotFound(string $message, int $status = 404): void
+    {
+        $this->json(['status' => $status, 'error' => $status, 'messages' => ['error' => $message]], $status);
     }
 
     public function redirect($url, $status = 302)

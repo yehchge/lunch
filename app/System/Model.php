@@ -14,6 +14,7 @@ class Model
 
     private $select = '';
     private $where = '';
+    private $order = '';
 
     public function __construct()
     {
@@ -44,21 +45,32 @@ class Model
         return $this;
     }
 
-    public function where(array $data)
+    public function where($key, $value = '')
     {
-        $myData = [];
+        if(is_array($key)){
+            $data = $key;
 
-        foreach($data as $field => $value){
-            array_push($myData, "$field = '$value'");
+            $myData = [];
+
+            foreach($data as $field => $value){
+                array_push($myData, "$field = '$value'");
+            }
+
+            $columns = implode(' AND ', $myData);
+
+            if (!$this->where) {
+                $this->where = $columns;
+            } else {
+                $this->where .= ' AND '.$columns;
+            }
+        }else{
+            if (!$this->where) {
+                $this->where = "$key = '$value'";
+            } else {
+                $this->where .= ' AND '."$key = '$value'";
+            }
         }
 
-        $columns = implode(' AND ', $myData);
-
-        if (!$this->where) {
-            $this->where = $columns;
-        } else {
-            $this->where .= ' AND '.$columns;
-        }
         return $this;
     }
 
@@ -68,6 +80,16 @@ class Model
             $this->where = "$field LIKE '%$value%'";
         } else {
             $this->where .= " OR $field LIKE '%$value%'";
+        }
+        return $this;
+    }
+
+    public function orderBy($field, $value)
+    {
+        if (!$this->order) {
+            $this->order = "ORDER BY $field $value";
+        } else {
+            $this->order .= " ORDER BY $field $value";
         }
         return $this;
     }
@@ -83,6 +105,10 @@ class Model
 
         if ($this->where) {
             $sql .= " WHERE ".$this->where;
+        }
+
+        if ($this->order) {
+            $sql .= ' '.$this->order;
         }
 
         try {
@@ -125,6 +151,10 @@ class Model
             $sql .= " WHERE ".$this->where;
         }
 
+        if ($this->order) {
+            $sql .= ' '.$this->order;
+        }
+
         $sql .= " LIMIT $offset, $perPage";
 
         $this->pager = $this->getPagebar();
@@ -149,6 +179,10 @@ class Model
 
         if ($this->where) {
             $sql .= " WHERE ".$this->where;
+        }
+
+        if ($this->order) {
+            $sql .= ' '.$this->order;
         }
 
         $stmt = $this->queryIterator($sql);
@@ -180,8 +214,8 @@ class Model
         $router = new Router();
 
         $func = $router->func();
-        $action = $router->action();
-        $params = $router->params();
+        // $action = $router->action();
+        // $params = $router->params();
 
         $request = new CRequest();
 
@@ -250,9 +284,23 @@ class Model
 
     public function findAll() {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM ".$this->table);
+            if ($this->select) {
+                $sql = "SELECT ".$this->select." FROM ".$this->table;
+            } else {
+                $sql = "SELECT * FROM ".$this->table;
+            }
+
+            if ($this->where) {
+                $sql .= " WHERE ".$this->where;
+            }
+
+            if ($this->order) {
+                $sql .= ' '.$this->order;
+            }
+
+            $stmt = $this->pdo->prepare($sql);
             $stmt->execute();
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->handleError($e->getMessage());
             return false;
