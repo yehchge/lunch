@@ -21,7 +21,12 @@ $routes->put('employee/(:segment)', 'Employee::update/$1', false);
 $routes->delete('employee/(:segment)', 'Employee::delete/$1', false);
 
 
+// 4. Smarty sample
+$routes->get('smarty', [SmartyController::class, 'index'], false); // Smarty
 
+
+// 3. CodeIgniter 3 Version Page
+$routes->get('welcome', [Home::class, 'welcome'], false); // 3. CodeIgniter 3 Version Page
 
 
 // 2. Pagination with search filter (Pagination sample)
