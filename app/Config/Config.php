@@ -24,7 +24,7 @@ spl_autoload_register(function ($className) {
         require $file;
     } else {
         // 可選：拋出異常或記錄錯誤
-        throw new Exception("Class $className not found in $file");
+        // throw new Exception("Class $className not found in $file");
     }
 });
 
@@ -39,6 +39,12 @@ use Lunch\System\DotEnv;
 // echo getenv('LUNCH_ENV');echo "<br>";
 // echo getenv("DATABASE_HOST");exit;
 
+require PATH_ROOT.'/app/Config/App.php';
+require PATH_ROOT.'/app/Helpers/service.php';
+require PATH_ROOT.'/app/Helpers/session_helper.php';
+
+
+
 require PATH_ROOT.'/app/System/Container.php';
 
 // 初始化容器
@@ -47,9 +53,7 @@ $container = new Container();
 // 綁定 EmployeeModel（可選，容器會自動解析）
 $container->bind(EmployeeModel::class, EmployeeModel::class);
 
-require PATH_ROOT.'/app/Config/App.php';
-require PATH_ROOT.'/app/Helpers/service.php';
-require PATH_ROOT.'/app/Helpers/session_helper.php';
+
 require PATH_ROOT.'/app/System/File.php';
 
 require PATH_ROOT.'/app/System/ViewEngine.php';
