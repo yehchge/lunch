@@ -108,10 +108,6 @@ class CProduct
     // 顯示編輯表單
     public function edit()
     {
-        if ($_POST){
-            return $this->update();
-        }
-
         $db = new Database();
         $productRepo = new ProductRepository($db);
 

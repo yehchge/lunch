@@ -37,6 +37,8 @@ class Router
 
     public function dispatch()
     {
+        global $auth;
+        
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
@@ -59,11 +61,18 @@ class Router
                 [$controller, $method] = $this->resolveHandler($route['handler'], $matches);
 
                 if ($route['auth']) {
-                    session_start();
-                    if (empty($_SESSION['user'])) {
-                        header('Location: /login');
+                    // session_start();
+                    // if (empty($_SESSION['user'])) {
+                    //     header('Location: /login');
+                    //     exit;
+                    // }
+                    // 檢查使用者有沒有登入
+                    if (!$auth->check()) {
+                        $_SESSION['refer'] = $_SERVER['REQUEST_URI'] ?? '';
+                        header("Location: ".BASE_URL."login");
                         exit;
                     }
+
                 }
 
                 require_once PATH_ROOT."/app/Controllers/{$controller}.php";

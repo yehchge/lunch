@@ -11,45 +11,30 @@ $routes = new Router();
 // $routes->get('home/index', [Home::class, 'index'], true); // 需要登入
 $routes->get('store/list', [CStore::class, 'list'], true);
 $routes->get('store/add', [CStore::class, 'add'], true);
-$routes->get('store/create', [CStore::class, 'create'], true);
+$routes->post('store/create', [CStore::class, 'create'], true);
 $routes->get('store/edit', [CStore::class, 'edit'], true);
-$routes->get('store/update', [CStore::class, 'update'], true);
+$routes->post('store/update', [CStore::class, 'update'], true);
 $routes->get('store/show', [CStore::class, 'show'], true);
 $routes->get('store/assign', [CStore::class, 'assign'], true);
 $routes->get('store/assigned', [CStore::class, 'assigned'], true);
-$routes->get('store/listAssign', [CStore::class, 'listAssign'], true);
-$routes->get('store/editStatus', [CStore::class, 'editStatus'], true);
-$routes->get('store/editStatused', [CStore::class, 'editStatused'], true);
+$routes->get('store/list_assign', [CStore::class, 'listAssign'], true);
+$routes->get('store/edit_status', [CStore::class, 'editStatus'], true);
+$routes->post('store/edit_status', [CStore::class, 'editStatus'], true);
 $routes->get('product/list', [CProduct::class, 'list'], true);
-$routes->get('product/add', [CProduct::class, 'add'], true);
+$routes->post('product/add', [CProduct::class, 'add'], true);
 $routes->get('product/edit', [CProduct::class, 'edit'], true);
-$routes->get('product/update', [CProduct::class, 'update'], true);
-$routes->get('product/listStore', [CProduct::class, 'listStore'], true);
+$routes->post('product/update', [CProduct::class, 'update'], true);
+$routes->get('product/list_store', [CProduct::class, 'listStore'], true);
 $routes->get('manager/list', [CManager::class, 'list'], true);
-$routes->get('manager/listOrder', [CManager::class, 'listOrder'], true);
+$routes->get('manager/list_order', [CManager::class, 'listOrder'], true);
 $routes->get('order/list', [COrder::class, 'list'], true);
 $routes->get('order/add', [COrder::class, 'add'], true);
-$routes->get('order/create', [COrder::class, 'create'], true);
+$routes->post('order/add', [COrder::class, 'add'], true);
 $routes->get('order/edit', [COrder::class, 'edit'], true);
-$routes->get('order/update', [COrder::class, 'update'], true);
+$routes->post('order/edit', [COrder::class, 'edit'], true);
 $routes->get('login', [CLogin::class, 'index'], false);   // 不需要登入
+$routes->post('login', [CLogin::class, 'index'], false);   // 不需要登入
 $routes->get('logout', [CLogout::class, 'index'], false); // 不需要登入
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -104,14 +89,3 @@ $routes->get('pages', [Pages::class, 'index'], false);
 $routes->get('(:segment)', [Pages::class, 'view'], false);
 
 return $routes;
-
-
-
-
-
-
-return [
-
-
-
-];

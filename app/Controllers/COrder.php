@@ -295,7 +295,7 @@ class COrder
         }   
         
         // 內頁功能 (FORM)
-        $tpl = new Template("tpl");
+        $tpl = new Template("app/Views");
 
         $tpl->assign('orderid',$id);
         $tpl->assign('managerid',$ManagerID);

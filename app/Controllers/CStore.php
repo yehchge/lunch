@@ -95,10 +95,6 @@ class CStore
     // 顯示新增表單
     public function add()
     {
-        if ($_POST) {
-            return $this->create();
-        }
-
         $tpl = new Template("app/Views");
 
         $tpl->assign('title', '新增店家 - DinBenDon系統');
@@ -135,10 +131,6 @@ class CStore
     // 顯示編輯表單
     public function edit()
     {
-        if ($_POST){
-            return $this->update();
-        }
-
         $db = new Database();
         $managerRepo = new ManagerRepository($db);
 
