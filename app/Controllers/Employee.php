@@ -90,20 +90,30 @@ class Employee
     public function create()
     {
         // create
-        $validation = $this->validate([
-            'name' => 'required',
-            'email' => 'required|valid_email|min_length[6]|is_unique[employee.email]',
-        ]);
+        // $validation = $this->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|valid_email|min_length[6]|is_unique[employee.email]',
+        // ]);
 
-        if(!$validation) {
-            return $this->failValidationErrors($this->validator->getErrors());
-        }
+        // if(!$validation) {
+        //     return $this->failValidationErrors($this->validator->getErrors());
+        // }
 
-        $model = new EmployeeModel();
-        $data = [
-            'name' => $this->request->getVar('name'),
-            'email' => $this->request->getVar('email'),
-        ];
+        $request = new CRequest();
+        $resp = new CResponse();
+
+        // $model = new EmployeeModel();
+        $model = model(EmployeeModel::class);
+
+        // $data = [
+        //     'name' => $request->getPost('name'),
+        //     'email' => $request->getPost('email'),
+        // ];
+
+        // Using php://input to Access Raw POST Data
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+
         $model->insert($data);
         $response = [
             'status' => 201,
@@ -112,7 +122,9 @@ class Employee
                 'success' => 'Employee created successfully'
             ]
         ];
-        return $this->respondCreated($response);
+
+        // return $this->respondCreated($response);
+        return $resp->respondCreated($response);
     }
 
     /**
@@ -138,6 +150,7 @@ class Employee
     {
         // update
         $model = new EmployeeModel();
+        // $model = model(EmployeeModel::class);
 
         $data = $model->find($id);
 
@@ -149,33 +162,26 @@ class Employee
             // }
 
 
-            $validation = $this->validate([
-                'name' => 'required',
-                'email' => 'required|valid_email',
-            ]);
+            // $validation = $this->validate([
+            //     'name' => 'required',
+            //     'email' => 'required|valid_email',
+            // ]);
 
-            if(!$validation){
-                return $this->failValidationErrors($this->validator->getErrors());
-            }
-
-            $data = [
-                'name' => $this->request->getVar('name'),
-                'email' => $this->request->getVar('email')
-            ];
-
-            // $json = $this->request->getJSON();
-            // if($json){
-            //     $data = [
-            //         'name' => $this->request->getRawInput('name'),
-            //         'email' => $this->request->getRawInput('email'),
-            //     ];
-            // }else{
-            //     $input = $this->request->getRawInput();
-            //     $data = [
-            //         'name' => $input['name'],
-            //         'email' => $input['email'],
-            //     ];
+            // if(!$validation){
+            //     return $this->failValidationErrors($this->validator->getErrors());
             // }
+
+            // $data = [
+            //     'name' => $this->request->getVar('name'),
+            //     'email' => $this->request->getVar('email')
+            // ];
+
+            // Using php://input to Access Raw POST Data
+            $json = file_get_contents('php://input');
+
+
+            $data = json_decode($json, true);
+
 
             $model->update($id, $data);
             $response = [
@@ -185,7 +191,10 @@ class Employee
                     'success' => 'Employee updated successfully'
                 ]
             ];
-            return $this->respond($response);
+            $resp = new CResponse();
+
+            // return $this->respond($response);
+            return $resp->respond($response);
         }
         return $this->failNotFound('Sorry! no Employee found');
     }
@@ -211,7 +220,11 @@ class Employee
                     'success' => 'Employee successfully deleted'
                 ]
             ];
-            return $this->respondDeleted($response);
+
+            $resp = new CResponse();
+
+            // return $this->respondDeleted($response);
+            return $resp->respondDeleted($response);
         }else{
             return $this->failNotFound('No employee found by id: '.$id);
         }

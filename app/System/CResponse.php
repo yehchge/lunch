@@ -52,7 +52,7 @@ class CResponse
         }
     }
 
-    public function respond(array $data, int $status = 200): void
+    public function respond(array $data, int $status = 200, string $message = ''): void
     {
         $this->setHeader('Content-Type', 'application/json; charset=UTF-8')
             ->setStatus($status)
@@ -127,5 +127,17 @@ class CResponse
 
     public function setTerminate($boolean = true){
         $this->terminate = $boolean;
+    }
+
+
+    public function respondCreated($data = null, string $message = '')
+    {
+        return $this->respond($data, 201, $message);
+    }
+
+
+    public function respondDeleted($data = null, string $message = '')
+    {
+        return $this->respond($data, 200, $message);
     }
 }

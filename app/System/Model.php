@@ -121,6 +121,26 @@ class Model
         }
     }
 
+    public function find($id)
+    {
+        if ($this->select) {
+            $sql = "SELECT ".$this->select." FROM ".$this->table;
+        } else {
+            $sql = "SELECT * FROM ".$this->table;
+        }
+
+        $sql .= " WHERE ".$this->primaryKey." = $id";
+
+        try {
+            $stmt = $this->queryIterator($sql);
+            $row = $this->fetch_assoc($stmt);
+            return $row;
+        } catch (PDOException $e) {
+            $this->handleError($e->getMessage());
+            return false;
+        }
+    }
+
     public function paginate($perPage = 10, $group = 'default', $setPage = null, $segment = 0)
     {
         $this->segment = $segment;
@@ -307,6 +327,10 @@ class Model
         }
     }
 
+    public function insert(array $data): bool {
+        return $this->save($data);
+    }
+
     public function save(array $data): bool {
         $table = $this->table;
         $columns = implode(',', array_keys($data));
@@ -315,8 +339,24 @@ class Model
         return $this->execute($sql, array_values($data));
     }
 
+
+    public function update($id, array $data) {
+        $set = implode(' = ?, ', array_keys($data)) . ' = ?';
+        $sql = "UPDATE ".$this->table." SET $set WHERE ".$this->primaryKey." = $id";
+        return $this->execute($sql, array_merge(array_values($data)));
+    }
+
+
+    public function delete($id) {
+        $sql = "DELETE FROM ".$this->table." WHERE ".$this->primaryKey." = ?";
+        return $this->execute($sql, [$id]);
+    }
+
     public function execute(string $sql, array $params = []): bool {
         try {
+// echo "sql = $sql<br>";
+// echo "<pre>";print_r($params);echo "</pre>";exit;
+
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
         } catch (PDOException $e) {

@@ -45,8 +45,9 @@ class CRequest
         return $_GET;
     }
 
-    public function getPost()
+    public function getPost(string $name = '')
     {
+        if($name) return $_POST[$name] ?? '';
         return $_POST;
     }
 

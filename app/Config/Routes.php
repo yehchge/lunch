@@ -48,6 +48,13 @@ $routes->get('', 'Home::index', false);
 // $routes->resource('employee', ['except' =>['new', 'edit']]);
 // $routes->presenter('emp');
 
+
+$routes->get('emp', 'Emp::index', false);
+$routes->get('emp/new', 'Emp::new', false);
+$routes->get('emp/edit/(:segment)', 'Emp::edit/$1', false);
+
+
+
 $routes->get('employee', 'Employee::index', false);
 $routes->get('employee/(:segment)', 'Employee::show/$1', false);
 $routes->post('employee', 'Employee::create', false);

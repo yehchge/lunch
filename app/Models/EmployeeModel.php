@@ -7,6 +7,6 @@
 class EmployeeModel extends Model
 {
     protected $table            = 'employee';
-    // protected $primaryKey       = 'id';
+    protected $primaryKey       = 'id';
     // protected $allowedFields    = ['name', 'email'];
 }

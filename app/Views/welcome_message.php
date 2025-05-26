@@ -24,8 +24,9 @@
             <li><a href='./news/new'>Add News</a></li>
             <li><a href='./upload'>Upload</a></li>
             <li><a href='./multpages.html'>單一 HTML 模擬多頁切換</a></li>
-            <li><a href=''>&nbsp;</a></li>
-            <li><a href=''>&nbsp;</a></li>
+            <li><a href='./employee'>Restful API ShowAll</a></li>
+            <li><a href='./employee/5'>Restful API Show User 5</a></li>
+            <li><a href='./emp'>使用 RESTful API 練習 Web CRUD List</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>
