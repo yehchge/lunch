@@ -27,6 +27,7 @@ class News
         if ($data['news'] === null) {
             throw new PageNotFoundException('Cannot find the news item: ' . $slug);
         }
+// echo "<pre>";print_r($data['news']);echo "</pre>";exit;
 
         $data['title'] = $data['news']['title'];
 

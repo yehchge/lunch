@@ -17,82 +17,11 @@ try{
     // $test = new DebugConsole();
     // $test->showDebugInfo(1);
 
-    $router = new Router();
-
     // 產生本程式功能內容
     $tpl = new Template("app/Views");
 
     $routes = require PATH_ROOT."/app/Config/Routes.php";
-
     $routes->dispatch();
-
-    // $func = $router->func();
-    // $action = $router->action();
-    // $params = $router->params();
-
-    // $sController = '';
-
-    // $requestUri = trim($func.'/'.$action, '/');
-
-    // $matched = false;
-
-    // foreach ($routes as $route => [$controller, $method, $needAuth]) {
-    //     $routeRep = preg_replace('/\(:segment\)/i', '.*?', $route);
-
-    //     $pattern = "@^" . $routeRep . "$@";
-
-    //     if (preg_match($pattern, $requestUri, $matches)) {
-    //         $matched = true;
-
-    //         if ($needAuth) {
-    //             // 檢查使用者有沒有登入
-    //             if (!$auth->check()) {
-    //                 $_SESSION['refer'] = $_SERVER['REQUEST_URI'] ?? '';
-    //                 header("Location: ".BASE_URL."login");
-    //                 exit;
-    //             }
-    //         }
-
-    //         $controllerFile = PATH_ROOT."/app/Controller/{$controller}.php";
-
-    //         if (preg_match("/\(:segment\)/i", $route)) {
-    //             $uri = explode('/', $route);
-    //             if (preg_match("/\(:segment\)/i", $uri[0])) {
-    //                 $params = [$func];
-    //             } elseif (preg_match("/\(:segment\)/i", $uri[1])) {
-    //                 $params = [$action];
-    //             }
-    //         }
-
-    //         if (file_exists($controllerFile)){
-
-    //             //include, new target controller, and run method
-    //             require_once $controllerFile; //include controller.php
-    //             $instance = new $controller();  //new target controller
-
-    //             if (method_exists($controller, $method)) {
-    //                 call_user_func_array([$instance, $method], $params);
-    //                 break;
-    //             } else {
-    //                 http_response_code(404);
-    //                 echo "404 - Method '{$method}' not found.";
-    //             }
-    //         } else {
-    //             http_response_code(404);
-    //             echo "404 - Controller '{$controller}' not found.";
-    //         }
-    //     }
-    // }
-
-    // if (!$matched) {
-    //     http_response_code(404);
-    //     echo "404 Not Found";
-    // }
-
-
-
-
-
 
 }catch (\Exception $e){
     echo $e->getMessage().PHP_EOL;

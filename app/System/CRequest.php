@@ -143,4 +143,10 @@ class CRequest
         return $sFileType;
     }
 
+    public function getHeader(string $name)
+    {
+        $headers = getallheaders();
+        return $headers[$name] ?? '';
+    }
+
 }

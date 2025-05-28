@@ -6,6 +6,7 @@
         }
     },
     "require": {
-        "smarty/smarty": "^4"
+        "smarty/smarty": "^4",
+        "firebase/php-jwt": "^6.11"
     }
 }

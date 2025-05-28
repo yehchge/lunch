@@ -15,7 +15,8 @@ class CResponse
     private const HTTP_CODES = [
         200 => 'OK', 201 => 'Created', 204 => 'No Content', 301 => 'Moved Permanently', 302 => 'Found',
         400 => 'Bad Request', 401 => 'Unauthorized', 403 => 'Forbidden', 404 => 'Not Found',
-        405 => 'Method Not Allowed', 500 => 'Internal Server Error', 503 => 'Service Unavailable'
+        405 => 'Method Not Allowed', 409 => 'resource_exists', 500 => 'Internal Server Error',
+        503 => 'Service Unavailable',
     ];
 
     public function setHeader($name, $value, $override = true)
@@ -68,10 +69,19 @@ class CResponse
             ->send();
     }
 
-    public function fail(string $message, int $status = 400, array $errors = []): void
+
+    public function fail(array $data, int $status = 400, array $errors = []): void
     {
-        $this->json(['error' => $message, 'details' => $errors], $status);
+        $this->setHeader('Content-Type', 'application/json; charset=UTF-8')
+            ->setStatus($status)
+            ->setBody(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT))
+            ->send();
     }
+
+    // public function fail(string $message, int $status = 400, array $errors = []): void
+    // {
+    //     $this->json(['error' => $message, 'details' => $errors], $status);
+    // }
 
     public function failNotFound(string $message, int $status = 404): void
     {
@@ -84,6 +94,15 @@ class CResponse
             throw new \InvalidArgumentException("Invalid redirect status: {$status}");
         }
         $this->setHeader('Location', $url)->setStatus($status)->send();
+    }
+
+    public function setStatusCode($status)
+    {
+        if (!isset(self::HTTP_CODES[$status])) {
+            throw new \InvalidArgumentException("Invalid HTTP status code: {$status}");
+        }
+        $this->status = $status;
+        return $this;
     }
 
     public function setStatus($status)
@@ -127,6 +146,7 @@ class CResponse
 
     public function setTerminate($boolean = true){
         $this->terminate = $boolean;
+        return $this;
     }
 
 

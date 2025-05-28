@@ -4,43 +4,52 @@
  * Routes
  */
 
-
+require PATH_ROOT.'/app/System/Router.php';
 $routes = new Router();
 
-
-// $routes->get('home/index', [Home::class, 'index'], true); // 需要登入
-$routes->get('store/list', [CStore::class, 'list'], true);
-$routes->get('store/add', [CStore::class, 'add'], true);
-$routes->post('store/create', [CStore::class, 'create'], true);
-$routes->get('store/edit', [CStore::class, 'edit'], true);
-$routes->post('store/update', [CStore::class, 'update'], true);
-$routes->get('store/show', [CStore::class, 'show'], true);
-$routes->get('store/assign', [CStore::class, 'assign'], true);
-$routes->get('store/assigned', [CStore::class, 'assigned'], true);
-$routes->get('store/list_assign', [CStore::class, 'listAssign'], true);
-$routes->get('store/edit_status', [CStore::class, 'editStatus'], true);
-$routes->post('store/edit_status', [CStore::class, 'editStatus'], true);
-$routes->get('product/list', [CProduct::class, 'list'], true);
-$routes->post('product/add', [CProduct::class, 'add'], true);
-$routes->get('product/edit', [CProduct::class, 'edit'], true);
-$routes->post('product/update', [CProduct::class, 'update'], true);
-$routes->get('product/list_store', [CProduct::class, 'listStore'], true);
-$routes->get('manager/list', [CManager::class, 'list'], true);
-$routes->get('manager/list_order', [CManager::class, 'listOrder'], true);
-$routes->get('order/list', [COrder::class, 'list'], true);
-$routes->get('order/add', [COrder::class, 'add'], true);
-$routes->post('order/add', [COrder::class, 'add'], true);
-$routes->get('order/edit', [COrder::class, 'edit'], true);
-$routes->post('order/edit', [COrder::class, 'edit'], true);
-$routes->get('login', [CLogin::class, 'index'], false);   // 不需要登入
-$routes->post('login', [CLogin::class, 'index'], false);   // 不需要登入
-$routes->get('logout', [CLogout::class, 'index'], false); // 不需要登入
+// Add middleware
+require PATH_ROOT.'/app/Filters/AuthUser.php';
+require PATH_ROOT.'/app/Filters/ApiAuthFilter.php';
 
 
+// $routes->get('home/index', [Home::class, 'index'], [AuthUser::class]); // 需要登入
+$routes->get('store/list', [CStore::class, 'list'], [AuthUser::class]);
+$routes->get('store/add', [CStore::class, 'add'], [AuthUser::class]);
+$routes->post('store/create', [CStore::class, 'create'], [AuthUser::class]);
+$routes->get('store/edit', [CStore::class, 'edit'], [AuthUser::class]);
+$routes->post('store/update', [CStore::class, 'update'], [AuthUser::class]);
+$routes->get('store/show', [CStore::class, 'show'], [AuthUser::class]);
+$routes->get('store/assign', [CStore::class, 'assign'], [AuthUser::class]);
+$routes->get('store/assigned', [CStore::class, 'assigned'], [AuthUser::class]);
+$routes->get('store/list_assign', [CStore::class, 'listAssign'], [AuthUser::class]);
+$routes->get('store/edit_status', [CStore::class, 'editStatus'], [AuthUser::class]);
+$routes->post('store/edit_status', [CStore::class, 'editStatus'], [AuthUser::class]);
+$routes->get('product/list', [CProduct::class, 'list'], [AuthUser::class]);
+$routes->post('product/add', [CProduct::class, 'add'], [AuthUser::class]);
+$routes->get('product/edit', [CProduct::class, 'edit'], [AuthUser::class]);
+$routes->post('product/update', [CProduct::class, 'update'], [AuthUser::class]);
+$routes->get('product/list_store', [CProduct::class, 'listStore'], [AuthUser::class]);
+$routes->get('manager/list', [CManager::class, 'list'], [AuthUser::class]);
+$routes->get('manager/list_order', [CManager::class, 'listOrder'], [AuthUser::class]);
+$routes->get('order/list', [COrder::class, 'list'], [AuthUser::class]);
+$routes->get('order/add', [COrder::class, 'add'], [AuthUser::class]);
+$routes->post('order/add', [COrder::class, 'add'], [AuthUser::class]);
+$routes->get('order/edit', [COrder::class, 'edit'], [AuthUser::class]);
+$routes->post('order/edit', [COrder::class, 'edit'], [AuthUser::class]);
+$routes->get('login', [CLogin::class, 'index']);   // 不需要登入
+$routes->post('login', [CLogin::class, 'index']);   // 不需要登入
+$routes->get('logout', [CLogout::class, 'index']); // 不需要登入
 
 
+$routes->get('', 'Home::index');
 
-$routes->get('', 'Home::index', false);
+// 11. RESTful API JWT Authentication
+
+// JWT API
+$routes->post('api/register', [ApiRegister::class, 'index']);
+$routes->post('api/login', [ApiLogin::class, 'index']);
+$routes->get('api/users', [ApiUser::class, 'index'], [ApiAuthFilter::class]); // 'filter' => 'authFilter'
+
 
 // 10. RESTful API
 // $routes->resource('employee');
@@ -48,51 +57,48 @@ $routes->get('', 'Home::index', false);
 // $routes->resource('employee', ['except' =>['new', 'edit']]);
 // $routes->presenter('emp');
 
+$routes->get('emp', 'Emp::index');
+$routes->get('emp/new', 'Emp::new');
+$routes->get('emp/edit/(:segment)', 'Emp::edit/$1');
 
-$routes->get('emp', 'Emp::index', false);
-$routes->get('emp/new', 'Emp::new', false);
-$routes->get('emp/edit/(:segment)', 'Emp::edit/$1', false);
-
-
-
-$routes->get('employee', 'Employee::index', false);
-$routes->get('employee/(:segment)', 'Employee::show/$1', false);
-$routes->post('employee', 'Employee::create', false);
-$routes->put('employee/(:segment)', 'Employee::update/$1', false);
-$routes->delete('employee/(:segment)', 'Employee::delete/$1', false);
+$routes->get('employee', 'Employee::index');
+$routes->get('employee/(:segment)', 'Employee::show/$1');
+$routes->post('employee', 'Employee::create');
+$routes->put('employee/(:segment)', 'Employee::update/$1');
+$routes->delete('employee/(:segment)', 'Employee::delete/$1');
 
 // 9. Working with Uploaded Files
-$routes->get('upload', [Upload::class, 'index'], false);         // Add this line.
-$routes->post('upload/upload', [Upload::class, 'upload'], false); // Add this line.
+$routes->get('upload', [Upload::class, 'index']);         // Add this line.
+$routes->post('upload/upload', [Upload::class, 'upload']); // Add this line.
 
 // 8. News Section
-$routes->get('news', [News::class, 'index'], false);
-$routes->get('news/new', [News::class, 'new'], false);
-$routes->post('news/create', [News::class, 'create'], false);
-$routes->get('news/(:segment)', [News::class, 'show'], false);
+$routes->get('news', [News::class, 'index']);
+$routes->get('news/new', [News::class, 'new']);
+$routes->post('news/create', [News::class, 'create']);
+$routes->get('news/(:segment)', [News::class, 'show']);
 
 // 7. Custom Pagination
-$routes->get('codestar', [Main::class, 'index'], false);
+$routes->get('codestar', [Main::class, 'index']);
 
 // 6. Pagination Specifying the URI Segment for Page
-$routes->get('pgusers/(:segment)', [PaginationController::class, 'getAll'], false);
-$routes->get('pgusers', [PaginationController::class, 'getAll'], false);
+$routes->get('pgusers/(:segment)', [PaginationController::class, 'getAll']);
+$routes->get('pgusers', [PaginationController::class, 'getAll']);
 
 // 5. maintenance Page
-$routes->get('maintenance', [Maintenance::class, 'index'], false); // 4. 維護頁練習
+$routes->get('maintenance', [Maintenance::class, 'index']); // 4. 維護頁練習
 
 // 4. Smarty sample
-$routes->get('smarty', [SmartyController::class, 'index'], false); // Smarty
+$routes->get('smarty', [SmartyController::class, 'index']); // Smarty
 
 // 3. CodeIgniter 3 Version Page
-$routes->get('welcome', [Home::class, 'welcome'], false); // 3. CodeIgniter 3 Version Page
+$routes->get('welcome', [Home::class, 'welcome']); // 3. CodeIgniter 3 Version Page
 
 // 2. Pagination with search filter (Pagination sample)
-$routes->get('pagination', [PaginationController::class, 'index'], false); // 分頁練習
-$routes->get('loadRecord', [PaginationController::class, 'loadRecord'], false); // 分頁練習
+$routes->get('pagination', [PaginationController::class, 'index']); // 分頁練習
+$routes->get('loadRecord', [PaginationController::class, 'loadRecord']); // 分頁練習
 
 // 1. Static Pages
-$routes->get('pages', [Pages::class, 'index'], false);
-$routes->get('(:segment)', [Pages::class, 'view'], false);
+$routes->get('pages', [Pages::class, 'index']);
+$routes->get('(:segment)', [Pages::class, 'view']);
 
 return $routes;

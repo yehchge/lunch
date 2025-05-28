@@ -10,28 +10,28 @@ class Router
     protected array $params = [];
 
 
-    public function get(string $path, $handler, bool $auth = false) {
-        $this->addRoute('GET', $path, $handler, $auth);
+    public function get(string $path, $handler, array $middleware = []) {
+        $this->addRoute('GET', $path, $handler, $middleware);
     }
 
-    public function post(string $path, $handler, bool $auth = false) {
-        $this->addRoute('POST', $path, $handler, $auth);
+    public function post(string $path, $handler, array $middleware = []) {
+        $this->addRoute('POST', $path, $handler, $middleware);
     }
 
-    public function put(string $path, $handler, bool $auth = false) {
-        $this->addRoute('PUT', $path, $handler, $auth);
+    public function put(string $path, $handler, array $middleware = []) {
+        $this->addRoute('PUT', $path, $handler, $middleware);
     }
 
-    public function delete(string $path, $handler, bool $auth = false) {
-        $this->addRoute('DELETE', $path, $handler, $auth);
+    public function delete(string $path, $handler, array $middleware = []) {
+        $this->addRoute('DELETE', $path, $handler, $middleware);
     }
 
-    protected function addRoute(string $method, string $path, $handler, bool $auth)
+    protected function addRoute(string $method, string $path, $handler, array $middleware)
     {
         $this->routes[$method][] = [
             'path' => $path,
             'handler' => $handler,
-            'auth' => $auth
+            'middleware' => $middleware
         ];
     }
 
@@ -43,7 +43,6 @@ class Router
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
         $path = '/' . ltrim(substr($uri, strlen($base)), '/');
-
         $path = '/' . trim($path, '/');
 
         if (!isset($this->routes[$method])) {
@@ -60,23 +59,39 @@ class Router
 
                 [$controller, $method] = $this->resolveHandler($route['handler'], $matches);
 
-                if ($route['auth']) {
-                    // session_start();
-                    // if (empty($_SESSION['user'])) {
-                    //     header('Location: /login');
-                    //     exit;
-                    // }
-                    // 檢查使用者有沒有登入
-                    if (!$auth->check()) {
-                        $_SESSION['refer'] = $_SERVER['REQUEST_URI'] ?? '';
-                        header("Location: ".BASE_URL."login");
-                        exit;
-                    }
+                // 認證處理
+                // if ($route['auth']) {
+                //     // session_start();
+                //     // if (empty($_SESSION['user'])) {
+                //     //     header('Location: /login');
+                //     //     exit;
+                //     // }
+                //     // 檢查使用者有沒有登入
+                //     if (!$auth->check()) {
+                //         $_SESSION['refer'] = $_SERVER['REQUEST_URI'] ?? '';
+                //         header("Location: ".BASE_URL."login");
+                //         exit;
+                //     }
+                // }
 
+                // 中介層處理
+                foreach ($route['middleware'] as $middlewareClass) {
+                    $middleware = new $middlewareClass();
+                    if (method_exists($middleware, 'handle')) {
+                        $middleware->handle(); // 可自定義跳轉或 throw
+                    }
                 }
+
+
+
 
                 require_once PATH_ROOT."/app/Controllers/{$controller}.php";
                 $instance = new $controller();
+
+                foreach($matches as $key => $val){
+                    $matches[$key] = urldecode($val);
+                }
+
                 return call_user_func_array([$instance, $method], $matches);
             }
         }
@@ -91,7 +106,7 @@ class Router
             return $handler;
         }
 
-        // 字串格式： 'Controller::method/$1'
+        // 支援 'Controller::method/$1' 字串格式： 'Controller::method/$1'
         if (preg_match('#^([\w\\\\]+)::([\w]+)(?:/([^/]+))?#', $handler, $matches)) {
             $controller = $matches[1];
             $method = $matches[2];
@@ -108,8 +123,6 @@ class Router
 
         throw new Exception("Invalid handler format.");
     }
-
-
 
     // old router
     private function old_router()

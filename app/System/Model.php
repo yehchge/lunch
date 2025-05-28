@@ -110,7 +110,7 @@ class Model
         if ($this->order) {
             $sql .= ' '.$this->order;
         }
-
+// echo "sql=$sql<br>";
         try {
             $stmt = $this->queryIterator($sql);
             $row = $this->fetch_assoc($stmt);
@@ -333,9 +333,20 @@ class Model
 
     public function save(array $data): bool {
         $table = $this->table;
+
+        // 過濾不允許的欄位
+        if($this->allowedFields){
+            foreach($data as $key => $value){
+                if(!in_array($key, $this->allowedFields)){
+                    unset($data[$key]);
+                }
+            }
+        }
+
         $columns = implode(',', array_keys($data));
         $placeholders = implode(',', array_fill(0, count($data), '?'));
         $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
+
         return $this->execute($sql, array_values($data));
     }
 

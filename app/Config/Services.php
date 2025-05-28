@@ -16,4 +16,16 @@ class Services
         return self::$instances['smarty'];
     }
 
+    public static function response()
+    {
+        if (!isset(self::$instances['response'])) {
+            require_once PATH_ROOT.'/app/System/CResponse.php';
+
+            $response = new CResponse();
+            self::$instances['response'] = $response;
+        }
+
+        return self::$instances['response'];
+    }
+
 }
