@@ -1,0 +1,56 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Console 下的執行入口
+ * @created 2025/02/19
+ */
+
+declare(strict_types=1); // 嚴格類型
+
+// 切換到當前腳本目錄, 顯示目前腳本目錄 getcwd()
+chdir(__DIR__);
+
+// include basic config
+// require 'vendor/autoload.php';
+require 'app/Config/Config.php';
+// require 'inc/helper/utils.php';
+require 'app/System/CLI.php';
+
+$start_time = getMicrotime();
+
+$path = 'app'.DIRECTORY_SEPARATOR.'Commands';
+
+$func = isset($argv[1])?trim($argv[1]):'';
+$action = isset($argv[2])?trim($argv[2]):'';
+$param = isset($argv[3])?$argv[3]:'';
+
+$sController = 'home';
+
+if($func){
+    $sController = $func;
+}
+
+try{
+    // include, new target controller, and run `run`
+    $sController = ucfirst($sController);
+
+    $fullname = "$path/$sController.php";
+
+    if (!file_exists($fullname)) {
+        exit("The file $fullname does not exist.\n");
+    }
+
+    require "$path/$sController.php"; // include controller.php
+    $controllerClass = $sController;
+    // $controllerClass = "Galaxy\\Inc\\Command\\" . $sController;
+    $oController = new $controllerClass();  //new target controller
+    $oController->run([$param]);
+}catch (\Exception $e){
+    echo "Error: ".$e->getMessage().PHP_EOL;
+}
+
+$time_after_tpl = getMicrotime() - $start_time;
+$memory_usage = function_exists('memory_get_usage') ? number_format(memory_get_usage()/(1024*1024), 2) : 'N/A';
+// echo 'Total Execution Time: ' .number_format($time_after_tpl, 4). ' seconds; Memory usage: ' .$memory_usage."\n";
+exit(0);

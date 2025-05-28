@@ -6,8 +6,12 @@
 
 declare(strict_types=1); // 嚴格類型
 
-defined('PATH_ROOT')|| define('PATH_ROOT', realpath(dirname(__FILE__) . '/../..'));
-defined('BASE_URL')|| define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/');
+defined('PATH_ROOT') || define('PATH_ROOT', realpath(dirname(__FILE__) . '/../..'));
+defined('BASE_URL') || define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/');
+
+defined('SYSTEMPATH') || define('SYSTEMPATH', PATH_ROOT . '/System');
+
+
 
 require PATH_ROOT."/vendor/autoload.php";
 
@@ -40,6 +44,7 @@ use Lunch\System\DotEnv;
 // echo getenv("DATABASE_HOST");exit;
 
 require PATH_ROOT.'/app/Config/App.php';
+require PATH_ROOT.'/app/Helpers/utils.php';
 require PATH_ROOT.'/app/Helpers/service.php';
 require PATH_ROOT.'/app/Helpers/session_helper.php';
 
@@ -51,7 +56,10 @@ require PATH_ROOT.'/app/System/Container.php';
 $container = new Container();
 
 // 綁定 EmployeeModel（可選，容器會自動解析）
-$container->bind(EmployeeModel::class, EmployeeModel::class);
+// $container->bind(EmployeeModel::class, EmployeeModel::class);
+
+require PATH_ROOT.'/app/System/Core.php';
+$core = new Core();
 
 
 require PATH_ROOT.'/app/System/File.php';
@@ -88,6 +96,11 @@ require PATH_ROOT.'/app/System/CResponse.php';
 
 $Paths = new Paths();
 definePathConstants($Paths);
+
+
+
+
+
 
 function dd($data)
 {

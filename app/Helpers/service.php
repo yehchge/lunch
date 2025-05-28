@@ -288,8 +288,6 @@ function generateHash(): string
 
 function anchor($uri = '', string $title = ''): string
 {
-
-
     $siteUrl = is_array($uri) ? site_url($uri) : (preg_match('#^(\w+:)?//#i', $uri) ? $uri : site_url($uri));
     // eliminate trailing slash
     $siteUrl = rtrim($siteUrl, '/');
