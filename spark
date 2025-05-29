@@ -11,46 +11,113 @@ declare(strict_types=1); // 嚴格類型
 // 切換到當前腳本目錄, 顯示目前腳本目錄 getcwd()
 chdir(__DIR__);
 
-// include basic config
-// require 'vendor/autoload.php';
-require 'app/Config/Config.php';
-// require 'inc/helper/utils.php';
-require 'app/System/CLI.php';
+// 自動載入
+spl_autoload_register(function ($class_name) {
+    $file = __DIR__ . '/app/Commands/' . $class_name . '.php';
+    if (file_exists($file)) {
+        require_once $file;
+    }
+});
 
-$start_time = getMicrotime();
-
-$path = 'app'.DIRECTORY_SEPARATOR.'Commands';
-
-$func = isset($argv[1])?trim($argv[1]):'';
-$action = isset($argv[2])?trim($argv[2]):'';
-$param = isset($argv[3])?$argv[3]:'';
-
-$sController = 'home';
-
-if($func){
-    $sController = $func;
+// 取得命令列表
+function getCommandList()
+{
+    $commands = [];
+    foreach (glob(__DIR__ . '/app/Commands/*.php') as $file) {
+        $className = basename($file, '.php');
+        if (class_exists($className)) {
+            $ref = new ReflectionClass($className);
+            if ($ref->isSubclassOf(BaseCommand::class) && !$ref->isAbstract()) {
+                $instance = $ref->newInstance();
+                if (!empty($instance->name)) {
+                    $commands[$instance->name] = [
+                        'group' => $instance->group ?? '',
+                        'instance' => $instance,
+                        'description' => $instance->description ?? '無描述'
+                    ];
+                }
+            }
+        }
+    }
+    return $commands;
 }
 
-try{
-    // include, new target controller, and run `run`
-    $sController = ucfirst($sController);
+function displayCommandList(array $commands)
+{
+    showHeader();
 
-    $fullname = "$path/$sController.php";
+    $groups = [];
+    foreach ($commands as $name => $cmd) {
+        // $parts = explode(':', $name);
+        // $group = $parts[0] ?? 'default';
+        $group = $cmd['group'] ?? 'Default';
+        if(!$group) $group = 'Default';
 
-    if (!file_exists($fullname)) {
-        exit("The file $fullname does not exist.\n");
+        $groups[$group][$name] = $cmd['description'];
     }
 
-    require "$path/$sController.php"; // include controller.php
-    $controllerClass = $sController;
-    // $controllerClass = "Galaxy\\Inc\\Command\\" . $sController;
-    $oController = new $controllerClass();  //new target controller
-    $oController->run([$param]);
-}catch (\Exception $e){
-    echo "Error: ".$e->getMessage().PHP_EOL;
+    foreach ($groups as $group => $cmds) {
+        CLI::write("$group", 'yellow');
+        foreach ($cmds as $name => $desc) {
+           printf("  %-20s %s\n", CLI::color($name, 'green'), $desc);
+        }
+    }
 }
 
-$time_after_tpl = getMicrotime() - $start_time;
-$memory_usage = function_exists('memory_get_usage') ? number_format(memory_get_usage()/(1024*1024), 2) : 'N/A';
-// echo 'Total Execution Time: ' .number_format($time_after_tpl, 4). ' seconds; Memory usage: ' .$memory_usage."\n";
+function showHeader(bool $suppress = false)
+{
+    if ($suppress) {
+        return;
+    }
+
+    CLI::newLine();
+    CLI::write(sprintf(
+        'Core v%s Command Line Tool - Server Time: %s UTC%s',
+        \App\Config\App::APP_VERSION,
+        date('Y-m-d H:i:s'),
+        date('P'),
+    ), 'green');
+    CLI::newLine();
+}
+
+// include basic config
+require 'app/Config/Config.php';
+require 'app/System/CLI.php';
+
+// 執行 CLI
+$cmdName = $argv[1] ?? 'list';
+$params = array_slice($argv, 2);
+
+$allCommands = getCommandList();
+
+if ($cmdName === 'list' || $cmdName === '') {
+    // 顯示命令列表
+    displayCommandList($allCommands);
+} elseif (isset($allCommands[$cmdName])) {
+    showHeader();
+
+    // 執行特定命令
+    $allCommands[$cmdName]['instance']->run($params);
+} elseif (class_exists(ucfirst($cmdName))) {
+
+    // 執行特定命令
+    $className = ucfirst(str_replace(':', '', $cmdName));
+    $ref = new ReflectionClass($className);
+    if ($ref->isSubclassOf(BaseCommand::class) && !$ref->isAbstract()) {
+        $instance = $ref->newInstance();
+        if (!empty($instance->name) && method_exists($instance, 'run')) {
+            $instance->run($params);
+        } else {
+            echo "錯誤: 命令類 {$className} 缺少 name 屬性 或 run 方法\n";
+        }
+    } else {
+        echo "錯誤: {$className} 不是有效的命令類\n";
+    }
+} else {
+    echo "找不到指令: $cmdName\n";
+}
+
+// $time_after_tpl = getMicrotime() - $start_time;
+// $memory_usage = function_exists('memory_get_usage') ? number_format(memory_get_usage()/(1024*1024), 2) : 'N/A';
+// // echo 'Total Execution Time: ' .number_format($time_after_tpl, 4). ' seconds; Memory usage: ' .$memory_usage."\n";
 exit(0);

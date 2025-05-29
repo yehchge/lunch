@@ -48,7 +48,7 @@ require PATH_ROOT.'/app/Helpers/utils.php';
 require PATH_ROOT.'/app/Helpers/service.php';
 require PATH_ROOT.'/app/Helpers/session_helper.php';
 
-
+require PATH_ROOT.'/app/System/BaseCommand.php';
 
 require PATH_ROOT.'/app/System/Container.php';
 
