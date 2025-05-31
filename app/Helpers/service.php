@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // 全局輔助函數
 function model($class) {
     global $container; // 假設容器是全局單例
@@ -195,10 +197,38 @@ function stringify_attributes($attributes, bool $js = false): string
  *
  * @param non-empty-string|null $id
  */
-function csrf_field(?string $id = null): string
-{
-    return '<input type="hidden"' . ($id !== null ? ' id="' . esc($id, 'attr') . '"' : '') . ' name="' . csrf_token() . '" value="' . csrf_hash() . '">';
+// function csrf_field(?string $id = null): string
+// {
+//     return '<input type="hidden"' . ($id !== null ? ' id="' . esc($id, 'attr') . '"' : '') . ' name="' . csrf_token() . '" value="' . csrf_hash() . '">';
+// }
+
+// 產生 CSRF 隱藏輸入欄位
+function csrf_field() {
+    $token = generateCsrfToken();
+    return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
 }
+
+// 驗證 CSRF token
+function verifyCsrfToken($token, $max_age = 3600) {
+    if (empty($_SESSION['csrf_token']) || empty($_SESSION['csrf_token_time'])) {
+        return false;
+    }
+    
+    // 檢查 token 是否匹配
+    if (!hash_equals($_SESSION['csrf_token'], $token)) {
+        return false;
+    }
+    
+    // 檢查 token 是否過期
+    if ((time() - $_SESSION['csrf_token_time']) > $max_age) {
+        unset($_SESSION['csrf_token'], $_SESSION['csrf_token_time']);
+        return false;
+    }
+    
+    return true;
+}
+
+
 
 /**
  * Returns the CSRF token name.
@@ -222,6 +252,14 @@ function csrf_hash(): string
     // return service('security')->getHash();
 }
 
+// 生成 CSRF token
+function generateCsrfToken() {
+    // if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        $_SESSION['csrf_token_time'] = time();
+    // }
+    return $_SESSION['csrf_token'];
+}
 
 /**
  * Returns the CSRF Token.

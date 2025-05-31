@@ -4,7 +4,7 @@
 <!--?= validation_list_errors() ?-->
 
 <form action="<?= base_url('/news/create') ?>" method="post">
-    <!--?= csrf_field() ?-->
+    <?= csrf_field() ?>
 
     <label for="title">Title</label>
     <input type="input" name="title" >

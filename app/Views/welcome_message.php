@@ -31,9 +31,7 @@
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href='./store/list'>Store</a></li>
-
           </ul>
         </nav>
-
     </body>
 </html>
