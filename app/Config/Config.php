@@ -34,7 +34,7 @@ spl_autoload_register(function ($className) {
 
 require PATH_ROOT.'/app/System/DotEnv.php';
 
-use Lunch\System\DotEnv;
+use App\System\DotEnv;
 (new DotEnv(PATH_ROOT . '/.env'))->load();
 
 // $dot = new DotEnv(PATH_ROOT . '/.env');

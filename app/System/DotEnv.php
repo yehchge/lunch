@@ -2,7 +2,7 @@
 
 declare(strict_types=1); // 嚴格類型
 
-namespace Lunch\System;
+namespace App\System;
 
 class DotEnv
 {
