@@ -1,14 +1,15 @@
 <?php
 
+// namespace App\System;
+
 class Router
 {
     protected array $routes = [];
 
-    // old router
-    protected string $controller;
-    protected string $method;
+    // 定義屬性儲存當前請求資訊
+    protected string $controller = '';
+    protected string $method = '';
     protected array $params = [];
-
 
     public function get(string $path, $handler, array $middleware = []) {
         $this->addRoute('GET', $path, $handler, $middleware);
@@ -45,55 +46,126 @@ class Router
         $path = '/' . ltrim(substr($uri, strlen($base)), '/');
         $path = '/' . trim($path, '/');
 
+        // 檢測是否有此方法
         if (!isset($this->routes[$method])) {
             http_response_code(405);
             exit("405 Method Not Allowed");
         }
 
-        foreach ($this->routes[$method] as $route) {
-            $pattern = preg_replace('#\(:segment\)#', '([^/]+)', $route['path']);
-            $pattern = '#^/' . trim($pattern, '/') . '$#';
 
-            if (preg_match($pattern, $path, $matches)) {
-                array_shift($matches);
+        // Modern 嘗試現代路由匹配
+        if (isset($this->routes[$method])){
+            foreach ($this->routes[$method] as $route) {
+                $pattern = preg_replace('#\(:segment\)#', '([^/]+)', $route['path']);
+                $pattern = '#^/' . trim($pattern, '/') . '$#';
+echo "<pre>";print_r($route);echo "</pre>";exit;
+                if (preg_match($pattern, $path, $matches)) {
+                    array_shift($matches);
 
-                [$controller, $method] = $this->resolveHandler($route['handler'], $matches);
+                    [$controller, $action] = $this->resolveHandler($route['handler'], $matches);
 
-                // 認證處理
-                // if ($route['auth']) {
-                //     // session_start();
-                //     // if (empty($_SESSION['user'])) {
-                //     //     header('Location: /login');
-                //     //     exit;
-                //     // }
-                //     // 檢查使用者有沒有登入
-                //     if (!$auth->check()) {
-                //         $_SESSION['refer'] = $_SERVER['REQUEST_URI'] ?? '';
-                //         header("Location: ".BASE_URL."login");
-                //         exit;
-                //     }
-                // }
-
-                // 中介層處理
-                foreach ($route['middleware'] as $middlewareClass) {
-                    $middleware = new $middlewareClass();
-                    if (method_exists($middleware, 'handle')) {
-                        $middleware->handle(); // 可自定義跳轉或 throw
+                    // 中介軟體處理
+                    foreach ($route['middleware'] as $middlewareClass) {
+                        $middleware = new $middlewareClass();
+                        if (method_exists($middleware, 'handle')) {
+                            $middleware->handle(); // 可自定義跳轉或拋出異常
+                        }
                     }
+
+                    // 載入控制器並執行
+                    require_once PATH_ROOT . "/app/Controllers/{$controller}.php";
+                    $instance = new $controller();
+                    foreach ($matches as $key => $val) {
+                        $matches[$key] = urldecode($val);
+                    }
+                    return call_user_func_array([$instance, $action], $matches);
                 }
-
-
-
-
-                require_once PATH_ROOT."/app/Controllers/{$controller}.php";
-                $instance = new $controller();
-
-                foreach($matches as $key => $val){
-                    $matches[$key] = urldecode($val);
-                }
-
-                return call_user_func_array([$instance, $method], $matches);
             }
+        }
+
+
+        // Classic 現代路由未匹配，嘗試舊式 URL 解析
+        $params = [];
+        $controller = '';
+        $action = '';
+
+        // 檢查是否有舊式 GET 參數
+        if (!empty($_GET['func']) || !empty($_GET['action'])) {
+            // 有舊網址參數 $_GET['func'] or $_GET['action']
+            $controller = $_GET['func'] ?? 'home';
+            $action = $_GET['action'] ?? 'index';
+            foreach ($_GET as $key => $value) {
+                if (!in_array($key, ['func', 'action'])) {
+                    $params[] = $value;
+                }
+            }
+        } else {
+            // 沒有舊網址參數
+            // index.php/about/contact/1234
+            // /about/contact/1234
+            // /專案名稱/index.php/avout/contact/1234
+
+            // 處理路徑型舊式 URL
+            $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+            $basePath = rtrim(dirname($scriptName), '/');
+            $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+            $path = parse_url($requestUri, PHP_URL_PATH);
+
+            // 去掉專案根目錄
+            if (str_starts_with($path, $basePath)) {
+                $path = substr($path, strlen($basePath));
+            }
+
+            // 如果還有 index.php/ 開頭，把它移除（支援 index.php/about/contact）
+            if (str_starts_with($path, 'index.php')) {
+                $path = ltrim(substr($path, strlen('index.php')), '/');
+            }
+            $path = trim($path, '/');
+            $segments = $path ? explode('/', $path) : [];
+            $controller = $segments[0] ?? 'home';
+            $action = $segments[1] ?? 'index';
+            $params = array_slice($segments, 2);
+        }
+
+        // 處理下底線轉駝峰命名(action 是否包含 '_'?)
+        if (preg_match("/_/i", $action)) {
+            $myAction = '';
+            $segs = explode('_', $action);
+            foreach ($segs as $key => $val) {
+                $myAction .= $key ? ucfirst($val) : $val;
+            }
+            $action = $myAction;
+        }
+
+        $this->controller = $controller;
+        $this->method = $action;
+        $this->params = $params;
+
+        // 將舊式 URL 轉為控制器格式
+        $controller = ucfirst(strtolower($controller)); // 確保控制器首字母大寫
+        $handler = [$controller, $action];
+
+        // 中介軟體處理（與現代路由一致）
+        // 假設舊式路由使用與現代路由相同的預設中介軟體
+        $middleware = []; // 可根據需求為舊式路由指定中介軟體
+        foreach ($middleware as $middlewareClass) {
+            $middleware = new $middlewareClass();
+            if (method_exists($middleware, 'handle')) {
+                $middleware->handle();
+            }
+        }
+
+        // 執行控制器
+        try {
+            require_once PATH_ROOT . "/app/Controllers/{$controller}.php";
+            $instance = new $controller();
+            foreach ($params as $key => $val) {
+                $params[$key] = urldecode($val);
+            }
+            return call_user_func_array([$instance, $action], $params);
+        } catch (\Exception $e) {
+            http_response_code(404);
+            exit("404 Not Found: " . $e->getMessage());
         }
 
         http_response_code(404);
@@ -121,105 +193,103 @@ class Router
             return [$controller, $method];
         }
 
-        throw new Exception("Invalid handler format.");
+        throw new \Exception("Invalid handler format.");
     }
-
-    // old router
-    private function old_router()
-    {
-        // init
-        $func = '';
-        $action = '';
-        $params = [];
-
-        $defaultFunc = 'home';
-        $defaultAction = 'index';
-
-        if(!empty($_GET['func']) || !empty($_GET['action'])) {
-            // 有舊網址參數 $_GET['func'] or $_GET['action']
-
-            $func = $_GET['func'] ?? '';
-            $action = $_GET['action'] ?? '';
-
-            $params = [];
-            foreach($_GET as $key => $value) {
-                if(!in_array($key, ['func', 'action'])) {
-                    $params[] = $value;
-                }
-            }
-        } else {
-            // 沒有舊網址參數
-            // index.php/about/contact/1234
-            // /about/contact/1234
-            // /專案名稱/index.php/avout/contact/1234
-
-            $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-            $basePath = rtrim(dirname($scriptName), '/');
-
-            $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-            $path = parse_url($requestUri, PHP_URL_PATH);
-
-            // 去掉專案根目錄
-            if(str_starts_with($path, $basePath)) {
-                $path = substr($path, strlen($basePath));
-            } else {
-                $path = $requestUri;
-            }
-            $path = trim($path, '/');
-
-            // 如果還有 index.php/ 開頭，把它移除（支援 index.php/about/contact）
-            if (str_starts_with($path, 'index.php')) {
-                $path = ltrim(substr($path, strlen('index.php')), '/');
-            }
-
-            $path = trim($path, '/');
-            if ($path) $segments = explode('/', $path);
-            else $segments = [];
-
-            $func = $segments[0] ?? '';
-            $action = $segments[1] ?? '';
-            $params = array_slice($segments, 2);
-        }
-
-        // action 是否包含 '_'?
-        if(preg_match("/_/i", $action)){
-            $myAction = '';
-
-            $segs = explode('_', $action);
-            foreach($segs as $key => $val){
-                if(!$key) {
-                    $myAction .= $val;
-                } else {
-                    $myAction .= ucfirst($val);
-                }
-            }
-            $action = $myAction;
-        }
-
-        $this->controller = $func;
-        $this->method = $action;
-        $this->params = $params;
-    }
-
 
     public function func(): string
     {
-        $this->old_router();
+        // $this->old_router();
         return $this->controller;
     }
 
     public function action(): string
     {
-        $this->old_router();
+        // $this->old_router();
         return $this->method;
     }
 
     public function params(): array
     {
-        $this->old_router();
+        // $this->old_router();
         return $this->params;
     }
 
 
+    // old router
+    // private function old_router()
+    // {
+    //     // init
+    //     $func = '';
+    //     $action = '';
+    //     $params = [];
+
+    //     $defaultFunc = 'home';
+    //     $defaultAction = 'index';
+
+    //     if(!empty($_GET['func']) || !empty($_GET['action'])) {
+    //         // 有舊網址參數 $_GET['func'] or $_GET['action']
+
+    //         $func = $_GET['func'] ?? '';
+    //         $action = $_GET['action'] ?? '';
+
+    //         $params = [];
+    //         foreach($_GET as $key => $value) {
+    //             if(!in_array($key, ['func', 'action'])) {
+    //                 $params[] = $value;
+    //             }
+    //         }
+    //     } else {
+    //         // 沒有舊網址參數
+    //         // index.php/about/contact/1234
+    //         // /about/contact/1234
+    //         // /專案名稱/index.php/avout/contact/1234
+
+    //         $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+    //         $basePath = rtrim(dirname($scriptName), '/');
+
+    //         $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    //         $path = parse_url($requestUri, PHP_URL_PATH);
+
+    //         // 去掉專案根目錄
+    //         if(str_starts_with($path, $basePath)) {
+    //             $path = substr($path, strlen($basePath));
+    //         } else {
+    //             $path = $requestUri;
+    //         }
+    //         $path = trim($path, '/');
+
+    //         // 如果還有 index.php/ 開頭，把它移除（支援 index.php/about/contact）
+    //         if (str_starts_with($path, 'index.php')) {
+    //             $path = ltrim(substr($path, strlen('index.php')), '/');
+    //         }
+
+    //         $path = trim($path, '/');
+    //         if ($path) $segments = explode('/', $path);
+    //         else $segments = [];
+
+    //         $func = $segments[0] ?? '';
+    //         $action = $segments[1] ?? '';
+    //         $params = array_slice($segments, 2);
+    //     }
+
+    //     // action 是否包含 '_'?
+    //     if(preg_match("/_/i", $action)){
+    //         $myAction = '';
+
+    //         $segs = explode('_', $action);
+    //         foreach($segs as $key => $val){
+    //             if(!$key) {
+    //                 $myAction .= $val;
+    //             } else {
+    //                 $myAction .= ucfirst($val);
+    //             }
+    //         }
+    //         $action = $myAction;
+    //     }
+
+    //     $this->controller = $func;
+    //     $this->method = $action;
+    //     $this->params = $params;
+    // }
 
 }

@@ -27,7 +27,6 @@ class News
         if ($data['news'] === null) {
             throw new PageNotFoundException('Cannot find the news item: ' . $slug);
         }
-// echo "<pre>";print_r($data['news']);echo "</pre>";exit;
 
         $data['title'] = $data['news']['title'];
 
@@ -55,16 +54,16 @@ class News
     public function create()
     {
         // 使用範例
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $posted_token = $_POST['csrf_token'] ?? '';
-            if (verifyCsrfToken($posted_token)) {
-                // echo "CSRF token 驗證成功，可以處理表單數據";
-            } else {
-                http_response_code(403);
-                echo "CSRF token 驗證失敗";
-                exit;
-            }
-        }
+        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //     $posted_token = $_POST['csrf_token'] ?? '';
+        //     if (verifyCsrfToken($posted_token)) {
+        //         // echo "CSRF token 驗證成功，可以處理表單數據";
+        //     } else {
+        //         http_response_code(403);
+        //         echo "CSRF token 驗證失敗";
+        //         exit;
+        //     }
+        // }
 
         // helper('form');
 

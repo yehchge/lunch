@@ -1,7 +1,7 @@
 <?php
 
 // core/Session.php
-// namespace System;
+// namespace App\System;
 
 class Session
 {
@@ -29,12 +29,12 @@ class Session
         return self::$instance;
     }
 
-    public function set($key, $value): void
+    public function set(string $key, $value): void
     {
         $_SESSION[$key] = $value;
     }
 
-    public function get($key, $default = null)
+    public function get(string $key, $default = null)
     {
         return $_SESSION[$key] ?? $default;
     }

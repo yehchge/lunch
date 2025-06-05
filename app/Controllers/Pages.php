@@ -12,10 +12,7 @@ class Pages
         $controllerFile = PATH_ROOT."/app/Views/pages/{$page}.php";
         if (!file_exists($controllerFile)){
             // Whoops, we don't have a page for that!
-            // throw new PageNotFoundException($page);
-            http_response_code(404);
-            echo "404 Not Found - $page";
-            exit;
+            throw new PageNotFoundException($page);
         }
 
         $data['title'] = ucfirst($page); // Capitalize the first letter

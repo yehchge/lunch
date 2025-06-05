@@ -26,10 +26,11 @@ spl_autoload_register(function ($className) {
     // 檢查檔案是否存在，若存在則載入
     if (file_exists($file)) {
         require $file;
-    } else {
-        // 可選：拋出異常或記錄錯誤
-        // throw new Exception("Class $className not found in $file");
     }
+    // else {
+    //     // 可選：拋出異常或記錄錯誤 開啟會導致 smarty 錯誤
+    //     throw new Exception("Config: Class $className not found in $file");
+    // }
 });
 
 require PATH_ROOT.'/app/System/DotEnv.php';

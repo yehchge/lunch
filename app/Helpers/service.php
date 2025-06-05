@@ -204,8 +204,19 @@ function stringify_attributes($attributes, bool $js = false): string
 
 // 產生 CSRF 隱藏輸入欄位
 function csrf_field() {
-    $token = generateCsrfToken();
-    return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
+    $request = service('request');
+    $CsrfFilter = new CsrfFilter();
+    $token_name = $CsrfFilter->getTokenName();
+
+    $token = $CsrfFilter->generateCsrfToken($request);
+
+
+    // $session = $request->getSession();
+
+    // $aa = $session->get('csrf_token');
+    // echo "<pre>";print_r($aa);echo "</pre>";exit;
+    // $token = generateCsrfToken();
+    return '<input type="hidden" name="'.$token_name.'" value="' . htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
 }
 
 // 驗證 CSRF token
@@ -250,15 +261,6 @@ function csrf_hash(): string
 {
     return getHash();
     // return service('security')->getHash();
-}
-
-// 生成 CSRF token
-function generateCsrfToken() {
-    // if (empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-        $_SESSION['csrf_token_time'] = time();
-    // }
-    return $_SESSION['csrf_token'];
 }
 
 /**

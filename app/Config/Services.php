@@ -28,4 +28,16 @@ class Services
         return self::$instances['response'];
     }
 
+    public static function request()
+    {
+        if (!isset(self::$instances['response'])) {
+            require_once PATH_ROOT.'/app/System/CRequest.php';
+
+            $request = new CRequest();
+            self::$instances['request'] = $request;
+        }
+
+        return self::$instances['request'];
+    }
+
 }

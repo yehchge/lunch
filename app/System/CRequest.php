@@ -5,6 +5,14 @@ class CRequest
     public $file = [];
     protected $name; // originalName
 
+    public function getMethod(): string {
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
+    public function getPath(): string {
+        return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    }
+
     # 取得用戶端真實IP
     public static function getAddress()
     {
@@ -47,7 +55,7 @@ class CRequest
 
     public function getPost(string $name = '')
     {
-        if($name) return $_POST[$name] ?? '';
+        if($name) return $_POST[$name] ?? null;
         return $_POST;
     }
 
@@ -117,7 +125,6 @@ class CRequest
 
     }
 
-
     /**
      * Generates a random names based on a simple hash and the time, with
      * the correct file extension attached.
@@ -135,7 +142,6 @@ class CRequest
         // return Time::now()->getTimestamp() . '_' . bin2hex(random_bytes(10)) . $extension;
     }
 
-
     public function getExtension()
     {
         $upload_filename = basename($this->file['name']);
@@ -146,7 +152,48 @@ class CRequest
     public function getHeader(string $name)
     {
         $headers = getallheaders();
-        return $headers[$name] ?? '';
+        return $headers[$name] ?? null;
+    }
+
+    public function getSession()
+    {
+        return session();
+    }
+
+    private static function isjQueryAjax(): bool {
+        // 最新的 JavaScript 實作方法（例如： fetch） 並不會再發送這個標頭
+        $headers = getallheaders();
+        return isset($headers['X-Requested-With']) &&
+               $headers['X-requested-With'] === 'XMLHttpRequest';
+    }
+
+    private static function isHeaderJson(): bool {
+        $headers = getallheaders();
+        return isset($headers['Content-Type']) &&
+               $headers['Content-Type'] === 'application/json';
+    }
+
+    private static function isAjaxRequest() {
+        // 如果 getallheaders() 不可用，可以用替代方法檢測 AJAX
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+               strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+    }
+
+    private static function isJsonRequest() {
+        return isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application/json';
+    }
+
+    public function isAjax(): bool {
+        if (self::isAjaxRequest() || self::isJsonRequest() || self::isjQueryAjax() || self::isHeaderJson()) {
+            // 處理 API 請求
+            // header('Content-Type: application/json');
+            // echo json_encode(['status' => 'success', 'message' => 'API 請求已接收']);
+            return true;
+        } else {
+            // 非 API 請求
+            // echo "這不是 API 請求";
+            return false;
+        }
     }
 
 }

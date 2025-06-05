@@ -18,6 +18,7 @@ class CLogin
 
             $tpl->assign('error', $error);
             $tpl->assign('baseUrl', BASE_URL);
+            $tpl->assign('csrf', csrf_field());
             $tpl->display('login.htm');
             exit;
         }

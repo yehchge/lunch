@@ -34,11 +34,15 @@ class CResponse
         return $this;
     }
 
-    public function send()
+    public function send($body = '')
     {
         @ob_clean();
         http_response_code($this->status);
         $this->sendHeaders();
+        if ($body) {
+            $this->body = $body;
+        }
+
         echo $this->body;
 
         if ($this->terminate) {
@@ -96,12 +100,12 @@ class CResponse
         $this->setHeader('Location', $url)->setStatus($status)->send();
     }
 
-    public function setStatusCode($status)
+    public function setStatusCode(int $code)
     {
-        if (!isset(self::HTTP_CODES[$status])) {
-            throw new \InvalidArgumentException("Invalid HTTP status code: {$status}");
+        if (!isset(self::HTTP_CODES[$code])) {
+            throw new \InvalidArgumentException("Invalid HTTP status code: {$code}");
         }
-        $this->status = $status;
+        $this->status = $code;
         return $this;
     }
 
@@ -149,12 +153,10 @@ class CResponse
         return $this;
     }
 
-
     public function respondCreated($data = null, string $message = '')
     {
         return $this->respond($data, 201, $message);
     }
-
 
     public function respondDeleted($data = null, string $message = '')
     {

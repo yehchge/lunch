@@ -30,7 +30,7 @@ $routes->get('product/edit', [CProduct::class, 'edit'], [AuthUser::class]);
 $routes->post('product/update', [CProduct::class, 'update'], [AuthUser::class]);
 $routes->get('product/list_store', [CProduct::class, 'listStore'], [AuthUser::class]);
 $routes->get('manager/list', [CManager::class, 'list'], [AuthUser::class]);
-$routes->get('manager/list_order', [CManager::class, 'listOrder'], [AuthUser::class]);
+$routes->get('manager/listOrder', [CManager::class, 'listOrder'], [AuthUser::class]);
 $routes->get('order/list', [COrder::class, 'list'], [AuthUser::class]);
 $routes->get('order/add', [COrder::class, 'add'], [AuthUser::class]);
 $routes->post('order/add', [COrder::class, 'add'], [AuthUser::class]);

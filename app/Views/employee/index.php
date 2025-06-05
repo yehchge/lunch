@@ -135,7 +135,7 @@ async function deleteEmployee(id) {
   try {
     let result = confirm('Are you sure?');
     if (result) {
-      const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
       if (!response.ok) throw new Error('刪除失敗');
       fetchItems();
     }

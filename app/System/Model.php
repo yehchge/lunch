@@ -110,7 +110,7 @@ class Model
         if ($this->order) {
             $sql .= ' '.$this->order;
         }
-// echo "sql=$sql<br>";
+
         try {
             $stmt = $this->queryIterator($sql);
             $row = $this->fetch_assoc($stmt);
@@ -225,8 +225,10 @@ class Model
 
     public function fetch_assoc($stmt)
     {
-        if(!$stmt) return 0;
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!$stmt) return null;
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!$row) return null;
+        return $row;
     }
 
     protected function getPagebar()

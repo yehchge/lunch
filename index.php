@@ -8,6 +8,13 @@ header('Content-Type: text/html; charset=utf-8');
 
 require 'app/Config/Config.php';
 
+require 'app/System/PageNotFoundException.php';
+require 'app/System/SecurityException.php';
+require 'app/System/FilterInterface.php';
+require 'app/Security/CsrfFilter.php';
+require 'app/System/FilterManager.php';
+require 'app/System/Application.php';
+
 $db = new Database();
 $userRepo = new UserRepository($db);
 $auth = new Auth($userRepo);
@@ -17,11 +24,13 @@ try{
     // $test = new DebugConsole();
     // $test->showDebugInfo(1);
 
-    // 產生本程式功能內容
-    $tpl = new Template("app/Views");
+    $app = new Application();
+    $app->handleRequest();
 
-    $routes = require PATH_ROOT."/app/Config/Routes.php";
-    $routes->dispatch();
+    // // 產生本程式功能內容
+    // $tpl = new Template("app/Views");
+
+
 
 }catch (\Exception $e){
     echo $e->getMessage().PHP_EOL;

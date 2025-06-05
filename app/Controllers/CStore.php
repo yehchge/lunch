@@ -276,6 +276,10 @@ class CStore
         //產生本程式功能內容
         // Page Start ************************************************
         
+        $Name = '';
+        $PayType = 0;
+        $page = isset($_GET['page']) ? (int)$_GET['page']:0;
+        $SysID = 0;
 
         // 資料總筆數
         $totalItems = $storeRepo->GetAllStoreCount($Status);
@@ -396,6 +400,13 @@ class CStore
         // Page Ended ************************************************
 
 
+        $Name = '';
+        $PayType = 0;
+        $page = isset($_GET['page']) ? (int)$_GET['page']:0;
+        $SysID = 0;
+        $Status = 0;
+
+
         $rows = $managerRepo->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
         $row = $managerRepo->fetch_assoc($rows);
         if ($row == NULL) {
@@ -418,7 +429,8 @@ class CStore
                 $temp['man'] = $row['Manager'];
                 $temp['storeid'] = $row['StoreID'];
                 $info = $managerRepo->GetStoreDetailsByRecordID($row['StoreID']);
-                $temp['storename'] = $info['StoreName'];
+
+                $temp['storename'] = $info['StoreName'] ?? '商家遺失';
                 $temp['status'] = $managerRepo->ManagerStatus[$row['Status']];
 
                 $items[] = $temp;
