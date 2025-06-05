@@ -102,7 +102,7 @@ class CManager
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'manager/listOrder', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'manager/list_order', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();

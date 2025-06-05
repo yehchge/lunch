@@ -6,11 +6,6 @@ class Router
 {
     protected array $routes = [];
 
-    // 定義屬性儲存當前請求資訊
-    protected string $controller = '';
-    protected string $method = '';
-    protected array $params = [];
-
     public function get(string $path, $handler, array $middleware = []) {
         $this->addRoute('GET', $path, $handler, $middleware);
     }
@@ -52,13 +47,12 @@ class Router
             exit("405 Method Not Allowed");
         }
 
-
         // Modern 嘗試現代路由匹配
         if (isset($this->routes[$method])){
             foreach ($this->routes[$method] as $route) {
                 $pattern = preg_replace('#\(:segment\)#', '([^/]+)', $route['path']);
                 $pattern = '#^/' . trim($pattern, '/') . '$#';
-echo "<pre>";print_r($route);echo "</pre>";exit;
+
                 if (preg_match($pattern, $path, $matches)) {
                     array_shift($matches);
 
@@ -137,10 +131,6 @@ echo "<pre>";print_r($route);echo "</pre>";exit;
             $action = $myAction;
         }
 
-        $this->controller = $controller;
-        $this->method = $action;
-        $this->params = $params;
-
         // 將舊式 URL 轉為控制器格式
         $controller = ucfirst(strtolower($controller)); // 確保控制器首字母大寫
         $handler = [$controller, $action];
@@ -195,101 +185,4 @@ echo "<pre>";print_r($route);echo "</pre>";exit;
 
         throw new \Exception("Invalid handler format.");
     }
-
-    public function func(): string
-    {
-        // $this->old_router();
-        return $this->controller;
-    }
-
-    public function action(): string
-    {
-        // $this->old_router();
-        return $this->method;
-    }
-
-    public function params(): array
-    {
-        // $this->old_router();
-        return $this->params;
-    }
-
-
-    // old router
-    // private function old_router()
-    // {
-    //     // init
-    //     $func = '';
-    //     $action = '';
-    //     $params = [];
-
-    //     $defaultFunc = 'home';
-    //     $defaultAction = 'index';
-
-    //     if(!empty($_GET['func']) || !empty($_GET['action'])) {
-    //         // 有舊網址參數 $_GET['func'] or $_GET['action']
-
-    //         $func = $_GET['func'] ?? '';
-    //         $action = $_GET['action'] ?? '';
-
-    //         $params = [];
-    //         foreach($_GET as $key => $value) {
-    //             if(!in_array($key, ['func', 'action'])) {
-    //                 $params[] = $value;
-    //             }
-    //         }
-    //     } else {
-    //         // 沒有舊網址參數
-    //         // index.php/about/contact/1234
-    //         // /about/contact/1234
-    //         // /專案名稱/index.php/avout/contact/1234
-
-    //         $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-    //         $basePath = rtrim(dirname($scriptName), '/');
-
-    //         $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-    //         $path = parse_url($requestUri, PHP_URL_PATH);
-
-    //         // 去掉專案根目錄
-    //         if(str_starts_with($path, $basePath)) {
-    //             $path = substr($path, strlen($basePath));
-    //         } else {
-    //             $path = $requestUri;
-    //         }
-    //         $path = trim($path, '/');
-
-    //         // 如果還有 index.php/ 開頭，把它移除（支援 index.php/about/contact）
-    //         if (str_starts_with($path, 'index.php')) {
-    //             $path = ltrim(substr($path, strlen('index.php')), '/');
-    //         }
-
-    //         $path = trim($path, '/');
-    //         if ($path) $segments = explode('/', $path);
-    //         else $segments = [];
-
-    //         $func = $segments[0] ?? '';
-    //         $action = $segments[1] ?? '';
-    //         $params = array_slice($segments, 2);
-    //     }
-
-    //     // action 是否包含 '_'?
-    //     if(preg_match("/_/i", $action)){
-    //         $myAction = '';
-
-    //         $segs = explode('_', $action);
-    //         foreach($segs as $key => $val){
-    //             if(!$key) {
-    //                 $myAction .= $val;
-    //             } else {
-    //                 $myAction .= ucfirst($val);
-    //             }
-    //         }
-    //         $action = $myAction;
-    //     }
-
-    //     $this->controller = $func;
-    //     $this->method = $action;
-    //     $this->params = $params;
-    // }
-
 }

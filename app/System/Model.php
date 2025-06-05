@@ -233,11 +233,9 @@ class Model
 
     protected function getPagebar()
     {
-        $router = new Router();
-
-        $func = $router->func();
-        // $action = $router->action();
-        // $params = $router->params();
+        $func = $this->func();
+        // $action = $this->action();
+        // $params = $this->params();
 
         $request = new CRequest();
 
@@ -367,9 +365,6 @@ class Model
 
     public function execute(string $sql, array $params = []): bool {
         try {
-// echo "sql = $sql<br>";
-// echo "<pre>";print_r($params);echo "</pre>";exit;
-
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
         } catch (PDOException $e) {
@@ -377,5 +372,102 @@ class Model
             return false;
         }
     }
+
+    public function func(): string
+    {
+        $data = $this->old_router();
+        return $data['func'];
+    }
+
+    public function action(): string
+    {
+        $data = $this->old_router();
+        return $data['action'];
+    }
+
+    public function params(): array
+    {
+        $data = $this->old_router();
+        return $data['params'];
+    }
+
+    private function old_router()
+    {
+        // init
+        $func = '';
+        $action = '';
+        $params = [];
+
+        // $defaultFunc = 'home';
+        // $defaultAction = 'index';
+
+        if(!empty($_GET['func']) || !empty($_GET['action'])) {
+            // 有舊網址參數 $_GET['func'] or $_GET['action']
+
+            $func = $_GET['func'] ?? '';
+            $action = $_GET['action'] ?? '';
+
+            $params = [];
+            foreach($_GET as $key => $value) {
+                if(!in_array($key, ['func', 'action'])) {
+                    $params[] = $value;
+                }
+            }
+        } else {
+            // 沒有舊網址參數
+            // index.php/about/contact/1234
+            // /about/contact/1234
+            // /專案名稱/index.php/avout/contact/1234
+
+            $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+            $basePath = rtrim(dirname($scriptName), '/');
+
+            $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+            $path = parse_url($requestUri, PHP_URL_PATH);
+
+            // 去掉專案根目錄
+            if(str_starts_with($path, $basePath)) {
+                $path = substr($path, strlen($basePath));
+            } else {
+                $path = $requestUri;
+            }
+            $path = trim($path, '/');
+
+            // 如果還有 index.php/ 開頭，把它移除（支援 index.php/about/contact）
+            if (str_starts_with($path, 'index.php')) {
+                $path = ltrim(substr($path, strlen('index.php')), '/');
+            }
+
+            $path = trim($path, '/');
+            if ($path) $segments = explode('/', $path);
+            else $segments = [];
+
+            $func = $segments[0] ?? '';
+            $action = $segments[1] ?? '';
+            $params = array_slice($segments, 2);
+        }
+
+        // action 是否包含 '_'?
+        // if(preg_match("/_/i", $action)){
+        //     $myAction = '';
+
+        //     $segs = explode('_', $action);
+        //     foreach($segs as $key => $val){
+        //         if(!$key) {
+        //             $myAction .= $val;
+        //         } else {
+        //             $myAction .= ucfirst($val);
+        //         }
+        //     }
+        //     $action = $myAction;
+        // }
+
+        return [
+            'func' => $func,
+            'action' => $action,
+            'params' => $params
+        ];
+    }
+
 
 }
