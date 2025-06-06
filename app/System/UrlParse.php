@@ -11,13 +11,15 @@ declare(strict_types=1);
 
 class UrlParse
 {
-    private const DEFAULT_FUNC = 'home';
-    private const DEFAULT_ACTION = 'index';
-    private const RESERVED_PARAMS = ['func', 'action'];
+    private const DEFAULT_FUNC = 'home'; // 預設功能名稱
+    private const DEFAULT_ACTION = 'index'; // 預設動作名稱
+    private const RESERVED_PARAMS = ['func', 'action']; // 保留的參數名稱
+    private const VALID_PARAM_PATTERN = '/^[a-zA-Z0-9_]+$/'; // 參數格式正則表達式
 
     /**
-     * Get the function name from the route
-     * @return string The function name
+     * 取得路由中的功能名稱
+     * @return string 功能名稱
+     * @throws RouterException 如果功能名稱無效
      */
     public function getFunction(): string
     {
@@ -25,8 +27,9 @@ class UrlParse
     }
 
     /**
-     * Get the action name from the route
-     * @return string The action name
+     * 取得路由中的動作名稱
+     * @return string 動作名稱
+     * @throws RouterException 如果動作名稱無效
      */
     public function getAction(): string
     {
@@ -34,8 +37,9 @@ class UrlParse
     }
 
     /**
-     * Get the parameters from the route
-     * @return array The route parameters
+     * 取得路由中的參數
+     * @return array 路由參數
+     * @throws RouterException 如果參數無效
      */
     public function getParams(): array
     {
@@ -43,30 +47,37 @@ class UrlParse
     }
 
     /**
-     * Parse the route from either GET parameters or URL path
-     * @return array{func: string, action: string, params: array} Route components
+     * 解析路由，支援舊式 GET 參數或現代 URL 路徑
+     * @return array{func: string, action: string, params: array} 路由組成部分
+     * @throws RouterException 如果路由解析失敗
      */
     private function parseRoute(): array
     {
-        // Initialize default values
-        $route = [
-            'func' => self::DEFAULT_FUNC,
-            'action' => self::DEFAULT_ACTION,
-            'params' => []
-        ];
+        try {
+            // 初始化預設值
+            $route = [
+                'func' => self::DEFAULT_FUNC,
+                'action' => self::DEFAULT_ACTION,
+                'params' => []
+            ];
 
-        // Handle legacy URL parameters (func/action in query string)
-        if ($this->hasLegacyParams()) {
-            return $this->parseLegacyRoute();
+            // 檢查是否有舊式參數
+            if ($this->hasLegacyParams()) {
+                return $this->parseLegacyRoute();
+            }
+
+            // 處理現代 URL 路由
+            return $this->parseModernRoute();
+        } catch (Exception $e) {
+            $this->logError('路由解析失敗: ' . $e->getMessage());
+            throw new RouterException('無法解析路由: ' . $e->getMessage(), 0, $e);
         }
 
-        // Handle modern URL routing
-        return $this->parseModernRoute();
     }
 
     /**
-     * Check if legacy GET parameters exist
-     * @return bool True if func or action parameters are present
+     * 檢查是否有舊式 GET 參數
+     * @return bool 如果有 func 或 action 參數則返回 true
      */
     private function hasLegacyParams(): bool
     {
@@ -74,74 +85,157 @@ class UrlParse
     }
 
     /**
-     * Parse route from legacy GET parameters
+     * 解析舊式 GET 參數路由
      * @return array{func: string, action: string, params: array}
+     * @throws RouterException 如果參數無效
      */
     private function parseLegacyRoute(): array
     {
+        $func = $_GET['func'] ?? self::DEFAULT_FUNC;
+        $action = $_GET['action'] ?? self::DEFAULT_ACTION;
         $params = [];
+
+        // 驗證 func 和 action 格式
+        $this->validateParam($func, '功能名稱');
+        $this->validateParam($action, '動作名稱');
+
+        // 收集其他參數
         foreach ($_GET as $key => $value) {
             if (!in_array($key, self::RESERVED_PARAMS, true)) {
-                $params[] = $value;
+                if ($this->isValidParam($value)) {
+                    $params[] = $value;
+                } else {
+                    $this->logError("無效的 GET 參數: $key=$value");
+                }
             }
         }
 
         return [
-            'func' => $_GET['func'] ?? self::DEFAULT_FUNC,
-            'action' => $_GET['action'] ?? self::DEFAULT_ACTION,
+            'func' => $func,
+            'action' => $action,
             'params' => $params
         ];
     }
 
     /**
-     * Parse route from modern URL path
+     * 解析現代 URL 路徑路由
      * @return array{func: string, action: string, params: array}
+     * @throws RouterException 如果路徑無效
      */
     private function parseModernRoute(): array
     {
         $path = $this->getCleanPath();
         $segments = $this->getPathSegments($path);
 
+        // 驗證路徑
+        if (empty($segments) && $path !== '') {
+            $this->logError("無效的路徑: $path");
+            throw new RouterException('無效的 URL 路徑');
+        }
+
+        $func = $segments[0] ?? self::DEFAULT_FUNC;
+        $action = $segments[1] ?? self::DEFAULT_ACTION;
+        $params = array_slice($segments, 2);
+
+        // 驗證 func 和 action
+        $this->validateParam($func, '功能名稱');
+        $this->validateParam($action, '動作名稱');
+
+        // 驗證並清理參數
+        $validParams = [];
+        foreach ($params as $param) {
+            if ($this->isValidParam($param)) {
+                $validParams[] = $param;
+            } else {
+                $this->logError("無效的路徑參數: $param");
+            }
+        }
+
         return [
-            'func' => $segments[0] ?? self::DEFAULT_FUNC,
-            'action' => $segments[1] ?? self::DEFAULT_ACTION,
-            'params' => array_slice($segments, 2)
+            'func' => $func,
+            'action' => $action,
+            'params' => $validParams
         ];
     }
 
     /**
-     * Get cleaned URL path without base path and index.php
-     * @return string Cleaned path
+     * 取得清理後的 URL 路徑（移除基底路徑和 index.php）
+     * @return string 清理後的路徑
+     * @throws RouterException 如果無法取得路徑
      */
     private function getCleanPath(): string
     {
-        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-        $basePath = rtrim(dirname($scriptName), '/');
-        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+        try {
+            $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+            $basePath = rtrim(dirname($scriptName), '/');
+            $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 
-        // Parse path from request URI
-        $path = parse_url($requestUri, PHP_URL_PATH) ?? '';
+            // 解析請求 URI 的路徑部分
+            $path = parse_url($requestUri, PHP_URL_PATH) ?? '';
+            if ($path === '') {
+                $this->logError('無法取得請求 URI');
+                throw new RouterException('無法取得請求路徑');
+            }
 
-        // Remove base path
-        if ($basePath && str_starts_with($path, $basePath)) {
-            $path = substr($path, strlen($basePath));
+            // 移除基底路徑
+            if ($basePath && str_starts_with($path, $basePath)) {
+                $path = substr($path, strlen($basePath));
+            }
+
+            // 移除 index.php（如果存在）
+            if (str_starts_with($path, '/index.php')) {
+                $path = substr($path, strlen('/index.php'));
+            }
+
+            return trim($path, '/');
+        } catch (Exception $e) {
+            $this->logError('路徑清理失敗: ' . $e->getMessage());
+            throw new RouterException('路徑處理錯誤: ' . $e->getMessage(), 0, $e);
         }
-
-        // Remove index.php if present
-        if (str_starts_with($path, '/index.php')) {
-            $path = substr($path, strlen('/index.php'));
-        }
-
-        return trim($path, '/');
     }
 
     /**
-     * Split path into segments
-     * @param string $path The URL path
-     * @return array Path segments
+     * 將路徑分割成片段
+     * @param string $path URL 路徑
+     * @return array 路徑片段
      */
     private function getPathSegments(string $path): array
     {
         return $path ? explode('/', $path) : [];
+    }
+
+    /**
+     * 驗證參數格式
+     * @param string $param 參數值
+     * @param string $paramName 參數名稱（用於錯誤訊息）
+     * @throws RouterException 如果參數無效
+     */
+    private function validateParam(string $param, string $paramName): void
+    {
+        if ($param !== '' && !$this->isValidParam($param)) {
+            $this->logError("無效的{$paramName}: $param");
+            throw new RouterException("無效的{$paramName}: $param");
+        }
+    }
+
+    /**
+     * 檢查參數是否有效
+     * @param string $param 參數值
+     * @return bool 是否有效
+     */
+    private function isValidParam(string $param): bool
+    {
+        return preg_match(self::VALID_PARAM_PATTERN, $param) === 1;
+    }
+
+    /**
+     * 記錄錯誤訊息
+     * @param string $message 錯誤訊息
+     */
+    private function logError(string $message): void
+    {
+        $timestamp = date('Y-m-d H:i:s');
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '未知';
+        error_log("[$timestamp] 路由錯誤: $message (請求: $requestUri)");
     }
 }

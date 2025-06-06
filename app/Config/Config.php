@@ -8,27 +8,18 @@ declare(strict_types=1); // 嚴格類型
 
 defined('PATH_ROOT') || define('PATH_ROOT', realpath(dirname(__FILE__) . '/../..'));
 defined('BASE_URL') || define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/');
-
 defined('SYSTEMPATH') || define('SYSTEMPATH', PATH_ROOT . '/System');
-
-
 
 require PATH_ROOT."/vendor/autoload.php";
 
 // 自動加載的函式
 spl_autoload_register(function ($className) {
-    // 定義類檔案所在的目錄
-    // $baseDir = PATH_ROOT . '/app/Models/';
-
     // 定義多個檔案的所在目錄
     $dirs = [
         PATH_ROOT . '/app/System/',
         PATH_ROOT . '/app/Models/',
         PATH_ROOT . '/app/Controllers/'
     ];
-
-    // 將類名轉換為檔案路徑
-    // $file = $baseDir . $className . '.php';
 
     // 將類名轉換為檔案路徑（替換命名空間分隔符）
     $classPath = str_replace('\\', '/', $className) . '.php';
@@ -40,19 +31,44 @@ spl_autoload_register(function ($className) {
         if (file_exists($file)) {
             require $file;
             return; // 找到並載入檔案後退出
+        } else {
+            // 可選：如果檔案未找到，記錄錯誤或拋出異常
+            // 避免直接拋出異常以防止 Smarty 或其他第三方庫的問題
+            error_log("Class $className not found in any defined directories.");
         }
     }
-
-
-    // 檢查檔案是否存在，若存在則載入
-    // if (file_exists($file)) {
-    //     require $file;
-    // }
-    // // else {
-    // //     // 可選：拋出異常或記錄錯誤 開啟會導致 smarty 錯誤
-    // //     throw new Exception("Config: Class $className not found in $file");
-    // // }
 });
+
+
+// /* 進階：使用 PSR-4 標準自動加載 */
+// spl_autoload_register(function ($className) {
+//     // 定義命名空間與目錄的映射
+//     $prefixes = [
+//         'App\\Models\\' => PATH_ROOT . '/app/Models/',
+//         'App\\Controllers\\' => PATH_ROOT . '/app/Controllers/',
+//         'App\\Services\\' => PATH_ROOT . '/app/Services/',
+//         'App\\Libraries\\' => PATH_ROOT . '/app/Libraries/',
+//     ];
+
+//     foreach ($prefixes as $prefix => $baseDir) {
+//         // 檢查類名是否以該命名空間開頭
+//         $len = strlen($prefix);
+//         if (strncmp($prefix, $className, $len) === 0) {
+//             // 獲取類的相對路徑
+//             $relativeClass = substr($className, $len);
+//             $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
+
+//             // 如果檔案存在，則載入
+//             if (file_exists($file)) {
+//                 require $file;
+//                 return;
+//             }
+//         }
+//     }
+
+//     // 可選：記錄錯誤
+//     // error_log("Class $className not found in any defined directories.");
+// });
 
 require PATH_ROOT.'/app/System/DotEnv.php';
 
@@ -103,26 +119,13 @@ require PATH_ROOT.'/app/Repository/ProductRepository.php';
 require PATH_ROOT.'/app/Repository/OrderRepository.php';
 require PATH_ROOT.'/app/Repository/ManagerRepository.php';
 
-
 require PATH_ROOT.'/app/System/Model.php';
 require PATH_ROOT.'/app/Models/PaginationModel.php';
 require PATH_ROOT.'/app/Models/DummyTableModel.php';
 require PATH_ROOT.'/app/Models/NewsModel.php';
 
-require PATH_ROOT.'/app/System/JavaScript.php';
-require PATH_ROOT.'/app/System/Template.php';
-require PATH_ROOT.'/app/System/Paginator.php';
-require PATH_ROOT.'/app/System/Pagebar.php';
-require PATH_ROOT.'/app/System/CRequest.php';
-require PATH_ROOT.'/app/System/CResponse.php';
-
 $Paths = new Paths();
 definePathConstants($Paths);
-
-
-
-
-
 
 function dd($data)
 {
