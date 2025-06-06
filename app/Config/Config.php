@@ -18,19 +18,40 @@ require PATH_ROOT."/vendor/autoload.php";
 // 自動加載的函式
 spl_autoload_register(function ($className) {
     // 定義類檔案所在的目錄
-    $baseDir = PATH_ROOT . '/app/Models/';
+    // $baseDir = PATH_ROOT . '/app/Models/';
+
+    // 定義多個檔案的所在目錄
+    $dirs = [
+        PATH_ROOT . '/app/System/',
+        PATH_ROOT . '/app/Models/',
+        PATH_ROOT . '/app/Controllers/'
+    ];
 
     // 將類名轉換為檔案路徑
-    $file = $baseDir . $className . '.php';
+    // $file = $baseDir . $className . '.php';
+
+    // 將類名轉換為檔案路徑（替換命名空間分隔符）
+    $classPath = str_replace('\\', '/', $className) . '.php';
+
+
+    // 遍歷每個目錄，檢查檔案是否存在
+    foreach ($dirs as $baseDir) {
+        $file = $baseDir . $classPath;
+        if (file_exists($file)) {
+            require $file;
+            return; // 找到並載入檔案後退出
+        }
+    }
+
 
     // 檢查檔案是否存在，若存在則載入
-    if (file_exists($file)) {
-        require $file;
-    }
-    // else {
-    //     // 可選：拋出異常或記錄錯誤 開啟會導致 smarty 錯誤
-    //     throw new Exception("Config: Class $className not found in $file");
+    // if (file_exists($file)) {
+    //     require $file;
     // }
+    // // else {
+    // //     // 可選：拋出異常或記錄錯誤 開啟會導致 smarty 錯誤
+    // //     throw new Exception("Config: Class $className not found in $file");
+    // // }
 });
 
 require PATH_ROOT.'/app/System/DotEnv.php';

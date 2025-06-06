@@ -393,7 +393,7 @@ class CStore
         $queryParams = $_GET;
         unset($queryParams['page']);
 
-        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'store/listAssign', $queryParams);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, BASE_URL.'store/list_assign', $queryParams);
 
         $startRow = $paginator->offset();
         $maxRows = $paginator->limit();

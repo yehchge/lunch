@@ -233,9 +233,11 @@ class Model
 
     protected function getPagebar()
     {
-        $func = $this->func();
-        // $action = $this->action();
-        // $params = $this->params();
+        $UrlParse = new UrlParse();
+
+        $func = $UrlParse->getFunction();
+        // $action = $UrlParse->getAction();
+        // $params = $UrlParse->getParams();
 
         $request = new CRequest();
 

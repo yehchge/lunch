@@ -21,7 +21,7 @@ $routes->post('store/update', [CStore::class, 'update'], [AuthUser::class]);
 $routes->get('store/show', [CStore::class, 'show'], [AuthUser::class]);
 $routes->get('store/assign', [CStore::class, 'assign'], [AuthUser::class]);
 $routes->get('store/assigned', [CStore::class, 'assigned'], [AuthUser::class]);
-$routes->get('store/listAssign', [CStore::class, 'listAssign'], [AuthUser::class]);
+$routes->get('store/list_assign', [CStore::class, 'listAssign'], [AuthUser::class]);
 $routes->get('store/editStatus', [CStore::class, 'editStatus'], [AuthUser::class]);
 $routes->post('store/editStatus', [CStore::class, 'editStatus'], [AuthUser::class]);
 $routes->get('product/list', [CProduct::class, 'list'], [AuthUser::class]);
