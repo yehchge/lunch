@@ -4,8 +4,7 @@ class News
 {
     public function index()
     {
-        // $model = model(NewsModel::class);
-        $model = new NewsModel();
+        $model = model(NewsModel::class);
 
         $data = [
             'news_list' => $model->getNews(),
@@ -19,8 +18,7 @@ class News
 
     public function show(?string $slug = null)
     {
-        // $model = model(NewsModel::class);
-        $model = new NewsModel();
+        $model = model(NewsModel::class);
 
         $data['news'] = $model->getNews($slug);
 
@@ -38,6 +36,10 @@ class News
     public function new()
     {
         // helper('form');
+        
+        // $message = session()->get('error');
+        // session()->remove('error');
+        // echo $message;
 
         return view('templates/header', ['title' => 'Create a news item'])
             . view('news/create', ['title' => 'Create a news item'])
@@ -53,24 +55,33 @@ class News
      */
     public function create()
     {
-        // 使用範例
-        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //     $posted_token = $_POST['csrf_token'] ?? '';
-        //     if (verifyCsrfToken($posted_token)) {
-        //         // echo "CSRF token 驗證成功，可以處理表單數據";
-        //     } else {
-        //         http_response_code(403);
-        //         echo "CSRF token 驗證失敗";
-        //         exit;
-        //     }
-        // }
-
         // helper('form');
 
-        // $data = $this->request->getPost(['title', 'body']);
-
         $request = new CRequest();
-        $data  = $request->getPost();
+        $data = $request->getPost(['title', 'body']);
+
+        $validator = new Validator($data, [
+            'title' => 'required|max:255|min:3',
+            'body'  => 'required|max:5000|min:10',
+        ]);
+
+        if ($validator->validate()) {
+            // echo "Validation passed!\n";
+        } else {
+            $message = '';
+            // 輸出錯誤訊息
+            foreach ($validator->getErrors() as $field => $errors) {
+                foreach ($errors as $error) {
+                    // echo "$error\n";
+                    $message .= $error."<br>";
+                }
+            }
+
+            // session()->set('error', $message);
+            // echo $message;    
+            session()->setFlashdata('error', $message);
+            return $this->new();
+        }
 
         // // Checks whether the submitted data passed the validation rules.
         // if (! $this->validateData($data, [

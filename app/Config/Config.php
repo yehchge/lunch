@@ -18,12 +18,12 @@ spl_autoload_register(function ($className) {
     $dirs = [
         PATH_ROOT . '/app/System/',
         PATH_ROOT . '/app/Models/',
+        PATH_ROOT . '/app/Config/',
         PATH_ROOT . '/app/Controllers/'
     ];
 
     // 將類名轉換為檔案路徑（替換命名空間分隔符）
     $classPath = str_replace('\\', '/', $className) . '.php';
-
 
     // 遍歷每個目錄，檢查檔案是否存在
     foreach ($dirs as $baseDir) {

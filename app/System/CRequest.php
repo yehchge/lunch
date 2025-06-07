@@ -53,10 +53,32 @@ class CRequest
         return $_GET;
     }
 
-    public function getPost(string $name = '')
+    public function getPost($name = null, $default = null)
     {
-        if($name) return $_POST[$name] ?? null;
-        return $_POST;
+        // 若無 name，則返回過濾後的 $_POST 陣列
+        if ($name === null) {
+            return array_map('filter_var', $_POST, array_fill(0, count($_POST), FILTER_SANITIZE_STRING));
+        }
+
+        // 若 name 為陣列，獲取多個值
+        if (is_array($name)) {
+            $data = [];
+            foreach ($name as $key) {
+                if (!is_string($key)) {
+                    continue; // 跳過非字串鍵
+                }
+                $data[$key] = filter_var($_POST[$key] ?? $default, FILTER_SANITIZE_STRING);
+            }
+            return $data;
+        }
+
+        // 若 name 為字串，獲取單一值
+        if (is_string($name)) {
+            return filter_var($_POST[$name] ?? $default, FILTER_SANITIZE_STRING);
+        }
+
+        // 對於無效輸入拋出異常
+        throw new InvalidArgumentException('參數 $name 必須為字串、陣列或 null。');
     }
 
     public function getFile(string $name)
