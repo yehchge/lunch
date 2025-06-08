@@ -1,8 +1,8 @@
 <?php
 
-// namespace App\Models;
+namespace App\Models;
 
-// use CodeIgniter\Model;
+use App\System\Model;
 
 class EmployeeModel extends Model
 {

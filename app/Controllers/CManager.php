@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class CManager
 {
     // DinBenDon(今日)

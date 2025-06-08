@@ -1,6 +1,6 @@
 <?php
 
-// namespace App\System;
+namespace App\System;
 
 class Router
 {
@@ -67,8 +67,13 @@ class Router
                     }
 
                     // 載入控制器並執行
-                    require_once PATH_ROOT . "/app/Controllers/{$controller}.php";
-                    $instance = new $controller();
+                    // require_once PATH_ROOT . "/app/Controllers/{$controller}.php";
+                    // use App\Controllers\$controller;
+
+                    $controllerName = $controller;
+                    $fullyQualifiedClass = "App\\Controllers\\{$controllerName}";
+
+                    $instance = new $fullyQualifiedClass();
                     foreach ($matches as $key => $val) {
                         $matches[$key] = urldecode($val);
                     }

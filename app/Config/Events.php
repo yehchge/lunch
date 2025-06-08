@@ -5,7 +5,12 @@
  */
 
 // 維護功能
-require PATH_ROOT."/app/ThirdParty/MyMaintenance.php";
+// require PATH_ROOT."/app/ThirdParty/MyMaintenance.php";
+
+// namespace App\Config;
+
+use App\System\Events;
+use App\ThirdParty\MyMaintenance;
 
 // 維護
 $MyMaintenance = new MyMaintenance();

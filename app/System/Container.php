@@ -1,5 +1,7 @@
 <?php
 
+namespace App\System;
+
 class Container {
     // 儲存綁定（類或閉包）
     protected $bindings = [];
@@ -51,16 +53,16 @@ class Container {
     protected function resolveClass($class) {
         try {
             if (!class_exists($class)) {
-                throw new Exception("類 $class 不存在，請檢查類名或自動加載配置");
+                throw new \Exception("類 $class 不存在，請檢查類名或自動加載配置");
             }
-            $reflector = new ReflectionClass($class);
-        } catch (ReflectionException $e) {
-            throw new Exception("無法解析類 $class: " . $e->getMessage());
+            $reflector = new \ReflectionClass($class);
+        } catch (\ReflectionException $e) {
+            throw new \Exception("無法解析類 $class: " . $e->getMessage());
         }
 
         // 檢查類是否可實例化
         if (!$reflector->isInstantiable()) {
-            throw new Exception("類 $class 不可實例化");
+            throw new \Exception("類 $class 不可實例化");
         }
 
         // 獲取建構函數
@@ -93,7 +95,7 @@ class Container {
                 if ($parameter->isDefaultValueAvailable()) {
                     $dependencies[] = $parameter->getDefaultValue();
                 } else {
-                    throw new Exception("無法解析參數 {$parameter->name} 的依賴");
+                    throw new \Exception("無法解析參數 {$parameter->name} 的依賴");
                 }
             }
         }

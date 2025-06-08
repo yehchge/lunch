@@ -22,12 +22,14 @@
  *     php spark make:model employee --suffix
  */
 
-// namespace App\Controllers;
+namespace App\Controllers;
 
 // use CodeIgniter\HTTP\ResponseInterface;
 // use CodeIgniter\RESTful\ResourceController;
 
-// use App\Models\EmployeeModel;
+use App\Models\EmployeeModel;
+use App\System\CResponse;
+
 
 class Employee
 // extends ResourceController

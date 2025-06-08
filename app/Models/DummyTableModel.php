@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use App\System\Model;
+
 class DummyTableModel extends Model
 {
     private $paginator;

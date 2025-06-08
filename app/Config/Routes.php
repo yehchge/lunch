@@ -4,7 +4,12 @@
  * Routes
  */
 
-require PATH_ROOT.'/app/System/Router.php';
+// require PATH_ROOT.'/app/System/Router.php';
+
+
+
+use App\System\Router;
+
 $routes = new Router();
 
 // Add middleware

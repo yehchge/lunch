@@ -81,6 +81,7 @@
 // $template->assign('content', '<b>Hello</b>');
 // <p>{$content|raw}</p>      <!-- 直接輸出 <b>Hello</b> -->
 
+namespace App\System;
 
 class Template
 {

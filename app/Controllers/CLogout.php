@@ -1,6 +1,7 @@
 <?php
 
 # 登出
+namespace App\Controllers;
 
 class CLogout
 {

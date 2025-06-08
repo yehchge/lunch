@@ -2,6 +2,17 @@
 
 // 檔案：src/Security/CsrfFilter.php
 // CSRF 過濾器實現
+
+namespace App\Security;
+
+use App\System\FilterInterface;
+// use App\Config\Security;
+use App\System\CRequest;
+use App\System\CResponse;
+use App\System\SecurityException;
+
+
+
 class CsrfFilter implements FilterInterface {
     protected $config;
 

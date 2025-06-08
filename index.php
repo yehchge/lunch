@@ -7,13 +7,14 @@ define('CI_START', microtime(true));
 header('Content-Type: text/html; charset=utf-8');
 
 require 'app/Config/Config.php';
-
-require 'app/System/PageNotFoundException.php';
-require 'app/System/SecurityException.php';
-require 'app/System/FilterInterface.php';
 require 'app/Security/CsrfFilter.php';
-require 'app/System/FilterManager.php';
-require 'app/System/Application.php';
+
+
+use App\System\Database;
+use App\Repository\UserRepository;
+use App\Auth\Auth;
+use App\System\Application;
+
 
 $db = new Database();
 $userRepo = new UserRepository($db);

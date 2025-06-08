@@ -1,5 +1,11 @@
 <?php
 
+namespace App\Config;
+
+use App\System\CRequest;
+use App\System\CResponse;
+use App\ThirdParty\CI4Smarty;
+
 class Services
 {
     protected static array $instances = [];
@@ -7,7 +13,7 @@ class Services
     public static function smarty()
     {
         if (!isset(self::$instances['smarty'])) {
-            require_once PATH_ROOT.'/app/ThirdParty/CI4Smarty.php';
+            // require_once PATH_ROOT.'/app/ThirdParty/CI4Smarty.php';
 
             $smarty = new CI4Smarty();
             self::$instances['smarty'] = $smarty;
@@ -19,7 +25,7 @@ class Services
     public static function response()
     {
         if (!isset(self::$instances['response'])) {
-            require_once PATH_ROOT.'/app/System/CResponse.php';
+            // require_once PATH_ROOT.'/app/System/CResponse.php';
 
             $response = new CResponse();
             self::$instances['response'] = $response;
@@ -31,7 +37,7 @@ class Services
     public static function request()
     {
         if (!isset(self::$instances['response'])) {
-            require_once PATH_ROOT.'/app/System/CRequest.php';
+            // require_once PATH_ROOT.'/app/System/CRequest.php';
 
             $request = new CRequest();
             self::$instances['request'] = $request;

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class COrder
 {
     // 訂購明細

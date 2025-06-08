@@ -1,5 +1,7 @@
 <?php
 
+namespace App\System;
+
 class CLI
 {
     protected static $foreground_colors = [

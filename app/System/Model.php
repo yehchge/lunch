@@ -4,6 +4,8 @@
  * 基本 Model
  */
 
+namespace App\System;
+
 class Model
 {
     protected $pdo;
@@ -33,7 +35,7 @@ class Model
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
             return $stmt->fetchAll();
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->handleError($e->getMessage());
             return false;
         }
@@ -115,7 +117,7 @@ class Model
             $stmt = $this->queryIterator($sql);
             $row = $this->fetch_assoc($stmt);
             return $row;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->handleError($e->getMessage());
             return false;
         }
@@ -135,7 +137,7 @@ class Model
             $stmt = $this->queryIterator($sql);
             $row = $this->fetch_assoc($stmt);
             return $row;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->handleError($e->getMessage());
             return false;
         }
@@ -211,13 +213,13 @@ class Model
         return $row['total'];
     }
 
-    private function queryIterator(string $sql, array $params = []): ?PDOStatement
+    private function queryIterator(string $sql, array $params = []): ?\PDOStatement
     {
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
             return $stmt;  // 可用來逐筆 fetch
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->handleError("QueryIterator Error: ".$e->getMessage().PHP_EOL);
             return null;
         }
@@ -226,7 +228,7 @@ class Model
     public function fetch_assoc($stmt)
     {
         if(!$stmt) return null;
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
         if(!$row) return null;
         return $row;
     }
@@ -322,8 +324,8 @@ class Model
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
             $this->handleError($e->getMessage());
             return false;
         }
@@ -369,7 +371,7 @@ class Model
         try {
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->handleError($e->getMessage());
             return false;
         }

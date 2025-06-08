@@ -1,5 +1,7 @@
 <?php
 
+namespace App\System;
+
 // 基底命令類，定義必要屬性和方法
 abstract class BaseCommand {
     public $group;

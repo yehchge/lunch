@@ -5,9 +5,9 @@
  * @ref: https://codeigniter.com/user_guide/tutorial/news_section.html
  */
 
-// namespace App\Models;
+namespace App\Models;
 
-// use CodeIgniter\Model;
+use App\System\Model;
 
 class NewsModel extends Model
 {

@@ -9,7 +9,10 @@
  *     php spark make:controller emp --restful presenter
  */
 
-// namespace App\Controllers;
+namespace App\Controllers;
+
+use App\Models\EmployeeModel;
+
 
 // use CodeIgniter\HTTP\ResponseInterface;
 // use CodeIgniter\RESTful\ResourcePresenter;

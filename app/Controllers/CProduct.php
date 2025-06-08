@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class CProduct
 {
     // 顯示資料列表

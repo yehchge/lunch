@@ -1,9 +1,10 @@
 <?php
 
-class File extends SplFileInfo
+namespace App\System;
+
+
+class File extends \SplFileInfo
 {
-
-
     public function getSizeByUnit(string $unit = 'b')
     {
         $bytes = $this->getSize();

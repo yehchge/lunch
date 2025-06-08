@@ -18,7 +18,7 @@ function service(string $name)
         return Services::$name();
     }
 
-    throw new Exception("Service '$name' not found.");
+    throw new \Exception("Service '$name' not found.");
 }
 
 function base_url($relativePath = ''): string

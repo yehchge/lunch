@@ -4,6 +4,8 @@
  * 列表分頁 Pagebar
  */
 
+namespace App\System;
+
 class Paginator
 {
     protected int $totalItems;

@@ -1,7 +1,7 @@
 <?php
 
 // core/Session.php
-// namespace App\System;
+namespace App\System;
 
 class Session
 {

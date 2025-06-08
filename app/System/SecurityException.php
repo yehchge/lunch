@@ -2,7 +2,9 @@
 
 // 檔案：src/Core/SecurityException.php
 // 自訂例外類
-class SecurityException extends Exception {
+namespace App\System;
+
+class SecurityException extends \Exception {
 
     /**
      * HTTP status code

@@ -7,7 +7,7 @@
  * @created 2022/12/22
  */
 
-// namespace App\Controllers;
+namespace App\Controllers;
 
 // use App\Controllers\BaseController;
 // use CodeIgniter\HTTP\ResponseInterface;

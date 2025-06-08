@@ -11,6 +11,10 @@
  *      php spark db:seed DummyTableModelSeeder
  */
 
+namespace App\Controllers;
+
+use App\Models\DummyTableModel;
+
 class Main
 {
     public function index()

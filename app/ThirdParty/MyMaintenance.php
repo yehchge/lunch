@@ -8,6 +8,8 @@
 /**
  * Check whether the site is offline or not.
  */
+namespace App\ThirdParty;
+
 class MyMaintenance {
 
     public function __construct(){

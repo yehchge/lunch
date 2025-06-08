@@ -4,6 +4,8 @@
  * 事件類別
  */
 
+namespace App\System;
+
 class Events
 {
     public const PRIORITY_LOW    = 200;

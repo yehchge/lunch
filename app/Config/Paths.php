@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Config;
+
 class Paths
 {
     public string $appDirectory = __DIR__ . '/..';

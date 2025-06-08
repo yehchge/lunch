@@ -7,6 +7,8 @@ declare(strict_types=1); // 嚴格類型
 // JavaScript::setFlashMessage('這是一個提示訊息！');
 // JavaScript::displayFlashMessage();
 
+namespace App\System;
+
 class JavaScript
 {
     private $output = '';

@@ -3,7 +3,7 @@
 /**
  * 維護頁面
  */
-
+namespace App\Controllers;
 
 class Maintenance
 {

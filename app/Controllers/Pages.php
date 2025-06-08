@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use App\System\PageNotFoundException;
+
 class Pages
 {
     public function index()

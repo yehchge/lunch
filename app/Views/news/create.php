@@ -1,5 +1,6 @@
 <h2><?= esc($title) ?></h2>
 
+<!--?= JavaScript::displayFlashMessage() ?-->
 <?= session()->getFlashdata('error') ?>
 <!--?= validation_list_errors() ?-->
 

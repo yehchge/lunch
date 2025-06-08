@@ -1,5 +1,7 @@
 <?php
 
+namespace App\System;
+
 class Validator
 {
     protected $data; // 待驗證的資料

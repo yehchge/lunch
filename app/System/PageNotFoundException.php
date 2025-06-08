@@ -1,6 +1,8 @@
 <?php
 
-class PageNotFoundException extends Exception {
+namespace App\System;
+
+class PageNotFoundException extends \Exception {
 
     /**
      * HTTP status code

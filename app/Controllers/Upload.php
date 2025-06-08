@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class Upload
 {
     protected $helpers = ['form'];

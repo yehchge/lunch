@@ -3,6 +3,8 @@
 // 檔案：src/Core/FilterManager.php
 // 過濾器管理器，負責執行過濾器
 
+namespace App\System;
+
 class FilterManager {
     protected $filters = [
         'before' => [],

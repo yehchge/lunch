@@ -9,6 +9,8 @@
 
 declare(strict_types=1);
 
+namespace App\System;
+
 class UrlParse
 {
     private const DEFAULT_FUNC = 'home'; // 預設功能名稱

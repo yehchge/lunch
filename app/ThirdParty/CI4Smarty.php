@@ -7,7 +7,7 @@
 
 declare(strict_types=1); // 嚴格類型
 
-// namespace App\ThirdParty;
+namespace App\ThirdParty;
 
 class CI4Smarty extends \Smarty
 {

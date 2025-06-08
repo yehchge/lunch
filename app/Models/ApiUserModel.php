@@ -7,9 +7,9 @@
  * @created 2022/12/22
  */
 
-// namespace App\Models;
+namespace App\Models;
 
-// use CodeIgniter\Model;
+use App\System\Model;
 
 class ApiUserModel extends Model
 {

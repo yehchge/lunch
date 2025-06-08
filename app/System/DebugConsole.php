@@ -1,5 +1,7 @@
 <?php
 
+namespace App\System;
+
 class DebugConsole
 {
     private float $startTime;

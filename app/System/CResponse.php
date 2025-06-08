@@ -5,6 +5,8 @@
 // $response->setBody('{"foo":"bar"}');
 // $response->send();
 
+namespace App\System;
+
 class CResponse
 {
     protected $headers = array();

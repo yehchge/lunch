@@ -1,6 +1,13 @@
 <?php
 
 # 登入
+namespace App\Controllers;
+
+use App\System\JavaScript;
+use App\System\Template;
+use App\System\Database;
+use App\Repository\UserRepository;
+use App\Auth\Auth;
 
 class CLogin
 {

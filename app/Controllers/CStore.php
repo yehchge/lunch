@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class CStore
 {
     // 顯示資料列表

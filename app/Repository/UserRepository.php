@@ -2,6 +2,10 @@
 
 declare(strict_types=1); // 嚴格類型
 
+namespace App\Repository;
+
+use App\System\Database;
+
 class UserRepository 
 {
     private $pdo;

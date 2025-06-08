@@ -3,6 +3,7 @@
 /**
  * 列表分頁 Pagebar(default)
  */
+namespace App\System;
 
 class Pagebar
 {

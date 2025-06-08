@@ -3,6 +3,12 @@
 // 檔案：src/Core/Application.php
 // 框架核心應用類
 
+namespace App\System;
+
+use App\Security\CsrfFilter;
+use App\System\FilterManager;
+// use App\System\SecurityException;
+
 class Application {
 
     protected $filterManager;
@@ -39,12 +45,12 @@ class Application {
         } catch (SecurityException $e) {
             // 根據請求類型處理錯誤
             $this->handleError($request, $response, $e);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->handleError($request, $response, $e);
         }
     }
 
-    protected function handleError(CRequest $request, CResponse $response, Exception $e) {
+    protected function handleError(CRequest $request, CResponse $response, \Exception $e) {
         // 清除之前的輸出緩衝區，防止其他內容干擾
         while (ob_get_level() > 0) {
             ob_end_clean();

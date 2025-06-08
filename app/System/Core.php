@@ -4,6 +4,8 @@
  * 核心 Core
  */
 
+namespace App\System;
+
 class Core
 {
     public function __construct(){

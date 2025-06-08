@@ -1,5 +1,13 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Models\NewsModel;
+use App\System\PageNotFoundException;
+use App\System\CRequest;
+use App\System\Validator;
+
+
 class News
 {
     public function index()
@@ -36,14 +44,18 @@ class News
     public function new()
     {
         // helper('form');
-        
-        // $message = session()->get('error');
-        // session()->remove('error');
-        // echo $message;
+        // echo "flash_message1 = " . $_SESSION['flash_message']."<br>";
+        // echo "flash_message1 = <br>" . session()->getFlashdata('error')."<br>";
 
-        return view('templates/header', ['title' => 'Create a news item'])
+        echo view('templates/header', ['title' => 'Create a news item'])
             . view('news/create', ['title' => 'Create a news item'])
             . view('templates/footer');
+
+        $dd = get_included_files();
+        echo "<pre>";print_r($dd);echo "</pre>";
+        // echo "flash_message2 = " . $_SESSION['flash_message']."<br>";
+        // echo "flash_message2 = <br>" . session()->getFlashdata('error')."<br>";
+ 
     }
 
     /**
@@ -72,15 +84,14 @@ class News
             // 輸出錯誤訊息
             foreach ($validator->getErrors() as $field => $errors) {
                 foreach ($errors as $error) {
-                    // echo "$error\n";
                     $message .= $error."<br>";
                 }
             }
 
-            // session()->set('error', $message);
-            // echo $message;    
+            // JavaScript::redirect('./new', $message);
             session()->setFlashdata('error', $message);
             return $this->new();
+            // JavaScript::redirect('./new');
         }
 
         // // Checks whether the submitted data passed the validation rules.

@@ -12,7 +12,11 @@
 // 4. Insert some data in the "users" table.
 // 5. To run the project execute "php spark serve".
 
-// use App\Models\PaginationModel;
+
+namespace App\Controllers;
+
+use App\Models\PaginationModel;
+use App\System\CResponse;
 
 class PaginationController
 {
