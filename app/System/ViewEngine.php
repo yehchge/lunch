@@ -42,7 +42,7 @@ class ViewEngine
 
         if (!file_exists($viewPath)) {
             http_response_code(404);
-            echo "View '{$viewName}' not found.";
+            echo "View '{$view}' not found.";
             return;
         }
 
