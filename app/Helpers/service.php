@@ -2,6 +2,8 @@
 
 session_start();
 
+use App\Config\Services;
+
 // 全局輔助函數
 function model($class) {
     global $container; // 假設容器是全局單例
@@ -11,7 +13,7 @@ function model($class) {
 function service(string $name)
 {
     if (!class_exists('Services')) {
-        require_once PATH_ROOT.'/app/Config/Services.php';
+        // require_once PATH_ROOT.'/app/Config/Services.php';
     }
 
     if(method_exists('Services', $name)) {
