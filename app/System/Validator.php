@@ -69,7 +69,7 @@ class Validator
                 return strlen($value) <= (int)$param;
             case 'numeric':
                 return is_numeric($value);
-            case 'in':
+            case 'in': // 檢查值是否在指定選項中。 Ex: 'gender' => 'required|in:male,female,other',
                 $options = explode(',', $param);
                 return in_array($value, $options);
             default:

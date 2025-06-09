@@ -29,6 +29,8 @@ namespace App\Controllers;
 
 use App\Models\EmployeeModel;
 use App\System\CResponse;
+use App\System\CRequest;
+use App\System\Validator;
 
 
 class Employee
@@ -116,6 +118,33 @@ class Employee
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
+
+        $validator = new Validator($data, [
+            'name' => 'required',
+            'email'  => 'required|email',
+        ]);
+
+        if ($validator->validate()) {
+            // echo "Validation passed!\n";
+        } else {
+
+            $data = [];
+            // 輸出錯誤訊息
+            foreach ($validator->getErrors() as $field => $errors) {
+                foreach ($errors as $error) {
+                    $data[$field] = $error;
+                }
+            }
+
+            $response = new CResponse();
+
+            return $response->fail([
+                'status' => 400,
+                'error' => 400,
+                'messages' => $data
+            ]);
+        }
+
         $model->insert($data);
         $response = [
             'status' => 201,
@@ -181,8 +210,36 @@ class Employee
             // Using php://input to Access Raw POST Data
             $json = file_get_contents('php://input');
 
-
             $data = json_decode($json, true);
+
+
+
+
+            $validator = new Validator($data, [
+                'name' => 'required',
+                'email'  => 'required|email',
+            ]);
+
+            if ($validator->validate()) {
+                // echo "Validation passed!\n";
+            } else {
+
+                $data = [];
+                // 輸出錯誤訊息
+                foreach ($validator->getErrors() as $field => $errors) {
+                    foreach ($errors as $error) {
+                        $data[$field] = $error;
+                    }
+                }
+
+                $response = new CResponse();
+
+                return $response->fail([
+                    'status' => 400,
+                    'error' => 400,
+                    'messages' => $data
+                ]);
+            }
 
 
             $model->update($id, $data);

@@ -58,14 +58,10 @@ class Session
     public function getFlashdata(string $key, $default = null)
     {
         $value = $_SESSION[$this->flashdataKey . '_old'][$key]['value'] ?? $default;
-        // error_log("--- Start kill session ---");
-        // error_log($_SESSION[$this->flashdataKey . '_old'][$key]);
 
         $_SESSION[$this->flashdataKey . '_old'][$key]['read'] = true;
 
-        // unset($_SESSION[$this->flashdataKey . '_old'][$key]); // 取完刪除
-
-        // error_log("--- End kill session ---");
+        // unset($_SESSION[$this->flashdataKey . '_old'][$key]); // 不使用是因為會被讀取兩次
         return $value;
     }
 
@@ -75,7 +71,7 @@ class Session
 
         foreach ($_SESSION[$this->flashdataKey . '_old'] as $key => $data) {
             if (!empty($data['read'])) {
-                unset($_SESSION[$this->flashdataKey . '_old']);
+                unset($_SESSION[$this->flashdataKey . '_old']); // 取完刪除
             }
         }
 
