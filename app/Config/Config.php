@@ -45,8 +45,9 @@ spl_autoload_register(function ($className) {
     // 定義命名空間與目錄的映射
     $dirs = [
         'App\\System\\' => PATH_ROOT . '/app/System/',
-        'App\\Models\\' => PATH_ROOT . '/app/Models/',
         'App\\Config\\' => PATH_ROOT . '/app/Config/',
+        'App\\ThirdParty\\' => PATH_ROOT . '/app/ThirdParty/',
+        'App\\Models\\' => PATH_ROOT . '/app/Models/',
         'App\\Controllers\\' => PATH_ROOT . '/app/Controllers/',
     ];
 
@@ -108,9 +109,11 @@ require PATH_ROOT.'/app/System/File.php';
 require PATH_ROOT.'/app/System/ViewEngine.php';
 
 // require PATH_ROOT.'/app/Config/Paths.php';
-// require PATH_ROOT.'/app/System/Events.php';
 
-// require PATH_ROOT.'/app/Config/Events.php';
+
+// 事件 Events
+require PATH_ROOT.'/app/Config/Events.php';
+// require PATH_ROOT.'/app/System/Events.php';
 
 use App\System\Events;
 // use App\Config\Events;
