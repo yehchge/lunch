@@ -2,6 +2,14 @@
 
 namespace App\Controllers;
 
+use App\System\Database;
+use App\Repository\UserRepository;
+use App\Repository\OrderRepository;
+use App\Repository\ProductRepository;
+use App\System\Template;
+use App\System\JavaScript;
+use App\System\Paginator;
+
 class COrder
 {
     // 訂購明細
@@ -99,6 +107,7 @@ class COrder
         $tpl->assign('title', '訂購人明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細/訂購人明細');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         return $tpl->display(class_basename($this).'/OrderDetails.htm');
     }
 
@@ -185,6 +194,7 @@ class COrder
         $tpl->assign('title', 'DinBenDon - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon/訂購GO');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         return $tpl->display(class_basename($this).'/OrderLunch.htm');
     }
 
@@ -269,6 +279,7 @@ class COrder
         $tpl->assign('title', '訂購結果 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon/訂購GO/訂購商品結果');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         return $tpl->display(class_basename($this).'/OrderLunched.htm');
     }
 
@@ -316,6 +327,7 @@ class COrder
         $tpl->assign('title', '管理使用者訂單狀態 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細/訂購人明細/管理訂購人明細狀態');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         return $tpl->display(class_basename($this).'/EditOrder.htm');      
     }
 

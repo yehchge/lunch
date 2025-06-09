@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\System\Template;
+
 class CUser
 {
     public function index(){}
@@ -19,6 +21,7 @@ class CUser
         $tpl->assign('title', '');
         $tpl->assign('breadcrumb', '');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         return $tpl->display('register.htm');
     }
 

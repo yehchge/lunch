@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Repository;
+
+use App\System\Database;
+
 class ProductRepository
 {
     private $pdo;
@@ -95,16 +99,16 @@ class ProductRepository
     public function fetch_assoc($stmt)
     {
         if(!$stmt) return 0;
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    private function queryIterator(string $sql, array $params = []): ?PDOStatement
+    private function queryIterator(string $sql, array $params = []): ?\PDOStatement
     {
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
             return $stmt;  // 可用來逐筆 fetch
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->handleError("QueryIterator Error: ".$e->getMessage().PHP_EOL);
             return null;
         }
@@ -128,7 +132,7 @@ class ProductRepository
         try {
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->handleError($e->getMessage());
             return false;
         }

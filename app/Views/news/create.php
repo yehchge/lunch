@@ -1,8 +1,6 @@
 <h2><?= esc($title) ?></h2>
-
-<!--?= JavaScript::displayFlashMessage() ?-->
-<?= session()->getFlashdata('error') ?>
-<!--?= validation_list_errors() ?-->
+<!-- ?= session()->getFlashdata('errors') ?-->
+<?= validation_list_errors() ?>
 
 <form action="<?= base_url('/news/create') ?>" method="post">
     <?= csrf_field() ?>

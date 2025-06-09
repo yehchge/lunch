@@ -2,6 +2,11 @@
 
 namespace App\Controllers;
 
+use App\System\Database;
+use App\Repository\ManagerRepository;
+use App\System\Template;
+use App\System\Paginator;
+
 class CManager
 {
     // DinBenDon(今日)
@@ -76,6 +81,7 @@ class CManager
         $tpl->assign('title', 'DinBenDon(指定店家) - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         return $tpl->display(class_basename($this).'/OrderStore.htm');
     }
 
@@ -150,6 +156,7 @@ class CManager
         $tpl->assign('title', 'DinBenDon明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon明細');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         return $tpl->display(class_basename($this).'/ListOrder.htm');
     }
 }

@@ -2,6 +2,16 @@
 
 namespace App\Controllers;
 
+use App\System\Database;
+use App\System\CRequest;
+use App\Repository\StoreRepository;
+use App\Repository\UserRepository;
+use App\Repository\ManagerRepository;
+use App\Repository\OrderRepository;
+use App\System\Template;
+use App\System\JavaScript;
+use App\System\Paginator;
+
 class CStore
 {
     // 顯示資料列表
@@ -24,8 +34,6 @@ class CStore
         // 每頁幾筆
         $itemsPerPage = 5;
 
-
-        $request = new CRequest();
         $searchData  = $request->getGet();
 
         $search = '';
@@ -57,8 +65,6 @@ class CStore
             $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows);
         }
 
-
-
         // $items = [];
         
         // while ($row = $storeRepo->fetch_assoc($rows)) {
@@ -79,10 +85,6 @@ class CStore
         //     ];
         // }
     
-
-// echo "<pre>";print_r($paginator);echo "</pre>";
-
-
         $tpl->assign('StoreStatus', $storeRepo->StoreStatus);
         $tpl->assign('items', $paginator);
         $tpl->assign('totalrows',"共 $totalItems 筆");
@@ -90,6 +92,7 @@ class CStore
         $tpl->assign('title', '店家維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
 
         return $tpl->display(class_basename($this).'/ListStore.htm');
     }
@@ -102,6 +105,7 @@ class CStore
         $tpl->assign('title', '新增店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '新增店家');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         $tpl->display(class_basename($this).'/AddStore.htm');
     }
 
@@ -170,6 +174,7 @@ class CStore
         $tpl->assign('title', '更新店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護/更新店家');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         $tpl->display(class_basename($this).'/EditStore.htm');
     }
 
@@ -251,6 +256,7 @@ class CStore
 
         $tpl->assign('row', $row);     
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         $tpl->display(class_basename($this).'/StoreDetail.htm');
     }
 
@@ -349,6 +355,7 @@ class CStore
         $tpl->assign('title', '指定店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         $tpl->display(class_basename($this).'/AssignStore.htm');        
     }
 
@@ -448,6 +455,7 @@ class CStore
         $tpl->assign('title', '指定商家管理/截止/取消 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家管理、截止、取消');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         $tpl->display(class_basename($this).'/ListAssignStore.htm'); 
     }
 
@@ -505,6 +513,7 @@ class CStore
         $tpl->assign('title', '管理指定店家狀態 - DinBenDon系統');
         $tpl->assign('breadcrumb', '指定店家管理、截止、取消/管理指定店家狀態');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         $tpl->display(class_basename($this).'/EditManager.htm');
     }
 

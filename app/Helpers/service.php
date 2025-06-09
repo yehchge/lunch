@@ -4,6 +4,17 @@ session_start();
 
 use App\Config\Services;
 
+use App\System\CRequest;
+use App\System\CResponse;
+use App\ThirdParty\CI4Smarty;
+use App\Security\CsrfFilter;
+use App\System\Session;
+
+function session()
+{
+    return Session::getInstance();
+}
+
 // 全局輔助函數
 function model($class) {
     global $container; // 假設容器是全局單例
@@ -13,10 +24,10 @@ function model($class) {
 function service(string $name)
 {
     if (!class_exists('Services')) {
-        // require_once PATH_ROOT.'/app/Config/Services.php';
+        require_once PATH_ROOT.'/app/Config/Services.php';
     }
 
-    if(method_exists('Services', $name)) {
+    if(method_exists("App\\Config\\Services", $name)) {
         return Services::$name();
     }
 
@@ -339,4 +350,22 @@ function anchor($uri = '', string $title = ''): string
     }
 
     return '<a href="' . $siteUrl . '"' . '>' . $title . '</a>';
+}
+
+function validation_list_errors()
+{
+    $errors = session()->getFlashdata('errors');
+
+
+    $data = explode('<br>', $errors);
+
+    $result = '<ul>';
+
+    foreach ($data as $key => $val) {
+        if(!$val) continue;
+        $result .= "<li>$val</li>";
+    }
+
+    $result .= '</ul>';
+    echo $result;
 }

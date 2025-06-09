@@ -3,6 +3,10 @@
 # 登出
 namespace App\Controllers;
 
+use App\System\Database;
+use App\Repository\UserRepository;
+use App\Auth\Auth;
+
 class CLogout
 {
     public function index()

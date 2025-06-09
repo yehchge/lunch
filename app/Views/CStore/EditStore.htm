@@ -6,6 +6,7 @@
   </div>
   <form name="frm" method="post" onsubmit="return check_form_editStore(frm);" action="{$baseUrl}store/update">
     <input type=hidden name="storeid" value="{$result.storeid}">
+    {$csrf|raw}
     <table Class="Forums_General" Width="80%">
       <tr Class="Forums_Header">
         <td colspan=2><font color="#FFFFFF">&nbsp;更新店家</font></td>

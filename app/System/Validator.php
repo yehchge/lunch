@@ -11,12 +11,12 @@ class Validator
 
     // 預設的錯誤訊息模板
     protected $defaultMessages = [
-        'required' => ':field is required.',
-        'email' => ':field must be a valid email address.',
-        'min' => ':field must be at least :param characters.',
-        'max' => ':field must not exceed :param characters.',
-        'numeric' => ':field must be numeric.',
-        'in' => ':field must be one of: :param.',
+        'required' => 'The :field field is required.',
+        'email'    => 'The :field field must be a valid email address.',
+        'min'      => 'The :field field must be at least :param characters in length.',
+        'max'      => 'The :field field cannot exceed :param characters in length.',
+        'numeric'  => 'The :field field must be numeric.',
+        'in'       => 'The :field field must be one of: :param.',
     ];
 
     // 建構子，傳入資料和規則
@@ -45,6 +45,7 @@ class Validator
                 // 執行驗證
                 if (!$this->applyRule($field, $ruleName, $ruleParam)) {
                     $this->addError($field, $ruleName, $ruleParam);
+                    break;
                 }
             }
         }

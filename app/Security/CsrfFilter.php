@@ -11,8 +11,6 @@ use App\System\CRequest;
 use App\System\CResponse;
 use App\System\SecurityException;
 
-
-
 class CsrfFilter implements FilterInterface {
     protected $config;
 

@@ -6,7 +6,7 @@ use App\Models\NewsModel;
 use App\System\PageNotFoundException;
 use App\System\CRequest;
 use App\System\Validator;
-
+use App\System\JavaScript;
 
 class News
 {
@@ -44,18 +44,9 @@ class News
     public function new()
     {
         // helper('form');
-        // echo "flash_message1 = " . $_SESSION['flash_message']."<br>";
-        // echo "flash_message1 = <br>" . session()->getFlashdata('error')."<br>";
-
-        echo view('templates/header', ['title' => 'Create a news item'])
+        return view('templates/header', ['title' => 'Create a news item'])
             . view('news/create', ['title' => 'Create a news item'])
             . view('templates/footer');
-
-        $dd = get_included_files();
-        echo "<pre>";print_r($dd);echo "</pre>";
-        // echo "flash_message2 = " . $_SESSION['flash_message']."<br>";
-        // echo "flash_message2 = <br>" . session()->getFlashdata('error')."<br>";
- 
     }
 
     /**
@@ -88,10 +79,9 @@ class News
                 }
             }
 
-            // JavaScript::redirect('./new', $message);
-            session()->setFlashdata('error', $message);
-            return $this->new();
-            // JavaScript::redirect('./new');
+            session()->setFlashdata('errors', $message);
+            // return $this->new();
+            return JavaScript::redirect('./new');
         }
 
         // // Checks whether the submitted data passed the validation rules.

@@ -152,8 +152,13 @@ class Router
 
         // 執行控制器
         try {
-            require_once PATH_ROOT . "/app/Controllers/{$controller}.php";
-            $instance = new $controller();
+            // require_once PATH_ROOT . "/app/Controllers/{$controller}.php";
+            // $instance = new $controller();
+
+            $controllerName = $controller;
+            $fullyQualifiedClass = "App\\Controllers\\{$controllerName}";
+            $instance = new $fullyQualifiedClass();
+
             foreach ($params as $key => $val) {
                 $params[$key] = urldecode($val);
             }

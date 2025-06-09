@@ -13,7 +13,9 @@ namespace App\Controllers;
 // use CodeIgniter\HTTP\ResponseInterface;
 
 // use CodeIgniter\API\ResponseTrait;
-// use App\Models\ApiUserModel;
+
+use App\Models\ApiUserModel;
+use App\System\CResponse;
 
 class ApiUser
 {
@@ -22,8 +24,6 @@ class ApiUser
     public function index()
     {
         $users = new ApiUserModel;
-$a = $users->findAll();
-echo "<pre>";print_r($a);echo "</pre>";exit;
 
         $response = new CResponse();
         return $response->respond(['users' => $users->findAll()], 200);

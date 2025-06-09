@@ -5,6 +5,7 @@
     [ {$breadcrumb} ]
   </div>
   <form name="frm" method="post">
+    {$csrf|raw}
     <input type=hidden name="orderid" value="{$orderid}">
     <input type=hidden name="managerid" value="{$managerid}">
     <table Class="Forums_General" Width="70%">

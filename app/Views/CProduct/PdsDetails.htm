@@ -50,6 +50,7 @@
       </tr>
     </table>
     <form name="addfrm" method="post" action="{$baseUrl}product/add">
+      {$csrf|raw}
       <input type=hidden name="pdsid" value="{$id}">
       <table border="0" cellspacing="2" cellpadding="2" width="80%">
         <tr>

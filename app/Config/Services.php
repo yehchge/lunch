@@ -13,7 +13,7 @@ class Services
     public static function smarty()
     {
         if (!isset(self::$instances['smarty'])) {
-            // require_once PATH_ROOT.'/app/ThirdParty/CI4Smarty.php';
+            require_once PATH_ROOT.'/app/ThirdParty/CI4Smarty.php';
 
             $smarty = new CI4Smarty();
             self::$instances['smarty'] = $smarty;
@@ -25,7 +25,7 @@ class Services
     public static function response()
     {
         if (!isset(self::$instances['response'])) {
-            // require_once PATH_ROOT.'/app/System/CResponse.php';
+            require_once PATH_ROOT.'/app/System/CResponse.php';
 
             $response = new CResponse();
             self::$instances['response'] = $response;
@@ -36,8 +36,8 @@ class Services
 
     public static function request()
     {
-        if (!isset(self::$instances['response'])) {
-            // require_once PATH_ROOT.'/app/System/CRequest.php';
+        if (!isset(self::$instances['request'])) {
+            require_once PATH_ROOT.'/app/System/CRequest.php';
 
             $request = new CRequest();
             self::$instances['request'] = $request;

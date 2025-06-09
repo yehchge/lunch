@@ -2,6 +2,13 @@
 
 namespace App\Controllers;
 
+use App\System\Database;
+use App\System\Template;
+use App\System\JavaScript;
+use App\System\Paginator;
+use App\Repository\UserRepository;
+use App\Repository\ProductRepository;
+
 class CProduct
 {
     // 顯示資料列表
@@ -79,6 +86,7 @@ class CProduct
         $tpl->assign('title', '商品明細維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '商品明細維護');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         return $tpl->display(class_basename($this).'/PdsDetails.htm');
     }
 
@@ -136,6 +144,7 @@ class CProduct
         $tpl->assign('title', '更新商品明細 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護/明細維護/更新明細');
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
         return $tpl->display(class_basename($this).'/EditPds.htm');
     }
 
@@ -238,6 +247,7 @@ class CProduct
 
         $tpl->assign('id',$StoreID);
         $tpl->assign('baseUrl', BASE_URL);
+        $tpl->assign('csrf', csrf_field());
 
         return $tpl->display(class_basename($this).'/UsrPdsDetails.htm');
     }

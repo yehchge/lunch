@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Repository;
+
+use App\System\Database;
+
 class OrderRepository
 {
     private $pdo;
@@ -74,13 +78,13 @@ class OrderRepository
         return $row['total'];
     }
 
-    private function queryIterator(string $sql, array $params = []): ?PDOStatement
+    private function queryIterator(string $sql, array $params = []): ?\PDOStatement
     {
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
             return $stmt;  // 可用來逐筆 fetch
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->handleError("QueryIterator Error: ".$e->getMessage().PHP_EOL);
             return null;
         }
@@ -89,7 +93,7 @@ class OrderRepository
     public function fetch_assoc($stmt)
     {
         if(!$stmt) return 0;
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
     public function insert(string $table, array $data): bool {
@@ -103,7 +107,7 @@ class OrderRepository
         try {
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->handleError($e->getMessage());
             return false;
         }

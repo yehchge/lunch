@@ -5,6 +5,9 @@
 
 namespace App\System;
 
+use App\System\CRequest;
+use App\System\CResponse;
+
 class FilterManager {
     protected $filters = [
         'before' => [],
@@ -13,7 +16,6 @@ class FilterManager {
 
     // 註冊過濾器
     public function register(string $type, string $filterClass, array $routes = [], array $except = []) {
-        // echo "except = ".print_r($except)."<br>";
         $this->filters[$type][] = [
             'class' => $filterClass,
             'routes' => $routes, // 空陣列表示應用於所有路由
@@ -25,7 +27,6 @@ class FilterManager {
     public function runBeforeFilters(CRequest $request, CResponse $response) {
         foreach ($this->filters['before'] as $filter) {
             if ($this->shouldApply($filter['routes'], $filter['except'], $request->getPath())) {
-                // echo "asdfasdfasdf";exit;
                 $instance = new $filter['class']();
                 $instance->before($request, $response);
             }
