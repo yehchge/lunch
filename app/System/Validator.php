@@ -34,7 +34,7 @@ class Validator
         $session = session();
         $session->set('_my_old_input', ［
         ‘post' => $_POST,
-        'get' => $_GET['get']
+        'get' => $_GET
            ］);
 
         foreach ($this->rules as $field => $ruleSet) {
