@@ -220,4 +220,60 @@ class CRequest
         }
     }
 
+
+    /**
+     * Attempts to get old Input data that has been flashed to the session
+     * with redirect_with_input(). It first checks for the data in the old
+     * POST data, then the old GET data and finally check for dot arrays
+     *
+     * @return array|string|null
+     */
+    public function getOldInput(string $key)
+    {
+        // If the session hasn't been started, we're done.
+        if (! isset($_SESSION)) {
+            return null;
+        }
+
+        // Get previously saved in session
+        $old = session('_my_old_input');
+
+        // If no data was previously saved, we're done.
+        if ($old === null) {
+            return null;
+        }
+
+        // Check for the value in the POST array first.
+        if (isset($old['post'][$key])) {
+            return $old['post'][$key];
+        }
+
+        // Next check in the GET array.
+        if (isset($old['get'][$key])) {
+            return $old['get'][$key];
+        }
+
+        // helper('array');
+
+        // // Check for an array value in POST.
+        // if (isset($old['post'])) {
+        //     $value = dot_array_search($key, $old['post']);
+        //     if ($value !== null) {
+        //         return $value;
+        //     }
+        // }
+
+        // // Check for an array value in GET.
+        // if (isset($old['get'])) {
+        //     $value = dot_array_search($key, $old['get']);
+        //     if ($value !== null) {
+        //         return $value;
+        //     }
+        // }
+
+        // requested session key not found
+        return null;
+    }
+
+
 }

@@ -31,6 +31,8 @@ class Validator
     public function validate(): bool
     {
         $this->errors = []; // 清空錯誤訊息
+        $session = session();
+        $session->set('_my_old_input', $this->data);
 
         foreach ($this->rules as $field => $ruleSet) {
             // 將規則字串轉為陣列（例如 'required|email' => ['required', 'email']）
@@ -118,5 +120,10 @@ class Validator
     {
         // 在此處實現自訂規則邏輯
         return true;
+    }
+
+    public function getData(): array
+    {
+        return $this->data;
     }
 }

@@ -4,7 +4,10 @@
   <div id="breadCrumb">
     [ {$breadcrumb} ]
   </div>
-  <form name="frm" method="post" onsubmit="return check_form(frm);" action="{$baseUrl}store/create">
+  {if $errors}
+    {$errors|raw}
+  {/if}
+  <form name="frm" method="post" action="{$baseUrl}store/create"><!-- onsubmit="return check_form(frm);" -->
     {$csrf|raw}
     <table Width="80%" Class="Forums_General">
       <tr Class="Forums_Header">

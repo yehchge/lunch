@@ -10,8 +10,12 @@ use App\ThirdParty\CI4Smarty;
 use App\Security\CsrfFilter;
 use App\System\Session;
 
-function session()
+function session($name = '')
 {
+    if ($name) {
+        $session = Session::getInstance();
+        return $session->get($name) ?? '';
+    }
     return Session::getInstance();
 }
 
@@ -368,4 +372,30 @@ function validation_list_errors()
 
     $result .= '</ul>';
     echo $result;
+}
+
+/**
+ * Form Value
+ *
+ * Grabs a value from the POST array for the specified field so you can
+ * re-populate an input field or textarea
+ *
+ * @param string              $field      Field name
+ * @param list<string>|string $default    Default value
+ * @param bool                $htmlEscape Whether to escape HTML special characters or not
+ *
+ * @return list<string>|string
+ */
+function set_value(string $field, $default = '', bool $htmlEscape = true)
+{
+    $request = service('request');
+
+    // Try any old input data we may have first
+    $value = $request->getOldInput($field);
+
+    if ($value === null) {
+        $value = $request->getPost($field) ?? $default;
+    }
+
+    return ($htmlEscape) ? esc($value) : $value;
 }

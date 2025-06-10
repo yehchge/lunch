@@ -11,6 +11,7 @@ use App\Repository\OrderRepository;
 use App\System\Template;
 use App\System\JavaScript;
 use App\System\Paginator;
+use App\System\Validator;
 
 class CStore
 {
@@ -102,10 +103,25 @@ class CStore
     {
         $tpl = new Template("app/Views");
 
+        $errors = session()->getFlashdata('errors');
+
+        $data = explode('<br>', $errors);
+
+        $result = '<ul>';
+
+        foreach ($data as $key => $val) {
+            if(!$val) continue;
+            $result .= "<li>$val</li>";
+        }
+
+        $result .= '</ul>';
+
+
         $tpl->assign('title', '新增店家 - DinBenDon系統');
         $tpl->assign('breadcrumb', '新增店家');
         $tpl->assign('baseUrl', BASE_URL);
         $tpl->assign('csrf', csrf_field());
+        $tpl->assign('errors', $result);
         $tpl->display(class_basename($this).'/AddStore.htm');
     }
 
@@ -126,11 +142,44 @@ class CStore
         $Tel = trim($_POST["tel"]);
         $Note = trim($_POST["note"]);
 
+
+        $data = $_POST;
+
+        $validator = new Validator($data, [
+            'name' => 'required',
+            'intro'  => 'required',
+            'sclass' => 'required',
+            'man' => 'required',
+            'addr' => 'required',
+            'tel' => 'required',
+            'note' => 'required',
+        ]);
+
+        if ($validator->validate()) {
+            // echo "Validation passed!\n";
+        } else {
+            $message = '';
+            // 輸出錯誤訊息
+            foreach ($validator->getErrors() as $field => $errors) {
+                foreach ($errors as $error) {
+                    $message .= $error."<br>";
+                }
+            }
+
+            session()->setFlashdata('errors', $message);
+            // return $this->new();
+            return JavaScript::redirect('./add');
+        }
+
+
+
+
         //產生本程式功能內容
         if ($storeRepo->CreateStore('','',$StoreName,$StoreIntro,$StoreClass,$MainMan,$Tel,$Address,$Online['email'],$Note)) {
             JavaScript::vAlertRedirect('新增成功!', BASE_URL."store/list");
         } else {
-            JavaScript::vAlertBack('新增失敗!');
+            JavaScript::redirect('./add', '新增失敗!');
+            // vAlertBack('新增失敗!');
         }
     }
 
