@@ -32,10 +32,10 @@ class Validator
     {
         $this->errors = []; // 清空錯誤訊息
         $session = session();
-        $session->set('_my_old_input', ［
-        ‘post' => $_POST,
-        'get' => $_GET
-           ］);
+        $session->set('_my_old_input', [
+            'post' => $_POST,
+            'get' => $_GET
+        ]);
 
         foreach ($this->rules as $field => $ruleSet) {
             // 將規則字串轉為陣列（例如 'required|email' => ['required', 'email']）
