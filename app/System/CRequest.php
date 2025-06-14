@@ -50,9 +50,32 @@ class CRequest
         return $queryParams;
     }
 
-    public function getGet()
+    public function getGet($name = null, $default = null)
     {
-        return $_GET;
+         // 若無 name，則返回過濾後的 $_GET 陣列
+        if ($name === null) {
+            return array_map('filter_var', $_GET, array_fill(0, count($_GET), FILTER_SANITIZE_STRING));
+        }
+
+        // 若 name 為陣列，獲取多個值
+        if (is_array($name)) {
+            $data = [];
+            foreach ($name as $key) {
+                if (!is_string($key)) {
+                    continue; // 跳過非字串鍵
+                }
+                $data[$key] = filter_var($_GET[$key] ?? $default, FILTER_SANITIZE_STRING);
+            }
+            return $data;
+        }
+
+        // 若 name 為字串，獲取單一值
+        if (is_string($name)) {
+            return filter_var($_GET[$name] ?? $default, FILTER_SANITIZE_STRING);
+        }
+
+        // 對於無效輸入拋出異常
+        throw new InvalidArgumentException('參數 $name 必須為字串、陣列或 null。');
     }
 
     public function getPost($name = null, $default = null)
