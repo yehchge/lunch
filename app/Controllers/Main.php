@@ -31,20 +31,42 @@ class Main
         $sort = $request->getGet('sort') ?? 'id';
         $order = strtolower($request->getGet('order')) === 'desc' ? 'desc' : 'asc';
 
+        $address = $request->getGet('address') ?? '';
+        $status = $request->getGet('status') ?? ['active'];
+        if (!is_array($status)) {
+            $status = [$status];
+        }
+
         // 驗證 sort 欄位是否允許排序
         $allowedSortFields = ['id', 'name', 'contact', 'email', 'address'];
         if (!in_array($sort, $allowedSortFields)) {
             $sort = 'id';
         }
 
+        // 查詢資料
+        $builder = $model;
+
+        if (!empty($address)) {
+            $builder = $builder->like('address', $address);
+        }
+
+        // if (!empty($status)) {
+        //     $builder = $builder->whereIn('status', $status);
+        // }
+
+        $builder = $builder->orderBy($sort, $order);
+
+
+
         // 排序資料
-        $users = $model->orderBy($sort, $order)->paginate($perPage);
+        $users = $builder->paginate($perPage);
 
         $data['page'] = isset($_GET['page']) ? $_GET['page'] : 1;
         $data['perPage'] = $perPage;
         $data['total'] = $model->countAll();
         $data['data'] = $users;
         $data['pager'] = $model->pager;
+        $data['address'] = $address;
 
         return view('layouts/home', $data);
     }

@@ -19,6 +19,27 @@ function sort_link($label, $field, $currentSort, $currentOrder, $perPage)
 }
 ?>
 
+<form method="get" class="mb-3">
+    <input type="text" name="address" value="<?= esc($address) ?>" placeholder="請輸入地址關鍵字">
+    
+    狀態：
+    <select name="status[]" multiple>
+        <?php
+        $statusOptions = [
+            'active' => '啟用',
+            'inactive' => '停用',
+            'pending' => '待審'
+        ];
+        foreach ($statusOptions as $key => $label):
+            $selected = (is_array($status) && in_array($key, $status)) ? 'selected' : '';
+        ?>
+            <option value="<?= $key ?>" <?= $selected ?>><?= $label ?></option>
+        <?php endforeach; ?>
+    </select>
+
+    <input type="submit" value="搜尋">
+</form>
+
 
 <h1 class="fw-bold">CodeIgniter 4 Pagination</h1>
 <hr>
