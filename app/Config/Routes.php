@@ -48,6 +48,10 @@ $routes->get('logout', [CLogout::class, 'index']); // 不需要登入
 
 $routes->get('', 'Home::index');
 
+
+// 12. MVC
+$routes->get('mvc', [Mvc::class, 'index']);
+
 // 11. RESTful API JWT Authentication
 
 // JWT API
