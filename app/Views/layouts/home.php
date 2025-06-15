@@ -19,25 +19,31 @@ function sort_link($label, $field, $currentSort, $currentOrder, $perPage)
 }
 ?>
 
-<form method="get" class="mb-3">
-    <input type="text" name="address" value="<?= esc($address) ?>" placeholder="請輸入地址關鍵字">
-    
-    狀態：
-    <select name="status[]" multiple>
-        <?php
-        $statusOptions = [
-            'active' => '啟用',
-            'inactive' => '停用',
-            'pending' => '待審'
-        ];
-        foreach ($statusOptions as $key => $label):
-            $selected = (is_array($status) && in_array($key, $status)) ? 'selected' : '';
-        ?>
-            <option value="<?= $key ?>" <?= $selected ?>><?= $label ?></option>
-        <?php endforeach; ?>
-    </select>
-
-    <input type="submit" value="搜尋">
+<form method="get" class="mb-3 row">
+    <div class="col-auto">
+        <input class="form-control" type="text" name="address" value="<?= esc($address) ?>" placeholder="請輸入地址關鍵字">
+    </div>    
+    <div class="col-auto">
+        <label class="col-form-label">狀態：</label>
+    </div>
+    <div class="col-auto">
+        <select class="form-select" name="status[]" size=3 multiple>
+            <?php
+            $statusOptions = [
+                'active' => '啟用',
+                'inactive' => '停用',
+                'pending' => '待審'
+            ];
+            foreach ($statusOptions as $key => $label):
+                $selected = (is_array($status) && in_array($key, $status)) ? 'selected' : '';
+            ?>
+                <option value="<?= $key ?>" <?= $selected ?>><?= $label ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div> 
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">搜尋</button>
+    </div>
 </form>
 
 
@@ -46,13 +52,20 @@ function sort_link($label, $field, $currentSort, $currentOrder, $perPage)
 <div class="card rounded-0">
     <div class="card-body">
         <div class="container-fluid">
-            <form method="get" action="">
-                每頁顯示：
-                <select name="perPage" onchange="this.form.submit()">
-                    <?php foreach ([5, 10, 15, 25, 50, 100] as $num): ?>
-                        <option value="<?= $num ?>" <?= ($perPage == $num ? 'selected' : '') ?>><?= $num ?></option>
-                    <?php endforeach; ?>
-                </select> 筆
+            <form class="mb-3 row" method="get" action="">
+                <div class="col-auto">
+                    <label class="col-form-label">每頁顯示：</label>
+                </div>
+                <div class="col-auto">
+                    <select class="col-auto form-select" name="perPage" onchange="this.form.submit()">
+                        <?php foreach ([5, 10, 15, 25, 50, 100] as $num): ?>
+                            <option value="<?= $num ?>" <?= ($perPage == $num ? 'selected' : '') ?>><?= $num ?></option>
+                        <?php endforeach; ?>
+                    </select> 
+                </div>
+                <div class="col-auto">
+                    <label class="col-form-label">筆</label>
+                </div>
             </form>
             <table class="table table-stripped table-bordered">
                 <thead>

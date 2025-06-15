@@ -71,11 +71,33 @@ class CRequest
 
         // 若 name 為字串，獲取單一值
         if (is_string($name)) {
-            return filter_var($_GET[$name] ?? $default, FILTER_SANITIZE_STRING);
+            return self::sanitizeInput($_GET[$name] ?? $default);
         }
 
         // 對於無效輸入拋出異常
         throw new InvalidArgumentException('參數 $name 必須為字串、陣列或 null。');
+    }
+
+    private static function sanitizeInput($input, $default = null) {
+        // 如果輸入不存在，返回預設值
+        if (!isset($input)) {
+            return $default;
+        }
+
+        // 如果輸入是陣列，遞迴清理每個元素
+        if (is_array($input)) {
+            return array_map(function($value) {
+                return is_array($value) ? sanitizeInput($value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+            }, $input);
+        }
+
+        // 如果輸入是字串，使用 htmlspecialchars 清理
+        if (is_string($input)) {
+            return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+        }
+
+        // 其他類型直接返回
+        return $input;
     }
 
     public function getPost($name = null, $default = null)
@@ -99,7 +121,7 @@ class CRequest
 
         // 若 name 為字串，獲取單一值
         if (is_string($name)) {
-            return filter_var($_POST[$name] ?? $default, FILTER_SANITIZE_STRING);
+            return self::sanitizeInput($_POST[$name] ?? $default);
         }
 
         // 對於無效輸入拋出異常

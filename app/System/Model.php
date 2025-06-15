@@ -76,6 +76,16 @@ class Model
         return $this;
     }
 
+    public function like($field, $value)
+    {
+        if (!$this->where) {
+            $this->where = "$field LIKE '%$value%'";
+        } else {
+            $this->where .= " AND $field LIKE '%$value%'";
+        }
+        return $this;
+    }
+
     public function orLike($field, $value)
     {
         if (!$this->where) {

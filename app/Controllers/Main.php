@@ -33,6 +33,7 @@ class Main
 
         $address = $request->getGet('address') ?? '';
         $status = $request->getGet('status') ?? ['active'];
+       
         if (!is_array($status)) {
             $status = [$status];
         }
@@ -67,6 +68,7 @@ class Main
         $data['data'] = $users;
         $data['pager'] = $model->pager;
         $data['address'] = $address;
+        $data['status'] = $status;
 
         return view('layouts/home', $data);
     }
