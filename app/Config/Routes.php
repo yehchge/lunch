@@ -7,7 +7,6 @@
 // require PATH_ROOT.'/app/System/Router.php';
 
 
-
 use App\System\Router;
 
 $routes = new Router();
@@ -15,7 +14,7 @@ $routes = new Router();
 // Add middleware
 require PATH_ROOT.'/app/Filters/AuthUser.php';
 require PATH_ROOT.'/app/Filters/ApiAuthFilter.php';
-
+require PATH_ROOT.'/app/Filters/AuthMvc.php';
 
 // $routes->get('home/index', [Home::class, 'index'], [AuthUser::class]); // 需要登入
 $routes->get('store/list', [CStore::class, 'list'], [AuthUser::class]);
@@ -51,6 +50,14 @@ $routes->get('', 'Home::index');
 
 // 12. MVC
 $routes->get('mvc', [Mvc::class, 'index']);
+$routes->get('mvc/index', [Mvc::class, 'index']);
+$routes->get('mvc/help', [Mvc::class, 'help']);
+$routes->get('mvc/login', [Mvc::class, 'login']);
+$routes->post('mvc/login/run', [Mvc::class, 'run']);
+$routes->get('mvc/dashboard', [Mvc::class, 'dashboard']);
+$routes->get('mvc/xhrGetListings', [Mvc::class, 'xhrGetListings']);
+$routes->post('mvc/xhrDeleteListing', [Mvc::class, 'xhrDeleteListing']);
+$routes->post('mvc/xhrInsert', [Mvc::class, 'xhrInsert']);
 
 // 11. RESTful API JWT Authentication
 

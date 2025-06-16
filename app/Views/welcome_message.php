@@ -28,6 +28,8 @@
             <li><a href='./employee/5'>Restful API Show User 5</a></li>
             <li><a href='./emp'>使用 RESTful API 練習 Web CRUD List</a></li>
             <li><a href='./news/create'>Error 404</a></li>
+            <li><a href='./mvc'>MVC2</a></li>
+            <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href='./store/list'>Store</a></li>

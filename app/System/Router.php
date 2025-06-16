@@ -2,6 +2,8 @@
 
 namespace App\System;
 
+use App\System\RouterException;
+
 class Router
 {
     protected array $routes = [];
@@ -74,6 +76,11 @@ class Router
                     $fullyQualifiedClass = "App\\Controllers\\{$controllerName}";
 
                     $instance = new $fullyQualifiedClass();
+
+                    if (!method_exists($instance, $action)) {
+                        throw new RouterException("Can't find a route for '$method: $action'.");
+                    }
+
                     foreach ($matches as $key => $val) {
                         $matches[$key] = urldecode($val);
                     }
@@ -158,6 +165,10 @@ class Router
             $controllerName = $controller;
             $fullyQualifiedClass = "App\\Controllers\\{$controllerName}";
             $instance = new $fullyQualifiedClass();
+
+            if (!method_exists($instance, $action)) {
+                throw new RouterException("Can't find a route for '$method: $action'.");
+            }
 
             foreach ($params as $key => $val) {
                 $params[$key] = urldecode($val);

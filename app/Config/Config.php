@@ -10,6 +10,13 @@ defined('PATH_ROOT') || define('PATH_ROOT', realpath(dirname(__FILE__) . '/../..
 defined('BASE_URL') || define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/');
 defined('SYSTEMPATH') || define('SYSTEMPATH', PATH_ROOT . '/System');
 
+// The sitewide hashkey, do not change this because its used for passwords!
+// This is for other hash keys... Not sure yet
+define('HASH_GENERAL_KEY', 'MixitUp200');
+
+// This is for database passwords only
+define('HASH_PASSWORD_KEY', 'catsFLYhigh2000miles');
+
 require PATH_ROOT."/vendor/autoload.php";
 
 // // 自動加載的函式
