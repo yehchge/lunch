@@ -60,6 +60,14 @@ $routes->get('mvc/xhrGetListings', [Mvc::class, 'xhrGetListings']);
 $routes->post('mvc/xhrDeleteListing', [Mvc::class, 'xhrDeleteListing']);
 $routes->post('mvc/xhrInsert', [Mvc::class, 'xhrInsert']);
 
+$routes->get('mvc/note', [Note::class, 'index']);
+$routes->post('mvc/note/create', [Note::class, 'create']);
+$routes->get('mvc/note/delete/(:segment)', [Note::class, 'delete']);
+$routes->get('mvc/note/edit/(:segment)', [Note::class, 'edit']);
+$routes->post('mvc/note/editSave/(:segment)', [Note::class, 'editSave']);
+
+
+
 // 11. RESTful API JWT Authentication
 
 // JWT API
