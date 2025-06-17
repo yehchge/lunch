@@ -26,6 +26,17 @@ class Model
     protected $insertID = 0;
 
 
+    /**
+     * Holds information passed in via 'set'
+     * so that we can capture it (not the builder)
+     * and ensure it gets validated first.
+     *
+     * @var         array{escape: array, data: array}|array{}
+     * @phpstan-var array{escape: array<int|string, bool|null>, data: row_array}|array{}
+     */
+    protected $tempData = [];
+
+
     public function __construct()
     {
         $db = new Database();
@@ -392,8 +403,63 @@ class Model
         return $this->pdo->lastInsertId();
     }
 
+     /**
+     * Captures the builder's set() method so that we can validate the
+     * data here. This allows it to be used with any of the other
+     * builder methods and still get validated data, like replace.
+     *
+     * @param array|object|string               $key    Field name, or an array of field/value pairs, or an object
+     * @param bool|float|int|object|string|null $value  Field value, if $key is a single field
+     * @param bool|null                         $escape Whether to escape values
+     *
+     * @return $this
+     */
+    public function set($key, $value = '', ?bool $escape = null)
+    {
+        // if (is_object($key)) {
+        //     $key = $key instanceof stdClass ? (array) $key : $this->objectToArray($key);
+        // }
 
-    public function update($id, array $data) {
+        $data = is_array($key) ? $key : [$key => $value];
+
+        foreach (array_keys($data) as $k) {
+            $this->tempData['escape'][$k] = $escape;
+        }
+
+        $this->tempData['data'] = array_merge($this->tempData['data'] ?? [], $data);
+
+        return $this;
+    }
+
+    /**
+     * Updates a single record in the database. If an object is provided,
+     * it will attempt to convert it into an array.
+     *
+     * @param         array|int|string|null $id
+     * @param         array|object|null     $row
+     * @phpstan-param row_array|object|null $row
+     *
+     * @throws ReflectionException
+     */
+    public function update($id = null, $row = null): bool
+    {
+        if (isset($this->tempData['data'])) {
+            if ($row === null) {
+                $row = $this->tempData['data'];
+            } else {
+                // $row = $this->transformDataToArray($row, 'update');
+                $row = array_merge($this->tempData['data'], $row);
+            }
+        }
+
+        $this->escape   = $this->tempData['escape'] ?? [];
+        $this->tempData = [];
+
+        return $this->_update($id, $row);
+    }
+
+
+    private function _update($id, array $data) {
         $set = implode(' = ?, ', array_keys($data)) . ' = ?';
         $sql = "UPDATE ".$this->table." SET $set WHERE ".$this->primaryKey." = $id";
         return $this->execute($sql, array_merge(array_values($data)));
