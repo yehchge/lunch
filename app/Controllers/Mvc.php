@@ -112,15 +112,34 @@ class Mvc
 
     public function logout()
     {
-        Session::destroy();
+        $session = session();
+        $session->destroy();
         setcookie('username', '', 0, '/');
-        header('location: '.URL.'login');
-        exit;
+        return JavaScript::redirect('../login');
+
+        // Session::destroy();
+        // setcookie('username', '', 0, '/');
+        // header('location: '.URL.'login');
+        // exit;
     }
 
     public function xhrInsert()
     {
-        $this->model->xhrInsert();
+        // $this->model->xhrInsert();
+
+        $request = new CRequest();
+        $text = $request->getPost('text');
+
+        // Read new token and assign in $data['token']
+        $token = csrf_hash();
+
+        $model = model(MvcDataModel::class);
+        $model->insert(['text' => $text]);
+
+        $data = ['text' => $text, 'id' => $model->getInsertID(), 'csrf' => $token];
+
+        $response = service('response');
+        return $response->json($data);
     }
 
     public function xhrGetListings()
@@ -136,7 +155,18 @@ class Mvc
 
     public function xhrDeleteListing()
     {
-        $this->model->xhrDeleteListing();
+        // $this->model->xhrDeleteListing();
+
+        $model = model(MvcDataModel::class);
+        $request = new CRequest();
+        $id = $request->getPost('id');
+        $model->delete($id);
+
+        // Read new token and assign in $data['token']
+        $token = csrf_hash();
+
+        $response = service('response');
+        return $response->json(['csrf' => $token]);
     }
 
 }

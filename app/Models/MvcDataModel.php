@@ -8,4 +8,5 @@ class MvcDataModel extends Model
 {
     protected $table = 'data';
     protected $primaryKey = 'dataid';
+    protected $allowedFields    = ['text'];
 }

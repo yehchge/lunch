@@ -227,12 +227,6 @@ function csrf_field() {
 
     $token = $CsrfFilter->generateCsrfToken($request);
 
-
-    // $session = $request->getSession();
-
-    // $aa = $session->get('csrf_token');
-    // echo "<pre>";print_r($aa);echo "</pre>";exit;
-    // $token = generateCsrfToken();
     return '<input type="hidden" name="'.$token_name.'" value="' . htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
 }
 
@@ -265,7 +259,8 @@ function verifyCsrfToken($token, $max_age = 3600) {
  */
 function csrf_token(): string
 {
-    return 'csrf_test_name';
+    $CsrfFilter = new CsrfFilter();
+    return $CsrfFilter->getTokenName();
     // return service('security')->getTokenName();
 }
 
@@ -276,7 +271,11 @@ function csrf_token(): string
  */
 function csrf_hash(): string
 {
-    return getHash();
+    $request = service('request');
+    $CsrfFilter = new CsrfFilter();
+    $token = $CsrfFilter->generateCsrfToken($request);
+
+    return htmlspecialchars($token, ENT_QUOTES, 'UTF-8');
     // return service('security')->getHash();
 }
 

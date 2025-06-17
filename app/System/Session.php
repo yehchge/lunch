@@ -86,4 +86,11 @@ class Session
     {
         return isset($_SESSION[$this->flashdataKey . '_old'][$key]);
     }
+
+
+    public function destroy()
+    {
+        //unset($_SESSION);
+        session_destroy();
+    }
 }

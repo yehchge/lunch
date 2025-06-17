@@ -11,10 +11,14 @@ $(function() {
         $(document).on('click', '.del', function() {
             delItem = $(this);
             var id = $(this).attr('rel');
-            $.post('./xhrDeleteListing', {'id': id}, function(o) {
+            var token = $('#csrf_code').attr('name');
+            var csrf = $('#csrf_code').val();
+
+            $.post('./xhrDeleteListing', {'id': id, [token]: csrf}, function(o) {
                 //console.log('run post!');
                 delItem.parent().remove();
-            });
+                $('#csrf_code').val(o.csrf);
+            }, 'json');
 
             return false;
         });
@@ -28,6 +32,7 @@ $(function() {
 
         $.post(url, data, function(o) {
             $('#listInserts').append('<div>' + o.text + '<a class="del" rel="'+ o.id +'" href="#">X</a></div>');
+            $('#csrf_code').val(o.csrf);
         }, 'json');
 
         return false;

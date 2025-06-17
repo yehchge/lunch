@@ -55,6 +55,7 @@ $routes->get('mvc/help', [Mvc::class, 'help']);
 $routes->get('mvc/login', [Mvc::class, 'login']);
 $routes->post('mvc/login/run', [Mvc::class, 'run']);
 $routes->get('mvc/dashboard', [Mvc::class, 'dashboard']);
+$routes->get('mvc/dashboard/logout', [Mvc::class, 'logout']);
 $routes->get('mvc/xhrGetListings', [Mvc::class, 'xhrGetListings']);
 $routes->post('mvc/xhrDeleteListing', [Mvc::class, 'xhrDeleteListing']);
 $routes->post('mvc/xhrInsert', [Mvc::class, 'xhrInsert']);

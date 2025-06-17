@@ -18,6 +18,14 @@ class Model
     private $where = '';
     private $order = '';
 
+    /**
+     * Last insert ID
+     *
+     * @var int|string
+     */
+    protected $insertID = 0;
+
+
     public function __construct()
     {
         $db = new Database();
@@ -361,7 +369,27 @@ class Model
         $placeholders = implode(',', array_fill(0, count($data), '?'));
         $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
 
-        return $this->execute($sql, array_values($data));
+        $result = $this->execute($sql, array_values($data));
+
+        if ($result) {
+            $this->insertID = $this->getLastInsertID();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns last insert ID or 0.
+     *
+     * @return int|string
+     */
+    public function getInsertID()
+    {
+        return is_numeric($this->insertID) ? (int) $this->insertID : $this->insertID;
+    }
+
+    public function getLastInsertID() {
+        return $this->pdo->lastInsertId();
     }
 
 
