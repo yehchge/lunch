@@ -26,6 +26,7 @@
     <?php if (session('loggedIn') == false ): ?>
         <a href="<?= base_url() ?>mvc/index">Index</a>
         <a href="<?= base_url() ?>mvc/help">Help</a>
+        <a href="<?= base_url() ?>mvc/form">Form</a>
     <?php endif; ?>
     <?php if (session('loggedIn') == true ): ?>
         <a href="<?= base_url() ?>mvc/dashboard">Dashborad</a>

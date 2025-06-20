@@ -55,6 +55,8 @@ $routes->get('mvc/index', [Mvc::class, 'index']);
 $routes->get('mvc/help', [Mvc::class, 'help']);
 $routes->get('mvc/login', [Mvc::class, 'login']);
 $routes->post('mvc/login/run', [Mvc::class, 'run']);
+$routes->get('mvc/form', [Mvc::class, 'form']);
+$routes->post('mvc/form', [Mvc::class, 'form']);
 
 $routes->get('mvc/dashboard', [Mvc::class, 'dashboard'], [AuthMvcUser::class]);
 $routes->get('mvc/dashboard/logout', [Mvc::class, 'logout']);

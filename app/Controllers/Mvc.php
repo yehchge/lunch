@@ -7,6 +7,8 @@ use App\Models\MvcUserModel;
 use App\Models\MvcDataModel;
 use App\System\Hash;
 use App\System\JavaScript;
+use App\System\Form;
+use App\System\Validator;
 
 class Mvc
 {
@@ -166,6 +168,76 @@ class Mvc
 
         $response = service('response');
         return $response->json(['csrf' => $token]);
+    }
+
+    public function form()
+    {
+
+        if (isset($_REQUEST['run'])) {
+            try {
+
+                $valid_way = 2; // 1 or 2
+
+                if ($valid_way==2) {
+                    $request = new CRequest();
+                    $data = $request->getPost(['name', 'age']);
+
+                    $validator = new Validator($data, [
+                        'name' => 'required|min:2',
+                        'age'  => 'required|numeric|min:2',
+                    ]);
+
+                    if ($validator->validate()) {
+                        echo "Validation passed!\n";
+
+                        echo '<pre>';
+                        print_r($data);
+                        echo '</pre>';
+                    } else {
+                        $message = '';
+                        // 輸出錯誤訊息
+                        foreach ($validator->getErrors() as $field => $errors) {
+                            foreach ($errors as $error) {
+                                $message .= $error."<br>";
+                            }
+                        }
+
+                        throw new \Exception($message);
+                    }
+
+
+                } else {
+                    $form = new Form();
+
+                    $form->post('name')
+                            ->val('minlength', 2)
+
+                            ->post('age')
+                            ->val('minlength', 2)
+                            ->val('digit')
+
+                            ->post('gender');
+
+                    $form->submit();
+
+                    echo 'The form passed!';
+                    $data = $form->fetch();
+
+                    echo '<pre>';
+                    print_r($data);
+                    echo '</pre>';
+                }
+
+                $db = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
+                $db->insert('person', $data);
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+
+        return view('mvc/header', ['title' => 'Form', 'js' => ['assets/public/js/default.js']])
+            . view('mvc/index/form')
+            . view('mvc/footer');
     }
 
 }
