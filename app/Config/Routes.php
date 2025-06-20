@@ -14,7 +14,8 @@ $routes = new Router();
 // Add middleware
 require PATH_ROOT.'/app/Filters/AuthUser.php';
 require PATH_ROOT.'/app/Filters/ApiAuthFilter.php';
-require PATH_ROOT.'/app/Filters/AuthMvc.php';
+require PATH_ROOT.'/app/Filters/AuthMvcUser.php';
+require PATH_ROOT.'/app/Filters/AuthMvcOwner.php';
 
 // $routes->get('home/index', [Home::class, 'index'], [AuthUser::class]); // 需要登入
 $routes->get('store/list', [CStore::class, 'list'], [AuthUser::class]);
@@ -54,17 +55,24 @@ $routes->get('mvc/index', [Mvc::class, 'index']);
 $routes->get('mvc/help', [Mvc::class, 'help']);
 $routes->get('mvc/login', [Mvc::class, 'login']);
 $routes->post('mvc/login/run', [Mvc::class, 'run']);
-$routes->get('mvc/dashboard', [Mvc::class, 'dashboard']);
+
+$routes->get('mvc/dashboard', [Mvc::class, 'dashboard'], [AuthMvcUser::class]);
 $routes->get('mvc/dashboard/logout', [Mvc::class, 'logout']);
 $routes->get('mvc/xhrGetListings', [Mvc::class, 'xhrGetListings']);
 $routes->post('mvc/xhrDeleteListing', [Mvc::class, 'xhrDeleteListing']);
 $routes->post('mvc/xhrInsert', [Mvc::class, 'xhrInsert']);
 
-$routes->get('mvc/note', [Note::class, 'index']);
-$routes->post('mvc/note/create', [Note::class, 'create']);
+$routes->get('mvc/note', [Note::class, 'index'], [AuthMvcUser::class]);
+$routes->post('mvc/note/create', [Note::class, 'create'], [AuthMvcUser::class]);
 $routes->get('mvc/note/delete/(:segment)', [Note::class, 'delete']);
-$routes->get('mvc/note/edit/(:segment)', [Note::class, 'edit']);
-$routes->post('mvc/note/editSave/(:segment)', [Note::class, 'editSave']);
+$routes->get('mvc/note/edit/(:segment)', [Note::class, 'edit'], [AuthMvcUser::class]);
+$routes->post('mvc/note/editSave/(:segment)', [Note::class, 'editSave'], [AuthMvcUser::class]);
+
+$routes->get('mvc/user', [MvcUser::class, 'index'], [AuthMvcOwner::class]);
+$routes->post('mvc/user/create', [MvcUser::class, 'create'], [AuthMvcOwner::class]);
+$routes->get('mvc/user/edit/(:segment)', [MvcUser::class, 'edit'], [AuthMvcOwner::class]);
+$routes->post('mvc/user/editSave/(:segment)', [MvcUser::class, 'editSave'], [AuthMvcOwner::class]);
+$routes->get('mvc/user/delete/(:segment)', [MvcUser::class, 'delete'], [AuthMvcOwner::class]);
 
 
 

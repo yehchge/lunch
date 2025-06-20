@@ -95,7 +95,7 @@ class Note
               ->set($data)
               ->update();
 
-        return JavaScript::redirect('../note');
+        return JavaScript::redirect('../');
     }
 
     public function delete($id)

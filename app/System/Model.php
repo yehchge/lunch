@@ -461,7 +461,14 @@ class Model
 
     private function _update($id, array $data) {
         $set = implode(' = ?, ', array_keys($data)) . ' = ?';
-        $sql = "UPDATE ".$this->table." SET $set WHERE ".$this->primaryKey." = $id";
+        $sql = "UPDATE ".$this->table." SET $set";
+
+        if ($this->where) {
+            $sql .= " WHERE ".$this->where;
+        } elseif ($id) {
+            $sql .= " WHERE ".$this->primaryKey." = $id";
+        }
+
         return $this->execute($sql, array_merge(array_values($data)));
     }
 

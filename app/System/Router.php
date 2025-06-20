@@ -75,6 +75,11 @@ class Router
                     $controllerName = $controller;
                     $fullyQualifiedClass = "App\\Controllers\\{$controllerName}";
 
+                    // Check that the class exists before trying to use it
+                    if (!class_exists($fullyQualifiedClass)) {
+                        throw new RouterException("Can't find a controller for '$controllerName'.");
+                    }
+
                     $instance = new $fullyQualifiedClass();
 
                     if (!method_exists($instance, $action)) {
@@ -164,6 +169,12 @@ class Router
 
             $controllerName = $controller;
             $fullyQualifiedClass = "App\\Controllers\\{$controllerName}";
+
+            // Check that the class exists before trying to use it
+            if (!class_exists($fullyQualifiedClass)) {
+                throw new RouterException("Can't find a controller for '$controllerName'.");
+            }
+
             $instance = new $fullyQualifiedClass();
 
             if (!method_exists($instance, $action)) {
