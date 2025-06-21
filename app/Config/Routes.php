@@ -48,6 +48,12 @@ $routes->get('logout', [CLogout::class, 'index']); // 不需要登入
 
 $routes->get('', 'Home::index');
 
+// 13. ci_tutorial
+$routes->get('tutorial', [Tutorial::class, 'index']);
+$routes->get('tutorial/dashboard', [Tutorial::class, 'dashboard']);
+$routes->get('tutorial/dashboard/login', [Tutorial::class, 'login']);
+$routes->post('tutorial/dashboard/login/(:segment)', [Tutorial::class, 'login']);
+
 
 // 12. MVC
 $routes->get('mvc', [Mvc::class, 'index']);
