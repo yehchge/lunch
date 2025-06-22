@@ -53,6 +53,16 @@ $routes->get('tutorial', [Tutorial::class, 'index']);
 $routes->get('tutorial/dashboard', [Tutorial::class, 'dashboard']);
 $routes->get('tutorial/dashboard/login', [Tutorial::class, 'login']);
 $routes->post('tutorial/dashboard/login/(:segment)', [Tutorial::class, 'login']);
+$routes->get('tutorial/dashboard/home', [Tutorial::class, 'home']);
+$routes->get('tutorial/dashboard/account', [Tutorial::class, 'account']);
+
+$routes->get('tutorial/admin', [TutorialAdmin::class, 'index']);
+$routes->get('tutorial/admin/login', [TutorialAdmin::class, 'login']);
+$routes->post('tutorial/admin/login/(:segment)', [TutorialAdmin::class, 'login']);
+$routes->get('tutorial/admin/home', [TutorialAdmin::class, 'home']);
+$routes->get('tutorial/admin/logout', [TutorialAdmin::class, 'logout']);
+$routes->post('tutorial/admin/create_user', [TutorialAdmin::class, 'create_user']);
+$routes->get('tutorial/admin/delete_user/(:segment)', [TutorialAdmin::class, 'delete_user']);
 
 
 // 12. MVC

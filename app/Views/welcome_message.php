@@ -29,6 +29,8 @@
             <li><a href='./emp'>使用 RESTful API 練習 Web CRUD List</a></li>
             <li><a href='./news/create'>Error 404</a></li>
             <li><a href='./mvc'>MVC2</a></li>
+            <li><a href='./tutorial'>ci_tutorial User</a></li>
+            <li><a href='./tutorial/admin'>ci_tutorial Admin</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>
             <li><a href=''>&nbsp;</a></li>

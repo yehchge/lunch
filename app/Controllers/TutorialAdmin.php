@@ -1,0 +1,104 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\TutorialModel;
+use App\System\PageNotFoundException;
+use App\System\CRequest;
+use App\System\Validator;
+use App\System\JavaScript;
+
+class TutorialAdmin
+
+{
+    public function index()
+    {
+        return JavaScript::redirect('admin/login');
+    }
+
+    public function login($submit = null)
+    {
+        if ($submit == null) {
+            return view('tutorial/header')
+                . view('tutorial/admin/login')
+                . view('tutorial/footer');
+        }
+        
+        // $email = $this->input->post('email');
+        // $password = $this->input->post('password');
+
+        $request = new CRequest();
+        $data = $request->getPost(['email', 'password']);
+        
+        $model = model(TutorialModel::class);
+        $result = $model->login('admin', $data['email'], $data['password']);
+        
+        if ($result) {
+            $session = session();
+            $session->set('user_id', 1);
+            $session->set('is_admin', 1);
+
+            // redirect(site_url('admin/home'));
+            return JavaScript::redirect('../home');
+        } else {
+            // redirect(site_url('admin/login'));
+            return JavaScript::redirect('admin/login');
+        }
+    }
+
+    // ------------------------------------------------------------------------
+
+    public function home()
+    {
+        $model = model(TutorialModel::class);
+
+        $data = [
+            'users' => $model->findAll()
+        ];
+
+        return view('tutorial/header')
+            . view('tutorial/admin/home', $data)
+            . view('tutorial/footer');
+
+    }
+
+
+    // ------------------------------------------------------------------------
+
+    public function logout()
+    {
+        $session = session();
+        $session->destroy();
+        return JavaScript::redirect('login');
+    }
+    
+    // ------------------------------------------------------------------------
+
+    public function create_user()
+    {
+        // $email = $this->input->post('email');
+        // $password = $this->input->post('password');
+
+        $request = new CRequest();
+        $data = $request->getPost(['email', 'password']);
+
+        $model = model(TutorialModel::class);
+
+        // $this->load->model('user_model');
+        $model->create($data['email'], $data['password']);
+    }
+
+    // ------------------------------------------------------------------------
+    
+    public function delete_user($user_id)
+    {
+        // $this->load->model('user_model');
+        // echo $this->user_model->delete($user_id);
+
+        $model = model(TutorialModel::class);
+        echo $model->delete($user_id);
+    }
+    
+
+
+}

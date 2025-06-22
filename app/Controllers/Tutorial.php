@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\NewsModel;
+use App\Models\TutorialModel;
 use App\System\PageNotFoundException;
 use App\System\CRequest;
 use App\System\Validator;
@@ -30,10 +30,33 @@ class Tutorial
     public function dashboard()
     {
         // redirect(site_url('dashboard/login'));
+        
+
+        $session = session();
+        $session->destroy();
         return JavaScript::redirect('./login');
     }
     
     // ------------------------------------------------------------------------
+
+    public function home()
+    {
+        return view('tutorial/header')
+            . view('tutorial/dashboard/home')
+            - view('tutorial/footer');
+    }
+
+    // ------------------------------------------------------------------------
+    
+    public function account()
+    {
+        return view('tutorial/header')
+            . view('tutorial/dashboard/account')
+            - view('tutorial/footer');
+    }
+    
+    // ------------------------------------------------------------------------
+
     
     public function login($submit = null)
     {
@@ -45,17 +68,35 @@ class Tutorial
                 - view('tutorial/footer');
         }
         
-        $email = $this->input->post('email');
-        $password = $this->input->post('password');
+        // $email = $this->input->post('email');
+        // $password = $this->input->post('password');
+
+        $request = new CRequest();
+        $data = $request->getPost(['email', 'password']);
+
+        $model = model(TutorialModel::class);
+        $result = $model->login('user', $data['email'], $data['password']);
         
-        $this->load->model('user_model');
-        $result = $this->user_model->login('user', $email, $password);
-        
-        if ($result == true) {
-            $this->session->set_userdata('user_id', 1);
-            redirect(site_url('dashboard/home'));
+        // $this->load->model('user_model');
+        // $result = $this->user_model->login('user', $email, $password);
+// echo "<pre>";print_r($result);echo "</pre>";
+// exit;
+
+
+
+       if ($result) {
+            // $this->session->set_userdata('user_id', 1);
+            $session = session();
+            $session->set('user_id', 1);
+// echo "login ok";exit;
+
+
+            // redirect(site_url('dashboard/home'));
+            return JavaScript::redirect('../home');
         } else {
-            redirect(site_url('dashboard/login'));
+            echo "error Login";exit;
+            // redirect(site_url('dashboard/login'));
+            return JavaScript::redirect('./dashboard/login');
         }
     }
 
@@ -101,9 +142,11 @@ class Tutorial
     {
         // helper('form');
         return view('templates/header', ['title' => 'Create a news item'])
-            . view('news/create', ['title' => 'Create a news item'])
+            . view('tutorial/dashboard/create', ['title' => 'Create a news item'])
             . view('templates/footer');
     }
+
+
 
     /**
      * 根據提交的資料建立新聞項目。將在這裡做三件事：
@@ -230,10 +273,7 @@ class Tutorial
     
 //     // ------------------------------------------------------------------------
     
-//     public function home()
-//     {
-//         $this->load->view('dashboard/home', $this->data);
-//     }
+
         
 //     // ------------------------------------------------------------------------
     

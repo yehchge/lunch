@@ -18,7 +18,7 @@
 	<h1>Admin Panel</h1>
 
 	<nav>
-		Manage Users | <a href="<?=base_url().'admin/logout'?>">Logout</a>
+		Manage Users | <a href="<?=base_url().'tutorial/admin/logout'?>">Logout</a>
 	</nav>
 
 <?php else:?>

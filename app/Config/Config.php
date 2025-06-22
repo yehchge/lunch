@@ -10,6 +10,15 @@ defined('PATH_ROOT') || define('PATH_ROOT', realpath(dirname(__FILE__) . '/../..
 defined('BASE_URL') || define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/');
 defined('SYSTEMPATH') || define('SYSTEMPATH', PATH_ROOT . '/System');
 
+/*
+|--------------------------------------------------------------------------
+| Application Constants
+|--------------------------------------------------------------------------
+|
+*/
+define('HASH_KEY', 'fisherman_pants');
+
+
 // The sitewide hashkey, do not change this because its used for passwords!
 // This is for other hash keys... Not sure yet
 define('HASH_GENERAL_KEY', 'MixitUp200');
