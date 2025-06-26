@@ -43,6 +43,7 @@ class CsrfFilter implements FilterInterface {
         return $this->config['token_name'];
     }
 
+    // 生成 CSRF token
     public function generateCsrfToken(CRequest $request) {
         $session = $request->getSession();
         $token = bin2hex(random_bytes(32)); // 生成隨機 token
@@ -52,16 +53,6 @@ class CsrfFilter implements FilterInterface {
         ]);
         return $token;
     }
-
-    // 生成 CSRF token
-    // function generateCsrfToken() {
-    //     // if (empty($_SESSION['csrf_token'])) {
-    //         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    //         $_SESSION['csrf_token_time'] = time();
-    //     // }
-    //     return $_SESSION['csrf_token'];
-    // }
-
 
     protected function validateCsrfToken(CRequest $request, CResponse $response) {
         $session = $request->getSession();

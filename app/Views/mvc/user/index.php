@@ -26,6 +26,5 @@
             <a href='".base_url().'mvc/user/delete/'.$value['userid']."'>Delete</a></td>";
         echo '</tr>';
     }
-    //print_r($this->userList);
 ?>
 </table>

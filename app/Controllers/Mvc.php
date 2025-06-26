@@ -46,16 +46,6 @@ class Mvc
                      ->where('password', $password)
                      ->first();
 
-        // $sth = $this->db->prepare('SELECT userid, login, role FROM mvc_user WHERE
-        //         login = :login AND password = :password');
-        // $sth->execute([
-        //     ':login' => $_POST['login'],
-        //     ':password' => Hash::create('md5', $_POST['password'], HASH_PASSWORD_KEY),
-        // ]);
-        // $data = $sth->fetch();
-
-        // $count = $sth->rowCount();
-
         if ($data) {
             // login
             $session = session();
@@ -65,16 +55,6 @@ class Mvc
 
             $cookiehash = md5(sha1($data['login'].CRequest::getAddress()));
 
-
-
-            // Session::init();
-            // Session::set('role', $data['role']);
-            // Session::set('loggedIn', true);
-            // Session::set('userid', $data['userid']);
-
-            // $cookiehash = md5(sha1($data['login'].Misc::sGetIP()));
-
-            // if (isset($_POST['remember'])) {
             if ($post['remember'] === 'on') {
                 // echo "has";exit;
                 setcookie('username', $cookiehash, time() + 3600 * 24 * 365, '/');
@@ -88,7 +68,6 @@ class Mvc
             ];
 
             // $this->db->update('mvc_user', $postData, "`userid` = '{$data['userid']}'");
-
 
             return JavaScript::redirect('../dashboard');
 
@@ -104,7 +83,6 @@ class Mvc
     public function dashboard()
     {
         // Auth::handleLogin();
-        // $this->view->js = ['dashboard/js/default.js'];
 
         return view('mvc/header', ['title' => 'Dashboard', 'js' => ['assets/public/js/default.js']])
             . view('mvc/index/dashboard')
@@ -172,7 +150,6 @@ class Mvc
 
     public function form()
     {
-
         if (isset($_REQUEST['run'])) {
             try {
 
@@ -204,8 +181,6 @@ class Mvc
 
                         throw new \Exception($message);
                     }
-
-
                 } else {
                     $form = new Form();
 

@@ -12,7 +12,6 @@
 // 4. Insert some data in the "users" table.
 // 5. To run the project execute "php spark serve".
 
-
 namespace App\Controllers;
 
 use App\Models\PaginationModel;

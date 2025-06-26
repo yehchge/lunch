@@ -3,6 +3,10 @@
 // commands/MakeMigrationCommand.php
 // namespace Commands;
 
+namespace App\Commands;
+
+use App\System\BaseCommand;
+
 class MakeMigration extends BaseCommand
 {
     public $group = 'Make';

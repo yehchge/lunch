@@ -49,20 +49,12 @@ class Note
 
     public function edit($noteid)
     {
-        // $this->view->note = $this->model->noteSingleList($noteid);
-
         $model = model(MvcNoteModel::class);
 
         $note = $model->find($noteid);
         if ($note === null) {
             throw new PageNotFoundException('This is an invalid note!');
         }
-
-        // $this->view->title = 'Edit Note';
-
-        // $this->view->render('header');
-        // $this->view->render('note/edit');
-        // $this->view->render('footer');
 
         return view('mvc/header', ['title' => 'Edit Note'])
             . view('mvc/note/edit', ['note' => $note])
@@ -108,55 +100,3 @@ class Note
         return JavaScript::redirect('../');
     }
 }
-
-
-
-
-
-// public function noteList()
-//     {
-//         return $this->db->select(
-//             'SELECT * FROM note WHERE userid = :userid',
-//                 ['userid' => $_SESSION['userid']]
-//         );
-//     }
-
-//     public function noteSingleList($noteid)
-//     {
-//         return $this->db->select(
-//             'SELECT * FROM note WHERE userid = :userid AND noteid = :noteid',
-//                 ['userid' => $_SESSION['userid'], 'noteid' => $noteid]
-//         );
-//     }
-
-//     public function create($data)
-//     {
-//         $this->db->insert('note', [
-//             'title' => $data['title'],
-//             'userid' => $_SESSION['userid'],
-//             'content' => $data['content'],
-//             'date_added' => date('Y-m-d H:i:s'), // use GMT aka UTC 0:00
-//         ]);
-//     }
-
-//     public function editSave($data)
-//     {
-//         $postData = [
-//             'title' => $data['title'],
-//             'content' => $data['content'],
-//         ];
-
-//         $this->db->update(
-
-//             'note',
-
-//             $postData,
-//                 "`noteid` = '{$data['noteid']}' AND `userid` = '{$_SESSION['userid']}'"
-
-//         );
-//     }
-
-//     public function delete($noteid)
-//     {
-//         $this->db->delete('note', "`noteid` = '$noteid' AND `userid` = '{$_SESSION['userid']}'");
-//     }

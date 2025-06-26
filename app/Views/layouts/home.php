@@ -75,11 +75,6 @@ function sort_link($label, $field, $currentSort, $currentOrder, $perPage)
                         <th class="p-1 text-center"><?= sort_link('Contact #', 'contact', $currentSort, $currentOrder, $perPage) ?></th>
                         <th class="p-1 text-center"><?= sort_link('Email', 'email', $currentSort, $currentOrder, $perPage) ?></th>
                         <th class="p-1 text-center"><?= sort_link('Address', 'address', $currentSort, $currentOrder, $perPage) ?></th>
-<!--                         <th class="p-1 text-center">#</th>
-                        <th class="p-1 text-center">Name</th>
-                        <th class="p-1 text-center">Contact #</th>
-                        <th class="p-1 text-center">Email</th>
-                        <th class="p-1 text-center">Address</th> -->
                     </tr>
                 </thead>
                 <tbody>

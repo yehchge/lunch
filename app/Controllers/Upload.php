@@ -35,10 +35,6 @@ class Upload
         $request = new CRequest();
         $img = $request->getFile('userfile');
 
-// echo "<pre>";print_r($img->file);echo "</pre>";exit;
-
-        // $img = $this->request->getFile('userfile');
-
         // if (! $img->hasMoved()) {
             $filepath = WRITEPATH . 'uploads/' . $img->store();
 

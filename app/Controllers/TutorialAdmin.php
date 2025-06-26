@@ -9,7 +9,6 @@ use App\System\Validator;
 use App\System\JavaScript;
 
 class TutorialAdmin
-
 {
     public function index()
     {
@@ -24,9 +23,6 @@ class TutorialAdmin
                 . view('tutorial/footer');
         }
         
-        // $email = $this->input->post('email');
-        // $password = $this->input->post('password');
-
         $request = new CRequest();
         $data = $request->getPost(['email', 'password']);
         
@@ -59,9 +55,7 @@ class TutorialAdmin
         return view('tutorial/header')
             . view('tutorial/admin/home', $data)
             . view('tutorial/footer');
-
     }
-
 
     // ------------------------------------------------------------------------
 
@@ -76,15 +70,11 @@ class TutorialAdmin
 
     public function create_user()
     {
-        // $email = $this->input->post('email');
-        // $password = $this->input->post('password');
-
         $request = new CRequest();
         $data = $request->getPost(['email', 'password']);
 
         $model = model(TutorialModel::class);
 
-        // $this->load->model('user_model');
         $model->create($data['email'], $data['password']);
     }
 
@@ -92,13 +82,8 @@ class TutorialAdmin
     
     public function delete_user($user_id)
     {
-        // $this->load->model('user_model');
-        // echo $this->user_model->delete($user_id);
-
         $model = model(TutorialModel::class);
         echo $model->delete($user_id);
     }
-    
-
 
 }

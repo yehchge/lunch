@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Commands;
+
+use App\System\BaseCommand;
+
 class Home extends BaseCommand
 {
     public $group = '';

@@ -13,7 +13,7 @@ namespace App\System;
 
 class Form
 {
-        /** @var array $_currentItem The immediately posted item */
+    /** @var array $_currentItem The immediately posted item */
     private $_currentItem = null;
 
     /** @var array $_postData Stores the Posted Data */

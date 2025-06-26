@@ -3,6 +3,10 @@
 // commands/TestCommand.php
 // namespace Commands;
 
+namespace App\Commands;
+
+use App\System\BaseCommand;
+
 class TestCommand extends BaseCommand
 {
     public $group = 'Test';

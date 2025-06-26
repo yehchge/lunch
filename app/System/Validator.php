@@ -74,6 +74,8 @@ class Validator
                 return strlen($value) <= (int)$param;
             case 'numeric':
                 return is_numeric($value);
+            case 'int':
+                return $this->isValidMySQLId($value);
             case 'in': // 檢查值是否在指定選項中。 Ex: 'gender' => 'required|in:male,female,other',
                 $options = explode(',', $param);
                 return in_array($value, $options);
@@ -84,6 +86,20 @@ class Validator
                 }
                 return true; // 未知規則，默認通過
         }
+    }
+
+    private function isValidMySQLId($number) {
+        // 檢查是否為純數字字串且無小數點
+        if (!preg_match('/^\d+$/', $number)) {
+            return false;
+        }
+
+        // 轉為整數
+        $number = (int)$number;
+
+        // 檢查是否為非負數 (>= 0) 或正數 (> 0)
+        return $number > 0; // 非負數
+        // 如果需要正數，改用 return $number > 0;
     }
 
     // 新增錯誤訊息

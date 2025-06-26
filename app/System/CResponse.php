@@ -84,11 +84,6 @@ class CResponse
             ->send();
     }
 
-    // public function fail(string $message, int $status = 400, array $errors = []): void
-    // {
-    //     $this->json(['error' => $message, 'details' => $errors], $status);
-    // }
-
     public function failNotFound(string $message, int $status = 404): void
     {
         $this->json(['status' => $status, 'error' => $status, 'messages' => ['error' => $message]], $status);
