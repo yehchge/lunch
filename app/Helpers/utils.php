@@ -69,3 +69,11 @@ function dateHourDiff($startTime, $endTime)
 function log2file($filename, $contents) {
     file_put_contents($filename, $contents);
 }
+
+/**
+ * 判斷是否在 command line 下執行?
+ * @return boolean 在 cli 下執行: true, 網頁執行: false
+ */
+function is_cli(){
+    return (php_sapi_name() === 'cli') ? true : false;
+}

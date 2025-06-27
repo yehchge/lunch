@@ -119,13 +119,12 @@ use App\System\Core;
 
 $core = new Core();
 
-
 require PATH_ROOT.'/app/System/File.php';
 
 require PATH_ROOT.'/app/System/ViewEngine.php';
+require PATH_ROOT.'/app/System/Redirect.php';
 
 // require PATH_ROOT.'/app/Config/Paths.php';
-
 
 // 事件 Events
 require PATH_ROOT.'/app/Config/Events.php';
