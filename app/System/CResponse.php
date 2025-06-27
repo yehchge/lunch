@@ -89,13 +89,13 @@ class CResponse
         $this->json(['status' => $status, 'error' => $status, 'messages' => ['error' => $message]], $status);
     }
 
-    public function redirect($url, $status = 302)
-    {
-        if (!in_array($status, [301, 302, 307], true)) {
-            throw new \InvalidArgumentException("Invalid redirect status: {$status}");
-        }
-        $this->setHeader('Location', $url)->setStatus($status)->send();
-    }
+    // public function redirect($url, $status = 302)
+    // {
+    //     if (!in_array($status, [301, 302, 307], true)) {
+    //         throw new \InvalidArgumentException("Invalid redirect status: {$status}");
+    //     }
+    //     $this->setHeader('Location', $url)->setStatus($status)->send();
+    // }
 
     public function setStatusCode(int $code)
     {

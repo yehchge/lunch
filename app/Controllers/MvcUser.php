@@ -37,7 +37,7 @@ class MvcUser
         $model->save($data);
         // header('location: '.URL.'user');
 
-        return JavaScript::redirect('../user');
+        return JavaScript::redirectTo('../user');
     }
 
     public function edit($id)
@@ -60,7 +60,7 @@ class MvcUser
 
         $model->update($userid, $data);
 
-        return JavaScript::redirect('../');
+        return JavaScript::redirectTo('../');
 
         // $this->model->editSave($data);
         // header('location: '.URL.'user');
@@ -71,7 +71,7 @@ class MvcUser
         $model = model(MvcUserModel::class);
 
         $model->delete($userid);
-        return JavaScript::redirect('../');
+        return JavaScript::redirectTo('../');
 
         // $this->model->delete($userid);
         // header('location: '.URL.'user');

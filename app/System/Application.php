@@ -33,11 +33,9 @@ class Application {
             // 執行 Before 過濾器
             $this->filterManager->runBeforeFilters($request, $response);
 
-            // 模擬控制器邏輯
-            // $controller = $this->resolveController($request);
-            // $controller->handle($request, $response);
-
             $routes = require PATH_ROOT."/app/Config/Routes.php";
+            // \Redirect::$routes = $routes->getRoutes();
+
             $routes->dispatch();
 
             // 執行 After 過濾器
@@ -71,7 +69,7 @@ class Application {
             // 返回 HTML 錯誤頁面
             $response->setHeader('Content-Type', 'text/html; charset=UTF-8', true)
                      ->setTerminate()
-                     ->send($this->renderErrorPage($e->getMessage(), $e->getCode()));
+                     ->send($this->renderErrorPage($e->getMessage(), (int)$e->getCode()));
         }
         // exit; // 確保終止後續處理
     }

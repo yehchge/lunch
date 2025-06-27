@@ -118,7 +118,6 @@ class Employee
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
-
         $validator = new Validator($data, [
             'name' => 'required',
             'email'  => 'required|email',
@@ -211,9 +210,6 @@ class Employee
             $json = file_get_contents('php://input');
 
             $data = json_decode($json, true);
-
-
-
 
             $validator = new Validator($data, [
                 'name' => 'required',

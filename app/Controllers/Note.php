@@ -44,7 +44,7 @@ class Note
         $model = model(MvcNoteModel::class);
         $model->save($data);
 
-        return JavaScript::redirect('../note');
+        return JavaScript::redirectTo('../note');
     }
 
     public function edit($noteid)
@@ -87,7 +87,7 @@ class Note
               ->set($data)
               ->update();
 
-        return JavaScript::redirect('../');
+        return JavaScript::redirectTo('../');
     }
 
     public function delete($id)
@@ -97,6 +97,6 @@ class Note
 
         $model = model(MvcNoteModel::class);
         $model->delete($id);
-        return JavaScript::redirect('../');
+        return JavaScript::redirectTo('../');
     }
 }

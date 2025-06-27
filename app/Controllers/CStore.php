@@ -168,7 +168,7 @@ class CStore
 
             session()->setFlashdata('errors', $message);
             // return $this->new();
-            return JavaScript::redirect('./add');
+            return JavaScript::redirectTo('./add');
         }
 
 
@@ -178,7 +178,7 @@ class CStore
         if ($storeRepo->CreateStore('','',$StoreName,$StoreIntro,$StoreClass,$MainMan,$Tel,$Address,$Online['email'],$Note)) {
             JavaScript::vAlertRedirect('新增成功!', BASE_URL."store/list");
         } else {
-            JavaScript::redirect('./add', '新增失敗!');
+            JavaScript::redirectTo('./add', '新增失敗!');
             // vAlertBack('新增失敗!');
         }
     }

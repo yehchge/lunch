@@ -25,7 +25,7 @@ class Tutorial
 
         $session = session();
         $session->destroy();
-        return JavaScript::redirect('./login');
+        return JavaScript::redirectTo('./login');
     }
     
     // ------------------------------------------------------------------------
@@ -70,11 +70,11 @@ class Tutorial
             $session->set('user_id', 1);
 
             // redirect(site_url('dashboard/home'));
-            return JavaScript::redirect('../home');
+            return JavaScript::redirectTo('../home');
         } else {
             echo "error Login";exit;
             // redirect(site_url('dashboard/login'));
-            return JavaScript::redirect('./dashboard/login');
+            return JavaScript::redirectTo('./dashboard/login');
         }
     }
 }

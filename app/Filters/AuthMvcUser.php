@@ -11,7 +11,7 @@ class AuthMvcUser
         $logged = $session->get('loggedIn');
         if ($logged == false) {
             $session->destroy();
-            return JavaScript::redirect(base_url().'mvc/login');
+            return JavaScript::redirectTo(base_url().'mvc/login');
         }
     }
 }

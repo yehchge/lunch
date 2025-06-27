@@ -12,13 +12,13 @@ class AuthMvcOwner
         $logged = $session->get('loggedIn');
         if ($logged == false) {
             $session->destroy();
-            return JavaScript::redirect(base_url().'mvc/login');
+            return JavaScript::redirectTo(base_url().'mvc/login');
         }
 
 
         $role = $session->get('role');
         if ($role != 'owner') {
-            return JavaScript::redirect(base_url().'mvc/dashboard');
+            return JavaScript::redirectTo(base_url().'mvc/dashboard');
         }
 
     }

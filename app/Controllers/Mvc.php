@@ -69,13 +69,13 @@ class Mvc
 
             // $this->db->update('mvc_user', $postData, "`userid` = '{$data['userid']}'");
 
-            return JavaScript::redirect('../dashboard');
+            return JavaScript::redirectTo('../dashboard');
 
             // header('location: ../dashboard');
         } else {
             // show an error!
             // header('location: ../login');
-            return JavaScript::redirect('../login');
+            return JavaScript::redirectTo('../login');
         }
 
     }
@@ -94,7 +94,7 @@ class Mvc
         $session = session();
         $session->destroy();
         setcookie('username', '', 0, '/');
-        return JavaScript::redirect('../login');
+        return JavaScript::redirectTo('../login');
 
         // Session::destroy();
         // setcookie('username', '', 0, '/');

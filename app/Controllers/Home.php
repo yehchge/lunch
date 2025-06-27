@@ -6,6 +6,12 @@ class Home
 {
     public function index()
     {
+        // if (function_exists('redirect')) {
+        //     $reflection = new \ReflectionFunction('redirect');
+        //     echo 'redirect() defined in: ' . $reflection->getFileName() . ':' . $reflection->getStartLine();
+        //     exit;
+        // }
+
         return view('welcome_message');
     }
 

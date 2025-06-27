@@ -50,12 +50,12 @@ class CLogin
                 if($refer){
                     $_SESSION['refer'] = '';
                     unset($_SESSION['refer']);
-                    JavaScript::redirect($refer);
+                    JavaScript::redirectTo($refer);
                 }else{
                     header("Location: ".BASE_URL);
                 }
             } else {
-                JavaScript::redirect(BASE_URL.'login', "帳號或密碼錯誤");
+                JavaScript::redirectTo(BASE_URL.'login', "帳號或密碼錯誤");
             }
         }
     }

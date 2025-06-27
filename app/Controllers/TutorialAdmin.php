@@ -12,7 +12,7 @@ class TutorialAdmin
 {
     public function index()
     {
-        return JavaScript::redirect('admin/login');
+        return JavaScript::redirectTo('admin/login');
     }
 
     public function login($submit = null)
@@ -35,10 +35,10 @@ class TutorialAdmin
             $session->set('is_admin', 1);
 
             // redirect(site_url('admin/home'));
-            return JavaScript::redirect('../home');
+            return JavaScript::redirectTo('../home');
         } else {
             // redirect(site_url('admin/login'));
-            return JavaScript::redirect('admin/login');
+            return JavaScript::redirectTo('admin/login');
         }
     }
 
@@ -63,7 +63,7 @@ class TutorialAdmin
     {
         $session = session();
         $session->destroy();
-        return JavaScript::redirect('login');
+        return JavaScript::redirectTo('login');
     }
     
     // ------------------------------------------------------------------------

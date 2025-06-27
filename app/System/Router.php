@@ -33,6 +33,15 @@ class Router
         ];
     }
 
+    public function getRoutes()
+    {
+        $allGetPaths = [];
+        foreach($this->routes['GET'] as $row){
+            $allGetPaths[$row['path']] = $row['path'];
+        }
+        return $allGetPaths;
+    }
+
     public function dispatch()
     {
         global $auth;

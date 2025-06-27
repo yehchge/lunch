@@ -21,9 +21,13 @@ class PaginationController
 {
     public function index()
     {
-        $response = new CResponse();
-        return $response->redirect('./loadRecord');
-        // return redirect()->route('loadRecord'); 
+        // if (function_exists('redirect')) {
+        //     $reflection = new \ReflectionFunction('redirect');
+        //     echo 'redirect() defined in: ' . $reflection->getFileName() . ':' . $reflection->getStartLine();
+        //     exit;
+        // }
+
+        return redirect()->to("loadRecord");
     }
 
     public function loadRecord()
