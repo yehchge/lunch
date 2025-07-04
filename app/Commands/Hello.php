@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Commands;
+
+use App\System\BaseCommand;
+
 class Hello extends BaseCommand {
 
     public $group = 'Demo';

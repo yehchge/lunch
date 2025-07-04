@@ -61,9 +61,10 @@ class News
         // helper('form');
 
         $request = new CRequest();
-        $data = $request->getPost(['title', 'body']);
+        $post = $request->getPost(['title', 'body']);
 
-        $validator = new Validator($data, [
+        // Checks whether the submitted data passed the validation rules.
+        $validator = new Validator($post, [
             'title' => 'required|max:255|min:3',
             'body'  => 'required|max:5000|min:10',
         ]);
@@ -71,34 +72,21 @@ class News
         if ($validator->validate()) {
             // echo "Validation passed!\n";
         } else {
-            $message = '';
-            // 輸出錯誤訊息
-            foreach ($validator->getErrors() as $field => $errors) {
-                foreach ($errors as $error) {
-                    $message .= $error."<br>";
-                }
-            }
+            // $message = '';
+            // // 輸出錯誤訊息
+            // foreach ($validator->getErrors() as $field => $errors) {
+            //     foreach ($errors as $error) {
+            //         $message .= $error."<br>";
+            //     }
+            // }
 
-            session()->setFlashdata('errors', $message);
-            // return $this->new();
-            return JavaScript::redirect('./new');
+            // session()->setFlashdata('errors', $message);
+            // // return $this->new();
+            return redirect()->to('news/new');
         }
-
-        // // Checks whether the submitted data passed the validation rules.
-        // if (! $this->validateData($data, [
-        //     'title' => 'required|max_length[255]|min_length[3]',
-        //     'body'  => 'required|max_length[5000]|min_length[10]',
-        // ])) {
-        //     // The validation fails, so returns the form.
-        //     return $this->new();
-        // }
 
         // Gets the validated data.
         // $post = $this->validator->getValidated();
-
-        // $model = model(NewsModel::class);
-
-        $post = $data;
 
         $model = new NewsModel();
 

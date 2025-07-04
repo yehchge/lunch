@@ -144,27 +144,6 @@ async function deleteEmployee(id) {
   }
 }
 
-
-// function deleteEmployee(id){
-//   const url = '<?= site_url('/employee/') ?>' + id;
-
-//   fetch(url, {
-//       method: 'DELETE',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       }
-//   })
-//   .then(response => {
-//       if (response.ok) {
-//         window.location.reload();
-//         console.log('Resource deleted successfully');
-//       } else {
-//         console.error('Failed to delete resource');
-//       }
-//   })
-//   .catch(error => console.error('Error:', error));
-// }
-
 // 頁面載入時取得項目
 fetchItems();
 

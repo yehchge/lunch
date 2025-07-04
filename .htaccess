@@ -1,5 +1,30 @@
 # .htaccess
 RewriteEngine On
+
+# 移除結尾斜線 Redirect Trailing Slashes...
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
+
+# 隱藏 index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [QSA,L]
+
+
+# 禁止.htaccess文件被查看
+# 在.htaccess文件中加入如下代碼就可以禁止別人訪問你的.htaccess文件：
+
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "spark">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Disable server signature start
+    ServerSignature Off
+# Disable server signature end

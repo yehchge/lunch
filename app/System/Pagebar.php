@@ -105,21 +105,6 @@ class Pagebar
         // 取得緩衝內容
         $output = ob_get_clean();
         return $output;
-
-        // 沒有 layout，就直接輸出
-        // include $viewPath;
-
-        // if ($this->layout) {
-        //     $layoutPath = __DIR__ . '/views/' . $this->layout . '.php';
-        //     if (file_exists($layoutPath)) {
-        //         include $layoutPath;
-        //     } else {
-        //         die("Layout '{$this->layout}' not found.");
-        //     }
-        // } else {
-        //     // 沒有 layout，就直接輸出
-        //     include $viewPath;
-        // }
     }
 
     public function render(string $view = '', array $data = []): string
@@ -187,13 +172,6 @@ class Pagebar
 
     public function linksCustom()
     {
-        // [
-        //     'active' => 'active',
-        //     'uri' => '',
-        //     'title' => 5, // page
-        // ];
-
-
         $results = [];
 
         $totalPages = $this->totalPages();
@@ -202,26 +180,6 @@ class Pagebar
         $o = $this->options;
 
         $range = $this->getVisiblePageRange($totalPages);
-
-        // if ($this->hasPrevious()) {
-        //     if ($range['start'] > 2) {
-        //         $results[] = [
-        //             'active' => '',
-        //             'uri' =>  $this->buildUrl(1),
-        //             'title' => 1, // page
-        //         ];
-        //     }else{
-        //         $isActive = (1 === $this->currentPage);
-        //         $active = '';
-        //         if ($isActive) $active = 'active';
-
-        //         $results[] = [
-        //             'active' => $active,
-        //             'uri' =>  $this->buildUrl(1),
-        //             'title' => 1, // page
-        //         ];
-        //     }
-        // }
 
         for ($i = $range['start']; $i <= $range['end']; $i++) {
 
@@ -235,19 +193,6 @@ class Pagebar
                 'title' => $i, // page
             ];
         }
-
-        // if ($range['end'] < $totalPages) {
-
-        //     $isActive = ($totalPages === $this->currentPage);
-        //     $active = '';
-        //     if ($isActive) $active = 'active';
-
-        //     $results[] = [
-        //         'active' => $active,
-        //         'uri' =>  $this->buildUrl($totalPages),
-        //         'title' => $totalPages, // page
-        //     ];
-        // }
 
         return $results;
     }
@@ -277,8 +222,6 @@ class Pagebar
 
         $totalPages = $this->totalPages();
         $this->getVisiblePageRange($totalPages);
-
-        // $this->updatePages($count);
 
         return $this;
     }
@@ -313,9 +256,6 @@ class Pagebar
 
         return $this->displayLinks($group, $template);
     }
-
-
-
 
     /**
      * Does the actual work of displaying the view file. Used internally

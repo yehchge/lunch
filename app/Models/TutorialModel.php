@@ -39,14 +39,6 @@ class TutorialModel extends Model
      */
     public function login($type, $email, $password)
     {
-        // $query = $this->db->get_where('user_ci_tutorial', array(
-        //     'type' => $type,
-        //     'email' => $email,
-        //     'password' => sha1($password . HASH_KEY)
-        // ));
-
-        // return $query->result();
-
         return $this->where('type', $type)
                     ->where('email', $email)
                     ->where('password', sha1($password . HASH_KEY))
@@ -68,27 +60,4 @@ class TutorialModel extends Model
         ]);
         return $result;
     }
-    
-    // public function delete($user_id)
-    // {
-    //     $this->db->where(array('user_id' => $user_id));
-    //     echo $this->db->delete('user_ci_tutorial');
-    // }
-
-    /**
-     * @param false|string $slug
-     *
-     * @return array|null
-     */
-    // public function getNews($slug = false)
-    // {
-    //     if ($slug === false) {
-    //         return $this->findAll();
-    //     }
-
-    //     return $this->where(['slug' => $slug])->first();
-    // }
 }
-
-
-

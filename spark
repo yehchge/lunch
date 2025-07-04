@@ -83,6 +83,11 @@ function showHeader(bool $suppress = false)
 // include basic config
 require 'app/Config/Config.php';
 require 'app/System/CLI.php';
+require 'app/Helpers/utils.php';
+
+if (!is_cli()) {
+    exit(1);
+}
 
 // 執行 CLI
 $cmdName = $argv[1] ?? 'list';

@@ -101,6 +101,7 @@ use App\System\DotEnv;
 require PATH_ROOT.'/app/Config/App.php';
 require PATH_ROOT.'/app/Helpers/utils.php';
 require PATH_ROOT.'/app/Helpers/service.php';
+require PATH_ROOT.'/app/System/Redirect.php';
 
 require PATH_ROOT.'/app/System/BaseCommand.php';
 
@@ -119,13 +120,11 @@ use App\System\Core;
 
 $core = new Core();
 
-
 require PATH_ROOT.'/app/System/File.php';
 
 require PATH_ROOT.'/app/System/ViewEngine.php';
 
 // require PATH_ROOT.'/app/Config/Paths.php';
-
 
 // 事件 Events
 require PATH_ROOT.'/app/Config/Events.php';

@@ -32,7 +32,6 @@ class CI4Smarty extends \Smarty
         $this->setLeftDelimiter ( $_ENV['CI4Smarty.LeftDelimiter']  ??  $this->LeftDelimiter );
         $this->setRightDelimiter(  $_ENV['CI4Smarty.RightDelimiter'] ?? $this->RightDelimiter );
 
-
         // if (!file_exists($this->TemplateDir)) {
         //     exit("Directory not exists! Please create directory: ".$this->TemplateDir);
         // }

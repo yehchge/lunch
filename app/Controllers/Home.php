@@ -2,13 +2,16 @@
 
 namespace App\Controllers;
 
-use App\System\ViewEngine;
-
 class Home 
 {
     public function index()
     {
-        include_once 'app/System/ViewEngine.php';
+        // if (function_exists('redirect')) {
+        //     $reflection = new \ReflectionFunction('redirect');
+        //     echo 'redirect() defined in: ' . $reflection->getFileName() . ':' . $reflection->getStartLine();
+        //     exit;
+        // }
+
         return view('welcome_message');
     }
 

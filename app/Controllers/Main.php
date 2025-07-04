@@ -57,8 +57,6 @@ class Main
 
         $builder = $builder->orderBy($sort, $order);
 
-
-
         // 排序資料
         $users = $builder->paginate($perPage);
 

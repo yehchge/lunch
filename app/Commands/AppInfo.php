@@ -1,9 +1,11 @@
 <?php
 
-// namespace App\Commands;
+namespace App\Commands;
 
 // use CodeIgniter\CLI\BaseCommand;
 // use CodeIgniter\CLI\CLI;
+
+use App\System\BaseCommand;
 
 class AppInfo extends BaseCommand
 {

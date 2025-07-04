@@ -2,7 +2,7 @@
 
 declare(strict_types=1); // 嚴格類型
 
-// JavaScript::redirect('success.php', '操作成功！');
+// JavaScript::redirectTo('success.php', '操作成功！');
 // JavaScript::displayFlashMessage();
 // JavaScript::setFlashMessage('這是一個提示訊息！');
 // JavaScript::displayFlashMessage();
@@ -27,7 +27,7 @@ class JavaScript
 
     public static function vRedirect($url)
     {
-        (new self())->redirect($url)->render();
+        (new self())->redirectTo($url)->render();
     }
 
     public static function vAlertBack($msg, $go = -1)
@@ -92,7 +92,7 @@ class JavaScript
     }
 
     // 伺服器端轉址
-    public static function redirect($url, $message = null)
+    public static function redirectTo($url, $message = null)
     {
         if($message){
             self::setFlashMessage($message);

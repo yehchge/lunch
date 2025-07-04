@@ -89,7 +89,6 @@ CREATE TABLE IF NOT EXISTS `mvc_user` (
 -- 正在導出表  mvc2.mvc_user 的資料：5 rows
 /*!40000 ALTER TABLE `mvc_user` DISABLE KEYS */;
 INSERT INTO `mvc_user` (`userid`, `login`, `password`, `role`, `login_session`) VALUES
-	(1, 'bill', 'f2f5a8950c0e218967dda7120648288a', 'owner', ''),
 	(7, 'test12', '09c78f479e758519ce90d69ddc19c3e4', 'owner', ''),
 	(8, 'demo', '88f2dccb02b2a20615211e5492f85204', 'owner', '34229989384a4cb26ca5c0b3bdba4ae8'),
 	(34, 'jesse2', '8aa8c12fd71338d4ed652ffe41cdb792', 'default', '603e08b1a82f160ae9012afb9be5c33c'),

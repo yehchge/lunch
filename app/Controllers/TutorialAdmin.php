@@ -9,11 +9,10 @@ use App\System\Validator;
 use App\System\JavaScript;
 
 class TutorialAdmin
-
 {
     public function index()
     {
-        return JavaScript::redirect('admin/login');
+        return JavaScript::redirectTo('admin/login');
     }
 
     public function login($submit = null)
@@ -24,9 +23,6 @@ class TutorialAdmin
                 . view('tutorial/footer');
         }
         
-        // $email = $this->input->post('email');
-        // $password = $this->input->post('password');
-
         $request = new CRequest();
         $data = $request->getPost(['email', 'password']);
         
@@ -39,10 +35,10 @@ class TutorialAdmin
             $session->set('is_admin', 1);
 
             // redirect(site_url('admin/home'));
-            return JavaScript::redirect('../home');
+            return JavaScript::redirectTo('../home');
         } else {
             // redirect(site_url('admin/login'));
-            return JavaScript::redirect('admin/login');
+            return JavaScript::redirectTo('admin/login');
         }
     }
 
@@ -59,9 +55,7 @@ class TutorialAdmin
         return view('tutorial/header')
             . view('tutorial/admin/home', $data)
             . view('tutorial/footer');
-
     }
-
 
     // ------------------------------------------------------------------------
 
@@ -69,22 +63,18 @@ class TutorialAdmin
     {
         $session = session();
         $session->destroy();
-        return JavaScript::redirect('login');
+        return JavaScript::redirectTo('login');
     }
     
     // ------------------------------------------------------------------------
 
     public function create_user()
     {
-        // $email = $this->input->post('email');
-        // $password = $this->input->post('password');
-
         $request = new CRequest();
         $data = $request->getPost(['email', 'password']);
 
         $model = model(TutorialModel::class);
 
-        // $this->load->model('user_model');
         $model->create($data['email'], $data['password']);
     }
 
@@ -92,13 +82,8 @@ class TutorialAdmin
     
     public function delete_user($user_id)
     {
-        // $this->load->model('user_model');
-        // echo $this->user_model->delete($user_id);
-
         $model = model(TutorialModel::class);
         echo $model->delete($user_id);
     }
-    
-
 
 }
