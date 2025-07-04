@@ -83,9 +83,9 @@ class Note
         $model = model(MvcNoteModel::class);
 
         $model->where('noteid', $noteid)
-              ->where('userid', $userid)
-              ->set($data)
-              ->update();
+            ->where('userid', $userid)
+            ->set($data)
+            ->update();
 
         return JavaScript::redirectTo('../');
     }

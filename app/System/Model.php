@@ -43,13 +43,15 @@ class Model
         $this->pdo = $db->getPdo();
     }
 
-    private function handleError(string $message): void {
+    private function handleError(string $message): void
+    {
         if ($this->debug) {
             echo "DB Error: $message" . PHP_EOL;
         }
     }
 
-    protected function query(string $sql, array $params = []): array|false {
+    protected function query(string $sql, array $params = []): array|false
+    {
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
@@ -68,7 +70,7 @@ class Model
 
     public function where($key, $value = '')
     {
-        if(is_array($key)){
+        if(is_array($key)) {
             $data = $key;
 
             $myData = [];
@@ -213,7 +215,8 @@ class Model
         return $this->query($sql);
     }
 
-    public function countAll(){
+    public function countAll()
+    {
         $request = new CRequest();
 
         // 取得查詢參數
@@ -256,9 +259,11 @@ class Model
 
     public function fetch_assoc($stmt)
     {
-        if(!$stmt) return null;
+        if(!$stmt) { return null;
+        }
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if(!$row) return null;
+        if(!$row) { return null;
+        }
         return $row;
     }
 
@@ -327,15 +332,17 @@ class Model
 
         $path = trim($path, '/');
 
-        if ($path) $segments = explode('/', $path);
-        else $segments = [];
+        if ($path) { $segments = explode('/', $path);
+        } else { $segments = [];
+        }
 
         // 當前頁數
         $currentPage = $segments[$segment-1] ?? 1;
         return $currentPage;
     }
 
-    public function findAll() {
+    public function findAll()
+    {
         try {
             if ($this->select) {
                 $sql = "SELECT ".$this->select." FROM ".$this->table;
@@ -360,17 +367,19 @@ class Model
         }
     }
 
-    public function insert(array $data): bool {
+    public function insert(array $data): bool
+    {
         return $this->save($data);
     }
 
-    public function save(array $data): bool {
+    public function save(array $data): bool
+    {
         $table = $this->table;
 
         // 過濾不允許的欄位
-        if($this->allowedFields){
+        if($this->allowedFields) {
             foreach($data as $key => $value){
-                if(!in_array($key, $this->allowedFields)){
+                if(!in_array($key, $this->allowedFields)) {
                     unset($data[$key]);
                 }
             }
@@ -399,21 +408,22 @@ class Model
         return is_numeric($this->insertID) ? (int) $this->insertID : $this->insertID;
     }
 
-    public function getLastInsertID() {
+    public function getLastInsertID()
+    {
         return $this->pdo->lastInsertId();
     }
 
      /**
-     * Captures the builder's set() method so that we can validate the
-     * data here. This allows it to be used with any of the other
-     * builder methods and still get validated data, like replace.
-     *
-     * @param array|object|string               $key    Field name, or an array of field/value pairs, or an object
-     * @param bool|float|int|object|string|null $value  Field value, if $key is a single field
-     * @param bool|null                         $escape Whether to escape values
-     *
-     * @return $this
-     */
+      * Captures the builder's set() method so that we can validate the
+      * data here. This allows it to be used with any of the other
+      * builder methods and still get validated data, like replace.
+      *
+      * @param array|object|string               $key    Field name, or an array of field/value pairs, or an object
+      * @param bool|float|int|object|string|null $value  Field value, if $key is a single field
+      * @param bool|null                         $escape Whether to escape values
+      *
+      * @return $this
+      */
     public function set($key, $value = '', ?bool $escape = null)
     {
         // if (is_object($key)) {
@@ -459,7 +469,8 @@ class Model
     }
 
 
-    private function _update($id, array $data) {
+    private function _update($id, array $data)
+    {
         $set = implode(' = ?, ', array_keys($data)) . ' = ?';
         $sql = "UPDATE ".$this->table." SET $set";
 
@@ -473,12 +484,14 @@ class Model
     }
 
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $sql = "DELETE FROM ".$this->table." WHERE ".$this->primaryKey." = ?";
         return $this->execute($sql, [$id]);
     }
 
-    public function execute(string $sql, array $params = []): bool {
+    public function execute(string $sql, array $params = []): bool
+    {
         try {
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);

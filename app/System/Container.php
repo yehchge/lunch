@@ -2,14 +2,16 @@
 
 namespace App\System;
 
-class Container {
+class Container
+{
     // 儲存綁定（類或閉包）
     protected $bindings = [];
     // 儲存已解析的單例實例
     protected $instances = [];
 
     // 綁定類或閉包到容器
-    public function bind($abstract, $concrete = null) {
+    public function bind($abstract, $concrete = null)
+    {
         if (is_null($concrete)) {
             $concrete = $abstract;
         }
@@ -17,14 +19,16 @@ class Container {
     }
 
     // 綁定單例
-    public function singleton($abstract, $concrete = null) {
+    public function singleton($abstract, $concrete = null)
+    {
         $this->bind($abstract, $concrete);
         // 標記為單例，實例化後儲存
         $this->instances[$abstract] = null;
     }
 
     // 解析類或閉包
-    public function make($abstract) {
+    public function make($abstract)
+    {
         // 如果已經是單例且已解析，直接返回
         if (isset($this->instances[$abstract]) && !is_null($this->instances[$abstract])) {
             return $this->instances[$abstract];
@@ -50,7 +54,8 @@ class Container {
     }
 
     // 使用反射解析類及其依賴
-    protected function resolveClass($class) {
+    protected function resolveClass($class)
+    {
         try {
             if (!class_exists($class)) {
                 throw new \Exception("類 $class 不存在，請檢查類名或自動加載配置");
@@ -81,7 +86,8 @@ class Container {
     }
 
     // 解析建構函數的依賴
-    protected function resolveDependencies($parameters) {
+    protected function resolveDependencies($parameters)
+    {
         $dependencies = [];
 
         foreach ($parameters as $parameter) {

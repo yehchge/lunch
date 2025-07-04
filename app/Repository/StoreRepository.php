@@ -27,13 +27,15 @@ class StoreRepository
         9 => '刪除'
     ];
 
-    public function __construct(Database $db) {
+    public function __construct(Database $db)
+    {
         $this->pdo = $db->getPdo();
 
         $this->pager = $this;
     }
 
-    public function query(string $sql, array $params = []): array|false {
+    public function query(string $sql, array $params = []): array|false
+    {
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
@@ -44,12 +46,15 @@ class StoreRepository
         }
     }
 
-    public function CreateStore($UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$CreateMan='',$Note='') {
-        if (!$StoreName || !$StoreIntro || !$StoreClass || !$MainMan || !$Tel || !$Address || !$CreateMan || !$Note) return 0;
+    public function CreateStore($UserName='',$Password='',$StoreName='',$StoreIntro='',$StoreClass='',$MainMan='',$Tel='',$Address='',$CreateMan='',$Note='')
+    {
+        if (!$StoreName || !$StoreIntro || !$StoreClass || !$MainMan || !$Tel || !$Address || !$CreateMan || !$Note) { return 0;
+        }
         
         $tt = time();
         
-        $result = $this->insert('lunch_store', [
+        $result = $this->insert(
+            'lunch_store', [
             'UserName' => $UserName,
             'Password' => $Password,
             'StoreName' => $StoreName,
@@ -64,31 +69,38 @@ class StoreRepository
             'EditMan' => '',
             'Note' => $Note,
             'Status' => 1,
-        ]);
+            ]
+        );
 
-        if($result){
+        if($result) {
             return $this->getLastInsertID();
         }
         return 0;
     }
 
-    public function GetAllStorePage($Status=0,$Name='',$PayType=0,$startRow=0,$maxRows=10) {
+    public function GetAllStorePage($Status=0,$Name='',$PayType=0,$startRow=0,$maxRows=10)
+    {
         $values = "*";
 
         $condition = "`Status`!=9";
-        if($Status) $condition.= " AND Status=$Status";
-        if($Name) $condition .= " AND Name like '%$Name''";
-        if($PayType) $condition .= " AND PayType=$PayType";
+        if($Status) { $condition.= " AND Status=$Status";
+        }
+        if($Name) { $condition .= " AND Name like '%$Name''";
+        }
+        if($PayType) { $condition .= " AND PayType=$PayType";
+        }
         $condition .= " ORDER BY `CreateDate` DESC";
 
         return $this->queryIterator("SELECT $values FROM lunch_store WHERE $condition LIMIT $startRow, $maxRows");
     }
 
-    public function GetAllStoreCount($Status=0) {
+    public function GetAllStoreCount($Status=0)
+    {
         $fileds = "COUNT(*) AS total";
 
         $condition = "`Status`!=9";
-        if($Status) $condition.= " AND Status=$Status";
+        if($Status) { $condition.= " AND Status=$Status";
+        }
 
         $stmt = $this->queryIterator("SELECT $fileds FROM lunch_store WHERE $condition");
 
@@ -98,7 +110,8 @@ class StoreRepository
 
     public function fetch_assoc($stmt)
     {
-        if(!$stmt) return 0;
+        if(!$stmt) { return 0;
+        }
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -114,20 +127,23 @@ class StoreRepository
         }
     }
 
-    public function insert(string $table, array $data): bool {
+    public function insert(string $table, array $data): bool
+    {
         $columns = implode(',', array_keys($data));
         $placeholders = implode(',', array_fill(0, count($data), '?'));
         $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
         return $this->execute($sql, array_values($data));
     }
 
-    public function update(array $data, string $where, array $params): bool {
+    public function update(array $data, string $where, array $params): bool
+    {
         $set = implode(' = ?, ', array_keys($data)) . ' = ?';
         $sql = "UPDATE lunch_store SET $set WHERE $where";
         return $this->execute($sql, array_merge(array_values($data), $params));
     }
 
-    public function execute(string $sql, array $params = []): bool {
+    public function execute(string $sql, array $params = []): bool
+    {
         try {
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
@@ -137,11 +153,13 @@ class StoreRepository
         }
     }
 
-    public function getLastInsertID() {
+    public function getLastInsertID()
+    {
         return $this->pdo->lastInsertId();
     }
 
-    private function handleError(string $message): void {
+    private function handleError(string $message): void
+    {
         if ($this->debug) {
             echo "DB Error: $message" . PHP_EOL;
             exit;
@@ -179,7 +197,8 @@ class StoreRepository
         return $this->query($sql);
     }
 
-    public function links(){
+    public function links()
+    {
 
         $request = new CRequest();
 
@@ -206,7 +225,8 @@ class StoreRepository
         return $paginator->render();
     }
 
-    public function iGetCount(){
+    public function iGetCount()
+    {
         $request = new CRequest();
 
         // 取得查詢參數

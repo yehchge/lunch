@@ -13,16 +13,24 @@ namespace App\System;
 
 class Form
 {
-    /** @var array $_currentItem The immediately posted item */
+    /**
+     * @var array $_currentItem The immediately posted item 
+     */
     private $_currentItem = null;
 
-    /** @var array $_postData Stores the Posted Data */
+    /**
+     * @var array $_postData Stores the Posted Data 
+     */
     private $_postData = [];
 
-    /** @var object $_val The validator object */
+    /**
+     * @var object $_val The validator object 
+     */
     private $_val = [];
 
-    /** @var array $_error Holds the current forms errors */
+    /**
+     * @var array $_error Holds the current forms errors 
+     */
     private $_error = [];
 
     /**
@@ -70,7 +78,7 @@ class Form
      * val - This is to validate.
      *
      * @param string $typeOfValidator A method from the Form/Val class
-     * @param string $arg A property to validate against
+     * @param string $arg             A property to validate against
      */
     public function val($typeOfValidator, $arg = null)
     {

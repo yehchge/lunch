@@ -2,6 +2,7 @@
 
 /**
  * Restful API 練習
+ *
  * @ref
  *     產生 restful controller
  *     https://onlinewebtutorblog.com/restful-resource-controller-in-codeigniter-4/
@@ -67,7 +68,7 @@ class Employee
 
         $response = new CResponse();
 
-        if($data){
+        if($data) {
             // return $this->respond($data);
             return $response->respond($data);
         }else{
@@ -118,10 +119,12 @@ class Employee
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
-        $validator = new Validator($data, [
+        $validator = new Validator(
+            $data, [
             'name' => 'required',
             'email'  => 'required|email',
-        ]);
+            ]
+        );
 
         if ($validator->validate()) {
             // echo "Validation passed!\n";
@@ -137,11 +140,13 @@ class Employee
 
             $response = new CResponse();
 
-            return $response->fail([
+            return $response->fail(
+                [
                 'status' => 400,
                 'error' => 400,
                 'messages' => $data
-            ]);
+                ]
+            );
         }
 
         $model->insert($data);
@@ -184,7 +189,7 @@ class Employee
 
         $data = $model->find($id);
 
-        if($data){
+        if($data) {
             // use postman, data set: body.raw[JSON], method: put
             // {
             //      "name": "Tony Stark",
@@ -211,10 +216,12 @@ class Employee
 
             $data = json_decode($json, true);
 
-            $validator = new Validator($data, [
+            $validator = new Validator(
+                $data, [
                 'name' => 'required',
                 'email'  => 'required|email',
-            ]);
+                ]
+            );
 
             if ($validator->validate()) {
                 // echo "Validation passed!\n";
@@ -230,11 +237,13 @@ class Employee
 
                 $response = new CResponse();
 
-                return $response->fail([
+                return $response->fail(
+                    [
                     'status' => 400,
                     'error' => 400,
                     'messages' => $data
-                ]);
+                    ]
+                );
             }
 
 
@@ -266,7 +275,7 @@ class Employee
         // delete
         $model = new EmployeeModel();
         $data = $model->find($id);
-        if($data){
+        if($data) {
             $model->delete($id);
             $response = [
                 'status' => 200,

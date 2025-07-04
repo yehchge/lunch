@@ -4,11 +4,13 @@
 
 namespace App\System;
 
-class Database {
+class Database
+{
     
     private $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         $host = getenv("DATABASE_HOST");
         $dbname = getenv("DATABASE_NAME");
         $username = getenv("DATABASE_USER");
@@ -24,7 +26,8 @@ class Database {
         }
     }
 
-    public function getPdo() {
+    public function getPdo()
+    {
         return $this->pdo;
     }
 }

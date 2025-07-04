@@ -32,10 +32,12 @@ class Validator
     {
         $this->errors = []; // 清空錯誤訊息
         $session = session();
-        $session->set('_my_old_input', [
+        $session->set(
+            '_my_old_input', [
             'post' => $_POST,
             'get' => $_GET
-        ]);
+            ]
+        );
 
         foreach ($this->rules as $field => $ruleSet) {
             // 將規則字串轉為陣列（例如 'required|email' => ['required', 'email']）
@@ -76,31 +78,32 @@ class Validator
         $value = $this->data[$field] ?? null;
 
         switch ($rule) {
-            case 'required':
-                return !empty($value);
-            case 'email':
-                return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
-            case 'min':
-                return strlen($value) >= (int)$param;
-            case 'max':
-                return strlen($value) <= (int)$param;
-            case 'numeric':
-                return is_numeric($value);
-            case 'int':
-                return $this->isValidMySQLId($value);
-            case 'in': // 檢查值是否在指定選項中。 Ex: 'gender' => 'required|in:male,female,other',
-                $options = explode(',', $param);
-                return in_array($value, $options);
-            default:
-                // 支援自訂規則（可以擴展）
-                if (method_exists($this, $rule)) {
-                    return $this->$rule($value, $param);
-                }
-                return true; // 未知規則，默認通過
+        case 'required':
+            return !empty($value);
+        case 'email':
+            return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
+        case 'min':
+            return strlen($value) >= (int)$param;
+        case 'max':
+            return strlen($value) <= (int)$param;
+        case 'numeric':
+            return is_numeric($value);
+        case 'int':
+            return $this->isValidMySQLId($value);
+        case 'in': // 檢查值是否在指定選項中。 Ex: 'gender' => 'required|in:male,female,other',
+            $options = explode(',', $param);
+            return in_array($value, $options);
+        default:
+            // 支援自訂規則（可以擴展）
+            if (method_exists($this, $rule)) {
+                return $this->$rule($value, $param);
+            }
+            return true; // 未知規則，默認通過
         }
     }
 
-    private function isValidMySQLId($number) {
+    private function isValidMySQLId($number)
+    {
         // 檢查是否為純數字字串且無小數點
         if (!preg_match('/^\d+$/', $number)) {
             return false;

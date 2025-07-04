@@ -28,7 +28,7 @@ class CLI
     {
         $newText = '';
 
-        if($foreground){
+        if($foreground) {
             $newText = self::color($message, $foreground);
         }else{
             $newText = $message;

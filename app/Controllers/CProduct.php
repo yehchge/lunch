@@ -45,7 +45,7 @@ class CProduct
         $maxRows = $paginator->limit();
         // Page Ended ************************************************
 
-        $rows = $productRepo->GetAllPdsPageByStore($StoreID,'','',$startRow,$maxRows); //* Page *//
+        $rows = $productRepo->GetAllPdsPageByStore($StoreID, '', '', $startRow, $maxRows); //* Page *//
         
         $i=0;
         $items = [];
@@ -53,7 +53,7 @@ class CProduct
         while($row = $productRepo->fetch_assoc($rows)){
             $temp = [];
 
-           if ($i==0) {
+            if ($i==0) {
                 $class = "Forums_Item";
                 $i=1;
             } else {
@@ -70,13 +70,13 @@ class CProduct
             $temp['pdsname'] = $row['PdsName'];
             $temp['pdstype'] = $row['PdsType'];
             $temp['price'] = $row['Price'];
-            $temp['note'] = mb_substr($row['Note'],0,30,'utf-8').'...';
+            $temp['note'] = mb_substr($row['Note'], 0, 30, 'utf-8').'...';
 
             $items[] = $temp;
         }
              
         $tpl->assign('items', $items);
-        $tpl->assign('totalrows',"共 ".$productRepo->GetAllPdsCountByStore($StoreID)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows', "共 ".$productRepo->GetAllPdsCountByStore($StoreID)." 筆 "); //* Page *// 
         $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
@@ -93,7 +93,8 @@ class CProduct
     // 新增表單送出
     public function add()
     {
-        if (!$_POST) return '';
+        if (!$_POST) { return '';
+        }
 
         $db = new Database();
         $userRepo = new UserRepository($db);
@@ -108,7 +109,7 @@ class CProduct
         $StoreID = trim($_POST["pdsid"]);
       
         //產生本程式功能內容
-        if ($productRepo->CreateProduct($StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note)) {
+        if ($productRepo->CreateProduct($StoreID, $PdsName, $PdsType, $Price, $Online['email'], $Note)) {
             JavaScript::vAlertRedirect('新增成功!', BASE_URL."product/list?id=$StoreID");
         } else {
             JavaScript::vAlertBack('新增失敗!');
@@ -166,10 +167,12 @@ class CProduct
         $Note = trim($_POST["note"]);
         $status = isset($_POST["status"])?trim($_POST["status"]):1;
       
-        if ($status=="on") {$cancel=2;} else {$cancel=1;}
+        if ($status=="on") {$cancel=2;
+        } else {$cancel=1;
+        }
         
         //產生本程式功能內容
-        if ($productRepo->UpdateProduct($RecordID,$StoreID,$PdsName,$PdsType,$Price,$Online['email'],$Note,$cancel)) {
+        if ($productRepo->UpdateProduct($RecordID, $StoreID, $PdsName, $PdsType, $Price, $Online['email'], $Note, $cancel)) {
             JavaScript::vAlertRedirect('更新明細成功!', BASE_URL."product/list?id=$StoreID");
         } else {
             JavaScript::vAlertBack('更新明細失敗!');
@@ -193,7 +196,7 @@ class CProduct
         // Page Start ************************************************
         
         // 資料總筆數
-        $totalItems = $productRepo->GetAllPdsCountByStore($StoreID,$Status);
+        $totalItems = $productRepo->GetAllPdsCountByStore($StoreID, $Status);
 
         // 每頁幾筆資料
         $itemsPerPage = 10;
@@ -211,8 +214,8 @@ class CProduct
         $maxRows = $paginator->limit();
         // Page Ended ************************************************
 
-        $row = NULL;
-        $rows = $productRepo->GetAllPdsPageByStore($StoreID,$Status,'',$startRow,$maxRows); //* Page *//
+        $row = null;
+        $rows = $productRepo->GetAllPdsPageByStore($StoreID, $Status, '', $startRow, $maxRows); //* Page *//
 
         $items = [];
         $i=0;
@@ -236,16 +239,16 @@ class CProduct
             $temp['pdsname'] = $row['PdsName'];
             $temp['pdstype'] = $row['PdsType'];
             $temp['price'] = $row['Price'];
-            $temp['note'] = mb_substr($row['Note'],0,30,'utf-8').'...';
+            $temp['note'] = mb_substr($row['Note'], 0, 30, 'utf-8').'...';
                 
             $items[] = $temp;
         }
 
         $tpl->assign('items', $items);
-        $tpl->assign('totalrows',"共 ".$productRepo->GetAllPdsCountByStore($StoreID,$Status)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows', "共 ".$productRepo->GetAllPdsCountByStore($StoreID, $Status)." 筆 "); //* Page *// 
         $tpl->assign('pageselect', $paginator->render()); //* Page *//
 
-        $tpl->assign('id',$StoreID);
+        $tpl->assign('id', $StoreID);
         $tpl->assign('baseUrl', BASE_URL);
         $tpl->assign('csrf', csrf_field());
 

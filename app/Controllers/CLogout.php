@@ -1,6 +1,6 @@
 <?php
 
-# 登出
+// 登出
 namespace App\Controllers;
 
 use App\System\Database;

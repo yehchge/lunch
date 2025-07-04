@@ -10,14 +10,14 @@ class File extends \SplFileInfo
         $bytes = $this->getSize();
 
         switch(strtolower($unit)){
-            case 'kb':
-                return number_format($bytes / 1024, 2);
+        case 'kb':
+            return number_format($bytes / 1024, 2);
                 break;
-            case 'mb':
-                return number_format($bytes / 1048576, 2);
+        case 'mb':
+            return number_format($bytes / 1048576, 2);
                 break;
-            default:
-                return $bytes;
+        default:
+            return $bytes;
                 break;
         }
     }
@@ -29,24 +29,19 @@ class File extends \SplFileInfo
 
     public function formatSizeUnits($bytes)
     {
-        if ($bytes >= 1073741824)
-        {
+        if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 2) . ' GB';
         }
-        elseif ($bytes >= 1048576)
-        {
+        elseif ($bytes >= 1048576) {
             $bytes = number_format($bytes / 1048576, 2) . ' MB';
         }
-        elseif ($bytes >= 1024)
-        {
+        elseif ($bytes >= 1024) {
             $bytes = number_format($bytes / 1024, 2) . ' KB';
         }
-        elseif ($bytes > 1)
-        {
+        elseif ($bytes > 1) {
             $bytes = $bytes . ' bytes';
         }
-        elseif ($bytes == 1)
-        {
+        elseif ($bytes == 1) {
             $bytes = $bytes . ' byte';
         }
         else

@@ -7,15 +7,17 @@ class CRequest
     public $file = [];
     protected $name; // originalName
 
-    public function getMethod(): string {
+    public function getMethod(): string
+    {
         return $_SERVER['REQUEST_METHOD'];
     }
 
-    public function getPath(): string {
+    public function getPath(): string
+    {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 
-    # 取得用戶端真實IP
+    // 取得用戶端真實IP
     public static function getAddress()
     {
         $ipSources = [
@@ -78,7 +80,8 @@ class CRequest
         throw new InvalidArgumentException('參數 $name 必須為字串、陣列或 null。');
     }
 
-    private static function sanitizeInput($input, $default = null) {
+    private static function sanitizeInput($input, $default = null)
+    {
         // 如果輸入不存在，返回預設值
         if (!isset($input)) {
             return $default;
@@ -86,9 +89,11 @@ class CRequest
 
         // 如果輸入是陣列，遞迴清理每個元素
         if (is_array($input)) {
-            return array_map(function($value) {
-                return is_array($value) ? sanitizeInput($value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-            }, $input);
+            return array_map(
+                function ($value) {
+                    return is_array($value) ? sanitizeInput($value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+                }, $input
+            );
         }
 
         // 如果輸入是字串，使用 htmlspecialchars 清理
@@ -186,7 +191,7 @@ class CRequest
 
         $fullName = $targetPath.$fileName;
 
-        if(move_uploaded_file($this->file['tmp_name'], $fullName)){
+        if(move_uploaded_file($this->file['tmp_name'], $fullName)) {
             // $message[] = "The file ". htmlspecialchars( basename($_FILES['id-input-file-3']['name'])). " has been uploaded.";
         }else{
             // $message[] = "Sorry, there was an error uploading your file. $target_file";
@@ -229,30 +234,35 @@ class CRequest
         return session();
     }
 
-    private static function isjQueryAjax(): bool {
+    private static function isjQueryAjax(): bool
+    {
         // 最新的 JavaScript 實作方法（例如： fetch） 並不會再發送這個標頭
         $headers = getallheaders();
         return isset($headers['X-Requested-With']) &&
                $headers['X-requested-With'] === 'XMLHttpRequest';
     }
 
-    private static function isHeaderJson(): bool {
+    private static function isHeaderJson(): bool
+    {
         $headers = getallheaders();
         return isset($headers['Content-Type']) &&
                $headers['Content-Type'] === 'application/json';
     }
 
-    private static function isAjaxRequest() {
+    private static function isAjaxRequest()
+    {
         // 如果 getallheaders() 不可用，可以用替代方法檢測 AJAX
         return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     }
 
-    private static function isJsonRequest() {
+    private static function isJsonRequest()
+    {
         return isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application/json';
     }
 
-    public function isAjax(): bool {
+    public function isAjax(): bool
+    {
         if (self::isAjaxRequest() || self::isJsonRequest() || self::isjQueryAjax() || self::isHeaderJson()) {
             // 處理 API 請求
             // header('Content-Type: application/json');

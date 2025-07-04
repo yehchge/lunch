@@ -42,14 +42,15 @@ class CManager
         $maxRows = $paginator->limit();
         // Page Ended ************************************************ 
 
-        $rows = $managerRepo->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
-        if ($rows) $row = $managerRepo->fetch_assoc($rows);
+        $rows = $managerRepo->GetAllManagerPage($Status, $PayType, $startRow, $maxRows); //* Page *//
+        if ($rows) { $row = $managerRepo->fetch_assoc($rows);
+        }
 
         $items = [];
 
-        if ($row != NULL) {
+        if ($row != null) {
             $i=0;
-            while ($row != NULL) {
+            while ($row != null) {
                 $temp = [];
                 if ($i==0) {
                     $class = "Forums_Item";
@@ -60,7 +61,7 @@ class CManager
                 }
                 $temp['classname'] = $class;
                 $temp['managerid'] = $row['RecordID'];
-                $temp['createdate'] = date("Y-m-d H:i:s" ,$row['CreateDate']);
+                $temp['createdate'] = date("Y-m-d H:i:s", $row['CreateDate']);
                 $temp['man'] = $row['Manager'];
                 $temp['storeid'] = $row['StoreID'];
                 $info = $managerRepo->GetStoreDetailsByRecordID($row['StoreID']);
@@ -75,7 +76,7 @@ class CManager
 
         $tpl->assign('items', $items);
 
-        $tpl->assign('totalrows',"共 ".$managerRepo->GetAllManagerCount($Status)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows', "共 ".$managerRepo->GetAllManagerCount($Status)." 筆 "); //* Page *// 
         $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('title', 'DinBenDon(指定店家) - DinBenDon系統');
@@ -117,7 +118,7 @@ class CManager
         // Page Ended ************************************************
         
         $Status = 1; // 只顯示訂購中
-        $rows = $managerRepo->GetActiveManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
+        $rows = $managerRepo->GetActiveManagerPage($Status, $PayType, $startRow, $maxRows); //* Page *//
         
         $items = [];
         $i = 0;
@@ -150,7 +151,7 @@ class CManager
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
 
-        $tpl->assign('totalrows',"共 ".$managerRepo->GetActiveManagerPageCount()." 筆"); //* Page *// 
+        $tpl->assign('totalrows', "共 ".$managerRepo->GetActiveManagerPageCount()." 筆"); //* Page *// 
         $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('title', 'DinBenDon明細 - DinBenDon系統');

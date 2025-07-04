@@ -63,7 +63,7 @@ class CStore
             $Name = '';
             $PayType = 0;
 
-            $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows);
+            $rows = $storeRepo->GetAllStorePage($Status, $Name, $PayType, $startRow, $maxRows);
         }
 
         // $items = [];
@@ -88,7 +88,7 @@ class CStore
     
         $tpl->assign('StoreStatus', $storeRepo->StoreStatus);
         $tpl->assign('items', $paginator);
-        $tpl->assign('totalrows',"共 $totalItems 筆");
+        $tpl->assign('totalrows', "共 $totalItems 筆");
         $tpl->assign('pageselect', $storeRepo->links());
         $tpl->assign('title', '店家維護 - DinBenDon系統');
         $tpl->assign('breadcrumb', '店家維護');
@@ -110,7 +110,8 @@ class CStore
         $result = '<ul>';
 
         foreach ($data as $key => $val) {
-            if(!$val) continue;
+            if(!$val) { continue;
+            }
             $result .= "<li>$val</li>";
         }
 
@@ -145,7 +146,8 @@ class CStore
 
         $data = $_POST;
 
-        $validator = new Validator($data, [
+        $validator = new Validator(
+            $data, [
             'name' => 'required',
             'intro'  => 'required',
             'sclass' => 'required',
@@ -153,7 +155,8 @@ class CStore
             'addr' => 'required',
             'tel' => 'required',
             'note' => 'required',
-        ]);
+            ]
+        );
 
         if ($validator->validate()) {
             // echo "Validation passed!\n";
@@ -175,7 +178,7 @@ class CStore
 
 
         //產生本程式功能內容
-        if ($storeRepo->CreateStore('','',$StoreName,$StoreIntro,$StoreClass,$MainMan,$Tel,$Address,$Online['email'],$Note)) {
+        if ($storeRepo->CreateStore('', '', $StoreName, $StoreIntro, $StoreClass, $MainMan, $Tel, $Address, $Online['email'], $Note)) {
             JavaScript::vAlertRedirect('新增成功!', BASE_URL."store/list");
         } else {
             JavaScript::redirectTo('./add', '新增失敗!');
@@ -205,8 +208,8 @@ class CStore
         $result['man'] = $info['MainMan'];
         $result['tel'] = $info['Tel'];
         $result['addr'] = $info['Address'];
-        $result['createdate'] = date("Y-m-d",$info['CreateDate']);
-        $result['editdate'] = date("Y-m-d",$info['EditDate']);
+        $result['createdate'] = date("Y-m-d", $info['CreateDate']);
+        $result['editdate'] = date("Y-m-d", $info['EditDate']);
         $result['note'] = $info['Note'];
         if ($info['Status']==1) {
             $result['status'] = "";
@@ -247,9 +250,12 @@ class CStore
         $Note = trim($_POST["note"]);
         $status = isset($_POST["status"])?trim($_POST["status"]):1;
       
-        if ($status=="on") {$cancel=2;} else {$cancel=1;}
+        if ($status=="on") {$cancel=2;
+        } else {$cancel=1;
+        }
 
-        $ret = $storeRepo->update([
+        $ret = $storeRepo->update(
+            [
             'UserName'   => '',
             'Password'   => '',
             'StoreName'  => $StoreName,
@@ -262,7 +268,8 @@ class CStore
             'EditDate'   => time(),
             'Note'       => $Note,
             'Status'     => $cancel,
-        ], 'RecordID = ?', [$RecordID]);
+            ], 'RecordID = ?', [$RecordID]
+        );
         
         // 產生本程式功能內容
         if ($ret) {
@@ -294,8 +301,8 @@ class CStore
         $row['man'] = $info['MainMan'];
         $row['tel'] = $info['Tel'];
         $row['addr'] = $info['Address'];
-        $row['createdate'] = date("Y-m-d",$info['CreateDate']);
-        $row['editdate'] = date("Y-m-d",$info['EditDate']);
+        $row['createdate'] = date("Y-m-d", $info['CreateDate']);
+        $row['editdate'] = date("Y-m-d", $info['EditDate']);
         $row['note'] = $info['Note'];
         if ($info['Status']==1) {
             $row['status'] = "正常"; 
@@ -357,16 +364,16 @@ class CStore
         $maxRows = $paginator->limit();
         // Page Ended ************************************************ 
 
-        $rows = $storeRepo->GetAllStorePage($Status,$Name,$PayType,$startRow,$maxRows); //* Page *//
+        $rows = $storeRepo->GetAllStorePage($Status, $Name, $PayType, $startRow, $maxRows); //* Page *//
         $row = $storeRepo->fetch_assoc($rows);
         
-        if ($row == NULL) {
+        if ($row == null) {
             $tpl->assign('items', []);      
         } else {
             $items = [];
 
             $i=0;
-            while ($row != NULL) {
+            while ($row != null) {
                 $temp = [];
 
                 if ($i==0) {
@@ -388,7 +395,7 @@ class CStore
                 $temp['storename'] = "<a href='javascript:ShowDetail(\"".BASE_URL."\", {$row['RecordID']});'>{$row['StoreName']}</a>";
                 $temp['tel'] = $row['Tel'];
                 $temp['man'] = $row['MainMan'];
-                $temp['editdate'] = date("Y-m-d",$row['EditDate']);
+                $temp['editdate'] = date("Y-m-d", $row['EditDate']);
                 
                 $items[] = $temp;
 
@@ -398,7 +405,7 @@ class CStore
             $tpl->assign('items', $items);
         }
 
-        $tpl->assign('totalrows',"共 ".$storeRepo->GetAllStoreCount($Status)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows', "共 ".$storeRepo->GetAllStoreCount($Status)." 筆 "); //* Page *// 
         $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('title', '指定店家 - DinBenDon系統');
@@ -419,7 +426,7 @@ class CStore
         $StoreID = trim($_GET["id"]);
         $Url = trim(urldecode($_GET["Url"]));
 
-        if ($managerRepo->CreateManager($StoreID,$Online['email'],'說明:系統指定')) {
+        if ($managerRepo->CreateManager($StoreID, $Online['email'], '說明:系統指定')) {
             JavaScript::vAlertRedirect('指定商家成功!', $Url);
         } else {
             JavaScript::vAlertBack('指定商家失敗!');
@@ -465,14 +472,14 @@ class CStore
         $Status = 0;
 
 
-        $rows = $managerRepo->GetAllManagerPage($Status,$PayType,$startRow,$maxRows); //* Page *//
+        $rows = $managerRepo->GetAllManagerPage($Status, $PayType, $startRow, $maxRows); //* Page *//
         $row = $managerRepo->fetch_assoc($rows);
-        if ($row == NULL) {
+        if ($row == null) {
             $tpl->assign('items', []);
         } else {
             $i=0;
             $items = [];
-            while ($row != NULL) {
+            while ($row != null) {
                 $temp = [];
                 if ($i==0) {
                     $class = "Forums_Item";
@@ -498,7 +505,7 @@ class CStore
             $tpl->assign('items', $items);
         }
 
-        $tpl->assign('totalrows',"共 ".$managerRepo->GetAllManagerCount()." 筆 "); //* Page *// 
+        $tpl->assign('totalrows', "共 ".$managerRepo->GetAllManagerCount()." 筆 "); //* Page *// 
         $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('title', '指定商家管理/截止/取消 - DinBenDon系統');
@@ -511,7 +518,7 @@ class CStore
     // 狀態管理
     public function editStatus()
     {
-        if($_POST){
+        if($_POST) {
             return $this->editStatused();
         }
 

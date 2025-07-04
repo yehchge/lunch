@@ -21,7 +21,8 @@ class Events
 
     public static function trigger(string $eventName)
     {
-        if(!isset(self::$listeners[$eventName])) return;
+        if(!isset(self::$listeners[$eventName])) { return;
+        }
 
         ksort(self::$listeners[$eventName]); // 依照 priority 排序
 

@@ -8,19 +8,23 @@ class Router
 {
     protected array $routes = [];
 
-    public function get(string $path, $handler, array $middleware = []) {
+    public function get(string $path, $handler, array $middleware = [])
+    {
         $this->addRoute('GET', $path, $handler, $middleware);
     }
 
-    public function post(string $path, $handler, array $middleware = []) {
+    public function post(string $path, $handler, array $middleware = [])
+    {
         $this->addRoute('POST', $path, $handler, $middleware);
     }
 
-    public function put(string $path, $handler, array $middleware = []) {
+    public function put(string $path, $handler, array $middleware = [])
+    {
         $this->addRoute('PUT', $path, $handler, $middleware);
     }
 
-    public function delete(string $path, $handler, array $middleware = []) {
+    public function delete(string $path, $handler, array $middleware = [])
+    {
         $this->addRoute('DELETE', $path, $handler, $middleware);
     }
 
@@ -59,7 +63,7 @@ class Router
         }
 
         // Modern 嘗試現代路由匹配
-        if (isset($this->routes[$method])){
+        if (isset($this->routes[$method])) {
             foreach ($this->routes[$method] as $route) {
                 $pattern = preg_replace('#\(:segment\)#', '([^/]+)', $route['path']);
                 $pattern = '#^/' . trim($pattern, '/') . '$#';

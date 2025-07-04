@@ -4,7 +4,8 @@
 // 自訂例外類
 namespace App\System;
 
-class SecurityException extends \Exception {
+class SecurityException extends \Exception
+{
 
     /**
      * HTTP status code
@@ -15,7 +16,8 @@ class SecurityException extends \Exception {
 
     public function __construct($message, $code = 0, ?Throwable $previous = null)
     {
-        if(!$code) $code = $this->code;
+        if(!$code) { $code = $this->code;
+        }
         parent::__construct($message, $code, $previous);
     }
 

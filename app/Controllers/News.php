@@ -64,10 +64,12 @@ class News
         $post = $request->getPost(['title', 'body']);
 
         // Checks whether the submitted data passed the validation rules.
-        $validator = new Validator($post, [
+        $validator = new Validator(
+            $post, [
             'title' => 'required|max:255|min:3',
             'body'  => 'required|max:5000|min:10',
-        ]);
+            ]
+        );
 
         if ($validator->validate()) {
             // echo "Validation passed!\n";
@@ -90,11 +92,13 @@ class News
 
         $model = new NewsModel();
 
-        $model->save([
+        $model->save(
+            [
             'title' => $post['title'],
             'slug'  => url_title($post['title'], '-', true),
             'body'  => $post['body'],
-        ]);
+            ]
+        );
 
         return view('templates/header', ['title' => 'Create a news item'])
             . view('news/success')

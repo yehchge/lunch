@@ -10,7 +10,8 @@ class Home extends BaseCommand
     public $name = "home";
     public $description = '';
 
-    public function run(array $params){
+    public function run(array $params)
+    {
         echo "Welcome to the World !!!".PHP_EOL;
     }
 

@@ -9,23 +9,27 @@ use App\Security\CsrfFilter;
 use App\System\FilterManager;
 // use App\System\SecurityException;
 
-class Application {
+class Application
+{
 
     protected $filterManager;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->filterManager = new FilterManager();
         $this->configureFilters();
     }
 
-    protected function configureFilters() {
+    protected function configureFilters()
+    {
         // 配置 CSRF 過濾器，應用於特定路由
         // $this->filterManager->register('before', CsrfFilter::class, ['/form/*']);
         // 全局應用 CSRF 過濾器
         $this->filterManager->register('before', CsrfFilter::class, [], ['employee/*', 'employee']);
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $request = new CRequest();
         $response = new CResponse();
 
@@ -33,7 +37,7 @@ class Application {
             // 執行 Before 過濾器
             $this->filterManager->runBeforeFilters($request, $response);
 
-            $routes = require PATH_ROOT."/app/Config/Routes.php";
+            $routes = include PATH_ROOT."/app/Config/Routes.php";
             // \Redirect::$routes = $routes->getRoutes();
 
             $routes->dispatch();
@@ -48,7 +52,8 @@ class Application {
         }
     }
 
-    protected function handleError(CRequest $request, CResponse $response, \Exception $e) {
+    protected function handleError(CRequest $request, CResponse $response, \Exception $e)
+    {
         // 清除之前的輸出緩衝區，防止其他內容干擾
         while (ob_get_level() > 0) {
             ob_end_clean();
@@ -60,21 +65,24 @@ class Application {
         if ($isAjax) {
             // 返回 JSON 錯誤訊息
             $response->setHeader('Content-Type', 'application/json');
-            $response->json([
+            $response->json(
+                [
                 'error' => true,
                 'message' => $e->getMessage(),
                 'code' => $e->getCode()
-            ], 403);
+                ], 403
+            );
         } else {
             // 返回 HTML 錯誤頁面
             $response->setHeader('Content-Type', 'text/html; charset=UTF-8', true)
-                     ->setTerminate()
-                     ->send($this->renderErrorPage($e->getMessage(), (int)$e->getCode()));
+                ->setTerminate()
+                ->send($this->renderErrorPage($e->getMessage(), (int)$e->getCode()));
         }
         // exit; // 確保終止後續處理
     }
 
-    protected function renderErrorPage(string $message, int $code): string {
+    protected function renderErrorPage(string $message, int $code): string
+    {
         // 簡單的錯誤頁面樣板
         ob_start();
         ?>
@@ -92,17 +100,19 @@ class Application {
         <body>
             <h1>Error <?php echo $code; ?></h1>
             <p><?php echo htmlspecialchars($message); ?></p>
-            <a href="<?= base_url(); ?>">Back to Home</a>
+            <a href="<?php echo base_url(); ?>">Back to Home</a>
         </body>
         </html>
         <?php
         return ob_get_clean();
     }
 
-    protected function resolveController(CRequest $request) {
+    protected function resolveController(CRequest $request)
+    {
         // 模擬路由解析，返回控制器
         return new class {
-            public function handle(CRequest $request, CResponse $response) {
+            public function handle(CRequest $request, CResponse $response)
+            {
                 $response->send('Request processed successfully!');
             }
         };
