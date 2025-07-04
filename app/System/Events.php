@@ -25,7 +25,8 @@ class Events
 
         ksort(self::$listeners[$eventName]); // 依照 priority 排序
 
-        foreach (self::$listeners[$eventName] as $priority => $callbacks) {
+        // KEY: $priority
+        foreach (self::$listeners[$eventName] as $callbacks) {
             foreach ($callbacks as $callback) {
                 call_user_func($callback);
             }

@@ -47,7 +47,7 @@ class ViewEngine
         // 將 data 陣列的 key 轉成變數
         extract($data);
 
-        $engine = $this;
+        // $engine = $this;
 
         // 啟動輸出緩衝
         ob_start();

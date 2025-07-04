@@ -118,7 +118,6 @@ class COrder
         }
 
         $db = new Database();
-        $orderRepo = new OrderRepository($db);
         $productRepo = new ProductRepository($db);
 
         // 內頁功能 (FORM)
@@ -226,7 +225,7 @@ class COrder
         $i = 0;
         $items = [];
 
-        foreach ($chkid as $key => $value) {
+        foreach ($chkid as $value) {
             $temp = [];
 
             if ($i==0) {
