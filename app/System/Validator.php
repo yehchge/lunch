@@ -55,6 +55,18 @@ class Validator
             }
         }
 
+        if (!empty($this->errors)) {
+            $message = '';
+            // 輸出錯誤訊息
+            foreach ($this->errors as $errors) {
+                foreach ($errors as $error) {
+                    $message .= $error."<br>";
+                }
+            }
+
+            $session->setFlashdata('errors', $message);
+        }
+
         return empty($this->errors);
     }
 

@@ -398,3 +398,22 @@ function set_value(string $field, $default = '', bool $htmlEscape = true)
 
     return ($htmlEscape) ? esc($value) : $value;
 }
+
+
+/**
+ * Returns the rendered HTML of the validation errors.
+ *
+ * See Validation::listErrors()
+ */
+// function validation_list_errors(string $template = 'list'): string
+// {
+//     $config = config(Validation::class);
+//     $view   = service('renderer');
+
+//     if (! array_key_exists($template, $config->templates)) {
+//         throw ValidationException::forInvalidTemplate($template);
+//     }
+
+//     return $view->setVar('errors', validation_errors())
+//         ->render($config->templates[$template]);
+// }

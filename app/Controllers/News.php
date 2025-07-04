@@ -72,16 +72,16 @@ class News
         if ($validator->validate()) {
             // echo "Validation passed!\n";
         } else {
-            $message = '';
-            // 輸出錯誤訊息
-            foreach ($validator->getErrors() as $field => $errors) {
-                foreach ($errors as $error) {
-                    $message .= $error."<br>";
-                }
-            }
+            // $message = '';
+            // // 輸出錯誤訊息
+            // foreach ($validator->getErrors() as $field => $errors) {
+            //     foreach ($errors as $error) {
+            //         $message .= $error."<br>";
+            //     }
+            // }
 
-            session()->setFlashdata('errors', $message);
-            // return $this->new();
+            // session()->setFlashdata('errors', $message);
+            // // return $this->new();
             return redirect()->to('news/new');
         }
 
