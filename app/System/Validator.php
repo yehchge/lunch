@@ -8,6 +8,7 @@ class Validator
     protected $rules; // 驗證規則
     protected $errors = []; // 錯誤訊息
     protected $messages = []; // 自訂錯誤訊息
+    protected $rulesMap = [];
 
     // 預設的錯誤訊息模板
     protected $defaultMessages = [
