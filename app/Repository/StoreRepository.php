@@ -199,7 +199,6 @@ class StoreRepository
 
     public function links()
     {
-
         $request = new CRequest();
 
         // 取得查詢參數

@@ -3,12 +3,10 @@
 /**
  * JWT API Filter
  *
- * @ref     https://www.binaryboxtuts.com/php-tutorials/codeigniter-4-json-web-tokenjwt-authentication/
+ * @ref https://www.binaryboxtuts.com/php-tutorials/codeigniter-4-json-web-tokenjwt-authentication/
  *      https://medium.com/geekculture/codeigniter-4-tutorial-restful-api-jwt-authentication-d5963d797ec4
  * @created 2022/12/22
  */
-
-// namespace App\Filters;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -29,7 +27,6 @@ class ApiAuthFilter
                 $token = $matches[1];
             }
         }
-
 
         // check if token is null or empty
         if(is_null($token) || empty($token)) {

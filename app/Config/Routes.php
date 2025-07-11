@@ -64,7 +64,6 @@ $routes->get('tutorial/admin/logout', [TutorialAdmin::class, 'logout']);
 $routes->post('tutorial/admin/create_user', [TutorialAdmin::class, 'create_user']);
 $routes->get('tutorial/admin/delete_user/(:segment)', [TutorialAdmin::class, 'delete_user']);
 
-
 // 12. MVC
 $routes->get('mvc', [Mvc::class, 'index']);
 $routes->get('mvc/index', [Mvc::class, 'index']);
@@ -92,15 +91,12 @@ $routes->get('mvc/user/edit/(:segment)', [MvcUser::class, 'edit'], [AuthMvcOwner
 $routes->post('mvc/user/editSave/(:segment)', [MvcUser::class, 'editSave'], [AuthMvcOwner::class]);
 $routes->get('mvc/user/delete/(:segment)', [MvcUser::class, 'delete'], [AuthMvcOwner::class]);
 
-
-
 // 11. RESTful API JWT Authentication
 
 // JWT API
 $routes->post('api/register', [ApiRegister::class, 'index']);
 $routes->post('api/login', [ApiLogin::class, 'index']);
 $routes->get('api/users', [ApiUser::class, 'index'], [ApiAuthFilter::class]); // 'filter' => 'authFilter'
-
 
 // 10. RESTful API
 // $routes->resource('employee');

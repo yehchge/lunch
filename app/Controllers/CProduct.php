@@ -163,7 +163,6 @@ class CProduct
         $PdsName = trim($_POST["pdsname"]);
         $PdsType = trim($_POST["pdstype"]);
         $Price = trim($_POST["price"]);
-        $Tel = isset($_POST["tel"])?trim($_POST["tel"]):'';
         $Note = trim($_POST["note"]);
         $status = isset($_POST["status"])?trim($_POST["status"]):1;
       

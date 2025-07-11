@@ -11,7 +11,6 @@ use App\System\FilterManager;
 
 class Application
 {
-
     protected $filterManager;
 
     public function __construct()
@@ -25,7 +24,7 @@ class Application
         // 配置 CSRF 過濾器，應用於特定路由
         // $this->filterManager->register('before', CsrfFilter::class, ['/form/*']);
         // 全局應用 CSRF 過濾器
-        $this->filterManager->register('before', CsrfFilter::class, [], ['employee/*', 'employee']);
+        $this->filterManager->register('before', CsrfFilter::class, [], ['employee/*', 'employee', 'api/register']);
     }
 
     public function handleRequest()

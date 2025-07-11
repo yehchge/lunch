@@ -42,6 +42,8 @@ class CManager
         $maxRows = $paginator->limit();
         // Page Ended ************************************************ 
 
+        $PayType = 0;
+
         $rows = $managerRepo->GetAllManagerPage($Status, $PayType, $startRow, $maxRows); //* Page *//
         if ($rows) { $row = $managerRepo->fetch_assoc($rows);
         }
@@ -118,6 +120,7 @@ class CManager
         // Page Ended ************************************************
         
         $Status = 1; // 只顯示訂購中
+        $PayType = 0;
         $rows = $managerRepo->GetActiveManagerPage($Status, $PayType, $startRow, $maxRows); //* Page *//
         
         $items = [];

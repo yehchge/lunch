@@ -3,35 +3,22 @@
 /**
  * JWT API User
  *
- * @ref     https://www.binaryboxtuts.com/php-tutorials/codeigniter-4-json-web-tokenjwt-authentication/
+ * @ref https://www.binaryboxtuts.com/php-tutorials/codeigniter-4-json-web-tokenjwt-authentication/
  *      https://medium.com/geekculture/codeigniter-4-tutorial-restful-api-jwt-authentication-d5963d797ec4
  * @created 2022/12/22
  */
 
 namespace App\Controllers;
 
-// use App\Controllers\BaseController;
-// use CodeIgniter\HTTP\ResponseInterface;
-
-// use CodeIgniter\API\ResponseTrait;
-
 use App\Models\ApiUserModel;
 use App\System\CResponse;
 use App\System\CRequest;
+use App\System\Validator;
 
 class ApiRegister
 {
-    // use ResponseTrait;
-
     public function index()
     {
-        $rules = [
-            // 'email' => ['rules' => 'required|min_length[4]|max_length[255]|valid_email|is_unique[api_users.email]'],
-            'email' => ['rules' => 'required|min_length[4]|max_length[255]|valid_email|is_unique[api_users.email]'],
-            'password' => ['rules' => 'required|min_length[8]|max_length[255]'],
-            'confirm_password' => ['label' => 'confirm password', 'rules' => 'matches[password]']
-        ];
-
         $request = new CRequest();
 
         $email = $request->getPost('email');
@@ -54,17 +41,27 @@ class ApiRegister
 
             $resp = new CResponse();
             return $resp->fail($response, 409);
-            // return $this->fail($response, 409);
         }
 
-        // if($this->validate($rules)){
-        // if($this->validateData($data, $rules, [], $model->DBGroup)){
-            $data['password'] = password_hash($request->getPost('password'), PASSWORD_DEFAULT);
-            $model->save($data);
+        $rules = [
+            'email' => 'required|email|min:4|max:255',
+            'password' => 'required|min:8|max:255',
+            'confirm_password' => 'required|min:8|max:255|same:password',
+        ];
 
-            $response = new CResponse();
-            return $response->respond(['message' => 'registerd Successfully'], 200);
-            // return $this->respond(['message' => 'registerd Successfully'], 200);
-        // }
+        $validator = new Validator($data, $rules);
+
+        if (!$validator->validate()) {
+            print_r($validator->getErrors());
+
+            $resp = new CResponse();
+            return $resp->fail($validator->getErrors(), 409);
+        }
+
+        $data['password'] = password_hash($request->getPost('password'), PASSWORD_DEFAULT);
+        $model->save($data);
+
+        $response = new CResponse();
+        return $response->respond(['message' => 'registerd Successfully'], 200);
     }
 }

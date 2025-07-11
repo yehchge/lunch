@@ -24,10 +24,10 @@ class CStore
         $tpl = new Template("app/Views");
 
         // 取得查詢參數
-        $queryParams = $request->getQueryParams();
+        // $queryParams = $request->getQueryParams();
 
         // 當前頁數
-        $currentPage = $queryParams['page'] ?? 1;
+        // $currentPage = $queryParams['page'] ?? 1;
         
         // 總筆數
         $totalItems = $storeRepo->GetAllStoreCount();
@@ -43,7 +43,7 @@ class CStore
         }
 
         if ($search == '') {
-            $paginator = $storeRepo->paginate($itemsPerPage);
+            $items = $storeRepo->paginate($itemsPerPage);
         } else {
             // do something ...
             
@@ -55,39 +55,19 @@ class CStore
             //     $request->withoutPageParam($queryParams)
             // );
 
-            $startRow = $paginator->offset();
-            $maxRows = $paginator->limit();
+            // $startRow = $paginator->offset();
+            // $maxRows = $paginator->limit();
             
             // 查詢條件可從 $queryParams 帶入
-            $Status = 0;
-            $Name = '';
-            $PayType = 0;
+            // $Status = 0;
+            // $Name = '';
+            // $PayType = 0;
 
-            $rows = $storeRepo->GetAllStorePage($Status, $Name, $PayType, $startRow, $maxRows);
+            // $rows = $storeRepo->GetAllStorePage($Status, $Name, $PayType, $startRow, $maxRows);
         }
 
-        // $items = [];
-        
-        // while ($row = $storeRepo->fetch_assoc($rows)) {
-
-        //     $editdetails = "新增維護";
-        //     if ($row['Status']==1) {
-        //         $editdetails = "<a href='".BASE_URL."product/list?id=".$row['RecordID']."'>新增維護</a>";
-        //     }
-            
-        //     $items[] = [
-        //         'storeid' => $row['RecordID'],
-        //         'status' => $storeRepo->StoreStatus[$row['Status']],
-        //         'storename' => $row['StoreName'],
-        //         'tel' => $row['Tel'],
-        //         'man' => $row['MainMan'],
-        //         'editdate' => date("Y-m-d",$row['EditDate']),
-        //         'editdetails' => $editdetails
-        //     ];
-        // }
-    
         $tpl->assign('StoreStatus', $storeRepo->StoreStatus);
-        $tpl->assign('items', $paginator);
+        $tpl->assign('items', $items);
         $tpl->assign('totalrows', "共 $totalItems 筆");
         $tpl->assign('pageselect', $storeRepo->links());
         $tpl->assign('title', '店家維護 - DinBenDon系統');
@@ -109,7 +89,7 @@ class CStore
 
         $result = '<ul>';
 
-        foreach ($data as $key => $val) {
+        foreach ($data as $val) {
             if(!$val) { continue;
             }
             $result .= "<li>$val</li>";
@@ -148,13 +128,13 @@ class CStore
 
         $validator = new Validator(
             $data, [
-            'name' => 'required',
-            'intro'  => 'required',
-            'sclass' => 'required',
-            'man' => 'required',
-            'addr' => 'required',
-            'tel' => 'required',
-            'note' => 'required',
+                'name' => 'required',
+                'intro'  => 'required',
+                'sclass' => 'required',
+                'man' => 'required',
+                'addr' => 'required',
+                'tel' => 'required',
+                'note' => 'required',
             ]
         );
 
@@ -163,7 +143,7 @@ class CStore
         } else {
             $message = '';
             // 輸出錯誤訊息
-            foreach ($validator->getErrors() as $field => $errors) {
+            foreach ($validator->getErrors() as $errors) {
                 foreach ($errors as $error) {
                     $message .= $error."<br>";
                 }
@@ -464,13 +444,8 @@ class CStore
         $maxRows = $paginator->limit();
         // Page Ended ************************************************
 
-
-        $Name = '';
         $PayType = 0;
-        $page = isset($_GET['page']) ? (int)$_GET['page']:0;
-        $SysID = 0;
         $Status = 0;
-
 
         $rows = $managerRepo->GetAllManagerPage($Status, $PayType, $startRow, $maxRows); //* Page *//
         $row = $managerRepo->fetch_assoc($rows);

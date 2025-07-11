@@ -55,8 +55,8 @@ class CsrfFilter implements FilterInterface
         $token = bin2hex(random_bytes(32)); // 生成隨機 token
         $session->set(
             $this->config['token_name'], [
-            'value' => $token,
-            'expires_at' => time() + $this->config['expire']
+                'value' => $token,
+                'expires_at' => time() + $this->config['expire']
             ]
         );
         return $token;

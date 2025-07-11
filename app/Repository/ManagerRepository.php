@@ -64,7 +64,7 @@ class ManagerRepository
         return 0;
     }
 
-    public function GetActiveManagerPage($Status=0,$PayType=0,$startRow=0,$maxRows=10)
+    public function GetActiveManagerPage($Status=0, $PayType=0, $startRow=0, $maxRows=10)
     {
         $values = "*";
         $condition = "Status in (1,2)";
@@ -84,14 +84,17 @@ class ManagerRepository
         return $row['total'];
     }
 
-    public function GetAllManagerPage($Status=0,$PayType=0,$startRow=0,$maxRows=10)
+    public function GetAllManagerPage($Status=0, $PayType=0, $startRow=0, $maxRows=10)
     {
         $DateString = date("Ymd", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
         $condition = "Status!=9 AND CreateDate>=unix_timestamp('$DateString')";
 
-        if($Status) { $condition .= " AND Status=$Status";
+        if ($Status) {
+            $condition .= " AND Status=$Status";
         }
-        if($PayType) { $condition .= " AND PayType=$PayType";
+
+        if ($PayType) {
+            $condition .= " AND PayType=$PayType";
         }
 
         $condition .= " ORDER BY CreateDate DESC";
