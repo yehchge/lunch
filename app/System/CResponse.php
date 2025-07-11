@@ -75,8 +75,7 @@ class CResponse
             ->send();
     }
 
-
-    public function fail(array $data, int $status = 400, array $errors = []): void
+    public function fail(array $data, int $status = 400): void
     {
         $this->setHeader('Content-Type', 'application/json; charset=UTF-8')
             ->setStatus($status)

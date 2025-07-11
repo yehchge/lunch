@@ -60,13 +60,6 @@ class UrlParse
     private function parseRoute(): array
     {
         try {
-            // 初始化預設值
-            $route = [
-                'func' => self::DEFAULT_FUNC,
-                'action' => self::DEFAULT_ACTION,
-                'params' => []
-            ];
-
             // 檢查是否有舊式參數
             if ($this->hasLegacyParams()) {
                 return $this->parseLegacyRoute();
@@ -99,6 +92,13 @@ class UrlParse
      */
     private function parseLegacyRoute(): array
     {
+        // 初始化預設值
+        // $route = [
+        //     'func' => self::DEFAULT_FUNC,
+        //     'action' => self::DEFAULT_ACTION,
+        //     'params' => []
+        // ];
+
         $func = $_GET['func'] ?? self::DEFAULT_FUNC;
         $action = $_GET['action'] ?? self::DEFAULT_ACTION;
         $params = [];

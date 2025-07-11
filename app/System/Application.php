@@ -107,14 +107,4 @@ class Application
         return ob_get_clean();
     }
 
-    protected function resolveController(CRequest $request)
-    {
-        // 模擬路由解析，返回控制器
-        return new class {
-            public function handle(CRequest $request, CResponse $response)
-            {
-                $response->send('Request processed successfully!');
-            }
-        };
-    }
 }

@@ -70,7 +70,7 @@ class Session
         if (!isset($_SESSION[$this->flashdataKey . '_old'])) { return;
         }
 
-        foreach ($_SESSION[$this->flashdataKey . '_old'] as $key => $data) {
+        foreach ($_SESSION[$this->flashdataKey . '_old'] as $data) {
             if (!empty($data['read'])) {
                 unset($_SESSION[$this->flashdataKey . '_old']); // 取完刪除
             }

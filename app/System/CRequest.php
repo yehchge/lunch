@@ -56,7 +56,7 @@ class CRequest
     {
          // 若無 name，則返回過濾後的 $_GET 陣列
         if ($name === null) {
-            return array_map('filter_var', $_GET, array_fill(0, count($_GET), FILTER_SANITIZE_STRING));
+            return $this->sanitizeGetParams($_GET);
         }
 
         // 若 name 為陣列，獲取多個值
@@ -66,7 +66,8 @@ class CRequest
                 if (!is_string($key)) {
                     continue; // 跳過非字串鍵
                 }
-                $data[$key] = filter_var($_GET[$key] ?? $default, FILTER_SANITIZE_STRING);
+                // PHP 8.1 已經標記為棄用 FILTER_SANITIZE_STRING
+                $data[$key] = filter_var($_GET[$key] ?? $default, FILTER_SANITIZE_SPECIAL_CHARS);
             }
             return $data;
         }
@@ -78,6 +79,26 @@ class CRequest
 
         // 對於無效輸入拋出異常
         throw new InvalidArgumentException('參數 $name 必須為字串、陣列或 null。');
+    }
+
+    private function sanitizeGetParams(array $input): array {
+        $sanitized = [];
+        foreach ($input as $key => $value) {
+            // 只處理純量值，避免嵌套數組
+            if (is_scalar($value)) {
+                // 根據鍵或預期類型選擇適當的過濾器
+                $filter = match ($key) {
+                    'email' => FILTER_SANITIZE_EMAIL,
+                    'id' => FILTER_VALIDATE_INT,
+                    default => FILTER_SANITIZE_SPECIAL_CHARS, // 替代 FILTER_SANITIZE_STRING
+                };
+                $sanitized[$key] = filter_var($value, $filter);
+            } else {
+                // 對於非純量值（例如數組），可選擇跳過或遞迴處理
+                $sanitized[$key] = $value; // 或者實現遞迴清理
+            }
+        }
+        return $sanitized;
     }
 
     private static function sanitizeInput($input, $default = null)
@@ -109,7 +130,7 @@ class CRequest
     {
         // 若無 name，則返回過濾後的 $_POST 陣列
         if ($name === null) {
-            return array_map('filter_var', $_POST, array_fill(0, count($_POST), FILTER_SANITIZE_STRING));
+            return $this->sanitizeGetParams($_POST);
         }
 
         // 若 name 為陣列，獲取多個值
@@ -119,7 +140,8 @@ class CRequest
                 if (!is_string($key)) {
                     continue; // 跳過非字串鍵
                 }
-                $data[$key] = filter_var($_POST[$key] ?? $default, FILTER_SANITIZE_STRING);
+                // PHP 8.1 已經標記為棄用 FILTER_SANITIZE_STRING
+                $data[$key] = filter_var($_POST[$key] ?? $default, FILTER_SANITIZE_SPECIAL_CHARS);
             }
             return $data;
         }

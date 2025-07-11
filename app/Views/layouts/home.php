@@ -89,7 +89,7 @@ function sort_link($label, $field, $currentSort, $currentOrder, $perPage)
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <?= $pager->makeLinks($page, $perPage, $total, 'custom_view', 0) ?>
+            <?= $pager->makeLinks($page, $perPage, $total, 'custom_view') ?>
 
         </div>
     </div>

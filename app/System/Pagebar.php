@@ -94,15 +94,14 @@ class Pagebar
 
         if (!file_exists($viewPath)) {
             http_response_code(404);
-            echo "View '{$viewName}' not found.";
+            echo "View '{$viewPath}' not found.";
             return;
         }
 
         extract($data);
-        $engine = $this;
+
         ob_start();
         include $viewPath;
-        // ob_end_clean();
 
         // 取得緩衝內容
         $output = ob_get_clean();
@@ -123,9 +122,7 @@ class Pagebar
         $html = '<nav aria-label="Page navigation">';
         $html .= '<ul class="' . $o['container_class'] . '" role="list">';
 
-
         $range = $this->getVisiblePageRange($totalPages);
-
 
         if ($this->hasPrevious()) {
             // 第一頁
@@ -133,7 +130,6 @@ class Pagebar
                 '<li><a href="%s" aria-label="First">First</a></li>',
                 $this->buildUrl(1)
             );
-
 
             // 上一頁
             $html .= sprintf(
@@ -165,9 +161,6 @@ class Pagebar
             // }
         }
 
-
-
-
         $html .= "</ul>";
         $html .= '</nav>';
         return $html;
@@ -183,10 +176,10 @@ class Pagebar
         $results = [];
 
         $totalPages = $this->totalPages();
-        if ($totalPages <= 1) { return [];
-        }
 
-        $o = $this->options;
+        if ($totalPages <= 1) {
+            return [];
+        }
 
         $range = $this->getVisiblePageRange($totalPages);
 
@@ -257,23 +250,22 @@ class Pagebar
      * is provided by the user. The URL is the current URI.
      *
      * @param string      $template The output template alias to render.
-     * @param int         $segment  (whether page number is provided by URI segment)
      * @param string|null $group    optional group (i.e. if we'd like to define custom path)
      */
-    public function makeLinks(int $page, ?int $perPage, int $total, string $template = 'default_full', int $segment = 0, ?string $group = 'default'): string
+    public function makeLinks(int $page, ?int $perPage, int $total, string $template = 'default_full'): string
     {
         $this->page = $page;
         $this->perPage = $perPage;
         $this->total = $total;
 
-        return $this->displayLinks($group, $template);
+        return $this->displayLinks($template);
     }
 
     /**
      * Does the actual work of displaying the view file. Used internally
      * by links(), simpleLinks(), and makeLinks().
      */
-    protected function displayLinks(string $group, string $template): string
+    protected function displayLinks(string $template): string
     {
         return $this->render($this->templates[$template]);
     }

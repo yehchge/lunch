@@ -48,8 +48,6 @@ class Router
 
     public function dispatch()
     {
-        global $auth;
-        
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
@@ -163,7 +161,6 @@ class Router
 
         // 將舊式 URL 轉為控制器格式
         $controller = ucfirst(strtolower($controller)); // 確保控制器首字母大寫
-        $handler = [$controller, $action];
 
         // 中介軟體處理（與現代路由一致）
         // 假設舊式路由使用與現代路由相同的預設中介軟體
