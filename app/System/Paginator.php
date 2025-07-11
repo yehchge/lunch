@@ -29,7 +29,8 @@ class Paginator
         $this->currentPage = max(1, $currentPage);
         $this->baseUrl = $baseUrl ?: $_SERVER['PHP_SELF'];
         $this->queryParams = $queryParams;
-        $this->options = array_merge([
+        $this->options = array_merge(
+            [
             'container_class' => 'pagination',
             'link_class' => 'page-link',
             'active_class' => 'active',
@@ -37,7 +38,8 @@ class Paginator
             'dots_class' => 'dots',
             'prev_text' => '« 上一頁',
             'next_text' => '下一頁 »',
-        ], $options);
+            ], $options
+        );
     }
 
     public function totalPages(): int
@@ -64,19 +66,22 @@ class Paginator
     public function render(): string
     {
         $totalPages = $this->totalPages();
-        if ($totalPages <= 1) return '';
+        if ($totalPages <= 1) { return '';
+        }
 
         $o = $this->options;
         $html = '<nav class="' . $o['container_class'] . '">';
 
         // 上 10 頁
         if ($this->currentPage > 10) {
-            $html .= sprintf('<a href="%s" class="%s">⟪ 上10頁</a> ',
+            $html .= sprintf(
+                '<a href="%s" class="%s">⟪ 上10頁</a> ',
                 $this->buildUrl($this->currentPage - 10),
                 $o['link_class']
             );
         } else {
-            $html .= sprintf('<span class="%s %s">⟪ 上10頁</span> ',
+            $html .= sprintf(
+                '<span class="%s %s">⟪ 上10頁</span> ',
                 $o['link_class'],
                 $o['disabled_class']
             );
@@ -84,13 +89,15 @@ class Paginator
 
         // 上一頁
         if ($this->currentPage > 1) {
-            $html .= sprintf('<a href="%s" class="%s">%s</a> ',
+            $html .= sprintf(
+                '<a href="%s" class="%s">%s</a> ',
                 $this->buildUrl($this->currentPage - 1),
                 $o['link_class'],
                 $o['prev_text']
             );
         } else {
-            $html .= sprintf('<span class="%s %s">%s</span> ',
+            $html .= sprintf(
+                '<span class="%s %s">%s</span> ',
                 $o['link_class'],
                 $o['disabled_class'],
                 $o['prev_text']
@@ -119,13 +126,15 @@ class Paginator
 
         // 下一頁
         if ($this->currentPage < $totalPages) {
-            $html .= sprintf('<a href="%s" class="%s">%s</a> ',
+            $html .= sprintf(
+                '<a href="%s" class="%s">%s</a> ',
                 $this->buildUrl($this->currentPage + 1),
                 $o['link_class'],
                 $o['next_text']
             );
         } else {
-            $html .= sprintf('<span class="%s %s">%s</span> ',
+            $html .= sprintf(
+                '<span class="%s %s">%s</span> ',
                 $o['link_class'],
                 $o['disabled_class'],
                 $o['next_text']
@@ -134,12 +143,14 @@ class Paginator
 
         // 下 10 頁
         if ($this->currentPage + 10 <= $totalPages) {
-            $html .= sprintf('<a href="%s" class="%s">下10頁 ⟫</a> ',
+            $html .= sprintf(
+                '<a href="%s" class="%s">下10頁 ⟫</a> ',
                 $this->buildUrl($this->currentPage + 10),
                 $o['link_class']
             );
         } else {
-            $html .= sprintf('<span class="%s %s">下10頁 ⟫</span> ',
+            $html .= sprintf(
+                '<span class="%s %s">下10頁 ⟫</span> ',
                 $o['link_class'],
                 $o['disabled_class']
             );
@@ -154,13 +165,15 @@ class Paginator
         $o = $this->options;
         $isActive = ($page === $this->currentPage);
         if ($isActive) {
-            return sprintf('<span class="%s %s">%d</span> ',
+            return sprintf(
+                '<span class="%s %s">%d</span> ',
                 $o['link_class'],
                 $o['active_class'],
                 $page
             );
         } else {
-            return sprintf('<a href="%s" class="%s">%d</a> ',
+            return sprintf(
+                '<a href="%s" class="%s">%d</a> ',
                 $this->buildUrl($page),
                 $o['link_class'],
                 $page

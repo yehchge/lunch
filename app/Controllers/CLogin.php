@@ -1,6 +1,6 @@
 <?php
 
-# 登入
+// 登入
 namespace App\Controllers;
 
 use App\System\JavaScript;
@@ -11,9 +11,10 @@ use App\Auth\Auth;
 
 class CLogin
 {
-    public function index(){
+    public function index()
+    {
 
-        if( ! $_POST){
+        if(! $_POST) {
             //產生本程式功能內容
             // Ref: https://gist.github.com/code-boxx/957284646e7336ae01bb7a5e64f96022
 
@@ -47,7 +48,7 @@ class CLogin
             if ($auth->login($username, $password, $rememberMe)) {
 
                 $refer = $_SESSION['refer'] ?? '';
-                if($refer){
+                if($refer) {
                     $_SESSION['refer'] = '';
                     unset($_SESSION['refer']);
                     JavaScript::redirectTo($refer);

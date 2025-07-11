@@ -93,7 +93,8 @@ class Template
     protected array $blocks = [];
     protected array $blockStack = [];
 
-    public function __construct(string $templateDir = './') {
+    public function __construct(string $templateDir = './')
+    {
         $this->templateDir = rtrim($templateDir, '/') . '/';
 
         // 預設過濾器
@@ -102,24 +103,29 @@ class Template
         $this->filters['nl2br'] = fn($v) => nl2br($v);
     }
 
-    public function assign(string $key, mixed $value): void {
+    public function assign(string $key, mixed $value): void
+    {
         $this->vars[$key] = $value;
     }
 
-    public function setDelimiters(string $left, string $right): void {
+    public function setDelimiters(string $left, string $right): void
+    {
         $this->leftDelimiter = preg_quote($left, '/');
         $this->rightDelimiter = preg_quote($right, '/');
     }
 
-    public function addFilter(string $name, callable $func): void {
+    public function addFilter(string $name, callable $func): void
+    {
         $this->filters[$name] = $func;
     }
 
-    public function display(string $tpl): void {
+    public function display(string $tpl): void
+    {
         echo $this->render($tpl);
     }
 
-    public function render(string $tpl): string {
+    public function render(string $tpl): string
+    {
         $tplFile = $this->templateDir . $tpl;
         if (!file_exists($tplFile)) {
             throw new Exception("Template file not found: $tplFile");
@@ -135,7 +141,8 @@ class Template
         return ob_get_clean();
     }
 
-    protected function handleExtends(string $content): string {
+    protected function handleExtends(string $content): string
+    {
         $ld = $this->leftDelimiter;
         $rd = $this->rightDelimiter;
 
@@ -151,11 +158,13 @@ class Template
             }
 
             // 替換父模板內的 block
-            $parentTpl = preg_replace_callback("/{$ld}block\s+\"([^\"]+)\"{$rd}(.*?){$ld}\/block{$rd}/s", function ($m) {
-                $blockName = $m[1];
-                $defaultContent = $m[2];
-                return $this->blocks[$blockName] ?? $defaultContent;
-            }, $parentTpl);
+            $parentTpl = preg_replace_callback(
+                "/{$ld}block\s+\"([^\"]+)\"{$rd}(.*?){$ld}\/block{$rd}/s", function ($m) {
+                    $blockName = $m[1];
+                    $defaultContent = $m[2];
+                    return $this->blocks[$blockName] ?? $defaultContent;
+                }, $parentTpl
+            );
 
             return $parentTpl;
         }
@@ -163,15 +172,18 @@ class Template
         return $content;
     }
 
-    protected function parseTemplate(string $content): string {
+    protected function parseTemplate(string $content): string
+    {
         $ld = $this->leftDelimiter;
         $rd = $this->rightDelimiter;
 
         // include
-        $content = preg_replace_callback("/{$ld}include\s+\"([^\"]+)\"{$rd}/", function ($m) {
-            $incFile = $this->templateDir . $m[1];
-            return file_exists($incFile) ? file_get_contents($incFile) : '';
-        }, $content);
+        $content = preg_replace_callback(
+            "/{$ld}include\s+\"([^\"]+)\"{$rd}/", function ($m) {
+                $incFile = $this->templateDir . $m[1];
+                return file_exists($incFile) ? file_get_contents($incFile) : '';
+            }, $content
+        );
 
         // if / else / endif
         $content = preg_replace("/{$ld}if\s+(.*?){$rd}/", "<?php if ($1): ?>", $content);
@@ -188,34 +200,38 @@ class Template
         $content = preg_replace("/{$ld}\/block{$rd}/", '', $content);
 
         // 變數與過濾器
-        $content = preg_replace_callback("/{$ld}\s*(\\$[\w][\w\.\->\[\]']*)(\|\w+)?\s*{$rd}/", function ($m) {
-            $expr = $m[1]; // 變數本體
-            $filter = ltrim($m[2] ?? '|htmlspecialchars', '|');
+        $content = preg_replace_callback(
+            "/{$ld}\s*(\\$[\w][\w\.\->\[\]']*)(\|\w+)?\s*{$rd}/", function ($m) {
+                $expr = $m[1]; // 變數本體
+                $filter = ltrim($m[2] ?? '|htmlspecialchars', '|');
 
-            // 轉換點記法：$obj.prop1.prop2 -> $obj['prop1']['prop2']
-            if (strpos($expr, '.') !== false && strpos($expr, '->') === false) {
-                $expr = preg_replace_callback('/(\\$[\w]+)((?:\.[\w]+)+)/', function ($mm) {
-                    $base = $mm[1];
-                    $props = explode('.', trim($mm[2], '.'));
-                    foreach ($props as $p) {
-                        $base .= "['$p']";
-                    }
-                    return $base;
-                }, $expr);
-            }
+                // 轉換點記法：$obj.prop1.prop2 -> $obj['prop1']['prop2']
+                if (strpos($expr, '.') !== false && strpos($expr, '->') === false) {
+                    $expr = preg_replace_callback(
+                        '/(\\$[\w]+)((?:\.[\w]+)+)/', function ($mm) {
+                            $base = $mm[1];
+                            $props = explode('.', trim($mm[2], '.'));
+                            foreach ($props as $p) {
+                                $base .= "['$p']";
+                            }
+                            return $base;
+                        }, $expr
+                    );
+                }
 
-            // 若是 $obj->title，則保持不變
+                // 若是 $obj->title，則保持不變
 
-            if (!isset($this->filters[$filter])) {
-                return "<?= $expr ?>";
-            }
+                if (!isset($this->filters[$filter])) {
+                    return "<?= $expr ?>";
+                }
 
-            if ($filter === 'raw') {
-                return "<?= $expr ?>";  // 直接輸出，不套用 htmlspecialchars
-            }
+                if ($filter === 'raw') {
+                    return "<?= $expr ?>";  // 直接輸出，不套用 htmlspecialchars
+                }
 
-            return "<?php echo call_user_func(\$this->filters['$filter'], $expr); ?>";
-        }, $content);
+                return "<?php echo call_user_func(\$this->filters['$filter'], $expr); ?>";
+            }, $content
+        );
 
         return $content;
     }

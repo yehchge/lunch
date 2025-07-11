@@ -9,30 +9,38 @@ class OrderRepository
     private $pdo;
     private $debug = 1;
 
-    public function __construct(Database $db) {
+    public function __construct(Database $db)
+    {
         $this->pdo = $db->getPdo();
     }
 
-    public function update(array $data, string $where, array $params): bool {
+    public function update(array $data, string $where, array $params): bool
+    {
         $set = implode(' = ?, ', array_keys($data)) . ' = ?';
         $sql = "UPDATE lunch_order SET $set WHERE $where";  
         return $this->execute($sql, array_merge(array_values($data), $params));
     }
 
-    public function UpdateOrderStatusByRecordID($RecordID=0,$Status=0,$EditMan='') {
-        if(!$RecordID || !$Status || !$EditMan) return 0;
+    public function UpdateOrderStatusByRecordID($RecordID=0,$Status=0,$EditMan='')
+    {
+        if(!$RecordID || !$Status || !$EditMan) { return 0;
+        }
 
         $condition = 'RecordID = ?';
 
-        return $this->update([
+        return $this->update(
+            [
             'Status' => $Status,
             'EditDate' => time(),
             'EditMan' => $EditMan
-        ], $condition, [$RecordID]);
+            ], $condition, [$RecordID]
+        );
     }
 
-    public function GetOrderDetailsByRecordID($RecordID=0) {
-        if(!$RecordID) return 0;
+    public function GetOrderDetailsByRecordID($RecordID=0)
+    {
+        if(!$RecordID) { return 0;
+        }
         
         $fileds = "*";
         $condition = "RecordID=$RecordID";
@@ -41,8 +49,10 @@ class OrderRepository
         return $this->fetch_assoc($stmt);
     }
 
-    public function GetManagerDetailsByRecordID($RecordID=0) {
-        if(!$RecordID) return 0;
+    public function GetManagerDetailsByRecordID($RecordID=0)
+    {
+        if(!$RecordID) { return 0;
+        }
         
         $fileds = "*";
         $condition = "RecordID=$RecordID";
@@ -51,26 +61,34 @@ class OrderRepository
         return $this->fetch_assoc($stmt);
     }
 
-    public function GetOrderDetailsPageByManagerID($ManagerID=0,$Status=0,$PayType=0,$startRow=0,$maxRows=10) {
-        if (!$ManagerID) return 0;
+    public function GetOrderDetailsPageByManagerID($ManagerID=0,$Status=0,$PayType=0,$startRow=0,$maxRows=10)
+    {
+        if (!$ManagerID) { return 0;
+        }
 
         $values = "*";
         $condition = "1=1 AND Status!=9 AND ManagerID=$ManagerID";
-        if($Status) $condition .= " AND Status=$Status";
-        if($PayType) $condition .= " AND PayType=$PayType";
+        if($Status) { $condition .= " AND Status=$Status";
+        }
+        if($PayType) { $condition .= " AND PayType=$PayType";
+        }
         $condition .= " ORDER BY Status,PdsID,CreateDate DESC";
 
         return $this->queryIterator("SELECT $values FROM lunch_order WHERE $condition LIMIT $startRow, $maxRows");
     }
 
-    public function GetOrderDetailsPageCountByManagerID($ManagerID=0,$Status=0,$PayType=0) {
-        if (!$ManagerID) return 0;
+    public function GetOrderDetailsPageCountByManagerID($ManagerID=0,$Status=0,$PayType=0)
+    {
+        if (!$ManagerID) { return 0;
+        }
 
         $values = "count(*) AS total";
         $condition = "1=1 AND Status!=9 AND ManagerID=$ManagerID";
 
-        if($Status) $condition .= " AND Status=$Status";
-        if($PayType) $condition .= " AND PayType=$PayType";
+        if($Status) { $condition .= " AND Status=$Status";
+        }
+        if($PayType) { $condition .= " AND PayType=$PayType";
+        }
 
         $stmt = $this->queryIterator("SELECT $values FROM lunch_order WHERE $condition");
 
@@ -92,18 +110,21 @@ class OrderRepository
 
     public function fetch_assoc($stmt)
     {
-        if(!$stmt) return 0;
+        if(!$stmt) { return 0;
+        }
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function insert(string $table, array $data): bool {
+    public function insert(string $table, array $data): bool
+    {
         $columns = implode(',', array_keys($data));
         $placeholders = implode(',', array_fill(0, count($data), '?'));
         $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
         return $this->execute($sql, array_values($data));
     }
 
-    public function execute(string $sql, array $params = []): bool {
+    public function execute(string $sql, array $params = []): bool
+    {
         try {
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
@@ -113,17 +134,21 @@ class OrderRepository
         }
     }
 
-    private function handleError(string $message): void {
+    private function handleError(string $message): void
+    {
         if ($this->debug) {
             echo "DB Error: $message" . PHP_EOL;
         }
     }
 
-    public function CreateOrder($ManagerID=0,$OrderMan='',$PdsID=0,$PdsName='',$Price=0,$Count=0,$Note='',$CreateMan='') {
-        if (!$ManagerID or !$OrderMan or !$PdsID or !$PdsName or !$Price or !$Count  or !$CreateMan) return 0;
+    public function CreateOrder($ManagerID=0,$OrderMan='',$PdsID=0,$PdsName='',$Price=0,$Count=0,$Note='',$CreateMan='')
+    {
+        if (!$ManagerID or !$OrderMan or !$PdsID or !$PdsName or !$Price or !$Count  or !$CreateMan) { return 0;
+        }
         $tt = time();
 
-        $result = $this->insert('lunch_order', [
+        $result = $this->insert(
+            'lunch_order', [
             'ManagerID' => $ManagerID,
             'OrderMan' => $OrderMan,
             'PdsID' => $PdsID,
@@ -136,15 +161,17 @@ class OrderRepository
             'EditDate' => $tt,
             'EditMan' => '',
             'Status' => 1
-        ]);
+            ]
+        );
 
-        if($result){
+        if($result) {
             return $this->getLastInsertID();
         }
         return 0;
     }
 
-    public function getLastInsertID() {
+    public function getLastInsertID()
+    {
         return $this->pdo->lastInsertId();
     }
     

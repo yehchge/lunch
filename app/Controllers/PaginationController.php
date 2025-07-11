@@ -67,7 +67,7 @@ class PaginationController
         $users = new PaginationModel();
 
         $data = [
-            'users' => $users->paginate(5 , 'default', null, 2),
+            'users' => $users->paginate(5, 'default', null, 2),
             'pager' => $users->pager
         ];
 

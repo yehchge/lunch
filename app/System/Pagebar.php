@@ -32,7 +32,8 @@ class Pagebar
         $this->currentPage = max(1, $currentPage);
         $this->baseUrl = $baseUrl ?: $_SERVER['PHP_SELF'];
         $this->queryParams = $queryParams;
-        $this->options = array_merge([
+        $this->options = array_merge(
+            [
             'container_class' => 'pagination',
             'active_class' => 'active',
             'disabled_class' => 'disabled',
@@ -42,7 +43,8 @@ class Pagebar
             // 'next_text' => 'Next »',
             'next_text' => 'Next',
             'mode' => 'query',
-        ], $options);
+            ], $options
+        );
     }
 
     public function totalPages(): int
@@ -114,7 +116,8 @@ class Pagebar
         }
 
         $totalPages = $this->totalPages();
-        if ($totalPages <= 1) return '';
+        if ($totalPages <= 1) { return '';
+        }
 
         $o = $this->options;
         $html = '<nav aria-label="Page navigation">';
@@ -126,13 +129,15 @@ class Pagebar
 
         if ($this->hasPrevious()) {
             // 第一頁
-            $html .= sprintf('<li><a href="%s" aria-label="First">First</a></li>',
+            $html .= sprintf(
+                '<li><a href="%s" aria-label="First">First</a></li>',
                 $this->buildUrl(1)
             );
 
 
             // 上一頁
-            $html .= sprintf('<li><a href="%s" aria-label="Previous">%s</a></li> ',
+            $html .= sprintf(
+                '<li><a href="%s" aria-label="Previous">%s</a></li> ',
                 $this->buildUrl($this->currentPage - 1),
                 $o['prev_text']
             );
@@ -144,14 +149,16 @@ class Pagebar
 
         if ($this->hasNext()) {
             // 下一頁
-            $html .= sprintf('<li><a href="%s" aria-label="Next">%s</a></li> ',
+            $html .= sprintf(
+                '<li><a href="%s" aria-label="Next">%s</a></li> ',
                 $this->buildUrl($this->currentPage + 1),
                 $o['next_text']
             );
 
             // // 最後一頁
             // if ($range['end'] < $totalPages) {
-                $html .= sprintf('<li><a href="%s" aria-label="Last">Last</a></li> ',
+                $html .= sprintf(
+                    '<li><a href="%s" aria-label="Last">Last</a></li> ',
                     $this->buildUrl($totalPages),
                     $totalPages
                 );
@@ -166,7 +173,8 @@ class Pagebar
         return $html;
     }
 
-    public function links(){
+    public function links()
+    {
         return $this->render();
     }
 
@@ -175,7 +183,8 @@ class Pagebar
         $results = [];
 
         $totalPages = $this->totalPages();
-        if ($totalPages <= 1) return [];
+        if ($totalPages <= 1) { return [];
+        }
 
         $o = $this->options;
 
@@ -185,7 +194,8 @@ class Pagebar
 
             $isActive = ($i === $this->currentPage);
             $active = '';
-            if ($isActive) $active = 'active';
+            if ($isActive) { $active = 'active';
+            }
 
             $results[] = [
                 'active' => $active,
@@ -202,13 +212,15 @@ class Pagebar
         $o = $this->options;
         $isActive = ($page === $this->currentPage);
         if ($isActive) {
-            return sprintf('<li class="%s"><a href="%s">%d</a></li> ',
+            return sprintf(
+                '<li class="%s"><a href="%s">%d</a></li> ',
                 $o['active_class'],
                 $this->buildUrl($page),
                 $page
             );
         } else {
-            return sprintf('<li><a href="%s">%d</a></li> ',
+            return sprintf(
+                '<li><a href="%s">%d</a></li> ',
                 $this->buildUrl($page),
                 $page
             );

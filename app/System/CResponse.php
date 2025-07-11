@@ -120,7 +120,8 @@ class CResponse
         @header_remove();
     }
 
-    protected function getMethod(){
+    protected function getMethod()
+    {
         return $_SERVER['REQUEST_METHOD'] ?? '';
     }
 
@@ -128,7 +129,7 @@ class CResponse
     {
         $allowMethod = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
-        if ( ! in_array(strtoupper($method), $allowMethod)) {
+        if (! in_array(strtoupper($method), $allowMethod)) {
             return array(
                 'message' => 'Wrong request method',
                 'status' => 404
@@ -145,7 +146,8 @@ class CResponse
         return [];
     }
 
-    public function setTerminate($boolean = true){
+    public function setTerminate($boolean = true)
+    {
         $this->terminate = $boolean;
         return $this;
     }

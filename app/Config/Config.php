@@ -57,35 +57,37 @@ require PATH_ROOT."/vendor/autoload.php";
 
 
 /* 進階：使用 PSR-4 標準自動加載 */
-spl_autoload_register(function ($className) {
-    // 定義命名空間與目錄的映射
-    $dirs = [
+spl_autoload_register(
+    function ($className) {
+        // 定義命名空間與目錄的映射
+        $dirs = [
         'App\\System\\' => PATH_ROOT . '/app/System/',
         'App\\Config\\' => PATH_ROOT . '/app/Config/',
         'App\\ThirdParty\\' => PATH_ROOT . '/app/ThirdParty/',
         'App\\Models\\' => PATH_ROOT . '/app/Models/',
         'App\\Controllers\\' => PATH_ROOT . '/app/Controllers/',
-    ];
+        ];
 
-    foreach ($dirs as $prefix => $baseDir) {
-        // 檢查類名是否以該命名空間開頭
-        $len = strlen($prefix);
-        if (strncmp($prefix, $className, $len) === 0) {
-            // 獲取類的相對路徑
-            $relativeClass = substr($className, $len);
-            $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
+        foreach ($dirs as $prefix => $baseDir) {
+            // 檢查類名是否以該命名空間開頭
+            $len = strlen($prefix);
+            if (strncmp($prefix, $className, $len) === 0) {
+                // 獲取類的相對路徑
+                $relativeClass = substr($className, $len);
+                $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
 
-            // 如果檔案存在，則載入
-            if (file_exists($file)) {
-                require $file;
-                return;
+                // 如果檔案存在，則載入
+                if (file_exists($file)) {
+                    include $file;
+                    return;
+                }
             }
         }
-    }
 
-    // 可選：記錄錯誤
-    // error_log("Class $className not found in any defined directories.");
-});
+        // 可選：記錄錯誤
+        // error_log("Class $className not found in any defined directories.");
+    }
+);
 
 require PATH_ROOT.'/app/System/DotEnv.php';
 

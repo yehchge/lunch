@@ -11,10 +11,12 @@ use App\System\CRequest;
 use App\System\CResponse;
 use App\System\SecurityException;
 
-class CsrfFilter implements FilterInterface {
+class CsrfFilter implements FilterInterface
+{
     protected $config;
 
-    public function __construct() {
+    public function __construct()
+    {
         $myConfig = include PATH_ROOT.'/app/Config/Security.php';
         if (isset($myConfig['csrf'])) {
             $this->config = $myConfig['csrf'];
@@ -27,42 +29,50 @@ class CsrfFilter implements FilterInterface {
         }
     }
 
-    public function before(CRequest $request, CResponse $response) {
+    public function before(CRequest $request, CResponse $response)
+    {
         // 只對指定的 HTTP 方法進行檢查
         if (in_array($request->getMethod(), $this->config['methods'])) {
             $this->validateCsrfToken($request, $response);
         }
     }
 
-    public function after(CRequest $request, CResponse $response) {
+    public function after(CRequest $request, CResponse $response)
+    {
         // 可選：在回應中加入新的 CSRF token
         $this->generateCsrfToken($request);
     }
 
-    public function getTokenName(){
+    public function getTokenName()
+    {
         return $this->config['token_name'];
     }
 
     // 生成 CSRF token
-    public function generateCsrfToken(CRequest $request) {
+    public function generateCsrfToken(CRequest $request)
+    {
         $session = $request->getSession();
         $token = bin2hex(random_bytes(32)); // 生成隨機 token
-        $session->set($this->config['token_name'], [
+        $session->set(
+            $this->config['token_name'], [
             'value' => $token,
             'expires_at' => time() + $this->config['expire']
-        ]);
+            ]
+        );
         return $token;
     }
 
-    protected function validateCsrfToken(CRequest $request, CResponse $response) {
+    protected function validateCsrfToken(CRequest $request, CResponse $response)
+    {
         $session = $request->getSession();
         $sessionToken = $session->get($this->config['token_name']);
         $requestToken = $request->getPost($this->config['token_name']) ??
                         $request->getHeader('X-CSRF-TOKEN');
 
         // 檢查 token 是否存在、有效且未過期
-        if (!$sessionToken || !$requestToken || $sessionToken['value'] !== $requestToken ||
-            time() > $sessionToken['expires_at']) {
+        if (!$sessionToken || !$requestToken || $sessionToken['value'] !== $requestToken 
+            || time() > $sessionToken['expires_at']
+        ) {
             throw new SecurityException('Invalid or missing CSRF token');
         }
 

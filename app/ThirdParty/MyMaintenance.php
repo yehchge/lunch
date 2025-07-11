@@ -2,6 +2,7 @@
 
 /**
  * Event 網站維護時使用
+ *
  * @created 2025/05/07
  */
 
@@ -10,16 +11,19 @@
  */
 namespace App\ThirdParty;
 
-class MyMaintenance {
+class MyMaintenance
+{
 
-    public function __construct(){
+    public function __construct()
+    {
         // log_message('debug','Accessing maintenance hook!');
     }
 
-    public function offline_check(){
+    public function offline_check()
+    {
         $maintenance_mode = getenv('maintenance_mode');
 
-        if($maintenance_mode==1){
+        if($maintenance_mode==1) {
             view('maintenance');
             exit;
         }

@@ -2,6 +2,7 @@
 
 /**
  * Offical News Sample
+ *
  * @ref: https://codeigniter.com/user_guide/tutorial/news_section.html
  */
 

@@ -2,8 +2,16 @@
 
 namespace App\Controllers;
 
-class Home 
+/**
+ * Home controller
+ */
+class Home
 {
+    /**
+     * Index method
+     *
+     * @return string
+     */
     public function index()
     {
         // if (function_exists('redirect')) {
@@ -15,6 +23,11 @@ class Home
         return view('welcome_message');
     }
 
+    /**
+     * Welcome method
+     *
+     * @return string
+     */
     public function welcome()
     {
         return view('old_welcome_message');

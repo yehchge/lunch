@@ -20,6 +20,7 @@ class UrlParse
 
     /**
      * 取得路由中的功能名稱
+     *
      * @return string 功能名稱
      * @throws RouterException 如果功能名稱無效
      */
@@ -30,6 +31,7 @@ class UrlParse
 
     /**
      * 取得路由中的動作名稱
+     *
      * @return string 動作名稱
      * @throws RouterException 如果動作名稱無效
      */
@@ -40,6 +42,7 @@ class UrlParse
 
     /**
      * 取得路由中的參數
+     *
      * @return array 路由參數
      * @throws RouterException 如果參數無效
      */
@@ -50,6 +53,7 @@ class UrlParse
 
     /**
      * 解析路由，支援舊式 GET 參數或現代 URL 路徑
+     *
      * @return array{func: string, action: string, params: array} 路由組成部分
      * @throws RouterException 如果路由解析失敗
      */
@@ -79,6 +83,7 @@ class UrlParse
 
     /**
      * 檢查是否有舊式 GET 參數
+     *
      * @return bool 如果有 func 或 action 參數則返回 true
      */
     private function hasLegacyParams(): bool
@@ -88,6 +93,7 @@ class UrlParse
 
     /**
      * 解析舊式 GET 參數路由
+     *
      * @return array{func: string, action: string, params: array}
      * @throws RouterException 如果參數無效
      */
@@ -121,6 +127,7 @@ class UrlParse
 
     /**
      * 解析現代 URL 路徑路由
+     *
      * @return array{func: string, action: string, params: array}
      * @throws RouterException 如果路徑無效
      */
@@ -162,6 +169,7 @@ class UrlParse
 
     /**
      * 取得清理後的 URL 路徑（移除基底路徑和 index.php）
+     *
      * @return string 清理後的路徑
      * @throws RouterException 如果無法取得路徑
      */
@@ -198,7 +206,8 @@ class UrlParse
 
     /**
      * 將路徑分割成片段
-     * @param string $path URL 路徑
+     *
+     * @param  string $path URL 路徑
      * @return array 路徑片段
      */
     private function getPathSegments(string $path): array
@@ -208,8 +217,9 @@ class UrlParse
 
     /**
      * 驗證參數格式
-     * @param string $param 參數值
-     * @param string $paramName 參數名稱（用於錯誤訊息）
+     *
+     * @param  string $param     參數值
+     * @param  string $paramName 參數名稱（用於錯誤訊息）
      * @throws RouterException 如果參數無效
      */
     private function validateParam(string $param, string $paramName): void
@@ -222,7 +232,8 @@ class UrlParse
 
     /**
      * 檢查參數是否有效
-     * @param string $param 參數值
+     *
+     * @param  string $param 參數值
      * @return bool 是否有效
      */
     private function isValidParam(string $param): bool
@@ -232,6 +243,7 @@ class UrlParse
 
     /**
      * 記錄錯誤訊息
+     *
      * @param string $message 錯誤訊息
      */
     private function logError(string $message): void

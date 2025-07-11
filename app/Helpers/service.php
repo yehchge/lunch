@@ -20,7 +20,8 @@ function session($name = '')
 }
 
 // 全局輔助函數
-function model($class) {
+function model($class)
+{
     global $container; // 假設容器是全局單例
     return $container->make($class);
 }
@@ -28,7 +29,7 @@ function model($class) {
 function service(string $name)
 {
     if (!class_exists('Services')) {
-        require_once PATH_ROOT.'/app/Config/Services.php';
+        include_once PATH_ROOT.'/app/Config/Services.php';
     }
 
     if(method_exists("App\\Config\\Services", $name)) {
@@ -220,7 +221,8 @@ function stringify_attributes($attributes, bool $js = false): string
 // }
 
 // 產生 CSRF 隱藏輸入欄位
-function csrf_field() {
+function csrf_field()
+{
     $request = service('request');
     $CsrfFilter = new CsrfFilter();
     $token_name = $CsrfFilter->getTokenName();
@@ -231,7 +233,8 @@ function csrf_field() {
 }
 
 // 驗證 CSRF token
-function verifyCsrfToken($token, $max_age = 3600) {
+function verifyCsrfToken($token, $max_age = 3600)
+{
     if (empty($_SESSION['csrf_token']) || empty($_SESSION['csrf_token_time'])) {
         return false;
     }
@@ -311,7 +314,7 @@ function randomize(string $hash): string
 }
 
 /**
-     * Restore hash from Session or Cookie
+ * Restore hash from Session or Cookie
  */
 function restoreHash(): void
 {
@@ -365,7 +368,8 @@ function validation_list_errors()
     $result = '<ul>';
 
     foreach ($data as $key => $val) {
-        if(!$val) continue;
+        if(!$val) { continue;
+        }
         $result .= "<li>$val</li>";
     }
 

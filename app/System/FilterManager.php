@@ -8,14 +8,16 @@ namespace App\System;
 use App\System\CRequest;
 use App\System\CResponse;
 
-class FilterManager {
+class FilterManager
+{
     protected $filters = [
         'before' => [],
         'after' => []
     ];
 
     // 註冊過濾器
-    public function register(string $type, string $filterClass, array $routes = [], array $except = []) {
+    public function register(string $type, string $filterClass, array $routes = [], array $except = [])
+    {
         $this->filters[$type][] = [
             'class' => $filterClass,
             'routes' => $routes, // 空陣列表示應用於所有路由
@@ -24,7 +26,8 @@ class FilterManager {
     }
 
     // 執行 Before 過濾器
-    public function runBeforeFilters(CRequest $request, CResponse $response) {
+    public function runBeforeFilters(CRequest $request, CResponse $response)
+    {
         foreach ($this->filters['before'] as $filter) {
             if ($this->shouldApply($filter['routes'], $filter['except'], $request->getPath())) {
                 $instance = new $filter['class']();
@@ -34,7 +37,8 @@ class FilterManager {
     }
 
     // 執行 After 過濾器
-    public function runAfterFilters(CRequest $request, CResponse $response) {
+    public function runAfterFilters(CRequest $request, CResponse $response)
+    {
         foreach ($this->filters['after'] as $filter) {
             if ($this->shouldApply($filter['routes'], $filter['except'], $request->getPath())) {
                 $instance = new $filter['class']();
@@ -44,7 +48,8 @@ class FilterManager {
     }
 
     // 檢查過濾器是否適用於當前路由
-    protected function shouldApply(array $routes, array $except, string $path): bool {
+    protected function shouldApply(array $routes, array $except, string $path): bool
+    {
         // 檢查是否在 except 列表中
         foreach ($except as $exceptRoute) {
             if (fnmatch('*/'.$exceptRoute, $path)) {

@@ -67,7 +67,8 @@ class Session
 
     public function clearFlashdata()
     {
-        if (!isset($_SESSION[$this->flashdataKey . '_old'])) return;
+        if (!isset($_SESSION[$this->flashdataKey . '_old'])) { return;
+        }
 
         foreach ($_SESSION[$this->flashdataKey . '_old'] as $key => $data) {
             if (!empty($data['read'])) {

@@ -2,7 +2,8 @@
 
 class AuthUser
 {
-    public function handle(){
+    public function handle()
+    {
         global $auth;
 
         // 檢查使用者有沒有登入

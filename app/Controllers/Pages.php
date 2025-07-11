@@ -14,7 +14,7 @@ class Pages
     public function view(string $page = 'home')
     {
         $controllerFile = PATH_ROOT."/app/Views/pages/{$page}.php";
-        if (!file_exists($controllerFile)){
+        if (!file_exists($controllerFile)) {
             // Whoops, we don't have a page for that!
             throw new PageNotFoundException($page);
         }

@@ -30,7 +30,7 @@ class COrder
         
 
         // 資料總筆數
-        $totalItems = $orderRepo->GetOrderDetailsPageCountByManagerID($ManagerID,$Status,$PayType);
+        $totalItems = $orderRepo->GetOrderDetailsPageCountByManagerID($ManagerID, $Status, $PayType);
 
         // 每頁幾筆資料
         $itemsPerPage = 10;
@@ -49,7 +49,7 @@ class COrder
 
 
         // Page Ended ************************************************ 
-        $rows = $orderRepo->GetOrderDetailsPageByManagerID($ManagerID,$Status,$PayType,$startRow,$maxRows); //* Page *//
+        $rows = $orderRepo->GetOrderDetailsPageByManagerID($ManagerID, $Status, $PayType, $startRow, $maxRows); //* Page *//
         
         $Minfo = $orderRepo->GetManagerDetailsByRecordID($ManagerID);
 
@@ -90,8 +90,8 @@ class COrder
             $temp['count'] = $row['Count'];
             $temp['price'] = $row['Price'];
             $temp['man'] = $row['OrderMan'];
-            $temp['note'] = mb_substr($row['Note'],0,30,'utf-8').'...';
-            $temp['createdate'] = date("Y-m-d H:i:s",$row['CreateDate']);
+            $temp['note'] = mb_substr($row['Note'], 0, 30, 'utf-8').'...';
+            $temp['createdate'] = date("Y-m-d H:i:s", $row['CreateDate']);
             $temp['status'] = $str;
             $temp['editstatus'] = $strStatus;
 
@@ -100,7 +100,7 @@ class COrder
 
         $tpl->assign('items', $items);
 
-        $tpl->assign('totalrows',"共 ".$orderRepo->GetOrderDetailsPageCountByManagerID($ManagerID,$Status,$PayType)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows', "共 ".$orderRepo->GetOrderDetailsPageCountByManagerID($ManagerID, $Status, $PayType)." 筆 "); //* Page *// 
         $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
@@ -113,12 +113,11 @@ class COrder
 
     public function add()
     {
-        if($_POST){
+        if($_POST) {
             return $this->create();
         }
 
         $db = new Database();
-        $orderRepo = new OrderRepository($db);
         $productRepo = new ProductRepository($db);
 
         // 內頁功能 (FORM)
@@ -151,7 +150,7 @@ class COrder
 
         // Page Ended ************************************************
 
-        $rows = $productRepo->GetAllPdsPageByStore($StoreID,$Status,'',$startRow,$maxRows); //* Page *//
+        $rows = $productRepo->GetAllPdsPageByStore($StoreID, $Status, '', $startRow, $maxRows); //* Page *//
 
         $i=0;
         $items = [];
@@ -176,18 +175,18 @@ class COrder
             $temp['pdsname'] = $row['PdsName'];
             $temp['pdstype'] = $row['PdsType'];
             $temp['price'] = $row['Price'];
-            $temp['note'] = mb_substr($row['Note'],0,30,'utf-8').'...';
+            $temp['note'] = mb_substr($row['Note'], 0, 30, 'utf-8').'...';
 
             $items[] = $temp;
         }
 
         $tpl->assign('items', $items);
 
-        $tpl->assign('totalrows',"共 ".$productRepo->GetAllPdsCountByStore($StoreID,$Status)." 筆 "); //* Page *// 
+        $tpl->assign('totalrows', "共 ".$productRepo->GetAllPdsCountByStore($StoreID, $Status)." 筆 "); //* Page *// 
         $tpl->assign('pageselect', $paginator->render()); //* Page *// 
 
-        $tpl->assign('id',$StoreID);
-        $tpl->assign('mid',$ManagerID);
+        $tpl->assign('id', $StoreID);
+        $tpl->assign('mid', $ManagerID);
 
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
 
@@ -226,7 +225,7 @@ class COrder
         $i = 0;
         $items = [];
 
-        foreach ($chkid as $key => $value) {
+        foreach ($chkid as $value) {
             $temp = [];
 
             if ($i==0) {
@@ -247,7 +246,7 @@ class COrder
             $Price = $info['Price'];
 
             // 寫入訂單中
-            $ret = $orderRepo->CreateOrder($ManagerID,$UserInfo['name'],$PdsID,$PdsName,$Price,$Count,$Note,$Online['email']);
+            $ret = $orderRepo->CreateOrder($ManagerID, $UserInfo['name'], $PdsID, $PdsName, $Price, $Count, $Note, $Online['email']);
 
             if ($ret) {
                 $strret = "訂購成功! RecordID: $ret";
@@ -274,7 +273,7 @@ class COrder
         }
 
         $tpl->assign('items', $items);
-        $tpl->assign('classname1',$class);
+        $tpl->assign('classname1', $class);
         $tpl->assign('PHP_SELF', $_SERVER['PHP_SELF']);
         $tpl->assign('title', '訂購結果 - DinBenDon系統');
         $tpl->assign('breadcrumb', 'DinBenDon/訂購GO/訂購商品結果');
@@ -286,7 +285,7 @@ class COrder
     // 訂單編輯
     public function edit()
     {
-        if ($_POST){
+        if ($_POST) {
             return $this->update();
         }
 
@@ -310,14 +309,14 @@ class COrder
         // 內頁功能 (FORM)
         $tpl = new Template("app/Views");
 
-        $tpl->assign('orderid',$id);
-        $tpl->assign('managerid',$ManagerID);
-        $tpl->assign('orderman',$info['OrderMan']);
-        $tpl->assign('pdsname',$info['PdsName']);
-        $tpl->assign('price',$info['Price']);
-        $tpl->assign('count',$info['Count']);
-        $tpl->assign('note',$info['Note']);
-        $tpl->assign('createdate',date("Y-m-d",$info['CreateDate']));
+        $tpl->assign('orderid', $id);
+        $tpl->assign('managerid', $ManagerID);
+        $tpl->assign('orderman', $info['OrderMan']);
+        $tpl->assign('pdsname', $info['PdsName']);
+        $tpl->assign('price', $info['Price']);
+        $tpl->assign('count', $info['Count']);
+        $tpl->assign('note', $info['Note']);
+        $tpl->assign('createdate', date("Y-m-d", $info['CreateDate']));
 
         // 選擇DropDownList設定狀態保留
         if (!empty($info['Status'])) {
@@ -345,7 +344,7 @@ class COrder
         $ManagerID = trim($_POST["managerid"]);
       
         //產生本程式功能內容
-        if ($orderRepo->UpdateOrderStatusByRecordID($RecordID,$Status,$Online['email'])) {
+        if ($orderRepo->UpdateOrderStatusByRecordID($RecordID, $Status, $Online['email'])) {
             JavaScript::vAlertRedirect('更新狀態成功!', BASE_URL."order/list?mid=$ManagerID");
         } else {
             JavaScript::vAlertBack('更新狀態失敗!');

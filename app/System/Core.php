@@ -8,7 +8,8 @@ namespace App\System;
 
 class Core
 {
-    public function __construct(){
+    public function __construct()
+    {
         $app = new \App\Config\App();
 
         // Set default timezone on the server

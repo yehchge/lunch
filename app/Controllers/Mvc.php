@@ -43,8 +43,8 @@ class Mvc
         $password = Hash::create('md5', $post['password'], HASH_PASSWORD_KEY);
 
         $data = $model->where('login', $post['login'])
-                     ->where('password', $password)
-                     ->first();
+            ->where('password', $password)
+            ->first();
 
         if ($data) {
             // login
@@ -159,10 +159,12 @@ class Mvc
                     $request = new CRequest();
                     $data = $request->getPost(['name', 'age']);
 
-                    $validator = new Validator($data, [
+                    $validator = new Validator(
+                        $data, [
                         'name' => 'required|min:2',
                         'age'  => 'required|numeric|min:2',
-                    ]);
+                        ]
+                    );
 
                     if ($validator->validate()) {
                         echo "Validation passed!\n";
@@ -185,13 +187,13 @@ class Mvc
                     $form = new Form();
 
                     $form->post('name')
-                            ->val('minlength', 2)
+                        ->val('minlength', 2)
 
-                            ->post('age')
-                            ->val('minlength', 2)
-                            ->val('digit')
+                        ->post('age')
+                        ->val('minlength', 2)
+                        ->val('digit')
 
-                            ->post('gender');
+                        ->post('gender');
 
                     $form->submit();
 

@@ -28,7 +28,7 @@ class CLI
     {
         $newText = '';
 
-        if($foreground){
+        if($foreground) {
             $newText = self::color($message, $foreground);
         }else{
             $newText = $message;
@@ -39,7 +39,7 @@ class CLI
 
     public static function color(string $text, string $foreground, $background = null, $format = null)
     {
-        return $newText = self::getColoredText($text, $foreground, $background, $format);
+        return self::getColoredText($text, $foreground, $background, $format);
     }
 
     private static function getColoredText(string $text, string $foreground, ?string $background, ?string $format): string

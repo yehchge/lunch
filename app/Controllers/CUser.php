@@ -6,7 +6,9 @@ use App\System\Template;
 
 class CUser
 {
-    public function index(){}
+    public function index()
+    {
+    }
 
     // 顯示註冊
     public function register()
@@ -26,5 +28,7 @@ class CUser
     }
 
     // 送出註冊表單
-    private function create(){}
+    private function create()
+    {
+    }
 }

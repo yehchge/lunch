@@ -76,7 +76,8 @@ HTML;
 
     private function writeArray(array $data, string $caption): void
     {
-        if (empty($data)) return;
+        if (empty($data)) { return;
+        }
 
         $rows = '';
         $colors = ['#EEFFEE', '#EFEFEF'];

@@ -7,8 +7,8 @@ class Redirect
     /**
      * Redirect to a specified URL
      *
-     * @param string $url The URL to redirect to
-     * @param int $statusCode HTTP status code for redirection (default: 302)
+     * @param  string $url        The URL to redirect to
+     * @param  int    $statusCode HTTP status code for redirection (default: 302)
      * @return void
      */
     public function to(string $url, int $statusCode = 302): void
@@ -79,9 +79,9 @@ class Redirect
     /**
      * Redirect to a named route
      *
-     * @param string $routeName The name of the route
-     * @param array $params Parameters for the route (optional)
-     * @param int $statusCode HTTP status code for redirection (default: 302)
+     * @param  string $routeName The name of the route
+     * @param  array $params Parameters for the route (optional)
+     * @param  int $statusCode HTTP status code for redirection (default: 302)
      * @return void
      */
     // public function route(string $routeName, array $params = [], int $statusCode = 302): void

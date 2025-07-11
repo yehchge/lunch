@@ -57,7 +57,7 @@ class JavaScript
 
     public function render($withHeader = true)
     {
-        if($withHeader){
+        if($withHeader) {
             header('Content-type: text/html; charset=utf8');
         }
         echo "<script>{$this->output}</script>";
@@ -74,7 +74,7 @@ class JavaScript
     // 設定 Flash Message
     public static function setFlashMessage($message)
     {
-        if(session_status() === PHP_SESSION_NONE){
+        if(session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         $_SESSION['flash_message'] = $message;
@@ -83,7 +83,7 @@ class JavaScript
     // 取得 Flash Message 並清除
     public static function getFlashMessage()
     {
-        if(session_status() === PHP_SESSION_NONE){
+        if(session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         $message = $_SESSION['flash_message'] ?? null;
@@ -94,7 +94,7 @@ class JavaScript
     // 伺服器端轉址
     public static function redirectTo($url, $message = null)
     {
-        if($message){
+        if($message) {
             self::setFlashMessage($message);
         }
         header('Location: ' . $url);
@@ -105,7 +105,7 @@ class JavaScript
     public static function displayFlashMessage()
     {
         $message = self::getFlashMessage();
-        if($message){
+        if($message) {
             echo '<div class="flash-message">' . htmlspecialchars($message) . '</div>';
         }
     }

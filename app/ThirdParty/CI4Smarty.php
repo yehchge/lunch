@@ -2,6 +2,7 @@
 
 /**
  * CodeIgniter 4 Smarty
+ *
  * @created 2022/12/15
  */
 
@@ -23,14 +24,14 @@ class CI4Smarty extends \Smarty
         // 注意: 需要安裝 Smarty 套件
         parent::__construct();
 
-        $this->setTemplateDir( $_ENV['CI4Smarty.TemplateDir']    ?? $this->TemplateDir )
-            ->setCompileDir  ( $_ENV['CI4Smarty.CompileDir']     ?? $this->CompileDir )
-            ->setCacheDir    ( $_ENV['CI4Smarty.CacheDir']       ?? $this->CacheDir )
-            ->setConfigDir   ( $_ENV['CI4Smarty.ConfigDir']      ?? $this->ConfigDir )
-            ->setDebugging   ( boolval($_ENV['CI4Smarty.Debug']  ?? false) );
+        $this->setTemplateDir($_ENV['CI4Smarty.TemplateDir']    ?? $this->TemplateDir)
+            ->setCompileDir($_ENV['CI4Smarty.CompileDir']     ?? $this->CompileDir)
+            ->setCacheDir($_ENV['CI4Smarty.CacheDir']       ?? $this->CacheDir)
+            ->setConfigDir($_ENV['CI4Smarty.ConfigDir']      ?? $this->ConfigDir)
+            ->setDebugging(boolval($_ENV['CI4Smarty.Debug']  ?? false));
 
-        $this->setLeftDelimiter ( $_ENV['CI4Smarty.LeftDelimiter']  ??  $this->LeftDelimiter );
-        $this->setRightDelimiter(  $_ENV['CI4Smarty.RightDelimiter'] ?? $this->RightDelimiter );
+        $this->setLeftDelimiter($_ENV['CI4Smarty.LeftDelimiter']  ??  $this->LeftDelimiter);
+        $this->setRightDelimiter($_ENV['CI4Smarty.RightDelimiter'] ?? $this->RightDelimiter);
 
         // if (!file_exists($this->TemplateDir)) {
         //     exit("Directory not exists! Please create directory: ".$this->TemplateDir);
