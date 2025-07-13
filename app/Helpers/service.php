@@ -59,12 +59,10 @@ function site_url($relativePath = ''): string
     $basePath = rtrim(dirname($scriptName), '/');
 
     $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-    $path = parse_url($requestUri, PHP_URL_PATH);
 
     $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://".$_SERVER['HTTP_HOST'].$basePath;
 
     return "$actual_link/".ltrim($relativePath, '/');
-    // return $currentURI->baseUrl($relativePath);
 }
 
 

@@ -6,8 +6,6 @@ use App\System\Model;
 
 class DummyTableModel extends Model
 {
-    private $paginator;
-
     public $config = [];
     public $groups = [];
 

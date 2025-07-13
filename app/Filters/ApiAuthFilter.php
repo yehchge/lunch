@@ -36,7 +36,7 @@ class ApiAuthFilter
 
         try {
             // $decoded = JWT::decode($token, $key, array("HS256"));
-            $decoded = JWT::decode($token, new Key($key, 'HS256'));
+            JWT::decode($token, new Key($key, 'HS256'));
         } catch (\Exception $ex) {
             $response = service('response');
             // $response->setBody('Access denied');

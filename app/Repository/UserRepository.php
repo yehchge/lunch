@@ -9,7 +9,6 @@ use App\System\Database;
 class UserRepository
 {
     private $pdo;
-    private $debug = 1;
 
     public function __construct(Database $db)
     {
