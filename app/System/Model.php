@@ -219,9 +219,6 @@ class Model
     {
         $request = new CRequest();
 
-        // 取得查詢參數
-        $queryParams = $request->getQueryParams();
-
         $fileds = "COUNT(*) AS total";
 
         $sql = "SELECT $fileds FROM ".$this->table;
