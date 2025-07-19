@@ -3,6 +3,7 @@
 namespace App\Auth;
 
 use App\Models\MvcUserModel;
+use App\Repository\UserRepository;
 
 class AuthMvc
 {

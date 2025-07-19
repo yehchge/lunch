@@ -6,6 +6,7 @@ namespace App\Commands;
 // use CodeIgniter\CLI\CLI;
 
 use App\System\BaseCommand;
+use App\System\CLI;
 
 class AppInfo extends BaseCommand
 {

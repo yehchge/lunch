@@ -2,6 +2,8 @@
 
 namespace App\System;
 
+use Closure;
+
 class Container
 {
     // 儲存綁定（類或閉包）

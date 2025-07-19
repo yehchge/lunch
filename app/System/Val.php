@@ -2,6 +2,8 @@
 
 namespace App\System;
 
+use Exception;
+
 class Val
 {
     public function __construct()

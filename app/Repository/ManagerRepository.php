@@ -23,25 +23,26 @@ class ManagerRepository
         $this->pdo = $db->getPdo();
     }
 
-    public function UpdateManagerStatusByRecordID($RecordID=0,$Status=0)
+    public function UpdateManagerStatusByRecordID($RecordID=0, $Status=0)
     {
-        if(!$RecordID or !$Status) { return 0;
+        if(!$RecordID or !$Status) {
+            return 0;
         }
-        $tt = time();
-        $values  = "Status=$Status,EditDate=$tt";
+
+        $values = [
+            'Status' => $Status,
+            'EditDate' => time()
+        ];
+
         $condition = 'RecordID = ?';
 
-        return $this->update(
-            [
-            'Status' => $Status,
-            'EditDate' => time(),
-            ], $condition, [$RecordID]
-        );
+        return $this->update($values, $condition, [$RecordID]);
     }
 
     public function CreateManager($StoreID=0, $Manager='', $Note='', $EndDate=0)
     {
-        if (!$StoreID || !$Manager || !$Note) { return 0;
+        if (!$StoreID || !$Manager || !$Note) { 
+            return 0;
         }
 
         $tt = time();
@@ -64,10 +65,15 @@ class ManagerRepository
         return 0;
     }
 
-    public function GetActiveManagerPage($Status=0, $PayType=0, $startRow=0, $maxRows=10)
+    public function GetActiveManagerPage($status=0, $payType=0, $startRow=0, $maxRows=10)
     {
         $values = "*";
-        $condition = "Status in (1,2)";
+
+        if ($status) $condition = "Status = $status";
+        else $condition = "Status in (1,2)";
+
+        if ($payType) $condition .= " AND paytype = $payType";
+
         $condition .= " ORDER BY CreateDate DESC";
 
         return $this->queryIterator("SELECT $values FROM lunch_manager WHERE $condition LIMIT $startRow, $maxRows");
@@ -109,7 +115,8 @@ class ManagerRepository
         $DateString = date("Ymd", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
         $condition = "Status!=9 AND CreateDate>=unix_timestamp('$DateString')";
 
-        if ($Status) { $condition .= " AND Status=$Status";
+        if ($Status) {
+            $condition .= " AND Status=$Status";
         }
 
         $stmt = $this->queryIterator("SELECT $fileds FROM lunch_manager WHERE $condition");
@@ -120,8 +127,10 @@ class ManagerRepository
 
     public function GetStoreDetailsByRecordID($RecordID=0)
     {
-        if(!$RecordID) { return 0;
+        if (!$RecordID) { 
+            return 0;
         }
+
         $fileds = "*";
         $condition = "RecordID=$RecordID";
 
@@ -132,7 +141,8 @@ class ManagerRepository
 
     public function fetch_assoc($stmt)
     {
-        if(!$stmt) { return 0;
+        if(!$stmt) {
+            return 0;
         }
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }

@@ -2,6 +2,8 @@
 
 namespace App\System;
 
+use Throwable;
+
 class PageNotFoundException extends \Exception
 {
 

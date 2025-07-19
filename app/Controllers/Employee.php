@@ -78,16 +78,6 @@ class Employee
     }
 
     /**
-     * Return a new resource object, with default properties.
-     *
-     * @return ResponseInterface
-     */
-    public function new()
-    {
-        //
-    }
-
-    /**
      * Create a new resource object, from "posted" parameters.
      *
      * @return ResponseInterface
@@ -163,18 +153,6 @@ class Employee
     }
 
     /**
-     * Return the editable properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function edit($id = null)
-    {
-        //
-    }
-
-    /**
      * Add or update a model resource, from "posted" properties.
      *
      * @param int|string|null $id
@@ -185,7 +163,7 @@ class Employee
     {
         // update
         $model = new EmployeeModel();
-        // $model = model(EmployeeModel::class);
+        $resp = new CResponse();
 
         $data = $model->find($id);
 
@@ -235,9 +213,7 @@ class Employee
                     }
                 }
 
-                $response = new CResponse();
-
-                return $response->fail(
+                return $resp->fail(
                     [
                     'status' => 400,
                     'error' => 400,
@@ -255,12 +231,10 @@ class Employee
                     'success' => 'Employee updated successfully'
                 ]
             ];
-            $resp = new CResponse();
-
-            // return $this->respond($response);
+            
             return $resp->respond($response);
         }
-        return $this->failNotFound('Sorry! no Employee found');
+        return $resp->failNotFound('Sorry! no Employee found');
     }
 
     /**
@@ -274,6 +248,8 @@ class Employee
     {
         // delete
         $model = new EmployeeModel();
+        $resp = new CResponse();
+
         $data = $model->find($id);
         if($data) {
             $model->delete($id);
@@ -284,13 +260,9 @@ class Employee
                     'success' => 'Employee successfully deleted'
                 ]
             ];
-
-            $resp = new CResponse();
-
-            // return $this->respondDeleted($response);
             return $resp->respondDeleted($response);
         }else{
-            return $this->failNotFound('No employee found by id: '.$id);
+            return $resp->failNotFound('No employee found by id: '.$id);
         }
     }
 }

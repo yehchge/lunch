@@ -225,17 +225,7 @@ class StoreRepository
     }
 
     public function iGetCount()
-    {
-        $request = new CRequest();
-
-        // 取得查詢參數
-        $queryParams = $request->getQueryParams();
-        
-        // 當前頁數
-        $currentPage = $queryParams['page'] ?? 1;
-
-        $offset = ($currentPage - 1) * $this->perPage;
-
+    {        
         $fileds = "COUNT(*) AS total";
 
         $sql = "SELECT $fileds FROM ".$this->table;
@@ -249,5 +239,4 @@ class StoreRepository
         $row = $this->fetch_assoc($stmt);
         return $row['total'];
     }
-
 }

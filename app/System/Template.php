@@ -83,6 +83,8 @@
 
 namespace App\System;
 
+use Exception;
+
 class Template
 {
     protected array $vars = [];

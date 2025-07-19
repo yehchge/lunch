@@ -14,6 +14,9 @@ class Pagebar
     protected array $queryParams;
     protected array $options = [];
     protected int $surroundCount = 2; // 環繞數量
+    private int $page;
+    private int $perPage;
+    private int $total;
 
     public array $templates = [
         'custom_view' => 'app/Views/layouts/custom_pagination', // custom_pagination
@@ -155,8 +158,7 @@ class Pagebar
             // if ($range['end'] < $totalPages) {
                 $html .= sprintf(
                     '<li><a href="%s" aria-label="Last">Last</a></li> ',
-                    $this->buildUrl($totalPages),
-                    $totalPages
+                    $this->buildUrl($totalPages)
                 );
             // }
         }

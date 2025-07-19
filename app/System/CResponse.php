@@ -64,7 +64,7 @@ class CResponse
         $this->setHeader('Content-Type', 'application/json; charset=UTF-8')
             ->setStatus($status)
             ->setBody(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT))
-            ->send();
+            ->send($message);
     }
 
     public function json(array $data, int $status = 200): void
@@ -153,11 +153,11 @@ class CResponse
 
     public function respondCreated($data = null, string $message = '')
     {
-        return $this->respond($data, 201, $message);
+        $this->respond($data, 201, $message);
     }
 
     public function respondDeleted($data = null, string $message = '')
     {
-        return $this->respond($data, 200, $message);
+        $this->respond($data, 200, $message);
     }
 }

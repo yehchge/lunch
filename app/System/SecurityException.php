@@ -4,6 +4,8 @@
 // 自訂例外類
 namespace App\System;
 
+use Throwable;
+
 class SecurityException extends \Exception
 {
 

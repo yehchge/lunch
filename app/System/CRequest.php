@@ -78,7 +78,7 @@ class CRequest
         }
 
         // 對於無效輸入拋出異常
-        throw new InvalidArgumentException('參數 $name 必須為字串、陣列或 null。');
+        throw new \InvalidArgumentException('參數 $name 必須為字串、陣列或 null。');
     }
 
     private function sanitizeGetParams(array $input): array {
@@ -112,7 +112,7 @@ class CRequest
         if (is_array($input)) {
             return array_map(
                 function ($value) {
-                    return is_array($value) ? sanitizeInput($value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+                    return is_array($value) ? self::sanitizeInput($value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
                 }, $input
             );
         }
@@ -152,7 +152,7 @@ class CRequest
         }
 
         // 對於無效輸入拋出異常
-        throw new InvalidArgumentException('參數 $name 必須為字串、陣列或 null。');
+        throw new \InvalidArgumentException('參數 $name 必須為字串、陣列或 null。');
     }
 
     public function getFile(string $name)
@@ -231,7 +231,7 @@ class CRequest
         $extension = empty($extension) ? '' : '.' . $extension;
 
 
-        $date = new DateTimeImmutable();
+        $date = new \DateTimeImmutable();
         $timeStamp = $date->getTimestamp();
 
         return $timeStamp . '_' . bin2hex(random_bytes(10)) . $extension;

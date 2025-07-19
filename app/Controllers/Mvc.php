@@ -9,6 +9,7 @@ use App\System\Hash;
 use App\System\JavaScript;
 use App\System\Form;
 use App\System\Validator;
+use App\System\Database;
 
 class Mvc
 {

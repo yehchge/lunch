@@ -17,6 +17,10 @@ class Model
     private $select = '';
     private $where = '';
     private $order = '';
+    private $table = '';
+    private $primaryKey = '';
+    protected $allowedFields = [];
+    private $escape = [];
 
     /**
      * Last insert ID
@@ -186,6 +190,10 @@ class Model
         // 當前頁數
         $currentPage = $queryParams['page'] ?? 1;
 
+        if (!is_null($setPage) && $setPage>=0) {
+            $currentPage = $setPage;
+        }
+
         if ($segment) {
             $currentPage = $this->iGetPageByURI($segment);
         }
@@ -212,13 +220,13 @@ class Model
 
         $this->pager = $this->getPagebar();
 
-        return $this->query($sql);
+        $result[$group] = $this->query($sql);
+
+        return $result[$group];
     }
 
     public function countAll()
     {
-        $request = new CRequest();
-
         $fileds = "COUNT(*) AS total";
 
         $sql = "SELECT $fileds FROM ".$this->table;
@@ -370,7 +378,7 @@ class Model
 
         // 過濾不允許的欄位
         if($this->allowedFields) {
-            foreach($data as $key => $value){
+            foreach(array_keys($data) as $key){
                 if(!in_array($key, $this->allowedFields)) {
                     unset($data[$key]);
                 }

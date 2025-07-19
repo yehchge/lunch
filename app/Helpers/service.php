@@ -134,7 +134,7 @@ function form_open(string $action = '', $attributes = [], array $hidden = []): s
 {
     // If no action is provided then set to the current url
     if ($action === '') {
-        $action = (string) current_url(true);
+        // $action = (string) current_url(true);
     } // If an action is not a full URL then turn it into one
     elseif (! str_contains($action, '://')) {
         // If an action has {locale}
@@ -160,7 +160,11 @@ function form_open(string $action = '', $attributes = [], array $hidden = []): s
         $attributes .= ' accept-charset="' . strtolower('utf-8') . '"';
     }
 
-    $form = '<form action="' . $action . '"' . $attributes . ">\n";
+    if ($action) {
+        $form = '<form action="' . $action . '"' . $attributes . ">\n";
+    } else {
+        $form = '<form ' . $attributes . ">\n";       
+    }
 
     // Add CSRF field if enabled, but leave it out for GET requests and requests to external websites
     // $before = service('filters')->getFilters()['before'];
@@ -177,6 +181,20 @@ function form_open(string $action = '', $attributes = [], array $hidden = []): s
 
     return $form;
 }
+
+function form_hidden($name, $value) {
+    return "<input type='hidden' name='$name' id='$name' value='$value'>";
+}
+
+
+// function current_url(bool $returnObject = false, ?IncomingRequest $request = null)
+// {
+//     $request ??= service('request');
+//     /** @var CLIRequest|IncomingRequest $request */
+//     $uri = $request->getUri();
+
+//     return $returnObject ? $uri : URI::createURIString($uri->getScheme(), $uri->getAuthority(), $uri->getPath());
+// }
 
 /**
  * Stringify attributes for use in HTML tags.
@@ -285,11 +303,7 @@ function csrf_hash(): string
  */
 function getHash(): ?string
 {
-    // restoreHash();
-    // generateHash();
-
     return bin2hex(random_bytes(16));
-    // return $this->config->tokenRandomize ? randomize($this->hash) : $this->hash;
 }
 
 /**
@@ -309,38 +323,6 @@ function randomize(string $hash): string
     }
 
     return bin2hex(($hashBinary ^ $keyBinary) . $keyBinary);
-}
-
-/**
- * Restore hash from Session or Cookie
- */
-function restoreHash(): void
-{
-    if ($this->isCSRFCookie()) {
-        if ($this->isHashInCookie()) {
-            $this->hash = $this->hashInCookie;
-        }
-    } elseif ($this->session->has($this->config->tokenName)) {
-        // Session based CSRF protection
-        $this->hash = $this->session->get($this->config->tokenName);
-    }
-}
-
-/**
- * Generates (Regenerates) the CSRF Hash.
- */
-function generateHash(): string
-{
-    $this->hash = bin2hex(random_bytes(16));
-
-    if ($this->isCSRFCookie()) {
-        $this->saveHashInCookie();
-    } else {
-        // Session based CSRF protection
-        $this->saveHashInSession();
-    }
-
-    return $this->hash;
 }
 
 function anchor($uri = '', string $title = ''): string

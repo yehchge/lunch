@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\System;
 
+use Throwable;
+
 /**
  * 自定義路由異常類別
  */

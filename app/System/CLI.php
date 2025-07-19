@@ -24,6 +24,24 @@ class CLI
         'white'        => '1;37',
     ];
 
+    /**
+     * Background color list
+     *
+     * @var array<string, string>
+     *
+     * @TODO Fix to camelCase in the next major version.
+     */
+    protected static $background_colors = [
+        'black'      => '40',
+        'red'        => '41',
+        'green'      => '42',
+        'yellow'     => '43',
+        'blue'       => '44',
+        'magenta'    => '45',
+        'cyan'       => '46',
+        'light_gray' => '47',
+    ];
+
     public static function write(string $message, string $foreground = '')
     {
         $newText = '';

@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\System\CRequest;
+use App\System\File;
+
 class Upload
 {
     protected $helpers = ['form'];

@@ -21,11 +21,10 @@ class TutorialModel extends Model
     public function get($user_id = null)
     {
         if ($user_id == null) {
-            $query = $this->db->get('user_ci_tutorial');
+            return $this->findAll();
         } else {
-            $query = $this->db->get_where('user_ci_tutorial', array('user_id' => $user_id));
+            return $this->where(['user_id' => $user_id])->first();
         }
-        return $query->result();
     }
     
     /**
