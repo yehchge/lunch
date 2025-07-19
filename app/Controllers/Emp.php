@@ -44,7 +44,7 @@ class Emp
      *
      * @return ResponseInterface
      */
-    public function edit($id = null)
+    public function edit()
     {
         return view('employee/edit');
     }

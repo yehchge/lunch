@@ -44,8 +44,8 @@ function base_url($relativePath = ''): string
     $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
     $basePath = rtrim(dirname($scriptName), '/');
 
-    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-    $path = parse_url($requestUri, PHP_URL_PATH);
+    // $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    // $path = parse_url($requestUri, PHP_URL_PATH);
 
     $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://".$_SERVER['HTTP_HOST'].$basePath;
 
@@ -58,7 +58,7 @@ function site_url($relativePath = ''): string
     $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
     $basePath = rtrim(dirname($scriptName), '/');
 
-    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    // $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 
     $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://".$_SERVER['HTTP_HOST'].$basePath;
 
@@ -342,14 +342,12 @@ function validation_list_errors()
 {
     $errors = session()->getFlashdata('errors');
 
-
     $data = explode('<br>', $errors);
 
     $result = '<ul>';
 
-    foreach ($data as $key => $val) {
-        if(!$val) { continue;
-        }
+    foreach ($data as $val) {
+        if(!$val) continue;
         $result .= "<li>$val</li>";
     }
 

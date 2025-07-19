@@ -26,7 +26,7 @@
             "./vendor/bin/parallel-lint --exclude vendor ."
         ],
         "check-md": [
-            "./vendor/bin/phpmd --exclude vendor/* app/ text unusedcode"
+            "./vendor/bin/phpmd app/ text unusedcode"
         ],
         "phpstan": ["./vendor/bin/phpstan analyse app/"]
     }

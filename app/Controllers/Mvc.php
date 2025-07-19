@@ -68,6 +68,8 @@ class Mvc
                 'login_session' => $cookiehash,
             ];
 
+            $model->update($data['userid'], $postData);
+
             // $this->db->update('mvc_user', $postData, "`userid` = '{$data['userid']}'");
 
             return JavaScript::redirectTo('../dashboard');
@@ -176,7 +178,7 @@ class Mvc
                     } else {
                         $message = '';
                         // 輸出錯誤訊息
-                        foreach ($validator->getErrors() as $field => $errors) {
+                        foreach ($validator->getErrors() as $errors) {
                             foreach ($errors as $error) {
                                 $message .= $error."<br>";
                             }

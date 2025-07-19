@@ -17,8 +17,8 @@ class Model
     private $select = '';
     private $where = '';
     private $order = '';
-    private $table = '';
-    private $primaryKey = '';
+    protected $table = '';
+    protected $primaryKey = '';
     protected $allowedFields = [];
     private $escape = [];
 
@@ -242,6 +242,7 @@ class Model
         $stmt = $this->queryIterator($sql);
 
         $row = $this->fetch_assoc($stmt);
+       
         return $row['total'];
     }
 

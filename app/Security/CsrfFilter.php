@@ -62,6 +62,9 @@ class CsrfFilter implements FilterInterface
         return $token;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     protected function validateCsrfToken(CRequest $request, CResponse $response)
     {
         $session = $request->getSession();

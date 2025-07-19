@@ -94,16 +94,9 @@ class Employee
         //     return $this->failValidationErrors($this->validator->getErrors());
         // }
 
-        $request = new CRequest();
         $resp = new CResponse();
 
-        // $model = new EmployeeModel();
         $model = model(EmployeeModel::class);
-
-        // $data = [
-        //     'name' => $request->getPost('name'),
-        //     'email' => $request->getPost('email'),
-        // ];
 
         // Using php://input to Access Raw POST Data
         $json = file_get_contents('php://input');
@@ -148,7 +141,6 @@ class Employee
             ]
         ];
 
-        // return $this->respondCreated($response);
         return $resp->respondCreated($response);
     }
 

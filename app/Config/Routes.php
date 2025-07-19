@@ -8,30 +8,30 @@
 
 
 use App\System\Router;
-use App\Controllers\Pages;
-use App\Controllers\PaginationController;
-use App\Controllers\Home;
-use App\Controllers\SmartyController;
-use App\Controllers\Maintenance;
-use App\Controllers\Main;
-use App\Controllers\News;
-use App\Controllers\Upload;
-use App\Controllers\Employee;
-use App\Controllers\Emp;
-use App\Controllers\ApiRegister;
-use App\Controllers\ApiLogin;
-use App\Controllers\ApiUser;
-use App\Controllers\MvcUser;
-use App\Controllers\Note;
-use App\Controllers\Mvc;
-use App\Controllers\TutorialAdmin;
-use App\Controllers\Tutorial;
-use App\Controllers\CLogout;
-use App\Controllers\CLogin;
-use App\Controllers\COrder;
-use App\Controllers\CManager;
-use App\Controllers\CProduct;
-use App\Controllers\CStore;
+// use App\Controllers\Pages;
+// use App\Controllers\PaginationController;
+// use App\Controllers\Home;
+// use App\Controllers\SmartyController;
+// use App\Controllers\Maintenance;
+// use App\Controllers\Main;
+// use App\Controllers\News;
+// use App\Controllers\Upload;
+// use App\Controllers\Employee;
+// use App\Controllers\Emp;
+// use App\Controllers\ApiRegister;
+// use App\Controllers\ApiLogin;
+// use App\Controllers\ApiUser;
+// use App\Controllers\MvcUser;
+// use App\Controllers\Note;
+// use App\Controllers\Mvc;
+// use App\Controllers\TutorialAdmin;
+// use App\Controllers\Tutorial;
+// use App\Controllers\CLogout;
+// use App\Controllers\CLogin;
+// use App\Controllers\COrder;
+// use App\Controllers\CManager;
+// use App\Controllers\CProduct;
+// use App\Controllers\CStore;
 
 $routes = new Router();
 
