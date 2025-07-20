@@ -6,7 +6,6 @@ use App\Repository\UserRepository;
 
 class Auth
 {
-
     private $userRepo;
 
     public function __construct(UserRepository $userRepo)

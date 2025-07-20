@@ -9,21 +9,11 @@ header('Content-Type: text/html; charset=utf-8');
 require 'vendor/autoload.php';
 require 'app/Config/Config.php';
 
-use App\System\Database;
-use App\Repository\UserRepository;
-use App\Auth\Auth;
 use App\System\Application;
-use App\System\DebugConsole;
 
-$db = new Database();
-$userRepo = new UserRepository($db);
-$auth = new Auth($userRepo);
+$auth = service('auth');
 
-try{
-
-    $test = new DebugConsole();
-    $test->showDebugInfo(0);
-
+try {
     $app = new Application();
     $app->handleRequest();
 
@@ -33,8 +23,18 @@ try{
     register_shutdown_function(function () use ($session) {
         $session->clearFlashdata();
     });
+} catch (\Exception $e) {
+    // Log the error
+    error_log($e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
 
-}catch (\Exception $e){
-    echo $e->getMessage().PHP_EOL;
+    // In a real application, you would log this error and show a user-friendly error page.
+    if (getenv('APP_ENV') !== 'production') {
+        echo 'Error: ' . $e->getMessage() . '<br>';
+        echo 'File: ' . $e->getFile() . '<br>';
+        echo 'Line: ' . $e->getLine() . '<br>';
+    } else {
+        http_response_code(500);
+        echo '<h1>500 - Internal Server Error</h1>';
+    }
     exit;
 }
