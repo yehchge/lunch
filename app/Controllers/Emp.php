@@ -15,38 +15,19 @@ use App\Models\EmployeeModel;
 
 class Emp
 {
-    // protected $modelName = 'App\Models\EmployeeModel';
-    /**
-     * Present a view of resource objects.
-     *
-     * @return ResponseInterface
-     */
     public function index()
     {
         $model = model(EmployeeModel::class);
         return view('employee/index', ['employee' => $model->findAll()]);
     }
 
-    /**
-     * Present a view to present a new single resource object.
-     *
-     * @return ResponseInterface
-     */
     public function new()
     {
         return view('employee/create');
     }
 
-    /**
-     * Present a view to edit the properties of a specific resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
     public function edit()
     {
         return view('employee/edit');
     }
-
 }
