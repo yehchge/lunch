@@ -11,8 +11,6 @@ require 'app/Config/Config.php';
 
 use App\System\Application;
 
-$auth = service('auth');
-
 try {
     $app = new Application();
     $app->handleRequest();

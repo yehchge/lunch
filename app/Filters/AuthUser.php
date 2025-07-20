@@ -6,7 +6,7 @@ class AuthUser
 {
     public function handle()
     {
-        global $auth;
+        $auth = service('auth');
 
         // 檢查使用者有沒有登入
         if (!$auth->check()) {
