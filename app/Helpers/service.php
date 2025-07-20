@@ -3,10 +3,6 @@
 session_start();
 
 use App\Config\Services;
-
-use App\System\CRequest;
-use App\System\CResponse;
-use App\ThirdParty\CI4Smarty;
 use App\Security\CsrfFilter;
 use App\System\Session;
 use App\System\Redirect;
@@ -50,13 +46,9 @@ function base_url($relativePath = ''): string
     $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
     $basePath = rtrim(dirname($scriptName), '/');
 
-    // $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-    // $path = parse_url($requestUri, PHP_URL_PATH);
-
     $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://".$_SERVER['HTTP_HOST'].$basePath;
 
     return "$actual_link/".ltrim($relativePath, '/');
-    // return $currentURI->baseUrl($relativePath);
 }
 
 function site_url($relativePath = ''): string
@@ -193,15 +185,6 @@ function form_hidden($name, $value) {
 }
 
 
-// function current_url(bool $returnObject = false, ?IncomingRequest $request = null)
-// {
-//     $request ??= service('request');
-//     /** @var CLIRequest|IncomingRequest $request */
-//     $uri = $request->getUri();
-
-//     return $returnObject ? $uri : URI::createURIString($uri->getScheme(), $uri->getAuthority(), $uri->getPath());
-// }
-
 /**
  * Stringify attributes for use in HTML tags.
  *
@@ -230,17 +213,6 @@ function stringify_attributes($attributes, bool $js = false): string
 
     return rtrim($atts, ',');
 }
-
-
-/**
- * Generates a hidden input field for use within manually generated forms.
- *
- * @param non-empty-string|null $id
- */
-// function csrf_field(?string $id = null): string
-// {
-//     return '<input type="hidden"' . ($id !== null ? ' id="' . esc($id, 'attr') . '"' : '') . ' name="' . csrf_token() . '" value="' . csrf_hash() . '">';
-// }
 
 // 產生 CSRF 隱藏輸入欄位
 function csrf_field()
@@ -274,8 +246,6 @@ function verifyCsrfToken($token, $max_age = 3600)
     
     return true;
 }
-
-
 
 /**
  * Returns the CSRF token name.
@@ -386,22 +356,3 @@ function set_value(string $field, $default = '', bool $htmlEscape = true)
 
     return ($htmlEscape) ? esc($value) : $value;
 }
-
-
-/**
- * Returns the rendered HTML of the validation errors.
- *
- * See Validation::listErrors()
- */
-// function validation_list_errors(string $template = 'list'): string
-// {
-//     $config = config(Validation::class);
-//     $view   = service('renderer');
-
-//     if (! array_key_exists($template, $config->templates)) {
-//         throw ValidationException::forInvalidTemplate($template);
-//     }
-
-//     return $view->setVar('errors', validation_errors())
-//         ->render($config->templates[$template]);
-// }
