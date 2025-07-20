@@ -13,6 +13,7 @@ use App\System\Database;
 use App\Repository\UserRepository;
 use App\Auth\Auth;
 use App\System\Application;
+use App\System\DebugConsole;
 
 $db = new Database();
 $userRepo = new UserRepository($db);
@@ -20,14 +21,11 @@ $auth = new Auth($userRepo);
 
 try{
 
-    // $test = new DebugConsole();
-    // $test->showDebugInfo(1);
+    $test = new DebugConsole();
+    $test->showDebugInfo(0);
 
     $app = new Application();
     $app->handleRequest();
-
-    // // 產生本程式功能內容
-    // $tpl = new Template("app/Views");
 
     $session = session();
 
