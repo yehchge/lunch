@@ -1,0 +1,32 @@
+parameters:
+    level: 0
+    scanDirectories:
+        - app/Controllers
+        - app/Filters
+    bootstrapFiles:
+        - tests/phpstan-bootstrap.php
+    excludePaths:
+        - app/Views/*
+    ignoreErrors:
+        - '#Class CStore not found.#'
+        - '#Class CProduct not found.#'
+        - '#Class CManager not found.#'
+        - '#Class COrder not found.#'
+        - '#Class CLogin not found.#'
+        - '#Class CLogout not found.#'
+        - '#Class Tutorial not found.#'
+        - '#Class TutorialAdmin not found.#'
+        - '#Class Mvc not found.#'
+        - '#Class Note not found.#'
+        - '#Class MvcUser not found.#'
+        - '#Class ApiRegister not found.#'
+        - '#Class ApiLogin not found.#'
+        - '#Class ApiUser not found.#'
+        - '#Class Upload not found.#'
+        - '#Class News not found.#'
+        - '#Class Main not found.#'
+        - '#Class PaginationController not found.#'
+        - '#Class Maintenance not found.#'
+        - '#Class SmartyController not found.#'
+        - '#Class Home not found.#'
+        - '#Class Pages not found.#'
