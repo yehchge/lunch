@@ -19,6 +19,7 @@
     },
     "scripts": {
         "start": ["php -S localhost:8080 -t ./"],
+        "tests" : ["./vendor/bin/phpunit"],
         "clear-tpl": [
             "rm -rf ./writable/smarty/tpl_c/*"
         ],
