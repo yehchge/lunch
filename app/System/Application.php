@@ -7,7 +7,7 @@ namespace App\System;
 
 use App\Security\CsrfFilter;
 use App\System\FilterManager;
-// use App\System\SecurityException;
+use App\System\SecurityException;
 
 class Application
 {
@@ -17,6 +17,13 @@ class Application
     {
         $this->filterManager = new FilterManager();
         $this->configureFilters();
+
+        // Register shutdown function to clear flash data
+        register_shutdown_function(function () {
+            if (function_exists('session')) {
+                session()->clearFlashdata();
+            }
+        });
     }
 
     protected function configureFilters()
