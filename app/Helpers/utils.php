@@ -49,7 +49,7 @@ function message($string_message)
 
 function message_cli($string_message)
 {
-    $now = date('Y-m-d H:i:s', strtotime('+8hour', strtotime(date('Y-m-d H:i:s'))));
+    $now = date('Y-m-d H:i:s', strtotime('+8hour', strtotime(date('Y-d-m H:i:s'))));
     // $now = date('Y-m-d H:i:s');
     $memory = memory();
     println("[$now][$memory]$string_message");
@@ -87,4 +87,16 @@ function log2file($filename, $contents)
 function is_cli()
 {
     return (php_sapi_name() === 'cli') ? true : false;
+}
+
+function dd($data)
+{
+    echo "<pre>";print_r($data);echo "</pre>";
+}
+
+function class_basename($class)
+{
+    $class = is_object($class) ? $class::class : $class;
+
+    return basename(str_replace('\\', '/', $class));
 }

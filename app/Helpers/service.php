@@ -9,6 +9,12 @@ use App\System\CResponse;
 use App\ThirdParty\CI4Smarty;
 use App\Security\CsrfFilter;
 use App\System\Session;
+use App\System\Redirect;
+
+function redirect(): Redirect
+{
+    return new Redirect();
+}
 
 function session($name = '')
 {
