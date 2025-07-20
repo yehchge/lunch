@@ -6,8 +6,8 @@ define('CI_START', microtime(true));
 
 header('Content-Type: text/html; charset=utf-8');
 
+require 'vendor/autoload.php';
 require 'app/Config/Config.php';
-require 'app/Security/CsrfFilter.php';
 
 use App\System\Database;
 use App\Repository\UserRepository;

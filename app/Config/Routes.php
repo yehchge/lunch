@@ -5,14 +5,12 @@
  */
 
 use App\System\Router;
+use App\Filters\AuthUser;
+use App\Filters\AuthMvcUser;
+use App\Filters\AuthMvcOwner;
+use App\Filters\ApiAuthFilter;
 
 $routes = new Router();
-
-// Add middleware
-require PATH_ROOT.'/app/Filters/AuthUser.php';
-require PATH_ROOT.'/app/Filters/ApiAuthFilter.php';
-require PATH_ROOT.'/app/Filters/AuthMvcUser.php';
-require PATH_ROOT.'/app/Filters/AuthMvcOwner.php';
 
 // $routes->get('home/index', [Home::class, 'index'], [AuthUser::class]); // 需要登入
 $routes->get('store/list', [CStore::class, 'list'], [AuthUser::class]);

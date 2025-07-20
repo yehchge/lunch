@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Filters;
+
 use App\System\JavaScript;
 
 class AuthMvcUser

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Filters;
+
 class AuthUser
 {
     public function handle()

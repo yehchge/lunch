@@ -13,7 +13,6 @@ class CLogin
 {
     public function index()
     {
-
         if(! $_POST) {
             //產生本程式功能內容
             // Ref: https://gist.github.com/code-boxx/957284646e7336ae01bb7a5e64f96022
